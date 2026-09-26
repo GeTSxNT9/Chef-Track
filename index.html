@@ -113,15 +113,26 @@
                     </div>
                 </div>
 
+                <!-- ESPECIE ANIMAL (SOLO SEGUNDOS) -->
+                <div id="speciesContainer" class="hidden">
+                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Especie Animal (Solo Segundos)</label>
+                    <select id="dishSpecies" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                        <option value="Cerdo">Cerdo</option>
+                        <option value="Pollo">Pollo</option>
+                        <option value="Pavo">Pavo</option>
+                        <option value="Conejo">Conejo</option>
+                        <option value="Ternera">Ternera</option>
+                        <option value="Pescado">Pescado</option>
+                        <option value="Vegetariano/Ninguno">Vegetariano/Ninguno</option>
+                    </select>
+                </div>
+
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Especie Animal</label>
-                        <select id="dishSpecies" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                            <option value="Cerdo">Cerdo</option>
-                            <option value="Pollo/Pavo">Pollo/Pavo</option>
-                            <option value="Ternera">Ternera</option>
-                            <option value="Pescado">Pescado</option>
-                            <option value="Vegetariano/Ninguno">Vegetariano/Ninguno</option>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Dificultad (Lunes)</label>
+                        <select id="dishDifficulty" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                            <option value="Fácil/Rápido">Fácil / Rápido</option>
+                            <option value="Normal/Complejo">Normal / Complejo</option>
                         </select>
                     </div>
                     <div>
@@ -134,22 +145,13 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Dificultad (Lunes)</label>
-                        <select id="dishDifficulty" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                            <option value="Fácil/Rápido">Fácil / Rápido</option>
-                            <option value="Normal/Complejo">Normal / Complejo</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Aceptación/Demanda</label>
-                        <select id="dishDemand" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                            <option value="Alta">🟢 Alta (Éxito)</option>
-                            <option value="Media" selected>🟡 Media (Estándar)</option>
-                            <option value="Baja">🔴 Baja (Ligera)</option>
-                        </select>
-                    </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Aceptación/Demanda</label>
+                    <select id="dishDemand" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                        <option value="Alta">🟢 Alta (Éxito)</option>
+                        <option value="Media" selected>🟡 Media (Estándar)</option>
+                        <option value="Baja">🔴 Baja (Ligera)</option>
+                    </select>
                 </div>
 
                 <div class="border-t border-gray-200 dark:border-gray-800 pt-4 mt-4">
@@ -409,15 +411,15 @@
         };
 
         const seedDishes = [
-            { id: "1", nombre: "Lentejas castellanas con embutido", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "Cerdo", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", demanda: "Media", ingredientes: [{nombre: "Lentejas secas", cantidad: 0.10, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Chorizo", cantidad: 0.025, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "2", nombre: "Crema de verduras desde cero", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "Vegetariano/Ninguno", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", demanda: "Baja", ingredientes: [{nombre: "Calabacín", cantidad: 0.10, unidad: "kg", categoria_proveedor: "Verduras y frutas"}, {nombre: "Puerro", cantidad: 0.04, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] },
-            { id: "3", nombre: "Macarrones con tomate y orégano", categoria: "Primero", subcategoria_primero: "Tenedor", proteina_segundo: "", especie_animal: "Vegetariano/Ninguno", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", demanda: "Alta", ingredientes: [{nombre: "Macarrones", cantidad: 0.12, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Tomate frito", cantidad: 0.08, unidad: "L", categoria_proveedor: "Secos"}] },
-            { id: "4", nombre: "Judías verdes salteadas con jamón", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", demanda: "Media", ingredientes: [{nombre: "Judías verdes", cantidad: 0.15, unidad: "kg", categoria_proveedor: "Congelados"}, {nombre: "Jamón picado", cantidad: 0.02, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "5", nombre: "Sopa de fideos con pollo", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "Pollo/Pavo", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", demanda: "Alta", ingredientes: [{nombre: "Fideos finos", cantidad: 0.04, unidad: "kg", categoria_proveedor: "Secos"}] },
+            { id: "1", nombre: "Lentejas castellanas con embutido", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", demanda: "Media", ingredientes: [{nombre: "Lentejas secas", cantidad: 0.10, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Chorizo", cantidad: 0.025, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "2", nombre: "Crema de verduras desde cero", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", demanda: "Baja", ingredientes: [{nombre: "Calabacín", cantidad: 0.10, unidad: "kg", categoria_proveedor: "Verduras y frutas"}, {nombre: "Puerro", cantidad: 0.04, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] },
+            { id: "3", nombre: "Macarrones con tomate y orégano", categoria: "Primero", subcategoria_primero: "Tenedor", proteina_segundo: "", especie_animal: "", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", demanda: "Alta", ingredientes: [{nombre: "Macarrones", cantidad: 0.12, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Tomate frito", cantidad: 0.08, unidad: "L", categoria_proveedor: "Secos"}] },
+            { id: "4", nombre: "Judías verdes salteadas con jamón", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", demanda: "Media", ingredientes: [{nombre: "Judías verdes", cantidad: 0.15, unidad: "kg", categoria_proveedor: "Congelados"}, {nombre: "Jamón picado", cantidad: 0.02, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "5", nombre: "Sopa de fideos con pollo", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", demanda: "Alta", ingredientes: [{nombre: "Fideos finos", cantidad: 0.04, unidad: "kg", categoria_proveedor: "Secos"}] },
             { id: "6", nombre: "Magro de cerdo guisado con guisantes", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", demanda: "Media", ingredientes: [{nombre: "Magro de cerdo", cantidad: 0.22, unidad: "kg", categoria_proveedor: "Carne"}] },
             { id: "7", nombre: "Cinta de lomo a la plancha", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", demanda: "Alta", ingredientes: [{nombre: "Cinta de lomo", cantidad: 0.25, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "8", nombre: "Alitas confitadas al horno", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo/Pavo", tecnica: "Asado", dificultad_lunes: "Normal/Complejo", demanda: "Alta", ingredientes: [{nombre: "Alitas de pollo", cantidad: 0.30, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "9", nombre: "Muslos de pollo asados en su jugo", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo/Pavo", tecnica: "Asado", dificultad_lunes: "Fácil/Rápido", demanda: "Media", ingredientes: [{nombre: "Muslos de pollo", cantidad: 1.0, unidad: "ud", categoria_proveedor: "Carne"}] },
+            { id: "8", nombre: "Alitas confitadas al horno", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo", tecnica: "Asado", dificultad_lunes: "Normal/Complejo", demanda: "Alta", ingredientes: [{nombre: "Alitas de pollo", cantidad: 0.30, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "9", nombre: "Muslos de pollo asados en su jugo", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo", tecnica: "Asado", dificultad_lunes: "Fácil/Rápido", demanda: "Media", ingredientes: [{nombre: "Muslos de pollo", cantidad: 1.0, unidad: "ud", categoria_proveedor: "Carne"}] },
             { id: "10", nombre: "Merluza congelada al horno", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Pescado", especie_animal: "Pescado", tecnica: "Asado", dificultad_lunes: "Fácil/Rápido", demanda: "Baja", ingredientes: [{nombre: "Filetes de merluza", cantidad: 0.22, unidad: "kg", categoria_proveedor: "Congelados"}] },
             { id: "11", nombre: "Bacaladillas rebozadas", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Pescado", especie_animal: "Pescado", tecnica: "Brasa/Plancha", dificultad_lunes: "Normal/Complejo", demanda: "Media", ingredientes: [{nombre: "Bacaladillas limpias", cantidad: 0.20, unidad: "kg", categoria_proveedor: "Pescado"}, {nombre: "Harina", cantidad: 0.02, unidad: "kg", categoria_proveedor: "Secos"}] },
             { id: "12", nombre: "Tacos de ternera guisados al vino", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Ternera", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", demanda: "Media", ingredientes: [{nombre: "Ternera para guisar", cantidad: 0.25, unidad: "kg", categoria_proveedor: "Carne"}] },
@@ -477,7 +479,7 @@
         function registerServiceWorker() {
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    const CACHE = 'cheftrack-v8';
+                    const CACHE = 'cheftrack-v9';
                     self.addEventListener('install', e => { self.skipWaiting(); });
                     self.addEventListener('activate', e => { self.clients.claim(); });
                     self.addEventListener('fetch', e => {
@@ -577,6 +579,7 @@
                 const isSegundo = e.target.value === 'Segundo';
                 document.getElementById('subcatPrimeroContainer').classList.toggle('hidden', !isPrimero);
                 document.getElementById('protSegundoContainer').classList.toggle('hidden', !isSegundo);
+                document.getElementById('speciesContainer').classList.toggle('hidden', !isSegundo);
             });
 
             document.getElementById('addIngredientBtn').addEventListener('click', () => addIngredientRow());
@@ -690,7 +693,7 @@
                         <div class="flex flex-wrap gap-1.5 mt-2 items-center">
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">${d.categoria}</span>
                             ${tagType ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-300">${tagType}</span>` : ''}
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300">${d.especie_animal}</span>
+                            ${d.especie_animal ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300">${d.especie_animal}</span>` : ''}
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">${d.tecnica}</span>
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold ${difficultyColor}">${d.dificultad_lunes}</span>
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${demObj.class}">${demObj.text}</span>
@@ -854,6 +857,18 @@
         }
 
         // --- 6. MOTOR DE GENERACIÓN ---
+        function conflictsWithSecondSpecies(dishSpecies, chosenSpeciesList) {
+            if (!dishSpecies || dishSpecies === 'Vegetariano/Ninguno') return false;
+            const poultryFamily = ['Pollo', 'Pavo', 'Conejo'];
+            const isDishPoultry = poultryFamily.includes(dishSpecies);
+
+            for (const existing of chosenSpeciesList) {
+                if (existing === dishSpecies) return true;
+                if (isDishPoultry && poultryFamily.includes(existing)) return true;
+            }
+            return false;
+        }
+
         function generateWeeklyMenu() {
             const newMenu = { generatedAt: new Date().toISOString(), days: {} };
             const usedDishIdsThisWeek = new Set();
@@ -887,7 +902,7 @@
             ];
 
             const daySlots = [];
-            const usedAnimalSpeciesToday = new Set();
+            const chosenSecondSpecies = []; // Control estricto entre los 3 segundos del día
             let guisadoCount = 0, brasaCount = 0;
 
             const prepPrimeroKey = `${dayName}-Primero`;
@@ -911,14 +926,16 @@
                             categoria: spec.cat,
                             subcategoria_primero: spec.subcat || "",
                             proteina_segundo: spec.protein || "",
-                            especie_animal: "Vegetariano/Ninguno",
+                            especie_animal: spec.cat === "Segundo" ? "Vegetariano/Ninguno" : "",
                             tecnica: "Guisado",
                             dificultad_lunes: "Fácil/Rápido",
                             demanda: "Media",
                             ingredientes: []
                         };
                     }
-                    if (dish.especie_animal && dish.especie_animal !== "Vegetariano/Ninguno") usedAnimalSpeciesToday.add(dish.especie_animal);
+                    if (spec.cat === "Segundo" && dish.especie_animal && dish.especie_animal !== "Vegetariano/Ninguno") {
+                        chosenSecondSpecies.push(dish.especie_animal);
+                    }
                     if (spec.cat === "Segundo") {
                         if (dish.tecnica === "Guisado") guisadoCount++;
                         if (dish.tecnica === "Brasa/Plancha") brasaCount++;
@@ -928,12 +945,14 @@
                     continue;
                 }
 
-                const pickResult = pickDishForSlot(dayName, spec, usedDishIdsThisWeek, usedAnimalSpeciesToday, guisadoCount, brasaCount);
+                const pickResult = pickDishForSlot(dayName, spec, usedDishIdsThisWeek, guisadoCount, brasaCount, chosenSecondSpecies);
                 const dish = pickResult.dish;
                 
                 if (dish && dish.id !== "none") {
                     usedDishIdsThisWeek.add(dish.id);
-                    if (dish.especie_animal && dish.especie_animal !== "Vegetariano/Ninguno") usedAnimalSpeciesToday.add(dish.especie_animal);
+                    if (spec.cat === "Segundo" && dish.especie_animal && dish.especie_animal !== "Vegetariano/Ninguno") {
+                        chosenSecondSpecies.push(dish.especie_animal);
+                    }
                     if (spec.cat === "Segundo") {
                         if (dish.tecnica === "Guisado") guisadoCount++;
                         if (dish.tecnica === "Brasa/Plancha") brasaCount++;
@@ -945,23 +964,28 @@
             return daySlots;
         }
 
-        function pickDishForSlot(dayName, spec, usedDishIdsThisWeek, usedAnimalSpeciesToday, guisadoCount, brasaCount) {
+        function pickDishForSlot(dayName, spec, usedDishIdsThisWeek, guisadoCount, brasaCount, chosenSecondSpecies) {
             const pool = dishes.filter(d => {
                 if (d.categoria !== spec.cat) return false;
                 if (spec.cat === "Primero" && spec.subcat && d.subcategoria_primero !== spec.subcat) return false;
                 if (spec.cat === "Segundo" && spec.protein && d.proteina_segundo !== spec.protein) return false;
+                if (spec.cat === "Segundo" && conflictsWithSecondSpecies(d.especie_animal, chosenSecondSpecies)) return false;
                 return true;
             });
 
             if (pool.length === 0) {
-                const fallbackPool = dishes.filter(d => d.categoria === spec.cat);
+                const fallbackPool = dishes.filter(d => {
+                    if (d.categoria !== spec.cat) return false;
+                    if (spec.cat === "Primero" && spec.subcat && d.subcategoria_primero !== spec.subcat) return false;
+                    if (spec.cat === "Segundo" && spec.protein && d.proteina_segundo !== spec.protein) return false;
+                    return true;
+                });
                 if (fallbackPool.length > 0) return { dish: fallbackPool[Math.floor(Math.random() * fallbackPool.length)], relaxed: true, warning: "⚠️ Regla relajada" };
                 return { dish: { id: "none", nombre: "Sin plato disponible", categoria: spec.cat, especie_animal: "-", tecnica: "-", dificultad_lunes: "-", demanda:"Media", ingredientes: [] }, relaxed: true, warning: "⚠️ Sin recetario" };
             }
 
             let level0 = pool.filter(d => {
                 if (usedDishIdsThisWeek.has(d.id)) return false;
-                if (d.especie_animal && d.especie_animal !== "Vegetariano/Ninguno" && usedAnimalSpeciesToday.has(d.especie_animal)) return false;
                 if (spec.cat === "Segundo") {
                     if (d.tecnica === "Guisado" && guisadoCount >= 1) return false;
                     if (d.tecnica === "Brasa/Plancha" && brasaCount >= 1) return false;
@@ -988,7 +1012,6 @@
             }
 
             let level1 = pool.filter(d => {
-                if (d.especie_animal && d.especie_animal !== "Vegetariano/Ninguno" && usedAnimalSpeciesToday.has(d.especie_animal)) return false;
                 if (spec.cat === "Segundo") {
                     if (d.tecnica === "Guisado" && guisadoCount >= 1) return false;
                     if (d.tecnica === "Brasa/Plancha" && brasaCount >= 1) return false;
@@ -998,11 +1021,7 @@
 
             if (level1.length > 0) return { dish: level1[Math.floor(Math.random() * level1.length)], relaxed: true, warning: "⚠️ Variedad relajada" };
 
-            let level2 = pool.filter(d => {
-                if (d.especie_animal && d.especie_animal !== "Vegetariano/Ninguno" && usedAnimalSpeciesToday.has(d.especie_animal)) return false;
-                return true;
-            });
-
+            let level2 = pool;
             if (level2.length > 0) return { dish: level2[Math.floor(Math.random() * level2.length)], relaxed: true, warning: "⚠️ Variedad relajada" };
 
             return { dish: pool[Math.floor(Math.random() * pool.length)], relaxed: true, warning: "⚠️ Red de seguridad" };
@@ -1516,7 +1535,7 @@
                         <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs mb-1">${d.nombre} ${isCurrent ? '<span class="text-indigo-600 dark:text-indigo-400 font-bold ml-1">(Actual)</span>' : ''}</h4>
                         <div class="flex gap-1 flex-wrap items-center">
                             <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">${tagType}</span>
-                            <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300">${d.especie_animal}</span>
+                            ${d.especie_animal ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300">${d.especie_animal}</span>` : ''}
                             <span class="px-1.5 py-0.5 rounded text-[9px] font-bold border ${demObj.class}">${demObj.text}</span>
                         </div>
                     </div>
@@ -1580,7 +1599,7 @@
                 categoria: category,
                 subcategoria_primero: category === 'Primero' ? document.getElementById('dishSubcategory').value : "",
                 proteina_segundo: category === 'Segundo' ? document.getElementById('dishProtein').value : "",
-                especie_animal: document.getElementById('dishSpecies').value,
+                especie_animal: category === 'Segundo' ? document.getElementById('dishSpecies').value : "",
                 tecnica: document.getElementById('dishTechnique').value,
                 dificultad_lunes: document.getElementById('dishDifficulty').value,
                 demanda: document.getElementById('dishDemand').value,
@@ -1607,9 +1626,11 @@
             document.getElementById('dishCategory').dispatchEvent(new Event('change'));
             
             if(dish.categoria === 'Primero') document.getElementById('dishSubcategory').value = dish.subcategoria_primero;
-            if(dish.categoria === 'Segundo') document.getElementById('dishProtein').value = dish.proteina_segundo;
+            if(dish.categoria === 'Segundo') {
+                document.getElementById('dishProtein').value = dish.proteina_segundo;
+                document.getElementById('dishSpecies').value = dish.especie_animal || 'Cerdo';
+            }
             
-            document.getElementById('dishSpecies').value = dish.especie_animal;
             document.getElementById('dishTechnique').value = dish.tecnica;
             document.getElementById('dishDifficulty').value = dish.dificultad_lunes;
             document.getElementById('dishDemand').value = dish.demanda || 'Media';
@@ -1645,7 +1666,7 @@
         // --- 12. RESPALDOS ---
         function exportData() {
             const backupObj = {
-                app: "ChefTrack", version: "8.0", date: new Date().toISOString(),
+                app: "ChefTrack", version: "9.0", date: new Date().toISOString(),
                 settings, dishes, rawStock, preparedStock, currentMenu, historyMenus
             };
             const dataStr = JSON.stringify(backupObj, null, 2);
