@@ -158,7 +158,7 @@
             </form>
         </main>
 
-        <!-- VISTA 3: STOCK Y PREVISIÓN (NUEVO FASE 2) -->
+        <!-- VISTA 3: STOCK Y PREVISIÓN -->
         <main id="view-stock" class="p-4 hidden space-y-5">
             <!-- 1. Configuración de Comensales y Margen -->
             <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
@@ -194,7 +194,6 @@
                     </div>
                 </div>
 
-                <!-- Formulario Añadir Materia Prima -->
                 <form id="rawStockForm" class="bg-gray-50 p-3 rounded-lg border border-gray-200 space-y-3 mb-4">
                     <div>
                         <input type="text" id="rawName" placeholder="Nombre ingrediente (ej: Ternera picada)" required class="w-full p-2 border rounded-lg text-xs bg-white">
@@ -228,7 +227,6 @@
                     <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg font-bold text-xs shadow-sm">+ Añadir Materia Prima</button>
                 </form>
 
-                <!-- Tarjetas de Stock Materia Prima -->
                 <div id="rawStockList" class="space-y-2">
                     <!-- Inyectado por JS -->
                 </div>
@@ -241,7 +239,6 @@
                     <h2 class="text-base font-bold text-gray-800">Platos Ya Elaborados</h2>
                 </div>
 
-                <!-- Formulario Añadir Plato Elaborado -->
                 <form id="prepStockForm" class="bg-gray-50 p-3 rounded-lg border border-gray-200 space-y-3 mb-4">
                     <div>
                         <input type="text" id="prepName" placeholder="Nombre plato (ej: Pimientos rellenos de bacalao)" required class="w-full p-2 border rounded-lg text-xs bg-white">
@@ -268,21 +265,47 @@
                     <button type="submit" class="w-full bg-emerald-600 text-white py-2 rounded-lg font-bold text-xs shadow-sm">+ Registrar Plato Elaborado</button>
                 </form>
 
-                <!-- Tarjetas de Platos Elaborados -->
                 <div id="prepStockList" class="space-y-2">
                     <!-- Inyectado por JS -->
                 </div>
             </section>
         </main>
 
-        <!-- VISTA 4: AJUSTES / COPIA DE SEGURIDAD -->
+        <!-- VISTA 4: GENERAR MENÚ SEMANAL (NUEVO FASE 3) -->
+        <main id="view-generator" class="p-4 hidden space-y-4">
+            <!-- Botón de Generación Principal -->
+            <div class="bg-indigo-900 text-white p-4 rounded-xl shadow-lg border border-indigo-800 text-center">
+                <h2 class="text-lg font-bold mb-1">Motor de Planificación</h2>
+                <p class="text-xs text-indigo-200 mb-3">Aplica reglas de balanceo, control de especies, técnicas y aprovechamiento de stock.</p>
+                <button id="btnGenerateMenu" class="w-full bg-amber-400 hover:bg-amber-500 text-indigo-950 font-black py-3.5 px-4 rounded-xl text-sm shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
+                    <span class="text-lg">🎲</span> GENERAR MENÚ SEMANAL
+                </button>
+            </div>
+
+            <!-- Tabs de Selección de Día -->
+            <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1" id="dayTabsContainer">
+                <button class="generator-day-tab active bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap" data-day="Lunes">Lunes</button>
+                <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Martes">Martes</button>
+                <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Miércoles">Miércoles</button>
+                <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Jueves">Jueves</button>
+                <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Viernes">Viernes</button>
+                <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Todos">Ver Todos</button>
+            </div>
+
+            <!-- Contenedor del Menú Generado -->
+            <div id="generatedMenuContainer" class="space-y-6">
+                <!-- Se inyecta por JS -->
+            </div>
+        </main>
+
+        <!-- VISTA 5: AJUSTES / COPIA DE SEGURIDAD -->
         <main id="view-settings" class="p-4 hidden">
             <h2 class="text-xl font-bold text-gray-800 mb-4">Ajustes y Datos</h2>
             
             <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-4">
                 <div>
                     <h3 class="font-bold text-gray-700 text-sm mb-2">Copia de Seguridad Integral</h3>
-                    <p class="text-xs text-gray-500 mb-4">Exporta o importa el recetario, la previsión de comensales y el stock registrado.</p>
+                    <p class="text-xs text-gray-500 mb-4">Exporta o importa el recetario, la previsión de comensales, el stock y el menú generado.</p>
                     
                     <div class="flex flex-col gap-3">
                         <button id="btnExport" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2">
@@ -307,7 +330,30 @@
         </main>
     </div>
 
-    <!-- NAVEGACIÓN INFERIOR (4 PESTAÑAS) -->
+    <!-- MODAL CAMBIAR PLATO INDIVIDUAL -->
+    <div id="modalChangeDish" class="hidden fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-lg rounded-t-2xl sm:rounded-2xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl animate-fade-in">
+            <div class="p-4 bg-indigo-600 text-white flex justify-between items-center">
+                <div>
+                    <h3 class="font-bold text-sm" id="modalSwapTitle">Cambiar Plato</h3>
+                    <p class="text-[11px] text-indigo-200" id="modalSwapSubtitle">Selecciona una alternativa</p>
+                </div>
+                <button onclick="closeSwapModal()" class="text-white hover:bg-indigo-700 p-1 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <div class="p-3 border-b bg-gray-50">
+                <input type="text" id="modalSearchInput" placeholder="Buscar alternativa..." class="w-full p-2.5 border rounded-lg text-xs bg-white">
+            </div>
+
+            <div class="p-4 overflow-y-auto space-y-2 flex-1" id="modalDishList">
+                <!-- Inyectado por JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVEGACIÓN INFERIOR (5 PESTAÑAS) -->
     <nav class="bg-white border-t border-gray-200 h-16 flex-shrink-0 flex justify-around items-center absolute bottom-0 w-full z-10 pb-safe">
         <button class="nav-btn active flex flex-col items-center justify-center w-full h-full text-indigo-600" data-target="view-banco">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
@@ -321,6 +367,10 @@
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
             <span class="text-[9px] font-semibold">Stock / Previsión</span>
         </button>
+        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400" data-target="view-generator">
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            <span class="text-[9px] font-semibold">Generar Menú</span>
+        </button>
         <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400" data-target="view-settings">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             <span class="text-[9px] font-semibold">Ajustes</span>
@@ -329,7 +379,7 @@
 
     <!-- LOGICA JAVASCRIPT -->
     <script>
-        // --- 1. DATOS Y PRECARGA DE PRUEBA ---
+        // --- 1. DATOS Y PRECARGA ---
         const seedDishes = [
             { id: "1", nombre: "Lentejas castellanas con embutido", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "Cerdo", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Lentejas secas", cantidad: 12, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Chorizo", cantidad: 3, unidad: "kg", categoria_proveedor: "Carne"}] },
             { id: "2", nombre: "Crema de verduras desde cero", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "Vegetariano/Ninguno", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Calabacín", cantidad: 10, unidad: "kg", categoria_proveedor: "Verduras y frutas"}, {nombre: "Puerro", cantidad: 4, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] },
@@ -348,30 +398,31 @@
         ];
 
         const seedSettings = { comensales: 100, margenActivo: true };
-        
         const seedRawStock = [
             { id: "rs1", nombre: "Magro de cerdo fresco", cantidad: 10, unidad: "kg", categoria_proveedor: "Carne", conservacion: "Refrigerado/Fresco (Prioridad Alta)" },
             { id: "rs2", nombre: "Merluza congelada", cantidad: 5, unidad: "kg", categoria_proveedor: "Congelados", conservacion: "Congelado (Prioridad Baja)" }
         ];
-
         const seedPreparedStock = [
             { id: "ps1", nombre: "Pimientos rellenos de bacalao", raciones: 150, asignacion: "Martes - Segundo" }
         ];
 
         const proveedorCategorias = ["Carne", "Pescado", "Lácteos", "Verduras y frutas", "Secos", "Congelados"];
-        
+        const daysList = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
+
         // Estado
         let dishes = [];
         let settings = { ...seedSettings };
         let rawStock = [];
         let preparedStock = [];
+        let currentMenu = null;
 
         let activeFilterLevel1 = 'all';
         let activeFilterLevel2 = 'all';
+        let selectedGeneratorDay = 'Lunes';
+        let swapTarget = null; // { dayName, slotIndex }
 
         // --- 2. INICIALIZACIÓN ---
         function init() {
-            // Cargar o migrar datos
             const storedDishes = localStorage.getItem('chefTrack_dishes') || localStorage.getItem('menuCocinaPro_dishes');
             dishes = storedDishes ? JSON.parse(storedDishes) : [...seedDishes];
 
@@ -384,10 +435,14 @@
             const storedPrep = localStorage.getItem('chefTrack_preparedStock');
             preparedStock = storedPrep ? JSON.parse(storedPrep) : [...seedPreparedStock];
 
+            const storedMenu = localStorage.getItem('chefTrack_currentMenu');
+            currentMenu = storedMenu ? JSON.parse(storedMenu) : null;
+
             saveAll();
             setupEventListeners();
             renderDishes();
             renderStockView();
+            renderGeneratorView();
         }
 
         function saveAll() {
@@ -395,9 +450,14 @@
             localStorage.setItem('chefTrack_settings', JSON.stringify(settings));
             localStorage.setItem('chefTrack_rawStock', JSON.stringify(rawStock));
             localStorage.setItem('chefTrack_preparedStock', JSON.stringify(preparedStock));
+            if (currentMenu) {
+                localStorage.setItem('chefTrack_currentMenu', JSON.stringify(currentMenu));
+            } else {
+                localStorage.removeItem('chefTrack_currentMenu');
+            }
         }
 
-        // --- 3. NAVEGACIÓN Y MANEJADORES DE EVENTOS ---
+        // --- 3. NAVEGACIÓN Y EVENTOS ---
         function setupEventListeners() {
             // Pestañas inferiores
             document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -418,7 +478,7 @@
                 });
             });
 
-            // Filtros Nivel 1 (Banco)
+            // Filtros Banco (Nivel 1)
             document.querySelectorAll('.filter-lvl1').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     document.querySelectorAll('.filter-lvl1').forEach(b => {
@@ -446,7 +506,7 @@
                 });
             });
 
-            // Filtros Nivel 2 (Banco)
+            // Filtros Banco (Nivel 2)
             document.querySelectorAll('.filter-lvl2').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const parentContainer = e.currentTarget.parentElement;
@@ -481,21 +541,38 @@
                 document.querySelector('.nav-btn[data-target="view-banco"]').click();
             });
 
-            // Eventos de Stock y Comensales
+            // Eventos Stock
             document.getElementById('inputComensales').addEventListener('input', updateCalculatedRaciones);
             document.getElementById('checkMargen').addEventListener('change', updateCalculatedRaciones);
-            
             document.getElementById('rawStockForm').addEventListener('submit', handleAddRawStock);
             document.getElementById('prepStockForm').addEventListener('submit', handleAddPrepStock);
 
-            // Exportar / Importar / Reset
+            // Generador de Menú
+            document.getElementById('btnGenerateMenu').addEventListener('click', generateWeeklyMenu);
+            document.querySelectorAll('.generator-day-tab').forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    document.querySelectorAll('.generator-day-tab').forEach(t => {
+                        t.classList.remove('bg-indigo-600', 'text-white', 'active');
+                        t.classList.add('bg-white', 'text-gray-600');
+                    });
+                    e.currentTarget.classList.remove('bg-white', 'text-gray-600');
+                    e.currentTarget.classList.add('bg-indigo-600', 'text-white', 'active');
+                    selectedGeneratorDay = e.currentTarget.getAttribute('data-day');
+                    renderGeneratorView();
+                });
+            });
+
+            // Buscador dentro de modal swap
+            document.getElementById('modalSearchInput').addEventListener('input', renderModalDishList);
+
+            // Ajustes de Datos
             document.getElementById('btnExport').addEventListener('click', exportData);
             document.getElementById('fileImport').addEventListener('change', importData);
             document.getElementById('btnWipeData').addEventListener('click', wipeData);
         }
 
         function switchView(viewId) {
-            ['view-banco', 'view-form', 'view-stock', 'view-settings'].forEach(id => {
+            ['view-banco', 'view-form', 'view-stock', 'view-generator', 'view-settings'].forEach(id => {
                 const el = document.getElementById(id);
                 if (id === viewId) {
                     el.classList.remove('hidden');
@@ -520,7 +597,7 @@
             }
         }
 
-        // --- 4. RENDERIZADO BANCO DE PLATOS ---
+        // --- 4. BANCO DE PLATOS ---
         function renderDishes() {
             const list = document.getElementById('dishesList');
             const searchVal = document.getElementById('searchInput').value.toLowerCase();
@@ -568,7 +645,7 @@
             });
         }
 
-        // --- 5. LÓGICA DE STOCK Y PREVISIÓN (FASE 2) ---
+        // --- 5. STOCK Y PREVISIÓN ---
         function renderStockView() {
             document.getElementById('inputComensales').value = settings.comensales;
             document.getElementById('checkMargen').checked = settings.margenActivo;
@@ -588,9 +665,7 @@
             if (shouldSave) saveAll();
 
             const total = margen ? Math.round(base * 1.3) : base;
-            const infoText = margen 
-                ? `${base} base + 30% margen de seguridad`
-                : `Sin margen de seguridad aplicado`;
+            const infoText = margen ? `${base} base + 30% margen de seguridad` : `Sin margen de seguridad aplicado`;
             
             document.getElementById('totalRacionesDisplay').innerText = `${total} raciones`;
             document.getElementById('totalRacionesSubtext').innerText = infoText;
@@ -726,7 +801,424 @@
             renderPreparedStock();
         }
 
-        // --- 6. LÓGICA DE FORMULARIO DE PLATOS ---
+        // --- 6. MOTOR DE GENERACIÓN DE MENÚ SEMANAL (FASE 3) ---
+        function generateWeeklyMenu() {
+            const newMenu = {
+                generatedAt: new Date().toISOString(),
+                days: {}
+            };
+
+            const usedDishIdsThisWeek = new Set();
+
+            // Mapear bloqueos de platos preparados
+            const prepMap = {};
+            preparedStock.forEach(prep => {
+                if (prep.asignacion && prep.asignacion !== "Sin asignar") {
+                    const key = prep.asignacion.replace(/\s+/g, ''); // "Lunes-Primero"
+                    if (!prepMap[key]) prepMap[key] = [];
+                    prepMap[key].push(prep);
+                }
+            });
+
+            daysList.forEach(dayName => {
+                newMenu.days[dayName] = generateDayMenu(dayName, usedDishIdsThisWeek, prepMap);
+            });
+
+            currentMenu = newMenu;
+            saveAll();
+            renderGeneratorView();
+        }
+
+        function generateDayMenu(dayName, usedDishIdsThisWeek, prepMap) {
+            const slotSpecs = [
+                { slotLabel: "1º Verdura", cat: "Primero", subcat: "Verdura" },
+                { slotLabel: "1º Cuchara", cat: "Primero", subcat: "Cuchara" },
+                { slotLabel: "1º Tenedor", cat: "Primero", subcat: "Tenedor" },
+                { slotLabel: "2º Carne", cat: "Segundo", protein: "Carne" },
+                { slotLabel: "2º Carne", cat: "Segundo", protein: "Carne" },
+                { slotLabel: "2º Pescado", cat: "Segundo", protein: "Pescado" }
+            ];
+
+            const daySlots = [];
+            const usedAnimalSpeciesToday = new Set();
+            let guisadoCount = 0;
+            let brasaCount = 0;
+
+            const prepPrimeroKey = `${dayName}-Primero`;
+            const prepSegundoKey = `${dayName}-Segundo`;
+            const assignedPrepPrimero = prepMap[prepPrimeroKey] ? [...prepMap[prepPrimeroKey]] : [];
+            const assignedPrepSegundo = prepMap[prepSegundoKey] ? [...prepMap[prepSegundoKey]] : [];
+
+            for (let index = 0; index < slotSpecs.length; index++) {
+                const spec = slotSpecs[index];
+                let lockedItem = null;
+
+                if (spec.cat === "Primero" && assignedPrepPrimero.length > 0) {
+                    lockedItem = assignedPrepPrimero.shift();
+                } else if (spec.cat === "Segundo" && assignedPrepSegundo.length > 0) {
+                    lockedItem = assignedPrepSegundo.shift();
+                }
+
+                if (lockedItem) {
+                    let dish = dishes.find(d => d.nombre.toLowerCase() === lockedItem.nombre.toLowerCase());
+                    if (!dish) {
+                        dish = {
+                            id: lockedItem.id || `prep-${Date.now()}`,
+                            nombre: lockedItem.nombre,
+                            categoria: spec.cat,
+                            subcategoria_primero: spec.subcat || "",
+                            proteina_segundo: spec.protein || "",
+                            especie_animal: "Vegetariano/Ninguno",
+                            tecnica: "Guisado",
+                            dificultad_lunes: "Fácil/Rápido",
+                            ingredientes: []
+                        };
+                    }
+                    if (dish.especie_animal && dish.especie_animal !== "Vegetariano/Ninguno") {
+                        usedAnimalSpeciesToday.add(dish.especie_animal);
+                    }
+                    if (spec.cat === "Segundo") {
+                        if (dish.tecnica === "Guisado") guisadoCount++;
+                        if (dish.tecnica === "Brasa/Plancha") brasaCount++;
+                    }
+                    usedDishIdsThisWeek.add(dish.id);
+
+                    daySlots.push({
+                        slotLabel: spec.slotLabel,
+                        cat: spec.cat,
+                        dish: dish,
+                        relaxed: false,
+                        warning: "",
+                        isPreparedStock: true
+                    });
+                    continue;
+                }
+
+                const pickResult = pickDishForSlot(
+                    dayName,
+                    spec,
+                    usedDishIdsThisWeek,
+                    usedAnimalSpeciesToday,
+                    guisadoCount,
+                    brasaCount
+                );
+
+                const dish = pickResult.dish;
+                if (dish && dish.id !== "none") {
+                    usedDishIdsThisWeek.add(dish.id);
+                    if (dish.especie_animal && dish.especie_animal !== "Vegetariano/Ninguno") {
+                        usedAnimalSpeciesToday.add(dish.especie_animal);
+                    }
+                    if (spec.cat === "Segundo") {
+                        if (dish.tecnica === "Guisado") guisadoCount++;
+                        if (dish.tecnica === "Brasa/Plancha") brasaCount++;
+                    }
+                }
+
+                daySlots.push({
+                    slotLabel: spec.slotLabel,
+                    cat: spec.cat,
+                    dish: dish,
+                    relaxed: pickResult.relaxed,
+                    warning: pickResult.warning,
+                    isPreparedStock: false
+                });
+            }
+
+            return daySlots;
+        }
+
+        function pickDishForSlot(dayName, spec, usedDishIdsThisWeek, usedAnimalSpeciesToday, guisadoCount, brasaCount) {
+            const pool = dishes.filter(d => {
+                if (d.categoria !== spec.cat) return false;
+                if (spec.cat === "Primero" && spec.subcat && d.subcategoria_primero !== spec.subcat) return false;
+                if (spec.cat === "Segundo" && spec.protein && d.proteina_segundo !== spec.protein) return false;
+                return true;
+            });
+
+            if (pool.length === 0) {
+                const fallbackPool = dishes.filter(d => d.categoria === spec.cat);
+                if (fallbackPool.length > 0) {
+                    const choice = fallbackPool[Math.floor(Math.random() * fallbackPool.length)];
+                    return { dish: choice, relaxed: true, warning: "⚠️ Regla de variedad relajada" };
+                }
+                return { 
+                    dish: { id: "none", nombre: "Sin plato disponible", categoria: spec.cat, especie_animal: "-", tecnica: "-", dificultad_lunes: "-", ingredientes: [] }, 
+                    relaxed: true, 
+                    warning: "⚠️ Sin recetario" 
+                };
+            }
+
+            // NIVEL 0: Filtro Estricto Completo
+            let level0 = pool.filter(d => {
+                if (usedDishIdsThisWeek.has(d.id)) return false;
+                if (d.especie_animal && d.especie_animal !== "Vegetariano/Ninguno" && usedAnimalSpeciesToday.has(d.especie_animal)) return false;
+                if (spec.cat === "Segundo") {
+                    if (d.tecnica === "Guisado" && guisadoCount >= 1) return false;
+                    if (d.tecnica === "Brasa/Plancha" && brasaCount >= 1) return false;
+                }
+                return true;
+            });
+
+            if (level0.length > 0) {
+                // Prioridad Stock Fresco en Lunes o Martes
+                if (dayName === "Lunes" || dayName === "Martes") {
+                    const freshMatches = level0.filter(d => usesFreshStock(d));
+                    if (freshMatches.length > 0) {
+                        if (dayName === "Lunes") {
+                            const easyFresh = freshMatches.filter(d => d.dificultad_lunes === "Fácil/Rápido");
+                            if (easyFresh.length > 0) {
+                                return { dish: easyFresh[Math.floor(Math.random() * easyFresh.length)], relaxed: false, warning: "" };
+                            }
+                        }
+                        return { dish: freshMatches[Math.floor(Math.random() * freshMatches.length)], relaxed: false, warning: "" };
+                    }
+                }
+
+                // Prioridad Lunes Fácil
+                if (dayName === "Lunes") {
+                    const easyMatches = level0.filter(d => d.dificultad_lunes === "Fácil/Rápido");
+                    if (easyMatches.length > 0) {
+                        return { dish: easyMatches[Math.floor(Math.random() * easyMatches.length)], relaxed: false, warning: "" };
+                    }
+                }
+
+                return { dish: level0[Math.floor(Math.random() * level0.length)], relaxed: false, warning: "" };
+            }
+
+            // NIVEL 1: Relajar repetición semanal mantieniendo reglas de especie y técnica
+            let level1 = pool.filter(d => {
+                if (d.especie_animal && d.especie_animal !== "Vegetariano/Ninguno" && usedAnimalSpeciesToday.has(d.especie_animal)) return false;
+                if (spec.cat === "Segundo") {
+                    if (d.tecnica === "Guisado" && guisadoCount >= 1) return false;
+                    if (d.tecnica === "Brasa/Plancha" && brasaCount >= 1) return false;
+                }
+                return true;
+            });
+
+            if (level1.length > 0) {
+                return { dish: level1[Math.floor(Math.random() * level1.length)], relaxed: true, warning: "⚠️ Regla de variedad relajada" };
+            }
+
+            // NIVEL 2: Relajar límites de técnicas mantieniendo especie
+            let level2 = pool.filter(d => {
+                if (d.especie_animal && d.especie_animal !== "Vegetariano/Ninguno" && usedAnimalSpeciesToday.has(d.especie_animal)) return false;
+                return true;
+            });
+
+            if (level2.length > 0) {
+                return { dish: level2[Math.floor(Math.random() * level2.length)], relaxed: true, warning: "⚠️ Regla de variedad relajada" };
+            }
+
+            // NIVEL 3: Red de seguridad total (elegir cualquiera de la piscina)
+            return { dish: pool[Math.floor(Math.random() * pool.length)], relaxed: true, warning: "⚠️ Regla de variedad relajada" };
+        }
+
+        function usesFreshStock(dish) {
+            if (!dish.ingredientes || !Array.isArray(dish.ingredientes)) return false;
+            const freshNames = rawStock
+                .filter(r => (r.conservacion.includes("Fresco") || r.conservacion.includes("Refrigerado")) && r.cantidad > 0)
+                .map(r => r.nombre.toLowerCase());
+
+            return dish.ingredientes.some(ing => {
+                const ingName = ing.nombre.toLowerCase();
+                return freshNames.some(raw => ingName.includes(raw) || raw.includes(ingName));
+            });
+        }
+
+        function regenerateSingleDay(dayName) {
+            if (!currentMenu || !currentMenu.days) return;
+
+            const usedDishIdsInOtherDays = new Set();
+            daysList.forEach(d => {
+                if (d !== dayName && currentMenu.days[d]) {
+                    currentMenu.days[d].forEach(slot => {
+                        if (slot.dish && slot.dish.id) usedDishIdsInOtherDays.add(slot.dish.id);
+                    });
+                }
+            });
+
+            const prepMap = {};
+            preparedStock.forEach(prep => {
+                if (prep.asignacion && prep.asignacion !== "Sin asignar") {
+                    const key = prep.asignacion.replace(/\s+/g, '');
+                    if (!prepMap[key]) prepMap[key] = [];
+                    prepMap[key].push(prep);
+                }
+            });
+
+            currentMenu.days[dayName] = generateDayMenu(dayName, usedDishIdsInOtherDays, prepMap);
+            saveAll();
+            renderGeneratorView();
+        }
+
+        function renderGeneratorView() {
+            const container = document.getElementById('generatedMenuContainer');
+            container.innerHTML = '';
+
+            if (!currentMenu || !currentMenu.days || Object.keys(currentMenu.days).length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border text-center space-y-3">
+                        <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto text-xl font-bold">📋</div>
+                        <h3 class="font-bold text-gray-800 text-sm">Menú no generado todavía</h3>
+                        <p class="text-xs text-gray-500 max-w-xs mx-auto">Pulsa el botón superior para calcular la planificación automática de Lunes a Viernes.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const daysToRender = selectedGeneratorDay === 'Todos' ? daysList : [selectedGeneratorDay];
+
+            daysToRender.forEach(dayName => {
+                const slots = currentMenu.days[dayName] || [];
+                const dayCard = document.createElement('div');
+                dayCard.className = "bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-4";
+
+                const primeros = slots.slice(0, 3);
+                const segundos = slots.slice(3, 6);
+
+                dayCard.innerHTML = `
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
+                            <h3 class="font-bold text-gray-800 text-base">${dayName}</h3>
+                        </div>
+                        <button onclick="regenerateSingleDay('${dayName}')" class="text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 shadow-sm">
+                            <span>🔄</span> Reorganizar Día
+                        </button>
+                    </div>
+
+                    <!-- PRIMEROS PLATOS -->
+                    <div>
+                        <h4 class="text-xs font-black text-gray-400 uppercase tracking-wider mb-2">1. Primeros Platos</h4>
+                        <div class="space-y-2">
+                            ${primeros.map((s, idx) => renderSlotCard(dayName, idx, s)).join('')}
+                        </div>
+                    </div>
+
+                    <!-- SEGUNDOS PLATOS -->
+                    <div>
+                        <h4 class="text-xs font-black text-gray-400 uppercase tracking-wider mb-2">2. Segundos Platos</h4>
+                        <div class="space-y-2">
+                            ${segundos.map((s, idx) => renderSlotCard(dayName, idx + 3, s)).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(dayCard);
+            });
+        }
+
+        function renderSlotCard(dayName, slotIndex, slotData) {
+            const d = slotData.dish || {};
+            const isPrepared = slotData.isPreparedStock;
+            const hasFresh = usesFreshStock(d);
+            const isRelaxed = slotData.relaxed;
+
+            return `
+                <div class="bg-gray-50 p-3 rounded-lg border border-gray-200 relative flex justify-between items-start gap-2">
+                    <div class="space-y-1 flex-1 pr-2">
+                        <div class="flex flex-wrap gap-1 items-center">
+                            <span class="px-1.5 py-0.5 rounded text-[9px] font-black bg-indigo-100 text-indigo-800">${slotData.slotLabel}</span>
+                            ${isPrepared ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">📌 Stock Elaborado</span>` : ''}
+                            ${hasFresh ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 text-amber-800 border border-amber-200">🌿 Stock Fresco</span>` : ''}
+                            ${isRelaxed ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-orange-100 text-orange-800 border border-orange-200">${slotData.warning || '⚠️ Regla relajada'}</span>` : ''}
+                        </div>
+
+                        <h5 class="font-bold text-gray-800 text-xs leading-tight">${d.nombre || 'Sin asignación'}</h5>
+                        
+                        <div class="flex flex-wrap gap-1 text-[9px] text-gray-500 font-medium">
+                            ${d.especie_animal ? `<span>• ${d.especie_animal}</span>` : ''}
+                            ${d.tecnica ? `<span>• ${d.tecnica}</span>` : ''}
+                            ${d.dificultad_lunes ? `<span>• ${d.dificultad_lunes}</span>` : ''}
+                        </div>
+                    </div>
+
+                    <button onclick="openSwapModal('${dayName}', ${slotIndex})" class="text-indigo-600 bg-white border border-indigo-200 px-2.5 py-1.5 rounded-lg text-xs font-bold shadow-sm whitespace-nowrap active:bg-indigo-50">
+                        ✏️ Cambiar
+                    </button>
+                </div>
+            `;
+        }
+
+        // --- 7. MODAL CAMBIAR PLATO ---
+        function openSwapModal(dayName, slotIndex) {
+            swapTarget = { dayName, slotIndex };
+            const slot = currentMenu.days[dayName][slotIndex];
+
+            document.getElementById('modalSwapTitle').innerText = `Cambiar Plato (${dayName})`;
+            document.getElementById('modalSwapSubtitle').innerText = `Posición: ${slot.slotLabel} (${slot.cat})`;
+            document.getElementById('modalSearchInput').value = '';
+            
+            document.getElementById('modalChangeDish').classList.remove('hidden');
+            renderModalDishList();
+        }
+
+        function closeSwapModal() {
+            document.getElementById('modalChangeDish').classList.add('hidden');
+            swapTarget = null;
+        }
+
+        function renderModalDishList() {
+            if (!swapTarget) return;
+            const { dayName, slotIndex } = swapTarget;
+            const slot = currentMenu.days[dayName][slotIndex];
+            const searchVal = document.getElementById('modalSearchInput').value.toLowerCase();
+            const container = document.getElementById('modalDishList');
+            container.innerHTML = '';
+
+            // Filtrar por la categoría del slot
+            const categoryDishes = dishes.filter(d => {
+                if (d.categoria !== slot.cat) return false;
+                if (searchVal && !d.nombre.toLowerCase().includes(searchVal)) return false;
+                return true;
+            });
+
+            if (categoryDishes.length === 0) {
+                container.innerHTML = '<p class="text-center text-gray-400 text-xs py-4">No hay platos disponibles en esta categoría.</p>';
+                return;
+            }
+
+            categoryDishes.forEach(d => {
+                const isCurrent = slot.dish && slot.dish.id === d.id;
+                const tagType = d.categoria === 'Primero' ? d.subcategoria_primero : d.proteina_segundo;
+
+                const itemBtn = document.createElement('button');
+                itemBtn.className = `w-full text-left p-3 rounded-xl border flex justify-between items-center transition-all ${isCurrent ? 'bg-indigo-50 border-indigo-300 ring-2 ring-indigo-500' : 'bg-white border-gray-200 hover:bg-gray-50'}`;
+                itemBtn.innerHTML = `
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-xs mb-1">${d.nombre} ${isCurrent ? '<span class="text-indigo-600 font-bold ml-1">(Actual)</span>' : ''}</h4>
+                        <div class="flex gap-1 flex-wrap">
+                            <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-gray-100 text-gray-600">${tagType}</span>
+                            <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-purple-50 text-purple-700">${d.especie_animal}</span>
+                            <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-50 text-blue-700">${d.tecnica}</span>
+                        </div>
+                    </div>
+                    <span class="text-xs font-bold text-indigo-600">Seleccionar</span>
+                `;
+
+                itemBtn.onclick = () => selectSwapDish(d);
+                container.appendChild(itemBtn);
+            });
+        }
+
+        function selectSwapDish(chosenDish) {
+            if (!swapTarget || !currentMenu) return;
+            const { dayName, slotIndex } = swapTarget;
+
+            currentMenu.days[dayName][slotIndex] = {
+                ...currentMenu.days[dayName][slotIndex],
+                dish: chosenDish,
+                relaxed: false,
+                warning: "",
+                isPreparedStock: false
+            };
+
+            saveAll();
+            closeSwapModal();
+            renderGeneratorView();
+        }
+
+        // --- 8. LÓGICA DE FORMULARIO BANCO ---
         function addIngredientRow(ing = null) {
             const container = document.getElementById('ingredientsContainer');
             const row = document.createElement('div');
@@ -835,16 +1327,17 @@
             addIngredientRow();
         }
 
-        // --- 7. EXPORTAR / IMPORTAR / RESET ---
+        // --- 9. EXPORTAR / IMPORTAR / RESET ---
         function exportData() {
             const backupObj = {
                 app: "ChefTrack",
-                version: "2.0",
+                version: "3.0",
                 date: new Date().toISOString(),
                 settings: settings,
                 dishes: dishes,
                 rawStock: rawStock,
-                preparedStock: preparedStock
+                preparedStock: preparedStock,
+                currentMenu: currentMenu
             };
             const dataStr = JSON.stringify(backupObj, null, 2);
             const blob = new Blob([dataStr], { type: "application/json" });
@@ -865,17 +1358,18 @@
                 try {
                     const imported = JSON.parse(e.target.result);
                     if (Array.isArray(imported)) {
-                        // Importación desde lista simple (Fase 1)
                         dishes = imported;
                     } else if (imported && typeof imported === 'object') {
                         if (imported.dishes && Array.isArray(imported.dishes)) dishes = imported.dishes;
                         if (imported.settings) settings = imported.settings;
                         if (imported.rawStock && Array.isArray(imported.rawStock)) rawStock = imported.rawStock;
                         if (imported.preparedStock && Array.isArray(imported.preparedStock)) preparedStock = imported.preparedStock;
+                        if (imported.currentMenu) currentMenu = imported.currentMenu;
                     }
                     saveAll();
                     renderDishes();
                     renderStockView();
+                    renderGeneratorView();
                     alert("Datos de ChefTrack importados correctamente.");
                 } catch (error) {
                     alert("Error al leer el archivo JSON.");
@@ -891,13 +1385,14 @@
                 localStorage.removeItem('chefTrack_settings');
                 localStorage.removeItem('chefTrack_rawStock');
                 localStorage.removeItem('chefTrack_preparedStock');
+                localStorage.removeItem('chefTrack_currentMenu');
                 localStorage.removeItem('menuCocinaPro_dishes');
                 init();
                 alert("ChefTrack se ha restaurado a su estado inicial.");
             }
         }
 
-        // Iniciar
+        // Iniciar App
         init();
     </script>
 </body>
