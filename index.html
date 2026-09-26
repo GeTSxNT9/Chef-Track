@@ -41,15 +41,26 @@
                 <input type="text" id="searchInput" placeholder="Buscar plato..." class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
             </div>
 
-            <!-- Filtros Rápidos -->
-            <div class="flex gap-2 overflow-x-auto no-scrollbar mb-4 pb-2">
-                <button class="filter-btn active bg-indigo-600 text-white px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="all">Todos</button>
-                <button class="filter-btn bg-white text-gray-600 border px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Primero">Primeros</button>
-                <button class="filter-btn bg-white text-gray-600 border px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Segundo">Segundos</button>
-                <button class="filter-btn bg-white text-gray-600 border px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Cuchara">Cuchara</button>
-                <button class="filter-btn bg-white text-gray-600 border px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Verdura">Verdura</button>
-                <button class="filter-btn bg-white text-gray-600 border px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Carne">Carne</button>
-                <button class="filter-btn bg-white text-gray-600 border px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Pescado">Pescado</button>
+            <!-- Filtros Nivel 1 (Principales) -->
+            <div class="flex gap-2 mb-3">
+                <button class="filter-lvl1 active bg-indigo-600 text-white px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="all">Todos</button>
+                <button class="filter-lvl1 bg-white text-gray-600 border border-gray-300 px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="Primero">Primeros</button>
+                <button class="filter-lvl1 bg-white text-gray-600 border border-gray-300 px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="Segundo">Segundos</button>
+            </div>
+
+            <!-- Filtros Nivel 2 (Subcategorías de Primeros) -->
+            <div id="filters-primeros" class="hidden flex gap-2 overflow-x-auto no-scrollbar mb-4 pb-1">
+                <button class="filter-lvl2 active bg-indigo-100 text-indigo-700 border border-indigo-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm" data-filter="all">Todas las Subcategorías</button>
+                <button class="filter-lvl2 bg-white text-gray-600 border border-gray-300 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Verdura">Verdura</button>
+                <button class="filter-lvl2 bg-white text-gray-600 border border-gray-300 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Cuchara">Cuchara</button>
+                <button class="filter-lvl2 bg-white text-gray-600 border border-gray-300 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Tenedor">Tenedor</button>
+            </div>
+
+            <!-- Filtros Nivel 2 (Proteínas de Segundos) -->
+            <div id="filters-segundos" class="hidden flex gap-2 overflow-x-auto no-scrollbar mb-4 pb-1">
+                <button class="filter-lvl2 active bg-indigo-100 text-indigo-700 border border-indigo-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm" data-filter="all">Todas las Proteínas</button>
+                <button class="filter-lvl2 bg-white text-gray-600 border border-gray-300 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Carne">Carne</button>
+                <button class="filter-lvl2 bg-white text-gray-600 border border-gray-300 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Pescado">Pescado</button>
             </div>
 
             <!-- Lista de Platos -->
@@ -213,7 +224,10 @@
 
         const proveedorCategorias = ["Carne", "Pescado", "Lácteos", "Verduras y frutas", "Secos", "Congelados"];
         let dishes = [];
-        let activeFilter = 'all';
+        
+        // Estado de los filtros
+        let activeFilterLevel1 = 'all';
+        let activeFilterLevel2 = 'all';
 
         // --- 2. INICIALIZACIÓN ---
         function init() {
@@ -234,7 +248,7 @@
 
         // --- 3. NAVEGACIÓN Y VISTAS ---
         function setupEventListeners() {
-            // Tabs
+            // Tabs de Navegación Inferior
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const targetId = e.currentTarget.getAttribute('data-target');
@@ -253,21 +267,56 @@
                 });
             });
 
-            // Filtros
-            document.querySelectorAll('.filter-btn').forEach(btn => {
+            // Filtros Nivel 1 (Todos / Primeros / Segundos)
+            document.querySelectorAll('.filter-lvl1').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.filter-btn').forEach(b => {
-                        b.classList.remove('bg-indigo-600', 'text-white');
-                        b.classList.add('bg-white', 'text-gray-600');
+                    // Actualizar UI botones nivel 1
+                    document.querySelectorAll('.filter-lvl1').forEach(b => {
+                        b.classList.remove('bg-indigo-600', 'text-white', 'border-transparent', 'active');
+                        b.classList.add('bg-white', 'text-gray-600', 'border-gray-300');
                     });
-                    e.currentTarget.classList.remove('bg-white', 'text-gray-600');
-                    e.currentTarget.classList.add('bg-indigo-600', 'text-white');
-                    activeFilter = e.currentTarget.getAttribute('data-filter');
+                    e.currentTarget.classList.remove('bg-white', 'text-gray-600', 'border-gray-300');
+                    e.currentTarget.classList.add('bg-indigo-600', 'text-white', 'border-transparent', 'active');
+                    
+                    activeFilterLevel1 = e.currentTarget.getAttribute('data-filter');
+                    activeFilterLevel2 = 'all'; // Resetear Nivel 2 al cambiar el 1
+                    
+                    // Mostrar/Ocultar y resetear interfaces Nivel 2
+                    document.getElementById('filters-primeros').classList.add('hidden');
+                    document.getElementById('filters-segundos').classList.add('hidden');
+                    
+                    if (activeFilterLevel1 === 'Primero') {
+                        document.getElementById('filters-primeros').classList.remove('hidden');
+                        resetLevel2UI('#filters-primeros');
+                    } else if (activeFilterLevel1 === 'Segundo') {
+                        document.getElementById('filters-segundos').classList.remove('hidden');
+                        resetLevel2UI('#filters-segundos');
+                    }
+                    
                     renderDishes();
                 });
             });
 
-            // Buscador
+            // Filtros Nivel 2 (Subcategorías / Proteínas)
+            document.querySelectorAll('.filter-lvl2').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const parentContainer = e.currentTarget.parentElement;
+                    
+                    // Actualizar UI de los botones hermanos en el mismo contenedor
+                    parentContainer.querySelectorAll('.filter-lvl2').forEach(b => {
+                        b.classList.remove('bg-indigo-100', 'text-indigo-700', 'border-indigo-200', 'font-bold', 'active');
+                        b.classList.add('bg-white', 'text-gray-600', 'border-gray-300', 'font-semibold');
+                    });
+                    
+                    e.currentTarget.classList.remove('bg-white', 'text-gray-600', 'border-gray-300', 'font-semibold');
+                    e.currentTarget.classList.add('bg-indigo-100', 'text-indigo-700', 'border-indigo-200', 'font-bold', 'active');
+                    
+                    activeFilterLevel2 = e.currentTarget.getAttribute('data-filter');
+                    renderDishes();
+                });
+            });
+
+            // Buscador por Texto
             document.getElementById('searchInput').addEventListener('input', renderDishes);
 
             // Dinamismo del formulario (Campos condicionales)
@@ -279,19 +328,15 @@
                 document.getElementById('protSegundoContainer').classList.toggle('hidden', !isSegundo);
             });
 
-            // Botón añadir ingrediente
+            // Botones del Formulario
             document.getElementById('addIngredientBtn').addEventListener('click', () => addIngredientRow());
-
-            // Enviar formulario
             document.getElementById('dishForm').addEventListener('submit', handleFormSubmit);
-
-            // Botón cancelar edición
             document.getElementById('btnCancel').addEventListener('click', () => {
                 resetForm();
                 document.querySelector('.nav-btn[data-target="view-banco"]').click();
             });
 
-            // Exportar e Importar
+            // Ajustes de Datos
             document.getElementById('btnExport').addEventListener('click', exportData);
             document.getElementById('fileImport').addEventListener('change', importData);
             document.getElementById('btnWipeData').addEventListener('click', () => {
@@ -301,6 +346,20 @@
                     alert("Datos restaurados.");
                 }
             });
+        }
+
+        function resetLevel2UI(containerSelector) {
+            const container = document.querySelector(containerSelector);
+            container.querySelectorAll('.filter-lvl2').forEach(b => {
+                b.classList.remove('bg-indigo-100', 'text-indigo-700', 'border-indigo-200', 'font-bold', 'active');
+                b.classList.add('bg-white', 'text-gray-600', 'border-gray-300', 'font-semibold');
+            });
+            // Activar el botón "Todos" por defecto
+            const allBtn = container.querySelector('[data-filter="all"]');
+            if (allBtn) {
+                allBtn.classList.remove('bg-white', 'text-gray-600', 'border-gray-300', 'font-semibold');
+                allBtn.classList.add('bg-indigo-100', 'text-indigo-700', 'border-indigo-200', 'font-bold', 'active');
+            }
         }
 
         function switchView(viewId) {
@@ -324,19 +383,23 @@
             list.innerHTML = '';
             
             const filtered = dishes.filter(d => {
-                // Filtro Texto
+                // 1. Filtro por Texto
                 if (searchVal && !d.nombre.toLowerCase().includes(searchVal)) return false;
                 
-                // Filtro Botones
-                if (activeFilter === 'all') return true;
-                if (activeFilter === 'Primero' || activeFilter === 'Segundo') return d.categoria === activeFilter;
-                if (activeFilter === 'Cuchara' || activeFilter === 'Verdura') return d.subcategoria_primero === activeFilter;
-                if (activeFilter === 'Carne' || activeFilter === 'Pescado') return d.proteina_segundo === activeFilter;
+                // 2. Filtro Nivel 1 (Principal)
+                if (activeFilterLevel1 !== 'all' && d.categoria !== activeFilterLevel1) return false;
+                
+                // 3. Filtro Nivel 2 (Secundario)
+                if (activeFilterLevel2 !== 'all') {
+                    if (activeFilterLevel1 === 'Primero' && d.subcategoria_primero !== activeFilterLevel2) return false;
+                    if (activeFilterLevel1 === 'Segundo' && d.proteina_segundo !== activeFilterLevel2) return false;
+                }
+                
                 return true;
             });
 
             if (filtered.length === 0) {
-                list.innerHTML = '<p class="text-center text-gray-500 mt-10 text-sm">No se encontraron platos.</p>';
+                list.innerHTML = '<p class="text-center text-gray-500 mt-10 text-sm">No se encontraron platos con esos filtros.</p>';
                 return;
             }
 
@@ -457,7 +520,7 @@
             document.getElementById('form-title').innerText = "Editar Plato";
             document.getElementById('btnCancel').classList.remove('hidden');
             
-            // Navegar a la pestaña
+            // Navegar a la pestaña de añadir/editar
             document.querySelector('.nav-btn[data-target="view-form"]').click();
         }
 
@@ -476,8 +539,7 @@
             document.getElementById('ingredientsContainer').innerHTML = '';
             document.getElementById('dishCategory').dispatchEvent(new Event('change'));
             document.getElementById('btnCancel').classList.add('hidden');
-            // Añadir una fila vacía por defecto
-            addIngredientRow();
+            addIngredientRow(); // Añadir una fila vacía por defecto
         }
 
         // --- 6. EXPORTAR / IMPORTAR ---
@@ -516,7 +578,7 @@
             reader.readAsText(file);
         }
 
-        // Iniciar
+        // Iniciar app
         init();
     </script>
 </body>
