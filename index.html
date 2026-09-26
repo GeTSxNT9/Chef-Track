@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ChefTrack">
     <meta name="theme-color" content="#4f46e5">
-    <title>MenúCocina Pro</title>
+    <title>ChefTrack - Gestión de Menús y Stock</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Ajustes para iPhone (Safe Area) y ocultar scrollbars */
@@ -28,7 +29,10 @@
 
     <!-- CABECERA -->
     <header class="bg-indigo-600 text-white h-14 flex-shrink-0 flex items-center justify-center shadow-md relative z-10">
-        <h1 class="text-lg font-bold tracking-wide">MenúCocina Pro</h1>
+        <div class="flex items-center gap-2">
+            <svg class="w-6 h-6 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            <h1 class="text-lg font-bold tracking-wide">ChefTrack</h1>
+        </div>
     </header>
 
     <!-- CONTENEDOR DE VISTAS -->
@@ -65,7 +69,7 @@
 
             <!-- Lista de Platos -->
             <div id="dishesList" class="space-y-3">
-                <!-- Los platos se inyectarán aquí mediante JS -->
+                <!-- Se inyectan con JS -->
             </div>
         </main>
 
@@ -154,24 +158,141 @@
             </form>
         </main>
 
-        <!-- VISTA 3: AJUSTES / STOCK -->
+        <!-- VISTA 3: STOCK Y PREVISIÓN (NUEVO FASE 2) -->
+        <main id="view-stock" class="p-4 hidden space-y-5">
+            <!-- 1. Configuración de Comensales y Margen -->
+            <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                <div class="flex items-center gap-2 mb-3">
+                    <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <h2 class="text-base font-bold text-gray-800">Previsión de Comensales</h2>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 mb-1">Comensales Estimados</label>
+                        <input type="number" id="inputComensales" min="1" class="w-full p-2.5 border rounded-lg text-sm bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                    </div>
+
+                    <div class="flex items-center justify-between bg-indigo-50 p-3 rounded-lg border border-indigo-100">
+                        <span class="text-xs font-bold text-indigo-900">Margen Seguridad (+30%)</span>
+                        <input type="checkbox" id="checkMargen" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500">
+                    </div>
+
+                    <div class="bg-gray-900 text-white p-3.5 rounded-lg text-center shadow-inner">
+                        <div class="text-2xl font-black text-amber-400" id="totalRacionesDisplay">130 raciones</div>
+                        <div class="text-[11px] text-gray-300 font-medium" id="totalRacionesSubtext">100 base + 30% margen</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Registro de Stock de Materia Prima -->
+            <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                        <h2 class="text-base font-bold text-gray-800">Materia Prima en Stock</h2>
+                    </div>
+                </div>
+
+                <!-- Formulario Añadir Materia Prima -->
+                <form id="rawStockForm" class="bg-gray-50 p-3 rounded-lg border border-gray-200 space-y-3 mb-4">
+                    <div>
+                        <input type="text" id="rawName" placeholder="Nombre ingrediente (ej: Ternera picada)" required class="w-full p-2 border rounded-lg text-xs bg-white">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="number" step="0.1" id="rawQty" placeholder="Cantidad" required class="w-full p-2 border rounded-lg text-xs bg-white">
+                        <select id="rawUnit" class="w-full p-2 border rounded-lg text-xs bg-white">
+                            <option value="kg">kg</option>
+                            <option value="ud">unidades</option>
+                            <option value="L">L</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <select id="rawCategory" required class="w-full p-2 border rounded-lg text-xs bg-white">
+                            <option value="Carne">Carne</option>
+                            <option value="Pescado">Pescado</option>
+                            <option value="Lácteos">Lácteos</option>
+                            <option value="Verduras y frutas">Verduras y frutas</option>
+                            <option value="Secos">Secos</option>
+                            <option value="Congelados">Congelados</option>
+                        </select>
+
+                        <select id="rawConserv" required class="w-full p-2 border rounded-lg text-xs bg-white">
+                            <option value="Refrigerado/Fresco (Prioridad Alta)">Refrigerado/Fresco</option>
+                            <option value="Congelado (Prioridad Baja)">Congelado</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg font-bold text-xs shadow-sm">+ Añadir Materia Prima</button>
+                </form>
+
+                <!-- Tarjetas de Stock Materia Prima -->
+                <div id="rawStockList" class="space-y-2">
+                    <!-- Inyectado por JS -->
+                </div>
+            </section>
+
+            <!-- 3. Stock de Platos Ya Elaborados -->
+            <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                <div class="flex items-center gap-2 mb-3">
+                    <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    <h2 class="text-base font-bold text-gray-800">Platos Ya Elaborados</h2>
+                </div>
+
+                <!-- Formulario Añadir Plato Elaborado -->
+                <form id="prepStockForm" class="bg-gray-50 p-3 rounded-lg border border-gray-200 space-y-3 mb-4">
+                    <div>
+                        <input type="text" id="prepName" placeholder="Nombre plato (ej: Pimientos rellenos de bacalao)" required class="w-full p-2 border rounded-lg text-xs bg-white">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="number" id="prepRaciones" placeholder="Raciones disponibles" required class="w-full p-2 border rounded-lg text-xs bg-white">
+                        
+                        <select id="prepAsignacion" class="w-full p-2 border rounded-lg text-xs bg-white">
+                            <option value="Sin asignar">Sin asignar</option>
+                            <option value="Lunes - Primero">Lunes - Primero</option>
+                            <option value="Lunes - Segundo">Lunes - Segundo</option>
+                            <option value="Martes - Primero">Martes - Primero</option>
+                            <option value="Martes - Segundo">Martes - Segundo</option>
+                            <option value="Miércoles - Primero">Miércoles - Primero</option>
+                            <option value="Miércoles - Segundo">Miércoles - Segundo</option>
+                            <option value="Jueves - Primero">Jueves - Primero</option>
+                            <option value="Jueves - Segundo">Jueves - Segundo</option>
+                            <option value="Viernes - Primero">Viernes - Primero</option>
+                            <option value="Viernes - Segundo">Viernes - Segundo</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="w-full bg-emerald-600 text-white py-2 rounded-lg font-bold text-xs shadow-sm">+ Registrar Plato Elaborado</button>
+                </form>
+
+                <!-- Tarjetas de Platos Elaborados -->
+                <div id="prepStockList" class="space-y-2">
+                    <!-- Inyectado por JS -->
+                </div>
+            </section>
+        </main>
+
+        <!-- VISTA 4: AJUSTES / COPIA DE SEGURIDAD -->
         <main id="view-settings" class="p-4 hidden">
             <h2 class="text-xl font-bold text-gray-800 mb-4">Ajustes y Datos</h2>
             
             <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-4">
                 <div>
-                    <h3 class="font-bold text-gray-700 text-sm mb-2">Copia de Seguridad del Recetario</h3>
-                    <p class="text-xs text-gray-500 mb-4">Exporta tu banco de platos para guardarlo de forma segura o impórtalo en otro dispositivo.</p>
+                    <h3 class="font-bold text-gray-700 text-sm mb-2">Copia de Seguridad Integral</h3>
+                    <p class="text-xs text-gray-500 mb-4">Exporta o importa el recetario, la previsión de comensales y el stock registrado.</p>
                     
                     <div class="flex flex-col gap-3">
                         <button id="btnExport" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                            Exportar Recetario (JSON)
+                            Exportar Todo (JSON)
                         </button>
                         
                         <label class="w-full bg-blue-500 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2 cursor-pointer text-center">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                            Importar Recetario (JSON)
+                            Importar Datos (JSON)
                             <input type="file" id="fileImport" accept=".json" class="hidden">
                         </label>
                     </div>
@@ -179,32 +300,36 @@
 
                 <div class="border-t pt-4 mt-4">
                     <button id="btnWipeData" class="w-full bg-red-100 text-red-600 py-3 rounded-lg font-bold text-sm shadow-sm">
-                        Borrar Todos los Datos
+                        Borrar Todos los Datos y Restaurar
                     </button>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- NAVEGACIÓN INFERIOR -->
+    <!-- NAVEGACIÓN INFERIOR (4 PESTAÑAS) -->
     <nav class="bg-white border-t border-gray-200 h-16 flex-shrink-0 flex justify-around items-center absolute bottom-0 w-full z-10 pb-safe">
         <button class="nav-btn active flex flex-col items-center justify-center w-full h-full text-indigo-600" data-target="view-banco">
-            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-            <span class="text-[10px] font-semibold">Banco Platos</span>
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            <span class="text-[9px] font-semibold">Banco Platos</span>
         </button>
         <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400" data-target="view-form">
-            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-            <span class="text-[10px] font-semibold">Añadir</span>
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            <span class="text-[9px] font-semibold">Añadir</span>
+        </button>
+        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400" data-target="view-stock">
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+            <span class="text-[9px] font-semibold">Stock / Previsión</span>
         </button>
         <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400" data-target="view-settings">
-            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-            <span class="text-[10px] font-semibold">Ajustes</span>
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            <span class="text-[9px] font-semibold">Ajustes</span>
         </button>
     </nav>
 
     <!-- LOGICA JAVASCRIPT -->
     <script>
-        // --- 1. DATOS Y ESTADO INICIAL ---
+        // --- 1. DATOS Y PRECARGA DE PRUEBA ---
         const seedDishes = [
             { id: "1", nombre: "Lentejas castellanas con embutido", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "Cerdo", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Lentejas secas", cantidad: 12, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Chorizo", cantidad: 3, unidad: "kg", categoria_proveedor: "Carne"}] },
             { id: "2", nombre: "Crema de verduras desde cero", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "Vegetariano/Ninguno", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Calabacín", cantidad: 10, unidad: "kg", categoria_proveedor: "Verduras y frutas"}, {nombre: "Puerro", cantidad: 4, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] },
@@ -222,33 +347,59 @@
             { id: "14", nombre: "Tortilla de patatas casera", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Vegetariano/Ninguno", tecnica: "Brasa/Plancha", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Huevos", cantidad: 200, unidad: "ud", categoria_proveedor: "Lácteos"}, {nombre: "Patatas peladas", cantidad: 25, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] }
         ];
 
-        const proveedorCategorias = ["Carne", "Pescado", "Lácteos", "Verduras y frutas", "Secos", "Congelados"];
-        let dishes = [];
+        const seedSettings = { comensales: 100, margenActivo: true };
         
-        // Estado de los filtros
+        const seedRawStock = [
+            { id: "rs1", nombre: "Magro de cerdo fresco", cantidad: 10, unidad: "kg", categoria_proveedor: "Carne", conservacion: "Refrigerado/Fresco (Prioridad Alta)" },
+            { id: "rs2", nombre: "Merluza congelada", cantidad: 5, unidad: "kg", categoria_proveedor: "Congelados", conservacion: "Congelado (Prioridad Baja)" }
+        ];
+
+        const seedPreparedStock = [
+            { id: "ps1", nombre: "Pimientos rellenos de bacalao", raciones: 150, asignacion: "Martes - Segundo" }
+        ];
+
+        const proveedorCategorias = ["Carne", "Pescado", "Lácteos", "Verduras y frutas", "Secos", "Congelados"];
+        
+        // Estado
+        let dishes = [];
+        let settings = { ...seedSettings };
+        let rawStock = [];
+        let preparedStock = [];
+
         let activeFilterLevel1 = 'all';
         let activeFilterLevel2 = 'all';
 
         // --- 2. INICIALIZACIÓN ---
         function init() {
-            const stored = localStorage.getItem('menuCocinaPro_dishes');
-            if (stored) {
-                dishes = JSON.parse(stored);
-            } else {
-                dishes = [...seedDishes];
-                saveDishes();
-            }
+            // Cargar o migrar datos
+            const storedDishes = localStorage.getItem('chefTrack_dishes') || localStorage.getItem('menuCocinaPro_dishes');
+            dishes = storedDishes ? JSON.parse(storedDishes) : [...seedDishes];
+
+            const storedSettings = localStorage.getItem('chefTrack_settings');
+            settings = storedSettings ? JSON.parse(storedSettings) : { ...seedSettings };
+
+            const storedRaw = localStorage.getItem('chefTrack_rawStock');
+            rawStock = storedRaw ? JSON.parse(storedRaw) : [...seedRawStock];
+
+            const storedPrep = localStorage.getItem('chefTrack_preparedStock');
+            preparedStock = storedPrep ? JSON.parse(storedPrep) : [...seedPreparedStock];
+
+            saveAll();
             setupEventListeners();
             renderDishes();
+            renderStockView();
         }
 
-        function saveDishes() {
-            localStorage.setItem('menuCocinaPro_dishes', JSON.stringify(dishes));
+        function saveAll() {
+            localStorage.setItem('chefTrack_dishes', JSON.stringify(dishes));
+            localStorage.setItem('chefTrack_settings', JSON.stringify(settings));
+            localStorage.setItem('chefTrack_rawStock', JSON.stringify(rawStock));
+            localStorage.setItem('chefTrack_preparedStock', JSON.stringify(preparedStock));
         }
 
-        // --- 3. NAVEGACIÓN Y VISTAS ---
+        // --- 3. NAVEGACIÓN Y MANEJADORES DE EVENTOS ---
         function setupEventListeners() {
-            // Tabs de Navegación Inferior
+            // Pestañas inferiores
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const targetId = e.currentTarget.getAttribute('data-target');
@@ -267,10 +418,9 @@
                 });
             });
 
-            // Filtros Nivel 1 (Todos / Primeros / Segundos)
+            // Filtros Nivel 1 (Banco)
             document.querySelectorAll('.filter-lvl1').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    // Actualizar UI botones nivel 1
                     document.querySelectorAll('.filter-lvl1').forEach(b => {
                         b.classList.remove('bg-indigo-600', 'text-white', 'border-transparent', 'active');
                         b.classList.add('bg-white', 'text-gray-600', 'border-gray-300');
@@ -279,9 +429,8 @@
                     e.currentTarget.classList.add('bg-indigo-600', 'text-white', 'border-transparent', 'active');
                     
                     activeFilterLevel1 = e.currentTarget.getAttribute('data-filter');
-                    activeFilterLevel2 = 'all'; // Resetear Nivel 2 al cambiar el 1
+                    activeFilterLevel2 = 'all';
                     
-                    // Mostrar/Ocultar y resetear interfaces Nivel 2
                     document.getElementById('filters-primeros').classList.add('hidden');
                     document.getElementById('filters-segundos').classList.add('hidden');
                     
@@ -297,17 +446,14 @@
                 });
             });
 
-            // Filtros Nivel 2 (Subcategorías / Proteínas)
+            // Filtros Nivel 2 (Banco)
             document.querySelectorAll('.filter-lvl2').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const parentContainer = e.currentTarget.parentElement;
-                    
-                    // Actualizar UI de los botones hermanos en el mismo contenedor
                     parentContainer.querySelectorAll('.filter-lvl2').forEach(b => {
                         b.classList.remove('bg-indigo-100', 'text-indigo-700', 'border-indigo-200', 'font-bold', 'active');
                         b.classList.add('bg-white', 'text-gray-600', 'border-gray-300', 'font-semibold');
                     });
-                    
                     e.currentTarget.classList.remove('bg-white', 'text-gray-600', 'border-gray-300', 'font-semibold');
                     e.currentTarget.classList.add('bg-indigo-100', 'text-indigo-700', 'border-indigo-200', 'font-bold', 'active');
                     
@@ -319,7 +465,7 @@
             // Buscador por Texto
             document.getElementById('searchInput').addEventListener('input', renderDishes);
 
-            // Dinamismo del formulario (Campos condicionales)
+            // Formulario Plato
             const catSelect = document.getElementById('dishCategory');
             catSelect.addEventListener('change', () => {
                 const isPrimero = catSelect.value === 'Primero';
@@ -328,7 +474,6 @@
                 document.getElementById('protSegundoContainer').classList.toggle('hidden', !isSegundo);
             });
 
-            // Botones del Formulario
             document.getElementById('addIngredientBtn').addEventListener('click', () => addIngredientRow());
             document.getElementById('dishForm').addEventListener('submit', handleFormSubmit);
             document.getElementById('btnCancel').addEventListener('click', () => {
@@ -336,34 +481,21 @@
                 document.querySelector('.nav-btn[data-target="view-banco"]').click();
             });
 
-            // Ajustes de Datos
+            // Eventos de Stock y Comensales
+            document.getElementById('inputComensales').addEventListener('input', updateCalculatedRaciones);
+            document.getElementById('checkMargen').addEventListener('change', updateCalculatedRaciones);
+            
+            document.getElementById('rawStockForm').addEventListener('submit', handleAddRawStock);
+            document.getElementById('prepStockForm').addEventListener('submit', handleAddPrepStock);
+
+            // Exportar / Importar / Reset
             document.getElementById('btnExport').addEventListener('click', exportData);
             document.getElementById('fileImport').addEventListener('change', importData);
-            document.getElementById('btnWipeData').addEventListener('click', () => {
-                if(confirm("¿Estás seguro de borrar todo? Se restaurarán los datos de prueba.")) {
-                    localStorage.removeItem('menuCocinaPro_dishes');
-                    init();
-                    alert("Datos restaurados.");
-                }
-            });
-        }
-
-        function resetLevel2UI(containerSelector) {
-            const container = document.querySelector(containerSelector);
-            container.querySelectorAll('.filter-lvl2').forEach(b => {
-                b.classList.remove('bg-indigo-100', 'text-indigo-700', 'border-indigo-200', 'font-bold', 'active');
-                b.classList.add('bg-white', 'text-gray-600', 'border-gray-300', 'font-semibold');
-            });
-            // Activar el botón "Todos" por defecto
-            const allBtn = container.querySelector('[data-filter="all"]');
-            if (allBtn) {
-                allBtn.classList.remove('bg-white', 'text-gray-600', 'border-gray-300', 'font-semibold');
-                allBtn.classList.add('bg-indigo-100', 'text-indigo-700', 'border-indigo-200', 'font-bold', 'active');
-            }
+            document.getElementById('btnWipeData').addEventListener('click', wipeData);
         }
 
         function switchView(viewId) {
-            ['view-banco', 'view-form', 'view-settings'].forEach(id => {
+            ['view-banco', 'view-form', 'view-stock', 'view-settings'].forEach(id => {
                 const el = document.getElementById(id);
                 if (id === viewId) {
                     el.classList.remove('hidden');
@@ -375,7 +507,20 @@
             });
         }
 
-        // --- 4. RENDERIZADO DEL BANCO ---
+        function resetLevel2UI(containerSelector) {
+            const container = document.querySelector(containerSelector);
+            container.querySelectorAll('.filter-lvl2').forEach(b => {
+                b.classList.remove('bg-indigo-100', 'text-indigo-700', 'border-indigo-200', 'font-bold', 'active');
+                b.classList.add('bg-white', 'text-gray-600', 'border-gray-300', 'font-semibold');
+            });
+            const allBtn = container.querySelector('[data-filter="all"]');
+            if (allBtn) {
+                allBtn.classList.remove('bg-white', 'text-gray-600', 'border-gray-300', 'font-semibold');
+                allBtn.classList.add('bg-indigo-100', 'text-indigo-700', 'border-indigo-200', 'font-bold', 'active');
+            }
+        }
+
+        // --- 4. RENDERIZADO BANCO DE PLATOS ---
         function renderDishes() {
             const list = document.getElementById('dishesList');
             const searchVal = document.getElementById('searchInput').value.toLowerCase();
@@ -383,23 +528,17 @@
             list.innerHTML = '';
             
             const filtered = dishes.filter(d => {
-                // 1. Filtro por Texto
                 if (searchVal && !d.nombre.toLowerCase().includes(searchVal)) return false;
-                
-                // 2. Filtro Nivel 1 (Principal)
                 if (activeFilterLevel1 !== 'all' && d.categoria !== activeFilterLevel1) return false;
-                
-                // 3. Filtro Nivel 2 (Secundario)
                 if (activeFilterLevel2 !== 'all') {
                     if (activeFilterLevel1 === 'Primero' && d.subcategoria_primero !== activeFilterLevel2) return false;
                     if (activeFilterLevel1 === 'Segundo' && d.proteina_segundo !== activeFilterLevel2) return false;
                 }
-                
                 return true;
             });
 
             if (filtered.length === 0) {
-                list.innerHTML = '<p class="text-center text-gray-500 mt-10 text-sm">No se encontraron platos con esos filtros.</p>';
+                list.innerHTML = '<p class="text-center text-gray-500 mt-10 text-sm">No se encontraron platos.</p>';
                 return;
             }
 
@@ -429,7 +568,165 @@
             });
         }
 
-        // --- 5. LÓGICA DEL FORMULARIO ---
+        // --- 5. LÓGICA DE STOCK Y PREVISIÓN (FASE 2) ---
+        function renderStockView() {
+            document.getElementById('inputComensales').value = settings.comensales;
+            document.getElementById('checkMargen').checked = settings.margenActivo;
+            updateCalculatedRaciones(false);
+
+            renderRawStock();
+            renderPreparedStock();
+        }
+
+        function updateCalculatedRaciones(shouldSave = true) {
+            const base = parseInt(document.getElementById('inputComensales').value) || 0;
+            const margen = document.getElementById('checkMargen').checked;
+            
+            settings.comensales = base;
+            settings.margenActivo = margen;
+
+            if (shouldSave) saveAll();
+
+            const total = margen ? Math.round(base * 1.3) : base;
+            const infoText = margen 
+                ? `${base} base + 30% margen de seguridad`
+                : `Sin margen de seguridad aplicado`;
+            
+            document.getElementById('totalRacionesDisplay').innerText = `${total} raciones`;
+            document.getElementById('totalRacionesSubtext').innerText = infoText;
+        }
+
+        function handleAddRawStock(e) {
+            e.preventDefault();
+            const item = {
+                id: Date.now().toString(),
+                nombre: document.getElementById('rawName').value,
+                cantidad: parseFloat(document.getElementById('rawQty').value),
+                unidad: document.getElementById('rawUnit').value,
+                categoria_proveedor: document.getElementById('rawCategory').value,
+                conservacion: document.getElementById('rawConserv').value
+            };
+
+            rawStock.unshift(item);
+            saveAll();
+            renderRawStock();
+            document.getElementById('rawStockForm').reset();
+        }
+
+        function renderRawStock() {
+            const container = document.getElementById('rawStockList');
+            container.innerHTML = '';
+
+            if (rawStock.length === 0) {
+                container.innerHTML = '<p class="text-center text-gray-400 text-xs py-2">Sin materia prima en stock.</p>';
+                return;
+            }
+
+            rawStock.forEach(item => {
+                const isFresh = item.conservacion.includes("Fresco") || item.conservacion.includes("Refrigerado");
+                const badgeColor = isFresh ? "bg-amber-100 text-amber-800 border-amber-200" : "bg-cyan-100 text-cyan-800 border-cyan-200";
+
+                const card = document.createElement('div');
+                card.className = "bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex justify-between items-center";
+                card.innerHTML = `
+                    <div class="pr-2">
+                        <div class="flex items-center gap-1.5 mb-1">
+                            <h4 class="font-bold text-gray-800 text-xs">${item.nombre}</h4>
+                            <span class="text-[9px] px-1.5 py-0.5 rounded font-bold border ${badgeColor}">${isFresh ? 'Fresco' : 'Congelado'}</span>
+                        </div>
+                        <div class="text-[11px] text-gray-500">
+                            <span class="font-bold text-indigo-700">${item.cantidad} ${item.unidad}</span> • ${item.categoria_proveedor}
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button onclick="changeRawQty('${item.id}', -1)" class="w-7 h-7 bg-gray-100 text-gray-700 font-bold rounded-lg text-xs hover:bg-gray-200">-</button>
+                        <button onclick="changeRawQty('${item.id}', 1)" class="w-7 h-7 bg-gray-100 text-gray-700 font-bold rounded-lg text-xs hover:bg-gray-200">+</button>
+                        <button onclick="deleteRaw('${item.id}')" class="text-red-500 bg-red-50 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function changeRawQty(id, delta) {
+            const item = rawStock.find(r => r.id === id);
+            if (item) {
+                item.cantidad = Math.max(0, +(item.cantidad + delta).toFixed(2));
+                saveAll();
+                renderRawStock();
+            }
+        }
+
+        function deleteRaw(id) {
+            rawStock = rawStock.filter(r => r.id !== id);
+            saveAll();
+            renderRawStock();
+        }
+
+        function handleAddPrepStock(e) {
+            e.preventDefault();
+            const item = {
+                id: Date.now().toString(),
+                nombre: document.getElementById('prepName').value,
+                raciones: parseInt(document.getElementById('prepRaciones').value),
+                asignacion: document.getElementById('prepAsignacion').value
+            };
+
+            preparedStock.unshift(item);
+            saveAll();
+            renderPreparedStock();
+            document.getElementById('prepStockForm').reset();
+        }
+
+        function renderPreparedStock() {
+            const container = document.getElementById('prepStockList');
+            container.innerHTML = '';
+
+            if (preparedStock.length === 0) {
+                container.innerHTML = '<p class="text-center text-gray-400 text-xs py-2">Sin platos elaborados registrados.</p>';
+                return;
+            }
+
+            preparedStock.forEach(item => {
+                const isAssigned = item.asignacion && item.asignacion !== "Sin asignar";
+                const badgeColor = isAssigned ? "bg-emerald-100 text-emerald-800 border-emerald-200" : "bg-gray-100 text-gray-600 border-gray-200";
+
+                const card = document.createElement('div');
+                card.className = "bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex justify-between items-center";
+                card.innerHTML = `
+                    <div class="pr-2">
+                        <h4 class="font-bold text-gray-800 text-xs mb-1">${item.nombre}</h4>
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">${item.raciones} rac.</span>
+                            <span class="text-[9px] px-1.5 py-0.5 rounded font-semibold border ${badgeColor}">${item.asignacion || "Sin asignar"}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button onclick="changePrepQty('${item.id}', -10)" class="px-2 h-7 bg-gray-100 text-gray-700 font-bold rounded-lg text-xs hover:bg-gray-200">-10</button>
+                        <button onclick="changePrepQty('${item.id}', 10)" class="px-2 h-7 bg-gray-100 text-gray-700 font-bold rounded-lg text-xs hover:bg-gray-200">+10</button>
+                        <button onclick="deletePrep('${item.id}')" class="text-red-500 bg-red-50 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function changePrepQty(id, delta) {
+            const item = preparedStock.find(p => p.id === id);
+            if (item) {
+                item.raciones = Math.max(0, item.raciones + delta);
+                saveAll();
+                renderPreparedStock();
+            }
+        }
+
+        function deletePrep(id) {
+            preparedStock = preparedStock.filter(p => p.id !== id);
+            saveAll();
+            renderPreparedStock();
+        }
+
+        // --- 6. LÓGICA DE FORMULARIO DE PLATOS ---
         function addIngredientRow(ing = null) {
             const container = document.getElementById('ingredientsContainer');
             const row = document.createElement('div');
@@ -459,7 +756,6 @@
             const id = document.getElementById('dishId').value || Date.now().toString();
             const category = document.getElementById('dishCategory').value;
             
-            // Recoger ingredientes
             const ingRows = document.querySelectorAll('.ingredient-row');
             const ingredientes = Array.from(ingRows).map(row => ({
                 nombre: row.querySelector('.ing-nombre').value,
@@ -487,11 +783,10 @@
                 dishes.unshift(newDish);
             }
 
-            saveDishes();
+            saveAll();
             resetForm();
             renderDishes();
             
-            // Volver a Banco de Platos
             document.querySelector('.nav-btn[data-target="view-banco"]').click();
         }
 
@@ -503,7 +798,6 @@
             document.getElementById('dishName').value = dish.nombre;
             document.getElementById('dishCategory').value = dish.categoria;
             
-            // Disparar evento change manual para mostrar/ocultar campos
             document.getElementById('dishCategory').dispatchEvent(new Event('change'));
             
             if(dish.categoria === 'Primero') document.getElementById('dishSubcategory').value = dish.subcategoria_primero;
@@ -520,14 +814,13 @@
             document.getElementById('form-title').innerText = "Editar Plato";
             document.getElementById('btnCancel').classList.remove('hidden');
             
-            // Navegar a la pestaña de añadir/editar
             document.querySelector('.nav-btn[data-target="view-form"]').click();
         }
 
         function deleteDish(id) {
             if(confirm('¿Estás seguro de que deseas eliminar este plato?')) {
                 dishes = dishes.filter(d => d.id !== id);
-                saveDishes();
+                saveAll();
                 renderDishes();
             }
         }
@@ -539,17 +832,26 @@
             document.getElementById('ingredientsContainer').innerHTML = '';
             document.getElementById('dishCategory').dispatchEvent(new Event('change'));
             document.getElementById('btnCancel').classList.add('hidden');
-            addIngredientRow(); // Añadir una fila vacía por defecto
+            addIngredientRow();
         }
 
-        // --- 6. EXPORTAR / IMPORTAR ---
+        // --- 7. EXPORTAR / IMPORTAR / RESET ---
         function exportData() {
-            const dataStr = JSON.stringify(dishes, null, 2);
+            const backupObj = {
+                app: "ChefTrack",
+                version: "2.0",
+                date: new Date().toISOString(),
+                settings: settings,
+                dishes: dishes,
+                rawStock: rawStock,
+                preparedStock: preparedStock
+            };
+            const dataStr = JSON.stringify(backupObj, null, 2);
             const blob = new Blob([dataStr], { type: "application/json" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `MenuCocinaPro_Backup_${new Date().toISOString().split('T')[0]}.json`;
+            a.download = `ChefTrack_Backup_${new Date().toISOString().split('T')[0]}.json`;
             a.click();
             URL.revokeObjectURL(url);
         }
@@ -563,22 +865,39 @@
                 try {
                     const imported = JSON.parse(e.target.result);
                     if (Array.isArray(imported)) {
+                        // Importación desde lista simple (Fase 1)
                         dishes = imported;
-                        saveDishes();
-                        renderDishes();
-                        alert("Recetario importado con éxito.");
-                    } else {
-                        alert("El archivo no tiene el formato correcto.");
+                    } else if (imported && typeof imported === 'object') {
+                        if (imported.dishes && Array.isArray(imported.dishes)) dishes = imported.dishes;
+                        if (imported.settings) settings = imported.settings;
+                        if (imported.rawStock && Array.isArray(imported.rawStock)) rawStock = imported.rawStock;
+                        if (imported.preparedStock && Array.isArray(imported.preparedStock)) preparedStock = imported.preparedStock;
                     }
+                    saveAll();
+                    renderDishes();
+                    renderStockView();
+                    alert("Datos de ChefTrack importados correctamente.");
                 } catch (error) {
-                    alert("Error leyendo el archivo JSON.");
+                    alert("Error al leer el archivo JSON.");
                 }
-                event.target.value = ""; // reset input
+                event.target.value = "";
             };
             reader.readAsText(file);
         }
 
-        // Iniciar app
+        function wipeData() {
+            if(confirm("¿Estás seguro de borrar todos los datos de ChefTrack? Se restaurarán los datos de prueba iniciales.")) {
+                localStorage.removeItem('chefTrack_dishes');
+                localStorage.removeItem('chefTrack_settings');
+                localStorage.removeItem('chefTrack_rawStock');
+                localStorage.removeItem('chefTrack_preparedStock');
+                localStorage.removeItem('menuCocinaPro_dishes');
+                init();
+                alert("ChefTrack se ha restaurado a su estado inicial.");
+            }
+        }
+
+        // Iniciar
         init();
     </script>
 </body>
