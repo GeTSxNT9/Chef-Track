@@ -133,7 +133,6 @@
                             <option value="Normal/Complejo">Normal / Complejo</option>
                         </select>
                     </div>
-                    <!-- NUEVO: Demanda -->
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 mb-1">Aceptación/Demanda</label>
                         <select id="dishDemand" required class="w-full p-2.5 border rounded-lg text-sm bg-gray-50">
@@ -161,7 +160,6 @@
 
         <!-- VISTA 3: STOCK Y PREVISIÓN -->
         <main id="view-stock" class="p-4 hidden space-y-5">
-            <!-- Comensales -->
             <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                 <div class="flex items-center gap-2 mb-3">
                     <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
@@ -183,7 +181,6 @@
                 </div>
             </section>
 
-            <!-- Materia Prima -->
             <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                 <div class="flex justify-between items-center mb-3">
                     <div class="flex items-center gap-2">
@@ -223,7 +220,6 @@
                 <div id="rawStockList" class="space-y-2"></div>
             </section>
 
-            <!-- Platos Elaborados -->
             <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                 <div class="flex items-center gap-2 mb-3">
                     <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
@@ -303,7 +299,7 @@
                         <h3 class="font-bold text-gray-800 text-sm">Cálculo por Proveedores</h3>
                         <span class="text-[10px] font-bold bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full" id="shoppingRacionesBadge">130 Raciones</span>
                     </div>
-                    <p class="text-xs text-gray-500 leading-snug">Raciones calculadas proporcionalmente según la demanda del plato (Alta=3x, Media=2x, Baja=1x) vs total del día.</p>
+                    <p class="text-xs text-gray-500 leading-snug">Raciones calculadas proporcionalmente según la demanda del plato (Alta=3x, Media=2x, Baja=1x) vs total del grupo.</p>
                     <button id="btnDownloadShoppingTxt" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-3 rounded-lg text-xs flex items-center justify-center gap-2 shadow-sm">
                         <span>📄</span> Descargar Lista (.txt)
                     </button>
@@ -444,8 +440,6 @@
 
             const storedDishes = localStorage.getItem('chefTrack_dishes');
             dishes = storedDishes ? JSON.parse(storedDishes) : [...seedDishes];
-            
-            // Retrocompatibilidad con datos viejos sin demanda
             dishes = dishes.map(d => ({ ...d, demanda: d.demanda || "Media" }));
 
             const storedSettings = localStorage.getItem('chefTrack_settings');
@@ -470,7 +464,7 @@
         function registerServiceWorker() {
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    const CACHE = 'cheftrack-v5';
+                    const CACHE = 'cheftrack-v6';
                     self.addEventListener('install', e => { self.skipWaiting(); });
                     self.addEventListener('activate', e => { self.clients.claim(); });
                     self.addEventListener('fetch', e => {
@@ -931,7 +925,7 @@
 
             if (pool.length === 0) {
                 const fallbackPool = dishes.filter(d => d.categoria === spec.cat);
-                if (fallbackPool.length > 0) return { dish: fallbackPool[Math.floor(Math.random() * fallbackPool.length)], relaxed: true, warning: "⚠️ Regla de variedad relajada" };
+                if (fallbackPool.length > 0) return { dish: fallbackPool[Math.floor(Math.random() * fallbackPool.length)], relaxed: true, warning: "⚠️ Regla relajada" };
                 return { dish: { id: "none", nombre: "Sin plato disponible", categoria: spec.cat, especie_animal: "-", tecnica: "-", dificultad_lunes: "-", demanda:"Media", ingredientes: [] }, relaxed: true, warning: "⚠️ Sin recetario" };
             }
 
@@ -1096,16 +1090,22 @@
             `;
         }
 
-        // --- 7. LISTA DE COMPRA (PROPORCIONAL FASE 4) ---
+        // --- 7. CÁLCULO DE LA LISTA DE COMPRA (CORREGIDO Y ROBUSTO) ---
         function calculateShoppingList() {
             if (!currentMenu || !currentMenu.days) return null;
 
             const baseComensales = settings.comensales || 100;
             const totalRaciones = settings.margenActivo ? Math.round(baseComensales * 1.3) : baseComensales;
 
-            const carne1Map = {};
-            const carne2Map = {};
-            const otherMap = { "Pescado": {}, "Lácteos": {}, "Verduras y frutas": {}, "Secos": {}, "Congelados": {} };
+            const carne1Map = {}; // Lunes a Miércoles
+            const carne2Map = {}; // Jueves y Viernes
+            const otherMap = {
+                "Pescado": {},
+                "Lácteos": {},
+                "Verduras y frutas": {},
+                "Secos": {},
+                "Congelados": {}
+            };
 
             daysList.forEach(dayName => {
                 const daySlots = currentMenu.days[dayName] || [];
@@ -1115,9 +1115,18 @@
                 const primeros = daySlots.slice(0, 3);
                 const segundos = daySlots.slice(3, 6);
 
-                // Cálculo de Pesos Proporcionales por Grupo
-                const weightPrimeros = primeros.reduce((sum, slot) => sum + (slot.dish && slot.dish.id !== 'none' ? getDemandWeight(slot.dish.demanda || 'Media') : 0), 0);
-                const weightSegundos = segundos.reduce((sum, slot) => sum + (slot.dish && slot.dish.id !== 'none' ? getDemandWeight(slot.dish.demanda || 'Media') : 0), 0);
+                // Pesos totales de demanda para el grupo de Primeros y Segundos de este día
+                const weightPrimeros = primeros.reduce((sum, slot) => {
+                    const dish = slot.dish;
+                    if (!dish || dish.id === 'none') return sum;
+                    return sum + getDemandWeight(dish.demanda || 'Media');
+                }, 0);
+
+                const weightSegundos = segundos.reduce((sum, slot) => {
+                    const dish = slot.dish;
+                    if (!dish || dish.id === 'none') return sum;
+                    return sum + getDemandWeight(dish.demanda || 'Media');
+                }, 0);
 
                 daySlots.forEach((slot, index) => {
                     const dish = slot.dish;
@@ -1126,31 +1135,38 @@
                     const isPrimero = index < 3;
                     const groupWeight = isPrimero ? weightPrimeros : weightSegundos;
                     const dishWeight = getDemandWeight(dish.demanda || 'Media');
-                    
+
+                    // Proporción exacta de raciones para este plato en este día
                     const ratio = groupWeight > 0 ? (dishWeight / groupWeight) : (1 / 3);
                     const dishRaciones = totalRaciones * ratio;
 
                     dish.ingredientes.forEach(ing => {
                         const name = ing.nombre.trim();
-                        let qty = (parseFloat(ing.cantidad) || 0) * dishRaciones;
+                        let qtyPerRation = parseFloat(ing.cantidad) || 0;
                         let unit = ing.unidad || "kg";
                         const cat = ing.categoria_proveedor || "Secos";
 
-                        // Conversión gramos a kilos
+                        // Conversión segura de gramos a kilos
                         if (unit === 'g') {
-                            qty = qty / 1000;
+                            qtyPerRation = qtyPerRation / 1000;
                             unit = 'kg';
                         }
 
+                        let qtyNeeded = qtyPerRation * dishRaciones;
                         const key = `${name.toLowerCase()}_${unit.toLowerCase()}`;
+
                         if (cat === "Carne") {
                             const targetMap = isMonWed ? carne1Map : carne2Map;
-                            if (!targetMap[key]) targetMap[key] = { nombre: name, unidad: unit, categoria_proveedor: "Carne", cantidadNeeded: 0 };
-                            targetMap[key].cantidadNeeded += qty;
+                            if (!targetMap[key]) {
+                                targetMap[key] = { nombre: name, unidad: unit, categoria_proveedor: "Carne", cantidadNeeded: 0 };
+                            }
+                            targetMap[key].cantidadNeeded += qtyNeeded;
                         } else {
                             const targetCat = otherMap[cat] ? cat : "Secos";
-                            if (!otherMap[targetCat][key]) otherMap[targetCat][key] = { nombre: name, unidad: unit, categoria_proveedor: targetCat, cantidadNeeded: 0 };
-                            otherMap[targetCat][key].cantidadNeeded += qty;
+                            if (!otherMap[targetCat][key]) {
+                                otherMap[targetCat][key] = { nombre: name, unidad: unit, categoria_proveedor: targetCat, cantidadNeeded: 0 };
+                            }
+                            otherMap[targetCat][key].cantidadNeeded += qtyNeeded;
                         }
                     });
                 });
@@ -1162,8 +1178,9 @@
                 rawStock.forEach(s => {
                     if (s.nombre.toLowerCase().includes(lowerName) || lowerName.includes(s.nombre.toLowerCase())) {
                         let stockQty = parseFloat(s.cantidad) || 0;
-                        if (s.unidad === 'g' && neededUnit === 'kg') stockQty /= 1000;
-                        else if (s.unidad === 'kg' && neededUnit === 'g') stockQty *= 1000;
+                        let stockUnit = s.unidad || 'kg';
+                        if (stockUnit === 'g' && neededUnit === 'kg') stockQty /= 1000;
+                        else if (stockUnit === 'kg' && neededUnit === 'g') stockQty *= 1000;
                         matchedStock += stockQty;
                     }
                 });
@@ -1176,14 +1193,14 @@
                 return Object.values(itemsMap).map(item => {
                     const totalNeed = +item.cantidadNeeded.toFixed(2);
                     let availableStock = findStockForIngredient(item.nombre, item.unidad);
-                    
+
                     const used = stockUsedTracker[item.nombre.toLowerCase()] || 0;
                     availableStock = Math.max(0, availableStock - used);
 
                     const stockToApply = Math.min(totalNeed, availableStock);
                     stockUsedTracker[item.nombre.toLowerCase()] = (stockUsedTracker[item.nombre.toLowerCase()] || 0) + stockToApply;
 
-                    const finalOrder = +(totalNeed - stockToApply).toFixed(2);
+                    const finalOrder = +Math.max(0, totalNeed - stockToApply).toFixed(2);
 
                     return {
                         nombre: item.nombre,
@@ -1193,7 +1210,7 @@
                         stockApplied: +stockToApply.toFixed(2),
                         finalOrder
                     };
-                });
+                }).filter(item => item.finalOrder > 0);
             }
 
             const carne1List = processItemsMap(carne1Map);
@@ -1203,7 +1220,14 @@
                 otherLists[cat] = processItemsMap(otherMap[cat]);
             });
 
-            return { totalRaciones, baseComensales, margenActivo: settings.margenActivo, carne1List, carne2List, otherLists };
+            return {
+                totalRaciones,
+                baseComensales,
+                margenActivo: settings.margenActivo,
+                carne1List,
+                carne2List,
+                otherLists
+            };
         }
 
         function renderShoppingListUI() {
@@ -1224,13 +1248,13 @@
                 
                 let itemsHTML = '';
                 if (list.length === 0) {
-                    itemsHTML = '<p class="text-xs text-gray-400 italic">Sin ingredientes necesarios.</p>';
+                    itemsHTML = '<p class="text-xs text-gray-400 italic">Todo cubierto por stock o sin necesidades.</p>';
                 } else {
                     itemsHTML = list.map(item => `
                         <div class="flex justify-between items-center p-2 bg-gray-50 rounded-lg border text-xs">
                             <div>
                                 <span class="font-bold text-gray-800">${item.nombre}</span>
-                                ${item.stockApplied > 0 ? `<span class="block text-[10px] text-emerald-600 font-semibold">(Necesario: ${item.totalNeed}${item.unidad} - Stock: ${item.stockApplied}${item.unidad})</span>` : ''}
+                                ${item.stockApplied > 0 ? `<span class="block text-[10px] text-emerald-600 font-semibold">(Bruto: ${item.totalNeed}${item.unidad} - Stock: ${item.stockApplied}${item.unidad})</span>` : ''}
                             </div>
                             <div class="font-black text-indigo-700 text-sm whitespace-nowrap">
                                 ${item.finalOrder} <span class="text-xs text-gray-500 font-medium">${item.unidad}</span>
@@ -1267,9 +1291,9 @@
 
             function formatListSection(title, list) {
                 let sec = `--- ${title.toUpperCase()} ---\n`;
-                if (list.length === 0) return sec + `(Sin necesidades)\n\n`;
+                if (list.length === 0) return sec + `(Sin necesidades de compra)\n\n`;
                 list.forEach(item => {
-                    let stockStr = item.stockApplied > 0 ? ` [Necesario: ${item.totalNeed}${item.unidad} | Stock descontado: -${item.stockApplied}${item.unidad}]` : '';
+                    let stockStr = item.stockApplied > 0 ? ` [Bruto: ${item.totalNeed}${item.unidad} | Stock: -${item.stockApplied}${item.unidad}]` : '';
                     sec += `• ${item.nombre}: ${item.finalOrder} ${item.unidad}${stockStr}\n`;
                 });
                 return sec + `\n`;
@@ -1557,7 +1581,7 @@
         // --- 12. RESPALDOS ---
         function exportData() {
             const backupObj = {
-                app: "ChefTrack", version: "5.0", date: new Date().toISOString(),
+                app: "ChefTrack", version: "6.0", date: new Date().toISOString(),
                 settings, dishes, rawStock, preparedStock, currentMenu, historyMenus
             };
             const dataStr = JSON.stringify(backupObj, null, 2);
@@ -1580,7 +1604,6 @@
                         if (imported.currentMenu) currentMenu = imported.currentMenu;
                         if (imported.historyMenus) historyMenus = imported.historyMenus;
                     }
-                    // Reparar platos viejos sin demanda
                     dishes = dishes.map(d => ({ ...d, demanda: d.demanda || "Media" }));
                     saveAll(); init();
                     alert("Datos importados correctamente.");
