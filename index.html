@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#4f46e5">
+    <title>MenúCocina Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Ajustes para iPhone (Safe Area) y ocultar scrollbars */
+        body {
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 h-screen flex flex-col font-sans overflow-hidden">
+
+    <!-- CABECERA -->
+    <header class="bg-indigo-600 text-white h-14 flex-shrink-0 flex items-center justify-center shadow-md relative z-10">
+        <h1 class="text-lg font-bold tracking-wide">MenúCocina Pro</h1>
+    </header>
+
+    <!-- CONTENEDOR DE VISTAS -->
+    <div class="flex-1 overflow-y-auto no-scrollbar relative pb-20" id="main-container">
+        
+        <!-- VISTA 1: BANCO DE PLATOS -->
+        <main id="view-banco" class="p-4 block">
+            <!-- Buscador -->
+            <div class="mb-4">
+                <input type="text" id="searchInput" placeholder="Buscar plato..." class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+            </div>
+
+            <!-- Filtros Rápidos -->
+            <div class="flex gap-2 overflow-x-auto no-scrollbar mb-4 pb-2">
+                <button class="filter-btn active bg-indigo-600 text-white px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="all">Todos</button>
+                <button class="filter-btn bg-white text-gray-600 border px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Primero">Primeros</button>
+                <button class="filter-btn bg-white text-gray-600 border px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Segundo">Segundos</button>
+                <button class="filter-btn bg-white text-gray-600 border px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Cuchara">Cuchara</button>
+                <button class="filter-btn bg-white text-gray-600 border px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Verdura">Verdura</button>
+                <button class="filter-btn bg-white text-gray-600 border px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Carne">Carne</button>
+                <button class="filter-btn bg-white text-gray-600 border px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Pescado">Pescado</button>
+            </div>
+
+            <!-- Lista de Platos -->
+            <div id="dishesList" class="space-y-3">
+                <!-- Los platos se inyectarán aquí mediante JS -->
+            </div>
+        </main>
+
+        <!-- VISTA 2: AÑADIR / EDITAR PLATO -->
+        <main id="view-form" class="p-4 hidden">
+            <h2 id="form-title" class="text-xl font-bold text-gray-800 mb-4">Añadir Nuevo Plato</h2>
+            <form id="dishForm" class="space-y-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                <input type="hidden" id="dishId">
+                
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 mb-1">Nombre del Plato</label>
+                    <input type="text" id="dishName" required class="w-full p-2.5 border rounded-lg text-sm bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 mb-1">Categoría Principal</label>
+                        <select id="dishCategory" required class="w-full p-2.5 border rounded-lg text-sm bg-gray-50">
+                            <option value="">Seleccionar...</option>
+                            <option value="Primero">Primero</option>
+                            <option value="Segundo">Segundo</option>
+                        </select>
+                    </div>
+                    
+                    <div id="subcatPrimeroContainer" class="hidden">
+                        <label class="block text-xs font-semibold text-gray-500 mb-1">Tipo de Primero</label>
+                        <select id="dishSubcategory" class="w-full p-2.5 border rounded-lg text-sm bg-gray-50">
+                            <option value="Verdura">Verdura</option>
+                            <option value="Cuchara">Cuchara</option>
+                            <option value="Tenedor">Tenedor</option>
+                        </select>
+                    </div>
+
+                    <div id="protSegundoContainer" class="hidden">
+                        <label class="block text-xs font-semibold text-gray-500 mb-1">Proteína Segundo</label>
+                        <select id="dishProtein" class="w-full p-2.5 border rounded-lg text-sm bg-gray-50">
+                            <option value="Carne">Carne</option>
+                            <option value="Pescado">Pescado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 mb-1">Especie Animal</label>
+                        <select id="dishSpecies" required class="w-full p-2.5 border rounded-lg text-sm bg-gray-50">
+                            <option value="Cerdo">Cerdo</option>
+                            <option value="Pollo/Pavo">Pollo/Pavo</option>
+                            <option value="Ternera">Ternera</option>
+                            <option value="Pescado">Pescado</option>
+                            <option value="Vegetariano/Ninguno">Vegetariano/Ninguno</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 mb-1">Técnica</label>
+                        <select id="dishTechnique" required class="w-full p-2.5 border rounded-lg text-sm bg-gray-50">
+                            <option value="Guisado">Guisado</option>
+                            <option value="Asado">Asado</option>
+                            <option value="Brasa/Plancha">Brasa/Plancha</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 mb-1">Dificultad (Prioridad Lunes)</label>
+                    <select id="dishDifficulty" required class="w-full p-2.5 border rounded-lg text-sm bg-gray-50">
+                        <option value="Fácil/Rápido">Fácil / Rápido</option>
+                        <option value="Normal/Complejo">Normal / Complejo</option>
+                    </select>
+                </div>
+
+                <div class="border-t pt-4 mt-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="block text-sm font-semibold text-gray-800">Ingredientes</label>
+                        <button type="button" id="addIngredientBtn" class="text-indigo-600 font-bold text-xs bg-indigo-50 px-2 py-1 rounded">+ Añadir</button>
+                    </div>
+                    <div id="ingredientsContainer" class="space-y-2">
+                        <!-- Las filas de ingredientes irán aquí -->
+                    </div>
+                </div>
+
+                <div class="pt-4 flex gap-2">
+                    <button type="button" id="btnCancel" class="hidden flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg font-bold text-sm shadow-sm">Cancelar</button>
+                    <button type="submit" class="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-bold text-sm shadow-md">Guardar Plato</button>
+                </div>
+            </form>
+        </main>
+
+        <!-- VISTA 3: AJUSTES / STOCK -->
+        <main id="view-settings" class="p-4 hidden">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Ajustes y Datos</h2>
+            
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-4">
+                <div>
+                    <h3 class="font-bold text-gray-700 text-sm mb-2">Copia de Seguridad del Recetario</h3>
+                    <p class="text-xs text-gray-500 mb-4">Exporta tu banco de platos para guardarlo de forma segura o impórtalo en otro dispositivo.</p>
+                    
+                    <div class="flex flex-col gap-3">
+                        <button id="btnExport" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            Exportar Recetario (JSON)
+                        </button>
+                        
+                        <label class="w-full bg-blue-500 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2 cursor-pointer text-center">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                            Importar Recetario (JSON)
+                            <input type="file" id="fileImport" accept=".json" class="hidden">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="border-t pt-4 mt-4">
+                    <button id="btnWipeData" class="w-full bg-red-100 text-red-600 py-3 rounded-lg font-bold text-sm shadow-sm">
+                        Borrar Todos los Datos
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- NAVEGACIÓN INFERIOR -->
+    <nav class="bg-white border-t border-gray-200 h-16 flex-shrink-0 flex justify-around items-center absolute bottom-0 w-full z-10 pb-safe">
+        <button class="nav-btn active flex flex-col items-center justify-center w-full h-full text-indigo-600" data-target="view-banco">
+            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            <span class="text-[10px] font-semibold">Banco Platos</span>
+        </button>
+        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400" data-target="view-form">
+            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            <span class="text-[10px] font-semibold">Añadir</span>
+        </button>
+        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400" data-target="view-settings">
+            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            <span class="text-[10px] font-semibold">Ajustes</span>
+        </button>
+    </nav>
+
+    <!-- LOGICA JAVASCRIPT -->
+    <script>
+        // --- 1. DATOS Y ESTADO INICIAL ---
+        const seedDishes = [
+            { id: "1", nombre: "Lentejas castellanas con embutido", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "Cerdo", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Lentejas secas", cantidad: 12, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Chorizo", cantidad: 3, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "2", nombre: "Crema de verduras desde cero", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "Vegetariano/Ninguno", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Calabacín", cantidad: 10, unidad: "kg", categoria_proveedor: "Verduras y frutas"}, {nombre: "Puerro", cantidad: 4, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] },
+            { id: "3", nombre: "Macarrones con tomate y orégano", categoria: "Primero", subcategoria_primero: "Tenedor", proteina_segundo: "", especie_animal: "Vegetariano/Ninguno", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Macarrones", cantidad: 15, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Tomate frito", cantidad: 10, unidad: "L", categoria_proveedor: "Secos"}] },
+            { id: "4", nombre: "Judías verdes salteadas con jamón", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Judías verdes", cantidad: 18, unidad: "kg", categoria_proveedor: "Congelados"}, {nombre: "Jamón picado", cantidad: 2, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "5", nombre: "Sopa de fideos con pollo", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "Pollo/Pavo", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Fideos finos", cantidad: 5, unidad: "kg", categoria_proveedor: "Secos"}] },
+            { id: "6", nombre: "Magro de cerdo guisado con guisantes", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Magro de cerdo", cantidad: 30, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "7", nombre: "Cinta de lomo a la plancha", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Cinta de lomo", cantidad: 35, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "8", nombre: "Alitas confitadas al horno", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo/Pavo", tecnica: "Asado", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Alitas de pollo", cantidad: 40, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "9", nombre: "Muslos de pollo asados en su jugo", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo/Pavo", tecnica: "Asado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Muslos de pollo", cantidad: 180, unidad: "ud", categoria_proveedor: "Carne"}] },
+            { id: "10", nombre: "Merluza congelada al horno", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Pescado", especie_animal: "Pescado", tecnica: "Asado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Filetes de merluza", cantidad: 30, unidad: "kg", categoria_proveedor: "Congelados"}] },
+            { id: "11", nombre: "Bacaladillas rebozadas", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Pescado", especie_animal: "Pescado", tecnica: "Brasa/Plancha", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Bacaladillas limpias", cantidad: 25, unidad: "kg", categoria_proveedor: "Pescado"}, {nombre: "Harina", cantidad: 2, unidad: "kg", categoria_proveedor: "Secos"}] },
+            { id: "12", nombre: "Tacos de ternera guisados al vino", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Ternera", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Ternera para guisar", cantidad: 35, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "13", nombre: "Longaniza fresca a la brasa", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Longaniza fresca", cantidad: 30, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "14", nombre: "Tortilla de patatas casera", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Vegetariano/Ninguno", tecnica: "Brasa/Plancha", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Huevos", cantidad: 200, unidad: "ud", categoria_proveedor: "Lácteos"}, {nombre: "Patatas peladas", cantidad: 25, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] }
+        ];
+
+        const proveedorCategorias = ["Carne", "Pescado", "Lácteos", "Verduras y frutas", "Secos", "Congelados"];
+        let dishes = [];
+        let activeFilter = 'all';
+
+        // --- 2. INICIALIZACIÓN ---
+        function init() {
+            const stored = localStorage.getItem('menuCocinaPro_dishes');
+            if (stored) {
+                dishes = JSON.parse(stored);
+            } else {
+                dishes = [...seedDishes];
+                saveDishes();
+            }
+            setupEventListeners();
+            renderDishes();
+        }
+
+        function saveDishes() {
+            localStorage.setItem('menuCocinaPro_dishes', JSON.stringify(dishes));
+        }
+
+        // --- 3. NAVEGACIÓN Y VISTAS ---
+        function setupEventListeners() {
+            // Tabs
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const targetId = e.currentTarget.getAttribute('data-target');
+                    switchView(targetId);
+                    
+                    document.querySelectorAll('.nav-btn').forEach(b => {
+                        b.classList.remove('text-indigo-600', 'active');
+                        b.classList.add('text-gray-400');
+                    });
+                    e.currentTarget.classList.remove('text-gray-400');
+                    e.currentTarget.classList.add('text-indigo-600', 'active');
+
+                    if (targetId === 'view-form' && !document.getElementById('dishId').value) {
+                        resetForm();
+                    }
+                });
+            });
+
+            // Filtros
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-btn').forEach(b => {
+                        b.classList.remove('bg-indigo-600', 'text-white');
+                        b.classList.add('bg-white', 'text-gray-600');
+                    });
+                    e.currentTarget.classList.remove('bg-white', 'text-gray-600');
+                    e.currentTarget.classList.add('bg-indigo-600', 'text-white');
+                    activeFilter = e.currentTarget.getAttribute('data-filter');
+                    renderDishes();
+                });
+            });
+
+            // Buscador
+            document.getElementById('searchInput').addEventListener('input', renderDishes);
+
+            // Dinamismo del formulario (Campos condicionales)
+            const catSelect = document.getElementById('dishCategory');
+            catSelect.addEventListener('change', () => {
+                const isPrimero = catSelect.value === 'Primero';
+                const isSegundo = catSelect.value === 'Segundo';
+                document.getElementById('subcatPrimeroContainer').classList.toggle('hidden', !isPrimero);
+                document.getElementById('protSegundoContainer').classList.toggle('hidden', !isSegundo);
+            });
+
+            // Botón añadir ingrediente
+            document.getElementById('addIngredientBtn').addEventListener('click', () => addIngredientRow());
+
+            // Enviar formulario
+            document.getElementById('dishForm').addEventListener('submit', handleFormSubmit);
+
+            // Botón cancelar edición
+            document.getElementById('btnCancel').addEventListener('click', () => {
+                resetForm();
+                document.querySelector('.nav-btn[data-target="view-banco"]').click();
+            });
+
+            // Exportar e Importar
+            document.getElementById('btnExport').addEventListener('click', exportData);
+            document.getElementById('fileImport').addEventListener('change', importData);
+            document.getElementById('btnWipeData').addEventListener('click', () => {
+                if(confirm("¿Estás seguro de borrar todo? Se restaurarán los datos de prueba.")) {
+                    localStorage.removeItem('menuCocinaPro_dishes');
+                    init();
+                    alert("Datos restaurados.");
+                }
+            });
+        }
+
+        function switchView(viewId) {
+            ['view-banco', 'view-form', 'view-settings'].forEach(id => {
+                const el = document.getElementById(id);
+                if (id === viewId) {
+                    el.classList.remove('hidden');
+                    el.classList.add('block');
+                } else {
+                    el.classList.remove('block');
+                    el.classList.add('hidden');
+                }
+            });
+        }
+
+        // --- 4. RENDERIZADO DEL BANCO ---
+        function renderDishes() {
+            const list = document.getElementById('dishesList');
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            
+            list.innerHTML = '';
+            
+            const filtered = dishes.filter(d => {
+                // Filtro Texto
+                if (searchVal && !d.nombre.toLowerCase().includes(searchVal)) return false;
+                
+                // Filtro Botones
+                if (activeFilter === 'all') return true;
+                if (activeFilter === 'Primero' || activeFilter === 'Segundo') return d.categoria === activeFilter;
+                if (activeFilter === 'Cuchara' || activeFilter === 'Verdura') return d.subcategoria_primero === activeFilter;
+                if (activeFilter === 'Carne' || activeFilter === 'Pescado') return d.proteina_segundo === activeFilter;
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                list.innerHTML = '<p class="text-center text-gray-500 mt-10 text-sm">No se encontraron platos.</p>';
+                return;
+            }
+
+            filtered.forEach(d => {
+                const tagType = d.categoria === 'Primero' ? d.subcategoria_primero : d.proteina_segundo;
+                const difficultyColor = d.dificultad_lunes.includes("Fácil") ? "bg-emerald-100 text-emerald-700" : "bg-orange-100 text-orange-700";
+
+                const card = document.createElement('div');
+                card.className = "bg-white p-3.5 rounded-xl shadow-sm border border-gray-200 relative";
+                card.innerHTML = `
+                    <div class="pr-12">
+                        <h3 class="font-bold text-gray-800 text-sm leading-tight mb-1.5">${d.nombre}</h3>
+                        <div class="flex flex-wrap gap-1.5 mt-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 text-indigo-700">${d.categoria}</span>
+                            ${tagType ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-600">${tagType}</span>` : ''}
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 text-purple-700">${d.especie_animal}</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-100 text-gray-600">${d.tecnica}</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${difficultyColor}">${d.dificultad_lunes}</span>
+                        </div>
+                    </div>
+                    <div class="absolute top-3 right-3 flex flex-col gap-2">
+                        <button onclick="editDish('${d.id}')" class="text-blue-500 bg-blue-50 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
+                        <button onclick="deleteDish('${d.id}')" class="text-red-500 bg-red-50 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        // --- 5. LÓGICA DEL FORMULARIO ---
+        function addIngredientRow(ing = null) {
+            const container = document.getElementById('ingredientsContainer');
+            const row = document.createElement('div');
+            row.className = "flex gap-2 items-center mb-2 ingredient-row animate-fade-in";
+            
+            const catsHTML = proveedorCategorias.map(c => `<option value="${c}" ${ing && ing.categoria_proveedor === c ? 'selected' : ''}>${c}</option>`).join('');
+
+            row.innerHTML = `
+                <input type="text" placeholder="Ingrediente..." class="w-2/5 p-2 border rounded-md text-xs ing-nombre" value="${ing ? ing.nombre : ''}" required>
+                <input type="number" step="0.01" placeholder="Cant." class="w-1/5 p-2 border rounded-md text-xs ing-cantidad" value="${ing ? ing.cantidad : ''}" required>
+                <select class="w-1/5 p-2 border rounded-md text-xs ing-unidad bg-white">
+                    <option value="kg" ${ing && ing.unidad === 'kg' ? 'selected' : ''}>kg</option>
+                    <option value="ud" ${ing && ing.unidad === 'ud' ? 'selected' : ''}>ud</option>
+                    <option value="L" ${ing && ing.unidad === 'L' ? 'selected' : ''}>L</option>
+                </select>
+                <select class="w-1/5 p-2 border rounded-md text-xs ing-categoria bg-white">
+                    ${catsHTML}
+                </select>
+                <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold p-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            `;
+            container.appendChild(row);
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('dishId').value || Date.now().toString();
+            const category = document.getElementById('dishCategory').value;
+            
+            // Recoger ingredientes
+            const ingRows = document.querySelectorAll('.ingredient-row');
+            const ingredientes = Array.from(ingRows).map(row => ({
+                nombre: row.querySelector('.ing-nombre').value,
+                cantidad: parseFloat(row.querySelector('.ing-cantidad').value),
+                unidad: row.querySelector('.ing-unidad').value,
+                categoria_proveedor: row.querySelector('.ing-categoria').value
+            }));
+
+            const newDish = {
+                id: id,
+                nombre: document.getElementById('dishName').value,
+                categoria: category,
+                subcategoria_primero: category === 'Primero' ? document.getElementById('dishSubcategory').value : "",
+                proteina_segundo: category === 'Segundo' ? document.getElementById('dishProtein').value : "",
+                especie_animal: document.getElementById('dishSpecies').value,
+                tecnica: document.getElementById('dishTechnique').value,
+                dificultad_lunes: document.getElementById('dishDifficulty').value,
+                ingredientes: ingredientes
+            };
+
+            const existingIndex = dishes.findIndex(d => d.id === id);
+            if (existingIndex >= 0) {
+                dishes[existingIndex] = newDish;
+            } else {
+                dishes.unshift(newDish);
+            }
+
+            saveDishes();
+            resetForm();
+            renderDishes();
+            
+            // Volver a Banco de Platos
+            document.querySelector('.nav-btn[data-target="view-banco"]').click();
+        }
+
+        function editDish(id) {
+            const dish = dishes.find(d => d.id === id);
+            if(!dish) return;
+
+            document.getElementById('dishId').value = dish.id;
+            document.getElementById('dishName').value = dish.nombre;
+            document.getElementById('dishCategory').value = dish.categoria;
+            
+            // Disparar evento change manual para mostrar/ocultar campos
+            document.getElementById('dishCategory').dispatchEvent(new Event('change'));
+            
+            if(dish.categoria === 'Primero') document.getElementById('dishSubcategory').value = dish.subcategoria_primero;
+            if(dish.categoria === 'Segundo') document.getElementById('dishProtein').value = dish.proteina_segundo;
+            
+            document.getElementById('dishSpecies').value = dish.especie_animal;
+            document.getElementById('dishTechnique').value = dish.tecnica;
+            document.getElementById('dishDifficulty').value = dish.dificultad_lunes;
+
+            const container = document.getElementById('ingredientsContainer');
+            container.innerHTML = '';
+            dish.ingredientes.forEach(ing => addIngredientRow(ing));
+
+            document.getElementById('form-title').innerText = "Editar Plato";
+            document.getElementById('btnCancel').classList.remove('hidden');
+            
+            // Navegar a la pestaña
+            document.querySelector('.nav-btn[data-target="view-form"]').click();
+        }
+
+        function deleteDish(id) {
+            if(confirm('¿Estás seguro de que deseas eliminar este plato?')) {
+                dishes = dishes.filter(d => d.id !== id);
+                saveDishes();
+                renderDishes();
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('dishForm').reset();
+            document.getElementById('dishId').value = '';
+            document.getElementById('form-title').innerText = "Añadir Nuevo Plato";
+            document.getElementById('ingredientsContainer').innerHTML = '';
+            document.getElementById('dishCategory').dispatchEvent(new Event('change'));
+            document.getElementById('btnCancel').classList.add('hidden');
+            // Añadir una fila vacía por defecto
+            addIngredientRow();
+        }
+
+        // --- 6. EXPORTAR / IMPORTAR ---
+        function exportData() {
+            const dataStr = JSON.stringify(dishes, null, 2);
+            const blob = new Blob([dataStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `MenuCocinaPro_Backup_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (Array.isArray(imported)) {
+                        dishes = imported;
+                        saveDishes();
+                        renderDishes();
+                        alert("Recetario importado con éxito.");
+                    } else {
+                        alert("El archivo no tiene el formato correcto.");
+                    }
+                } catch (error) {
+                    alert("Error leyendo el archivo JSON.");
+                }
+                event.target.value = ""; // reset input
+            };
+            reader.readAsText(file);
+        }
+
+        // Iniciar
+        init();
+    </script>
+</body>
+</html>
