@@ -7,7 +7,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ChefTrack">
     <meta name="theme-color" content="#4f46e5">
-    <title>ChefTrack - Gestión de Menús y Stock</title>
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='50'>👨‍🍳</text></svg>">
+    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22ChefTrack%22%2C%22short_name%22%3A%22ChefTrack%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%234f46e5%22%2C%22theme_color%22%3A%22%234f46e5%22%7D">
+    <title>ChefTrack - Gestión de Menús, Stock y Compras</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Ajustes para iPhone (Safe Area) y ocultar scrollbars */
@@ -27,7 +29,7 @@
 </head>
 <body class="bg-gray-100 text-gray-800 h-screen flex flex-col font-sans overflow-hidden">
 
-    <!-- CABECERA -->
+    <!-- CABECERA PRINCIPAL -->
     <header class="bg-indigo-600 text-white h-14 flex-shrink-0 flex items-center justify-center shadow-md relative z-10">
         <div class="flex items-center gap-2">
             <svg class="w-6 h-6 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
@@ -35,7 +37,7 @@
         </div>
     </header>
 
-    <!-- CONTENEDOR DE VISTAS -->
+    <!-- CONTENEDOR PRINCIPAL DE VISTAS -->
     <div class="flex-1 overflow-y-auto no-scrollbar relative pb-20" id="main-container">
         
         <!-- VISTA 1: BANCO DE PLATOS -->
@@ -45,14 +47,14 @@
                 <input type="text" id="searchInput" placeholder="Buscar plato..." class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
             </div>
 
-            <!-- Filtros Nivel 1 (Principales) -->
+            <!-- Filtros Nivel 1 -->
             <div class="flex gap-2 mb-3">
                 <button class="filter-lvl1 active bg-indigo-600 text-white px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="all">Todos</button>
                 <button class="filter-lvl1 bg-white text-gray-600 border border-gray-300 px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="Primero">Primeros</button>
                 <button class="filter-lvl1 bg-white text-gray-600 border border-gray-300 px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="Segundo">Segundos</button>
             </div>
 
-            <!-- Filtros Nivel 2 (Subcategorías de Primeros) -->
+            <!-- Filtros Nivel 2 (Primeros) -->
             <div id="filters-primeros" class="hidden flex gap-2 overflow-x-auto no-scrollbar mb-4 pb-1">
                 <button class="filter-lvl2 active bg-indigo-100 text-indigo-700 border border-indigo-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm" data-filter="all">Todas las Subcategorías</button>
                 <button class="filter-lvl2 bg-white text-gray-600 border border-gray-300 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Verdura">Verdura</button>
@@ -60,7 +62,7 @@
                 <button class="filter-lvl2 bg-white text-gray-600 border border-gray-300 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Tenedor">Tenedor</button>
             </div>
 
-            <!-- Filtros Nivel 2 (Proteínas de Segundos) -->
+            <!-- Filtros Nivel 2 (Segundos) -->
             <div id="filters-segundos" class="hidden flex gap-2 overflow-x-auto no-scrollbar mb-4 pb-1">
                 <button class="filter-lvl2 active bg-indigo-100 text-indigo-700 border border-indigo-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm" data-filter="all">Todas las Proteínas</button>
                 <button class="filter-lvl2 bg-white text-gray-600 border border-gray-300 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Carne">Carne</button>
@@ -68,9 +70,7 @@
             </div>
 
             <!-- Lista de Platos -->
-            <div id="dishesList" class="space-y-3">
-                <!-- Se inyectan con JS -->
-            </div>
+            <div id="dishesList" class="space-y-3"></div>
         </main>
 
         <!-- VISTA 2: AÑADIR / EDITAR PLATO -->
@@ -143,12 +143,10 @@
 
                 <div class="border-t pt-4 mt-4">
                     <div class="flex justify-between items-center mb-2">
-                        <label class="block text-sm font-semibold text-gray-800">Ingredientes</label>
+                        <label class="block text-sm font-semibold text-gray-800">Ingredientes (por ración)</label>
                         <button type="button" id="addIngredientBtn" class="text-indigo-600 font-bold text-xs bg-indigo-50 px-2 py-1 rounded">+ Añadir</button>
                     </div>
-                    <div id="ingredientsContainer" class="space-y-2">
-                        <!-- Las filas de ingredientes irán aquí -->
-                    </div>
+                    <div id="ingredientsContainer" class="space-y-2"></div>
                 </div>
 
                 <div class="pt-4 flex gap-2">
@@ -160,7 +158,7 @@
 
         <!-- VISTA 3: STOCK Y PREVISIÓN -->
         <main id="view-stock" class="p-4 hidden space-y-5">
-            <!-- 1. Configuración de Comensales y Margen -->
+            <!-- Comensales -->
             <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                 <div class="flex items-center gap-2 mb-3">
                     <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
@@ -185,7 +183,7 @@
                 </div>
             </section>
 
-            <!-- 2. Registro de Stock de Materia Prima -->
+            <!-- Materia Prima -->
             <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                 <div class="flex justify-between items-center mb-3">
                     <div class="flex items-center gap-2">
@@ -227,12 +225,10 @@
                     <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg font-bold text-xs shadow-sm">+ Añadir Materia Prima</button>
                 </form>
 
-                <div id="rawStockList" class="space-y-2">
-                    <!-- Inyectado por JS -->
-                </div>
+                <div id="rawStockList" class="space-y-2"></div>
             </section>
 
-            <!-- 3. Stock de Platos Ya Elaborados -->
+            <!-- Platos Elaborados -->
             <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                 <div class="flex items-center gap-2 mb-3">
                     <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
@@ -265,47 +261,96 @@
                     <button type="submit" class="w-full bg-emerald-600 text-white py-2 rounded-lg font-bold text-xs shadow-sm">+ Registrar Plato Elaborado</button>
                 </form>
 
-                <div id="prepStockList" class="space-y-2">
-                    <!-- Inyectado por JS -->
-                </div>
+                <div id="prepStockList" class="space-y-2"></div>
             </section>
         </main>
 
-        <!-- VISTA 4: GENERAR MENÚ SEMANAL (NUEVO FASE 3) -->
+        <!-- VISTA 4: GENERAR MENÚ Y COMPRAS (FASE 3 & FASE 4) -->
         <main id="view-generator" class="p-4 hidden space-y-4">
-            <!-- Botón de Generación Principal -->
-            <div class="bg-indigo-900 text-white p-4 rounded-xl shadow-lg border border-indigo-800 text-center">
-                <h2 class="text-lg font-bold mb-1">Motor de Planificación</h2>
-                <p class="text-xs text-indigo-200 mb-3">Aplica reglas de balanceo, control de especies, técnicas y aprovechamiento de stock.</p>
-                <button id="btnGenerateMenu" class="w-full bg-amber-400 hover:bg-amber-500 text-indigo-950 font-black py-3.5 px-4 rounded-xl text-sm shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
-                    <span class="text-lg">🎲</span> GENERAR MENÚ SEMANAL
+            <!-- Selector de Sub-pestaña (Menú vs Lista de Compra) -->
+            <div class="flex bg-gray-200 p-1 rounded-xl">
+                <button id="btnSubTabMenu" class="flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all bg-white text-indigo-700 shadow-sm">
+                    📅 Menú Semanal
+                </button>
+                <button id="btnSubTabShopping" class="flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all text-gray-600">
+                    🛒 Lista de Compra
                 </button>
             </div>
 
-            <!-- Tabs de Selección de Día -->
-            <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1" id="dayTabsContainer">
-                <button class="generator-day-tab active bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap" data-day="Lunes">Lunes</button>
-                <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Martes">Martes</button>
-                <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Miércoles">Miércoles</button>
-                <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Jueves">Jueves</button>
-                <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Viernes">Viernes</button>
-                <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Todos">Ver Todos</button>
+            <!-- CONTENIDO DE SUB-PESTAÑA 1: MENÚ SEMANAL -->
+            <div id="subtab-menu-content" class="space-y-4">
+                <!-- Botón de Generación Principal -->
+                <div class="bg-indigo-900 text-white p-4 rounded-xl shadow-lg border border-indigo-800 text-center">
+                    <h2 class="text-lg font-bold mb-1">Motor de Planificación</h2>
+                    <p class="text-xs text-indigo-200 mb-3">Aplica reglas de balanceo, control de especies, técnicas y gestión de stock.</p>
+                    
+                    <div class="flex flex-col gap-2">
+                        <button id="btnGenerateMenu" class="w-full bg-amber-400 hover:bg-amber-500 text-indigo-950 font-black py-3 px-4 rounded-xl text-sm shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
+                            <span class="text-base">🎲</span> GENERAR MENÚ SEMANAL
+                        </button>
+
+                        <div class="flex gap-2">
+                            <button id="btnSaveToHistory" class="flex-1 bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-2 px-3 rounded-lg text-xs flex items-center justify-center gap-1 border border-indigo-600 shadow-sm">
+                                <span>💾</span> Guardar Histórico
+                            </button>
+                            <button id="btnDownloadMenuTxt" class="flex-1 bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-2 px-3 rounded-lg text-xs flex items-center justify-center gap-1 border border-indigo-600 shadow-sm">
+                                <span>📋</span> Descargar Menú (.txt)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs de Selección de Día -->
+                <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1" id="dayTabsContainer">
+                    <button class="generator-day-tab active bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap" data-day="Lunes">Lunes</button>
+                    <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Martes">Martes</button>
+                    <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Miércoles">Miércoles</button>
+                    <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Jueves">Jueves</button>
+                    <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Viernes">Viernes</button>
+                    <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Todos">Ver Todos</button>
+                </div>
+
+                <!-- Contenedor del Menú Generado -->
+                <div id="generatedMenuContainer" class="space-y-6"></div>
             </div>
 
-            <!-- Contenedor del Menú Generado -->
-            <div id="generatedMenuContainer" class="space-y-6">
-                <!-- Se inyecta por JS -->
+            <!-- CONTENIDO DE SUB-PESTAÑA 2: LISTA DE COMPRA (FASE 4) -->
+            <div id="subtab-shopping-content" class="hidden space-y-4">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-gray-800 text-sm">Cálculo por Proveedores</h3>
+                        <span class="text-[10px] font-bold bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full" id="shoppingRacionesBadge">130 Raciones</span>
+                    </div>
+                    <p class="text-xs text-gray-500 leading-snug">Calculado automáticamente restando el stock existente y aplicando la logística dividida de carne.</p>
+
+                    <button id="btnDownloadShoppingTxt" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-3 rounded-lg text-xs flex items-center justify-center gap-2 shadow-sm">
+                        <span>📄</span> Descargar Lista de la Compra (.txt)
+                    </button>
+                </div>
+
+                <!-- Bloques de Categorías -->
+                <div id="shoppingListBreakdown" class="space-y-4"></div>
             </div>
         </main>
 
-        <!-- VISTA 5: AJUSTES / COPIA DE SEGURIDAD -->
-        <main id="view-settings" class="p-4 hidden">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">Ajustes y Datos</h2>
+        <!-- VISTA 5: AJUSTES Y HISTÓRICO -->
+        <main id="view-settings" class="p-4 hidden space-y-5">
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Ajustes y Datos</h2>
             
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-4">
+            <!-- HISTÓRICO DE MENÚS -->
+            <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                <div class="flex items-center gap-2 mb-3">
+                    <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <h3 class="font-bold text-gray-800 text-sm">Histórico de Menús Pasados</h3>
+                </div>
+                <div id="historyListContainer" class="space-y-2"></div>
+            </section>
+
+            <!-- RESPALDOS JSON -->
+            <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-4">
                 <div>
                     <h3 class="font-bold text-gray-700 text-sm mb-2">Copia de Seguridad Integral</h3>
-                    <p class="text-xs text-gray-500 mb-4">Exporta o importa el recetario, la previsión de comensales, el stock y el menú generado.</p>
+                    <p class="text-xs text-gray-500 mb-4">Exporta o importa el recetario, comensales, stock, menú actual y el histórico.</p>
                     
                     <div class="flex flex-col gap-3">
                         <button id="btnExport" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2">
@@ -326,7 +371,7 @@
                         Borrar Todos los Datos y Restaurar
                     </button>
                 </div>
-            </div>
+            </section>
         </main>
     </div>
 
@@ -347,13 +392,11 @@
                 <input type="text" id="modalSearchInput" placeholder="Buscar alternativa..." class="w-full p-2.5 border rounded-lg text-xs bg-white">
             </div>
 
-            <div class="p-4 overflow-y-auto space-y-2 flex-1" id="modalDishList">
-                <!-- Inyectado por JS -->
-            </div>
+            <div class="p-4 overflow-y-auto space-y-2 flex-1" id="modalDishList"></div>
         </div>
     </div>
 
-    <!-- NAVEGACIÓN INFERIOR (5 PESTAÑAS) -->
+    <!-- NAVEGACIÓN INFERIOR -->
     <nav class="bg-white border-t border-gray-200 h-16 flex-shrink-0 flex justify-around items-center absolute bottom-0 w-full z-10 pb-safe">
         <button class="nav-btn active flex flex-col items-center justify-center w-full h-full text-indigo-600" data-target="view-banco">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
@@ -377,24 +420,24 @@
         </button>
     </nav>
 
-    <!-- LOGICA JAVASCRIPT -->
+    <!-- LOGICA JAVASCRIPT INTEGRADA -->
     <script>
-        // --- 1. DATOS Y PRECARGA ---
+        // --- 1. DATOS PREDEFINIDOS Y ESTADO ---
         const seedDishes = [
-            { id: "1", nombre: "Lentejas castellanas con embutido", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "Cerdo", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Lentejas secas", cantidad: 12, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Chorizo", cantidad: 3, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "2", nombre: "Crema de verduras desde cero", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "Vegetariano/Ninguno", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Calabacín", cantidad: 10, unidad: "kg", categoria_proveedor: "Verduras y frutas"}, {nombre: "Puerro", cantidad: 4, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] },
-            { id: "3", nombre: "Macarrones con tomate y orégano", categoria: "Primero", subcategoria_primero: "Tenedor", proteina_segundo: "", especie_animal: "Vegetariano/Ninguno", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Macarrones", cantidad: 15, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Tomate frito", cantidad: 10, unidad: "L", categoria_proveedor: "Secos"}] },
-            { id: "4", nombre: "Judías verdes salteadas con jamón", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Judías verdes", cantidad: 18, unidad: "kg", categoria_proveedor: "Congelados"}, {nombre: "Jamón picado", cantidad: 2, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "5", nombre: "Sopa de fideos con pollo", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "Pollo/Pavo", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Fideos finos", cantidad: 5, unidad: "kg", categoria_proveedor: "Secos"}] },
-            { id: "6", nombre: "Magro de cerdo guisado con guisantes", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Magro de cerdo", cantidad: 30, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "7", nombre: "Cinta de lomo a la plancha", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Cinta de lomo", cantidad: 35, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "8", nombre: "Alitas confitadas al horno", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo/Pavo", tecnica: "Asado", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Alitas de pollo", cantidad: 40, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "9", nombre: "Muslos de pollo asados en su jugo", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo/Pavo", tecnica: "Asado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Muslos de pollo", cantidad: 180, unidad: "ud", categoria_proveedor: "Carne"}] },
-            { id: "10", nombre: "Merluza congelada al horno", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Pescado", especie_animal: "Pescado", tecnica: "Asado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Filetes de merluza", cantidad: 30, unidad: "kg", categoria_proveedor: "Congelados"}] },
-            { id: "11", nombre: "Bacaladillas rebozadas", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Pescado", especie_animal: "Pescado", tecnica: "Brasa/Plancha", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Bacaladillas limpias", cantidad: 25, unidad: "kg", categoria_proveedor: "Pescado"}, {nombre: "Harina", cantidad: 2, unidad: "kg", categoria_proveedor: "Secos"}] },
-            { id: "12", nombre: "Tacos de ternera guisados al vino", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Ternera", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Ternera para guisar", cantidad: 35, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "13", nombre: "Longaniza fresca a la brasa", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Longaniza fresca", cantidad: 30, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "14", nombre: "Tortilla de patatas casera", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Vegetariano/Ninguno", tecnica: "Brasa/Plancha", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Huevos", cantidad: 200, unidad: "ud", categoria_proveedor: "Lácteos"}, {nombre: "Patatas peladas", cantidad: 25, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] }
+            { id: "1", nombre: "Lentejas castellanas con embutido", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "Cerdo", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Lentejas secas", cantidad: 0.10, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Chorizo", cantidad: 0.025, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "2", nombre: "Crema de verduras desde cero", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "Vegetariano/Ninguno", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Calabacín", cantidad: 0.10, unidad: "kg", categoria_proveedor: "Verduras y frutas"}, {nombre: "Puerro", cantidad: 0.04, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] },
+            { id: "3", nombre: "Macarrones con tomate y orégano", categoria: "Primero", subcategoria_primero: "Tenedor", proteina_segundo: "", especie_animal: "Vegetariano/Ninguno", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Macarrones", cantidad: 0.12, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Tomate frito", cantidad: 0.08, unidad: "L", categoria_proveedor: "Secos"}] },
+            { id: "4", nombre: "Judías verdes salteadas con jamón", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Judías verdes", cantidad: 0.15, unidad: "kg", categoria_proveedor: "Congelados"}, {nombre: "Jamón picado", cantidad: 0.02, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "5", nombre: "Sopa de fideos con pollo", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "Pollo/Pavo", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Fideos finos", cantidad: 0.04, unidad: "kg", categoria_proveedor: "Secos"}] },
+            { id: "6", nombre: "Magro de cerdo guisado con guisantes", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Magro de cerdo", cantidad: 0.22, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "7", nombre: "Cinta de lomo a la plancha", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Cinta de lomo", cantidad: 0.25, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "8", nombre: "Alitas confitadas al horno", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo/Pavo", tecnica: "Asado", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Alitas de pollo", cantidad: 0.30, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "9", nombre: "Muslos de pollo asados en su jugo", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo/Pavo", tecnica: "Asado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Muslos de pollo", cantidad: 1.0, unidad: "ud", categoria_proveedor: "Carne"}] },
+            { id: "10", nombre: "Merluza congelada al horno", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Pescado", especie_animal: "Pescado", tecnica: "Asado", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Filetes de merluza", cantidad: 0.22, unidad: "kg", categoria_proveedor: "Congelados"}] },
+            { id: "11", nombre: "Bacaladillas rebozadas", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Pescado", especie_animal: "Pescado", tecnica: "Brasa/Plancha", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Bacaladillas limpias", cantidad: 0.20, unidad: "kg", categoria_proveedor: "Pescado"}, {nombre: "Harina", cantidad: 0.02, unidad: "kg", categoria_proveedor: "Secos"}] },
+            { id: "12", nombre: "Tacos de ternera guisados al vino", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Ternera", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Ternera para guisar", cantidad: 0.25, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "13", nombre: "Longaniza fresca a la brasa", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", ingredientes: [{nombre: "Longaniza fresca", cantidad: 0.22, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "14", nombre: "Tortilla de patatas casera", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Vegetariano/Ninguno", tecnica: "Brasa/Plancha", dificultad_lunes: "Normal/Complejo", ingredientes: [{nombre: "Huevos", cantidad: 1.5, unidad: "ud", categoria_proveedor: "Lácteos"}, {nombre: "Patatas peladas", cantidad: 0.20, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] }
         ];
 
         const seedSettings = { comensales: 100, margenActivo: true };
@@ -409,20 +452,23 @@
         const proveedorCategorias = ["Carne", "Pescado", "Lácteos", "Verduras y frutas", "Secos", "Congelados"];
         const daysList = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
 
-        // Estado
+        // Estado Global
         let dishes = [];
         let settings = { ...seedSettings };
         let rawStock = [];
         let preparedStock = [];
         let currentMenu = null;
+        let historyMenus = [];
 
         let activeFilterLevel1 = 'all';
         let activeFilterLevel2 = 'all';
         let selectedGeneratorDay = 'Lunes';
-        let swapTarget = null; // { dayName, slotIndex }
+        let swapTarget = null;
 
         // --- 2. INICIALIZACIÓN ---
         function init() {
+            registerServiceWorker();
+
             const storedDishes = localStorage.getItem('chefTrack_dishes') || localStorage.getItem('menuCocinaPro_dishes');
             dishes = storedDishes ? JSON.parse(storedDishes) : [...seedDishes];
 
@@ -438,11 +484,30 @@
             const storedMenu = localStorage.getItem('chefTrack_currentMenu');
             currentMenu = storedMenu ? JSON.parse(storedMenu) : null;
 
+            const storedHistory = localStorage.getItem('chefTrack_historyMenus');
+            historyMenus = storedHistory ? JSON.parse(storedHistory) : [];
+
             saveAll();
             setupEventListeners();
             renderDishes();
             renderStockView();
             renderGeneratorView();
+            renderHistorySection();
+        }
+
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                const swCode = `
+                    const CACHE = 'cheftrack-v4';
+                    self.addEventListener('install', e => { self.skipWaiting(); });
+                    self.addEventListener('activate', e => { self.clients.claim(); });
+                    self.addEventListener('fetch', e => {
+                        e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+                    });
+                `;
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+            }
         }
 
         function saveAll() {
@@ -450,6 +515,7 @@
             localStorage.setItem('chefTrack_settings', JSON.stringify(settings));
             localStorage.setItem('chefTrack_rawStock', JSON.stringify(rawStock));
             localStorage.setItem('chefTrack_preparedStock', JSON.stringify(preparedStock));
+            localStorage.setItem('chefTrack_historyMenus', JSON.stringify(historyMenus));
             if (currentMenu) {
                 localStorage.setItem('chefTrack_currentMenu', JSON.stringify(currentMenu));
             } else {
@@ -457,7 +523,7 @@
             }
         }
 
-        // --- 3. NAVEGACIÓN Y EVENTOS ---
+        // --- 3. EVENTOS Y NAVEGACIÓN ---
         function setupEventListeners() {
             // Pestañas inferiores
             document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -547,8 +613,16 @@
             document.getElementById('rawStockForm').addEventListener('submit', handleAddRawStock);
             document.getElementById('prepStockForm').addEventListener('submit', handleAddPrepStock);
 
-            // Generador de Menú
+            // Sub-pestañas Generador (Menú vs Lista)
+            document.getElementById('btnSubTabMenu').addEventListener('click', () => switchGeneratorSubTab('menu'));
+            document.getElementById('btnSubTabShopping').addEventListener('click', () => switchGeneratorSubTab('shopping'));
+
+            // Generador de Menú y Acciones FASE 4
             document.getElementById('btnGenerateMenu').addEventListener('click', generateWeeklyMenu);
+            document.getElementById('btnSaveToHistory').addEventListener('click', saveMenuToHistory);
+            document.getElementById('btnDownloadMenuTxt').addEventListener('click', downloadWeeklyMenuTxt);
+            document.getElementById('btnDownloadShoppingTxt').addEventListener('click', downloadShoppingListTxt);
+
             document.querySelectorAll('.generator-day-tab').forEach(tab => {
                 tab.addEventListener('click', (e) => {
                     document.querySelectorAll('.generator-day-tab').forEach(t => {
@@ -562,10 +636,10 @@
                 });
             });
 
-            // Buscador dentro de modal swap
+            // Modal Swap
             document.getElementById('modalSearchInput').addEventListener('input', renderModalDishList);
 
-            // Ajustes de Datos
+            // Respaldos
             document.getElementById('btnExport').addEventListener('click', exportData);
             document.getElementById('fileImport').addEventListener('change', importData);
             document.getElementById('btnWipeData').addEventListener('click', wipeData);
@@ -582,6 +656,26 @@
                     el.classList.add('hidden');
                 }
             });
+        }
+
+        function switchGeneratorSubTab(tab) {
+            const btnMenu = document.getElementById('btnSubTabMenu');
+            const btnShop = document.getElementById('btnSubTabShopping');
+            const contentMenu = document.getElementById('subtab-menu-content');
+            const contentShop = document.getElementById('subtab-shopping-content');
+
+            if (tab === 'menu') {
+                btnMenu.className = "flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all bg-white text-indigo-700 shadow-sm";
+                btnShop.className = "flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all text-gray-600";
+                contentMenu.classList.remove('hidden');
+                contentShop.classList.add('hidden');
+            } else {
+                btnShop.className = "flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all bg-white text-indigo-700 shadow-sm";
+                btnMenu.className = "flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all text-gray-600";
+                contentShop.classList.remove('hidden');
+                contentMenu.classList.add('hidden');
+                renderShoppingListUI();
+            }
         }
 
         function resetLevel2UI(containerSelector) {
@@ -601,7 +695,6 @@
         function renderDishes() {
             const list = document.getElementById('dishesList');
             const searchVal = document.getElementById('searchInput').value.toLowerCase();
-            
             list.innerHTML = '';
             
             const filtered = dishes.filter(d => {
@@ -650,7 +743,6 @@
             document.getElementById('inputComensales').value = settings.comensales;
             document.getElementById('checkMargen').checked = settings.margenActivo;
             updateCalculatedRaciones(false);
-
             renderRawStock();
             renderPreparedStock();
         }
@@ -801,7 +893,7 @@
             renderPreparedStock();
         }
 
-        // --- 6. MOTOR DE GENERACIÓN DE MENÚ SEMANAL (FASE 3) ---
+        // --- 6. MOTOR DE GENERACIÓN DE MENÚ ---
         function generateWeeklyMenu() {
             const newMenu = {
                 generatedAt: new Date().toISOString(),
@@ -809,12 +901,10 @@
             };
 
             const usedDishIdsThisWeek = new Set();
-
-            // Mapear bloqueos de platos preparados
             const prepMap = {};
             preparedStock.forEach(prep => {
                 if (prep.asignacion && prep.asignacion !== "Sin asignar") {
-                    const key = prep.asignacion.replace(/\s+/g, ''); // "Lunes-Primero"
+                    const key = prep.asignacion.replace(/\s+/g, '');
                     if (!prepMap[key]) prepMap[key] = [];
                     prepMap[key].push(prep);
                 }
@@ -895,12 +985,7 @@
                 }
 
                 const pickResult = pickDishForSlot(
-                    dayName,
-                    spec,
-                    usedDishIdsThisWeek,
-                    usedAnimalSpeciesToday,
-                    guisadoCount,
-                    brasaCount
+                    dayName, spec, usedDishIdsThisWeek, usedAnimalSpeciesToday, guisadoCount, brasaCount
                 );
 
                 const dish = pickResult.dish;
@@ -940,7 +1025,7 @@
                 const fallbackPool = dishes.filter(d => d.categoria === spec.cat);
                 if (fallbackPool.length > 0) {
                     const choice = fallbackPool[Math.floor(Math.random() * fallbackPool.length)];
-                    return { dish: choice, relaxed: true, warning: "⚠️ Regla de variedad relajada" };
+                    return { dish: choice, relaxed: true, warning: "⚠️ Regla relajada" };
                 }
                 return { 
                     dish: { id: "none", nombre: "Sin plato disponible", categoria: spec.cat, especie_animal: "-", tecnica: "-", dificultad_lunes: "-", ingredientes: [] }, 
@@ -949,7 +1034,6 @@
                 };
             }
 
-            // NIVEL 0: Filtro Estricto Completo
             let level0 = pool.filter(d => {
                 if (usedDishIdsThisWeek.has(d.id)) return false;
                 if (d.especie_animal && d.especie_animal !== "Vegetariano/Ninguno" && usedAnimalSpeciesToday.has(d.especie_animal)) return false;
@@ -961,7 +1045,6 @@
             });
 
             if (level0.length > 0) {
-                // Prioridad Stock Fresco en Lunes o Martes
                 if (dayName === "Lunes" || dayName === "Martes") {
                     const freshMatches = level0.filter(d => usesFreshStock(d));
                     if (freshMatches.length > 0) {
@@ -975,7 +1058,6 @@
                     }
                 }
 
-                // Prioridad Lunes Fácil
                 if (dayName === "Lunes") {
                     const easyMatches = level0.filter(d => d.dificultad_lunes === "Fácil/Rápido");
                     if (easyMatches.length > 0) {
@@ -986,7 +1068,6 @@
                 return { dish: level0[Math.floor(Math.random() * level0.length)], relaxed: false, warning: "" };
             }
 
-            // NIVEL 1: Relajar repetición semanal mantieniendo reglas de especie y técnica
             let level1 = pool.filter(d => {
                 if (d.especie_animal && d.especie_animal !== "Vegetariano/Ninguno" && usedAnimalSpeciesToday.has(d.especie_animal)) return false;
                 if (spec.cat === "Segundo") {
@@ -997,21 +1078,19 @@
             });
 
             if (level1.length > 0) {
-                return { dish: level1[Math.floor(Math.random() * level1.length)], relaxed: true, warning: "⚠️ Regla de variedad relajada" };
+                return { dish: level1[Math.floor(Math.random() * level1.length)], relaxed: true, warning: "⚠️ Regla variada relajada" };
             }
 
-            // NIVEL 2: Relajar límites de técnicas mantieniendo especie
             let level2 = pool.filter(d => {
                 if (d.especie_animal && d.especie_animal !== "Vegetariano/Ninguno" && usedAnimalSpeciesToday.has(d.especie_animal)) return false;
                 return true;
             });
 
             if (level2.length > 0) {
-                return { dish: level2[Math.floor(Math.random() * level2.length)], relaxed: true, warning: "⚠️ Regla de variedad relajada" };
+                return { dish: level2[Math.floor(Math.random() * level2.length)], relaxed: true, warning: "⚠️ Variedad animal relajada" };
             }
 
-            // NIVEL 3: Red de seguridad total (elegir cualquiera de la piscina)
-            return { dish: pool[Math.floor(Math.random() * pool.length)], relaxed: true, warning: "⚠️ Regla de variedad relajada" };
+            return { dish: pool[Math.floor(Math.random() * pool.length)], relaxed: true, warning: "⚠️ Red de seguridad" };
         }
 
         function usesFreshStock(dish) {
@@ -1088,7 +1167,6 @@
                         </button>
                     </div>
 
-                    <!-- PRIMEROS PLATOS -->
                     <div>
                         <h4 class="text-xs font-black text-gray-400 uppercase tracking-wider mb-2">1. Primeros Platos</h4>
                         <div class="space-y-2">
@@ -1096,7 +1174,6 @@
                         </div>
                     </div>
 
-                    <!-- SEGUNDOS PLATOS -->
                     <div>
                         <h4 class="text-xs font-black text-gray-400 uppercase tracking-wider mb-2">2. Segundos Platos</h4>
                         <div class="space-y-2">
@@ -1133,14 +1210,338 @@
                         </div>
                     </div>
 
-                    <button onclick="openSwapModal('${dayName}', ${slotIndex})" class="text-indigo-600 bg-white border border-indigo-200 px-2.5 py-1.5 rounded-lg text-xs font-bold shadow-sm whitespace-nowrap active:bg-indigo-50">
+                    <button onclick="openSwapModal('${dayName}', ${slotIndex})" class="text-indigo-600 bg-white border border-indigo-200 px-2.5 py-1.5 rounded-lg text-xs font-bold shadow-sm flex-shrink-0">
                         ✏️ Cambiar
                     </button>
                 </div>
             `;
         }
 
-        // --- 7. MODAL CAMBIAR PLATO ---
+        // --- 7. CÁLCULO Y VISTA DE LISTA DE COMPRA (FASE 4) ---
+        function calculateShoppingList() {
+            if (!currentMenu || !currentMenu.days) return null;
+
+            const baseComensales = settings.comensales || 100;
+            const totalRaciones = settings.margenActivo ? Math.round(baseComensales * 1.3) : baseComensales;
+
+            const carne1Map = {}; // Lunes a Miércoles
+            const carne2Map = {}; // Jueves a Viernes
+            const otherMap = {
+                "Pescado": {},
+                "Lácteos": {},
+                "Verduras y frutas": {},
+                "Secos": {},
+                "Congelados": {}
+            };
+
+            daysList.forEach(dayName => {
+                const daySlots = currentMenu.days[dayName] || [];
+                const isMonWed = (dayName === "Lunes" || dayName === "Martes" || dayName === "Miércoles");
+
+                daySlots.forEach(slot => {
+                    const dish = slot.dish;
+                    if (!dish || !dish.ingredientes || !Array.isArray(dish.ingredientes)) return;
+
+                    dish.ingredientes.forEach(ing => {
+                        const name = ing.nombre.trim();
+                        const qty = (parseFloat(ing.cantidad) || 0) * totalRaciones;
+                        const unit = ing.unidad || "kg";
+                        const cat = ing.categoria_proveedor || "Secos";
+                        const key = `${name.toLowerCase()}_${unit.toLowerCase()}`;
+
+                        if (cat === "Carne") {
+                            const targetMap = isMonWed ? carne1Map : carne2Map;
+                            if (!targetMap[key]) {
+                                targetMap[key] = { nombre: name, unidad: unit, categoria_proveedor: "Carne", cantidadNeeded: 0 };
+                            }
+                            targetMap[key].cantidadNeeded += qty;
+                        } else {
+                            const targetCat = otherMap[cat] ? cat : "Secos";
+                            if (!otherMap[targetCat][key]) {
+                                otherMap[targetCat][key] = { nombre: name, unidad: unit, categoria_proveedor: targetCat, cantidadNeeded: 0 };
+                            }
+                            otherMap[targetCat][key].cantidadNeeded += qty;
+                        }
+                    });
+                });
+            });
+
+            function findStockForIngredient(ingName) {
+                const lowerName = ingName.toLowerCase();
+                let matchedStock = 0;
+                rawStock.forEach(s => {
+                    if (s.nombre.toLowerCase().includes(lowerName) || lowerName.includes(s.nombre.toLowerCase())) {
+                        matchedStock += (parseFloat(s.cantidad) || 0);
+                    }
+                });
+                return matchedStock;
+            }
+
+            const stockUsedTracker = {};
+
+            function processItemsMap(itemsMap) {
+                return Object.values(itemsMap).map(item => {
+                    const totalNeed = +item.cantidadNeeded.toFixed(2);
+                    let availableStock = findStockForIngredient(item.nombre);
+                    
+                    const used = stockUsedTracker[item.nombre.toLowerCase()] || 0;
+                    availableStock = Math.max(0, availableStock - used);
+
+                    const stockToApply = Math.min(totalNeed, availableStock);
+                    stockUsedTracker[item.nombre.toLowerCase()] = (stockUsedTracker[item.nombre.toLowerCase()] || 0) + stockToApply;
+
+                    const finalOrder = +(totalNeed - stockToApply).toFixed(2);
+
+                    return {
+                        nombre: item.nombre,
+                        unidad: item.unidad,
+                        categoria_proveedor: item.categoria_proveedor,
+                        totalNeed,
+                        stockApplied: +stockToApply.toFixed(2),
+                        finalOrder
+                    };
+                });
+            }
+
+            const carne1List = processItemsMap(carne1Map);
+            const carne2List = processItemsMap(carne2Map);
+            const otherLists = {};
+            Object.keys(otherMap).forEach(cat => {
+                otherLists[cat] = processItemsMap(otherMap[cat]);
+            });
+
+            return {
+                totalRaciones,
+                baseComensales,
+                margenActivo: settings.margenActivo,
+                carne1List,
+                carne2List,
+                otherLists
+            };
+        }
+
+        function renderShoppingListUI() {
+            const container = document.getElementById('shoppingListBreakdown');
+            const data = calculateShoppingList();
+            
+            if (!data) {
+                container.innerHTML = '<p class="text-center text-gray-500 py-6 text-xs">Genera el menú semanal para visualizar las necesidades de compra.</p>';
+                return;
+            }
+
+            document.getElementById('shoppingRacionesBadge').innerText = `${data.totalRaciones} Raciones`;
+            container.innerHTML = '';
+
+            function createCategoryCard(title, list, badgeColor) {
+                const card = document.createElement('div');
+                card.className = "bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-2";
+                
+                let itemsHTML = '';
+                if (list.length === 0) {
+                    itemsHTML = '<p class="text-xs text-gray-400 italic">Sin ingredientes necesarios.</p>';
+                } else {
+                    itemsHTML = list.map(item => `
+                        <div class="flex justify-between items-center p-2 bg-gray-50 rounded-lg border text-xs">
+                            <div>
+                                <span class="font-bold text-gray-800">${item.nombre}</span>
+                                ${item.stockApplied > 0 ? `<span class="block text-[10px] text-emerald-600 font-semibold">(Necesario: ${item.totalNeed}${item.unidad} - Stock: ${item.stockApplied}${item.unidad})</span>` : ''}
+                            </div>
+                            <div class="font-black text-indigo-700 text-sm whitespace-nowrap">
+                                ${item.finalOrder} <span class="text-xs text-gray-500 font-medium">${item.unidad}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <h4 class="font-bold text-gray-800 text-xs uppercase tracking-wider">${title}</h4>
+                        <span class="text-[10px] px-2 py-0.5 rounded-full font-bold ${badgeColor}">${list.length} artículos</span>
+                    </div>
+                    <div class="space-y-1.5 pt-1">${itemsHTML}</div>
+                `;
+                return card;
+            }
+
+            container.appendChild(createCategoryCard("🥩 Pedido Carne 1 (Lunes a Miércoles)", data.carne1List, "bg-red-100 text-red-800"));
+            container.appendChild(createCategoryCard("🥩 Pedido Carne 2 (Jueves y Viernes)", data.carne2List, "bg-orange-100 text-orange-800"));
+            container.appendChild(createCategoryCard("🐟 Pescado", data.otherLists["Pescado"] || [], "bg-blue-100 text-blue-800"));
+            container.appendChild(createCategoryCard("🥛 Lácteos", data.otherLists["Lácteos"] || [], "bg-purple-100 text-purple-800"));
+            container.appendChild(createCategoryCard("🥬 Verduras y frutas", data.otherLists["Verduras y frutas"] || [], "bg-emerald-100 text-emerald-800"));
+            container.appendChild(createCategoryCard("🌾 Secos", data.otherLists["Secos"] || [], "bg-amber-100 text-amber-800"));
+            container.appendChild(createCategoryCard("❄️ Congelados", data.otherLists["Congelados"] || [], "bg-cyan-100 text-cyan-800"));
+        }
+
+        // --- 8. EXPORTACIÓN ARCHIVOS TEXTO (.TXT) ---
+        function downloadShoppingListTxt() {
+            const data = calculateShoppingList();
+            if (!data) {
+                alert("Genera primero el menú semanal para obtener la lista de la compra.");
+                return;
+            }
+
+            let txt = `========================================\n`;
+            txt += `CHEFTRACK - LISTA DE COMPRA PROVEEDORES\n`;
+            txt += `Fecha: ${new Date().toLocaleDateString('es-ES')}\n`;
+            txt += `Comensales Base: ${data.baseComensales} (${data.margenActivo ? '+30% Margen = ' : ''}${data.totalRaciones} Raciones Totales)\n`;
+            txt += `========================================\n\n`;
+
+            function formatListSection(title, list) {
+                let sec = `--- ${title.toUpperCase()} ---\n`;
+                if (list.length === 0) {
+                    sec += `(Sin necesidades)\n\n`;
+                    return sec;
+                }
+                list.forEach(item => {
+                    let stockStr = item.stockApplied > 0 ? ` [Necesario: ${item.totalNeed} ${item.unidad} | Stock descontado: -${item.stockApplied} ${item.unidad}]` : '';
+                    sec += `• ${item.nombre}: ${item.finalOrder} ${item.unidad}${stockStr}\n`;
+                });
+                sec += `\n`;
+                return sec;
+            }
+
+            txt += formatListSection("Carne - Pedido 1 (Lunes a Miércoles)", data.carne1List);
+            txt += formatListSection("Carne - Pedido 2 (Jueves y Viernes)", data.carne2List);
+            txt += formatListSection("Pescado", data.otherLists["Pescado"] || []);
+            txt += formatListSection("Lácteos", data.otherLists["Lácteos"] || []);
+            txt += formatListSection("Verduras y Frutas", data.otherLists["Verduras y frutas"] || []);
+            txt += formatListSection("Secos", data.otherLists["Secos"] || []);
+            txt += formatListSection("Congelados", data.otherLists["Congelados"] || []);
+
+            downloadFile(txt, `ChefTrack_Lista_Compra_${new Date().toISOString().split('T')[0]}.txt`, "text/plain;charset=utf-8");
+        }
+
+        function downloadWeeklyMenuTxt() {
+            if (!currentMenu || !currentMenu.days) {
+                alert("Genera primero el menú semanal.");
+                return;
+            }
+
+            const baseComensales = settings.comensales || 100;
+            const totalRaciones = settings.margenActivo ? Math.round(baseComensales * 1.3) : baseComensales;
+
+            let txt = `========================================\n`;
+            txt += `CHEFTRACK - MENÚ SEMANAL DE COMEDOR\n`;
+            txt += `Fecha de Generación: ${new Date().toLocaleDateString('es-ES')}\n`;
+            txt += `Previsión: ${totalRaciones} Raciones Diarias\n`;
+            txt += `========================================\n\n`;
+
+            daysList.forEach(dayName => {
+                txt += `========================================\n`;
+                txt += `${dayName.toUpperCase()}\n`;
+                txt += `========================================\n`;
+
+                const slots = currentMenu.days[dayName] || [];
+                const primeros = slots.slice(0, 3);
+                const segundos = slots.slice(3, 6);
+
+                txt += `PRIMEROS PLATOS:\n`;
+                primeros.forEach(s => {
+                    const d = s.dish || {};
+                    txt += `  • [${s.slotLabel}] ${d.nombre || 'Sin asignación'}\n`;
+                });
+
+                txt += `\nSEGUNDOS PLATOS:\n`;
+                segundos.forEach(s => {
+                    const d = s.dish || {};
+                    txt += `  • [${s.slotLabel}] ${d.nombre || 'Sin asignación'}\n`;
+                });
+
+                txt += `\n`;
+            });
+
+            downloadFile(txt, `ChefTrack_Menu_Semanal_${new Date().toISOString().split('T')[0]}.txt`, "text/plain;charset=utf-8");
+        }
+
+        function downloadFile(content, fileName, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // --- 9. HISTÓRICO DE MENÚS (FASE 4) ---
+        function saveMenuToHistory() {
+            if (!currentMenu || !currentMenu.days) {
+                alert("No hay ningún menú generado para guardar.");
+                return;
+            }
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('es-ES');
+            const timeStr = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+            
+            const baseComensales = settings.comensales || 100;
+            const totalRaciones = settings.margenActivo ? Math.round(baseComensales * 1.3) : baseComensales;
+
+            const historyItem = {
+                id: `hist_${Date.now()}`,
+                title: `Semana del ${dateStr}`,
+                savedAt: `${dateStr} (${timeStr})`,
+                totalRaciones,
+                menuData: JSON.parse(JSON.stringify(currentMenu))
+            };
+
+            historyMenus.unshift(historyItem);
+            saveAll();
+            renderHistorySection();
+            alert(`Menú guardado con éxito en el histórico ("${historyItem.title}")`);
+        }
+
+        function renderHistorySection() {
+            const container = document.getElementById('historyListContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (historyMenus.length === 0) {
+                container.innerHTML = '<p class="text-xs text-gray-400 py-2 text-center">No hay menús guardados en el histórico.</p>';
+                return;
+            }
+
+            historyMenus.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-gray-50 p-3 rounded-lg border border-gray-200 flex justify-between items-center";
+                card.innerHTML = `
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-xs">${item.title}</h4>
+                        <p class="text-[10px] text-gray-500">Guardado el ${item.savedAt} • ${item.totalRaciones} rac.</p>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="loadHistoryMenu('${item.id}')" class="text-indigo-600 bg-white border border-indigo-200 px-2 py-1 rounded text-xs font-bold shadow-sm">
+                            👁️ Cargar
+                        </button>
+                        <button onclick="deleteHistoryMenu('${item.id}')" class="text-red-500 bg-red-50 p-1 rounded">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function loadHistoryMenu(id) {
+            const item = historyMenus.find(h => h.id === id);
+            if (item) {
+                currentMenu = JSON.parse(JSON.stringify(item.menuData));
+                saveAll();
+                renderGeneratorView();
+                document.querySelector('.nav-btn[data-target="view-generator"]').click();
+                alert(`Menú "${item.title}" cargado como Menú Actual.`);
+            }
+        }
+
+        function deleteHistoryMenu(id) {
+            if (confirm("¿Deseas eliminar este menú del histórico?")) {
+                historyMenus = historyMenus.filter(h => h.id !== id);
+                saveAll();
+                renderHistorySection();
+            }
+        }
+
+        // --- 10. MODAL SWAP ---
         function openSwapModal(dayName, slotIndex) {
             swapTarget = { dayName, slotIndex };
             const slot = currentMenu.days[dayName][slotIndex];
@@ -1166,7 +1567,6 @@
             const container = document.getElementById('modalDishList');
             container.innerHTML = '';
 
-            // Filtrar por la categoría del slot
             const categoryDishes = dishes.filter(d => {
                 if (d.categoria !== slot.cat) return false;
                 if (searchVal && !d.nombre.toLowerCase().includes(searchVal)) return false;
@@ -1174,7 +1574,7 @@
             });
 
             if (categoryDishes.length === 0) {
-                container.innerHTML = '<p class="text-center text-gray-400 text-xs py-4">No hay platos disponibles en esta categoría.</p>';
+                container.innerHTML = '<p class="text-center text-gray-400 text-xs py-4">No hay platos disponibles.</p>';
                 return;
             }
 
@@ -1218,7 +1618,7 @@
             renderGeneratorView();
         }
 
-        // --- 8. LÓGICA DE FORMULARIO BANCO ---
+        // --- 11. FORMULARIO PLATOS ---
         function addIngredientRow(ing = null) {
             const container = document.getElementById('ingredientsContainer');
             const row = document.createElement('div');
@@ -1228,7 +1628,7 @@
 
             row.innerHTML = `
                 <input type="text" placeholder="Ingrediente..." class="w-2/5 p-2 border rounded-md text-xs ing-nombre" value="${ing ? ing.nombre : ''}" required>
-                <input type="number" step="0.01" placeholder="Cant." class="w-1/5 p-2 border rounded-md text-xs ing-cantidad" value="${ing ? ing.cantidad : ''}" required>
+                <input type="number" step="0.001" placeholder="Cant." class="w-1/5 p-2 border rounded-md text-xs ing-cantidad" value="${ing ? ing.cantidad : ''}" required>
                 <select class="w-1/5 p-2 border rounded-md text-xs ing-unidad bg-white">
                     <option value="kg" ${ing && ing.unidad === 'kg' ? 'selected' : ''}>kg</option>
                     <option value="ud" ${ing && ing.unidad === 'ud' ? 'selected' : ''}>ud</option>
@@ -1327,26 +1727,21 @@
             addIngredientRow();
         }
 
-        // --- 9. EXPORTAR / IMPORTAR / RESET ---
+        // --- 12. RESPALDOS Y RESET ---
         function exportData() {
             const backupObj = {
                 app: "ChefTrack",
-                version: "3.0",
+                version: "4.0",
                 date: new Date().toISOString(),
                 settings: settings,
                 dishes: dishes,
                 rawStock: rawStock,
                 preparedStock: preparedStock,
-                currentMenu: currentMenu
+                currentMenu: currentMenu,
+                historyMenus: historyMenus
             };
             const dataStr = JSON.stringify(backupObj, null, 2);
-            const blob = new Blob([dataStr], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `ChefTrack_Backup_${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
+            downloadFile(dataStr, `ChefTrack_Backup_${new Date().toISOString().split('T')[0]}.json`, "application/json");
         }
 
         function importData(event) {
@@ -1365,11 +1760,13 @@
                         if (imported.rawStock && Array.isArray(imported.rawStock)) rawStock = imported.rawStock;
                         if (imported.preparedStock && Array.isArray(imported.preparedStock)) preparedStock = imported.preparedStock;
                         if (imported.currentMenu) currentMenu = imported.currentMenu;
+                        if (imported.historyMenus && Array.isArray(imported.historyMenus)) historyMenus = imported.historyMenus;
                     }
                     saveAll();
                     renderDishes();
                     renderStockView();
                     renderGeneratorView();
+                    renderHistorySection();
                     alert("Datos de ChefTrack importados correctamente.");
                 } catch (error) {
                     alert("Error al leer el archivo JSON.");
@@ -1380,19 +1777,20 @@
         }
 
         function wipeData() {
-            if(confirm("¿Estás seguro de borrar todos los datos de ChefTrack? Se restaurarán los datos de prueba iniciales.")) {
+            if(confirm("¿Estás seguro de borrar todos los datos de ChefTrack? Se restaurarán los datos iniciales de fábrica.")) {
                 localStorage.removeItem('chefTrack_dishes');
                 localStorage.removeItem('chefTrack_settings');
                 localStorage.removeItem('chefTrack_rawStock');
                 localStorage.removeItem('chefTrack_preparedStock');
                 localStorage.removeItem('chefTrack_currentMenu');
+                localStorage.removeItem('chefTrack_historyMenus');
                 localStorage.removeItem('menuCocinaPro_dishes');
                 init();
                 alert("ChefTrack se ha restaurado a su estado inicial.");
             }
         }
 
-        // Iniciar App
+        // Iniciar
         init();
     </script>
 </body>
