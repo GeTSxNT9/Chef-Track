@@ -11,6 +11,11 @@
     <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22ChefTrack%22%2C%22short_name%22%3A%22ChefTrack%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%234f46e5%22%2C%22theme_color%22%3A%22%234f46e5%22%7D">
     <title>ChefTrack - Gestión de Menús, Stock y Compras</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <style>
         body {
             padding-top: env(safe-area-inset-top);
@@ -21,14 +26,18 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 h-screen flex flex-col font-sans overflow-hidden">
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-950 dark:text-gray-100 h-screen flex flex-col font-sans overflow-hidden transition-colors">
 
     <!-- CABECERA PRINCIPAL -->
-    <header class="bg-indigo-600 text-white h-14 flex-shrink-0 flex items-center justify-center shadow-md relative z-10">
+    <header class="bg-indigo-600 dark:bg-indigo-950 text-white h-14 flex-shrink-0 flex items-center justify-between px-4 shadow-md relative z-10 transition-colors">
+        <div class="w-8"></div>
         <div class="flex items-center gap-2">
             <svg class="w-6 h-6 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
             <h1 class="text-lg font-bold tracking-wide">ChefTrack</h1>
         </div>
+        <button id="themeToggleBtn" onclick="toggleDarkMode()" class="w-9 h-9 flex items-center justify-center rounded-lg bg-indigo-700 dark:bg-indigo-900 text-white text-base shadow-sm hover:bg-indigo-800 transition-colors" title="Cambiar tema">
+            🌙
+        </button>
     </header>
 
     <!-- CONTENEDOR PRINCIPAL DE VISTAS -->
@@ -37,29 +46,29 @@
         <!-- VISTA 1: BANCO DE PLATOS -->
         <main id="view-banco" class="p-4 block">
             <div class="mb-4">
-                <input type="text" id="searchInput" placeholder="Buscar plato..." class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                <input type="text" id="searchInput" placeholder="Buscar plato..." class="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
             </div>
 
             <!-- Filtros Nivel 1 -->
             <div class="flex gap-2 mb-3">
                 <button class="filter-lvl1 active bg-indigo-600 text-white px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="all">Todos</button>
-                <button class="filter-lvl1 bg-white text-gray-600 border border-gray-300 px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="Primero">Primeros</button>
-                <button class="filter-lvl1 bg-white text-gray-600 border border-gray-300 px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="Segundo">Segundos</button>
+                <button class="filter-lvl1 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="Primero">Primeros</button>
+                <button class="filter-lvl1 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="Segundo">Segundos</button>
             </div>
 
             <!-- Filtros Nivel 2 (Primeros) -->
             <div id="filters-primeros" class="hidden flex gap-2 overflow-x-auto no-scrollbar mb-4 pb-1">
-                <button class="filter-lvl2 active bg-indigo-100 text-indigo-700 border border-indigo-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm" data-filter="all">Todas</button>
-                <button class="filter-lvl2 bg-white text-gray-600 border border-gray-300 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Verdura">Verdura</button>
-                <button class="filter-lvl2 bg-white text-gray-600 border border-gray-300 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Cuchara">Cuchara</button>
-                <button class="filter-lvl2 bg-white text-gray-600 border border-gray-300 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Tenedor">Tenedor</button>
+                <button class="filter-lvl2 active bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm" data-filter="all">Todas</button>
+                <button class="filter-lvl2 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Verdura">Verdura</button>
+                <button class="filter-lvl2 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Cuchara">Cuchara</button>
+                <button class="filter-lvl2 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Tenedor">Tenedor</button>
             </div>
 
             <!-- Filtros Nivel 2 (Segundos) -->
             <div id="filters-segundos" class="hidden flex gap-2 overflow-x-auto no-scrollbar mb-4 pb-1">
-                <button class="filter-lvl2 active bg-indigo-100 text-indigo-700 border border-indigo-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm" data-filter="all">Todas</button>
-                <button class="filter-lvl2 bg-white text-gray-600 border border-gray-300 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Carne">Carne</button>
-                <button class="filter-lvl2 bg-white text-gray-600 border border-gray-300 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Pescado">Pescado</button>
+                <button class="filter-lvl2 active bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm" data-filter="all">Todas</button>
+                <button class="filter-lvl2 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Carne">Carne</button>
+                <button class="filter-lvl2 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Pescado">Pescado</button>
             </div>
 
             <div id="dishesList" class="space-y-3"></div>
@@ -67,19 +76,19 @@
 
         <!-- VISTA 2: AÑADIR / EDITAR PLATO -->
         <main id="view-form" class="p-4 hidden">
-            <h2 id="form-title" class="text-xl font-bold text-gray-800 mb-4">Añadir Nuevo Plato</h2>
-            <form id="dishForm" class="space-y-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+            <h2 id="form-title" class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Añadir Nuevo Plato</h2>
+            <form id="dishForm" class="space-y-4 bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
                 <input type="hidden" id="dishId">
                 
                 <div>
-                    <label class="block text-xs font-semibold text-gray-500 mb-1">Nombre del Plato</label>
-                    <input type="text" id="dishName" required class="w-full p-2.5 border rounded-lg text-sm bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Nombre del Plato</label>
+                    <input type="text" id="dishName" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-900 focus:ring-2 focus:ring-indigo-500">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 mb-1">Categoría</label>
-                        <select id="dishCategory" required class="w-full p-2.5 border rounded-lg text-sm bg-gray-50">
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Categoría</label>
+                        <select id="dishCategory" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                             <option value="">Seleccionar...</option>
                             <option value="Primero">Primero</option>
                             <option value="Segundo">Segundo</option>
@@ -87,8 +96,8 @@
                     </div>
                     
                     <div id="subcatPrimeroContainer" class="hidden">
-                        <label class="block text-xs font-semibold text-gray-500 mb-1">Tipo de Primero</label>
-                        <select id="dishSubcategory" class="w-full p-2.5 border rounded-lg text-sm bg-gray-50">
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Tipo de Primero</label>
+                        <select id="dishSubcategory" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                             <option value="Verdura">Verdura</option>
                             <option value="Cuchara">Cuchara</option>
                             <option value="Tenedor">Tenedor</option>
@@ -96,8 +105,8 @@
                     </div>
 
                     <div id="protSegundoContainer" class="hidden">
-                        <label class="block text-xs font-semibold text-gray-500 mb-1">Proteína Segundo</label>
-                        <select id="dishProtein" class="w-full p-2.5 border rounded-lg text-sm bg-gray-50">
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Proteína Segundo</label>
+                        <select id="dishProtein" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                             <option value="Carne">Carne</option>
                             <option value="Pescado">Pescado</option>
                         </select>
@@ -106,8 +115,8 @@
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 mb-1">Especie Animal</label>
-                        <select id="dishSpecies" required class="w-full p-2.5 border rounded-lg text-sm bg-gray-50">
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Especie Animal</label>
+                        <select id="dishSpecies" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                             <option value="Cerdo">Cerdo</option>
                             <option value="Pollo/Pavo">Pollo/Pavo</option>
                             <option value="Ternera">Ternera</option>
@@ -116,8 +125,8 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 mb-1">Técnica</label>
-                        <select id="dishTechnique" required class="w-full p-2.5 border rounded-lg text-sm bg-gray-50">
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Técnica</label>
+                        <select id="dishTechnique" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                             <option value="Guisado">Guisado</option>
                             <option value="Asado">Asado</option>
                             <option value="Brasa/Plancha">Brasa/Plancha</option>
@@ -127,15 +136,15 @@
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 mb-1">Dificultad (Lunes)</label>
-                        <select id="dishDifficulty" required class="w-full p-2.5 border rounded-lg text-sm bg-gray-50">
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Dificultad (Lunes)</label>
+                        <select id="dishDifficulty" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                             <option value="Fácil/Rápido">Fácil / Rápido</option>
                             <option value="Normal/Complejo">Normal / Complejo</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 mb-1">Aceptación/Demanda</label>
-                        <select id="dishDemand" required class="w-full p-2.5 border rounded-lg text-sm bg-gray-50">
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Aceptación/Demanda</label>
+                        <select id="dishDemand" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                             <option value="Alta">🟢 Alta (Éxito)</option>
                             <option value="Media" selected>🟡 Media (Estándar)</option>
                             <option value="Baja">🔴 Baja (Ligera)</option>
@@ -143,58 +152,58 @@
                     </div>
                 </div>
 
-                <div class="border-t pt-4 mt-4">
+                <div class="border-t border-gray-200 dark:border-gray-800 pt-4 mt-4">
                     <div class="flex justify-between items-center mb-2">
-                        <label class="block text-sm font-semibold text-gray-800">Ingredientes (por 1 ración)</label>
-                        <button type="button" id="addIngredientBtn" class="text-indigo-600 font-bold text-xs bg-indigo-50 px-2 py-1 rounded">+ Añadir</button>
+                        <label class="block text-sm font-semibold text-gray-800 dark:text-gray-200">Ingredientes (por 1 ración)</label>
+                        <button type="button" id="addIngredientBtn" class="text-indigo-600 dark:text-indigo-400 font-bold text-xs bg-indigo-50 dark:bg-indigo-950 px-2 py-1 rounded">+ Añadir</button>
                     </div>
                     <div id="ingredientsContainer" class="space-y-2"></div>
                 </div>
 
                 <div class="pt-4 flex gap-2">
-                    <button type="button" id="btnCancel" class="hidden flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg font-bold text-sm shadow-sm">Cancelar</button>
-                    <button type="submit" class="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-bold text-sm shadow-md">Guardar Plato</button>
+                    <button type="button" id="btnCancel" class="hidden flex-1 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 py-3 rounded-lg font-bold text-sm shadow-sm">Cancelar</button>
+                    <button type="submit" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold text-sm shadow-md">Guardar Plato</button>
                 </div>
             </form>
         </main>
 
         <!-- VISTA 3: STOCK Y PREVISIÓN -->
         <main id="view-stock" class="p-4 hidden space-y-5">
-            <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+            <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
                 <div class="flex items-center gap-2 mb-3">
-                    <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    <h2 class="text-base font-bold text-gray-800">Previsión de Comensales</h2>
+                    <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <h2 class="text-base font-bold text-gray-800 dark:text-gray-100">Previsión de Comensales</h2>
                 </div>
                 <div class="grid grid-cols-1 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 mb-1">Comensales Estimados</label>
-                        <input type="number" id="inputComensales" min="1" class="w-full p-2.5 border rounded-lg text-sm bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Comensales Estimados</label>
+                        <input type="number" id="inputComensales" min="1" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-900 focus:ring-2 focus:ring-indigo-500">
                     </div>
-                    <div class="flex items-center justify-between bg-indigo-50 p-3 rounded-lg border border-indigo-100">
-                        <span class="text-xs font-bold text-indigo-900">Margen Seguridad (+30%)</span>
+                    <div class="flex items-center justify-between bg-indigo-50 dark:bg-indigo-950/50 p-3 rounded-lg border border-indigo-100 dark:border-indigo-900">
+                        <span class="text-xs font-bold text-indigo-900 dark:text-indigo-300">Margen Seguridad (+30%)</span>
                         <input type="checkbox" id="checkMargen" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500">
                     </div>
-                    <div class="bg-gray-900 text-white p-3.5 rounded-lg text-center shadow-inner">
+                    <div class="bg-gray-900 dark:bg-gray-950 text-white p-3.5 rounded-lg text-center shadow-inner border border-gray-800">
                         <div class="text-2xl font-black text-amber-400" id="totalRacionesDisplay">130 raciones</div>
-                        <div class="text-[11px] text-gray-300 font-medium" id="totalRacionesSubtext">100 base + 30% margen</div>
+                        <div class="text-[11px] text-gray-300 dark:text-gray-400 font-medium" id="totalRacionesSubtext">100 base + 30% margen</div>
                     </div>
                 </div>
             </section>
 
-            <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+            <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
                 <div class="flex justify-between items-center mb-3">
                     <div class="flex items-center gap-2">
-                        <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-                        <h2 class="text-base font-bold text-gray-800">Materia Prima en Stock</h2>
+                        <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                        <h2 class="text-base font-bold text-gray-800 dark:text-gray-100">Materia Prima en Stock</h2>
                     </div>
                 </div>
-                <form id="rawStockForm" class="bg-gray-50 p-3 rounded-lg border border-gray-200 space-y-3 mb-4">
+                <form id="rawStockForm" class="bg-gray-50 dark:bg-gray-800/60 p-3 rounded-lg border border-gray-200 dark:border-gray-700 space-y-3 mb-4">
                     <div>
-                        <input type="text" id="rawName" placeholder="Nombre ingrediente..." required class="w-full p-2 border rounded-lg text-xs bg-white">
+                        <input type="text" id="rawName" placeholder="Nombre ingrediente..." required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <input type="number" step="0.1" id="rawQty" placeholder="Cantidad" required class="w-full p-2 border rounded-lg text-xs bg-white">
-                        <select id="rawUnit" class="w-full p-2 border rounded-lg text-xs bg-white">
+                        <input type="number" step="0.1" id="rawQty" placeholder="Cantidad" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+                        <select id="rawUnit" class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                             <option value="kg">kg</option>
                             <option value="g">g</option>
                             <option value="ud">unidades</option>
@@ -202,7 +211,7 @@
                         </select>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <select id="rawCategory" required class="w-full p-2 border rounded-lg text-xs bg-white">
+                        <select id="rawCategory" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                             <option value="Carne">Carne</option>
                             <option value="Pescado">Pescado</option>
                             <option value="Lácteos">Lácteos</option>
@@ -210,28 +219,28 @@
                             <option value="Secos">Secos</option>
                             <option value="Congelados">Congelados</option>
                         </select>
-                        <select id="rawConserv" required class="w-full p-2 border rounded-lg text-xs bg-white">
+                        <select id="rawConserv" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                             <option value="Refrigerado/Fresco (Prioridad Alta)">Refrigerado/Fresco</option>
                             <option value="Congelado (Prioridad Baja)">Congelado</option>
                         </select>
                     </div>
-                    <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg font-bold text-xs shadow-sm">+ Añadir Materia Prima</button>
+                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-bold text-xs shadow-sm">+ Añadir Materia Prima</button>
                 </form>
                 <div id="rawStockList" class="space-y-2"></div>
             </section>
 
-            <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+            <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
                 <div class="flex items-center gap-2 mb-3">
-                    <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                    <h2 class="text-base font-bold text-gray-800">Platos Ya Elaborados</h2>
+                    <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    <h2 class="text-base font-bold text-gray-800 dark:text-gray-100">Platos Ya Elaborados</h2>
                 </div>
-                <form id="prepStockForm" class="bg-gray-50 p-3 rounded-lg border border-gray-200 space-y-3 mb-4">
+                <form id="prepStockForm" class="bg-gray-50 dark:bg-gray-800/60 p-3 rounded-lg border border-gray-200 dark:border-gray-700 space-y-3 mb-4">
                     <div>
-                        <input type="text" id="prepName" placeholder="Nombre plato..." required class="w-full p-2 border rounded-lg text-xs bg-white">
+                        <input type="text" id="prepName" placeholder="Nombre plato..." required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <input type="number" id="prepRaciones" placeholder="Raciones disponibles" required class="w-full p-2 border rounded-lg text-xs bg-white">
-                        <select id="prepAsignacion" class="w-full p-2 border rounded-lg text-xs bg-white">
+                        <input type="number" id="prepRaciones" placeholder="Raciones disponibles" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+                        <select id="prepAsignacion" class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                             <option value="Sin asignar">Sin asignar</option>
                             <option value="Lunes - Primero">Lunes - Primero</option>
                             <option value="Lunes - Segundo">Lunes - Segundo</option>
@@ -245,7 +254,7 @@
                             <option value="Viernes - Segundo">Viernes - Segundo</option>
                         </select>
                     </div>
-                    <button type="submit" class="w-full bg-emerald-600 text-white py-2 rounded-lg font-bold text-xs shadow-sm">+ Registrar Plato Elaborado</button>
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-bold text-xs shadow-sm">+ Registrar Plato Elaborado</button>
                 </form>
                 <div id="prepStockList" class="space-y-2"></div>
             </section>
@@ -253,17 +262,17 @@
 
         <!-- VISTA 4: GENERAR MENÚ Y COMPRAS -->
         <main id="view-generator" class="p-4 hidden space-y-4">
-            <div class="flex bg-gray-200 p-1 rounded-xl">
-                <button id="btnSubTabMenu" class="flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all bg-white text-indigo-700 shadow-sm">
+            <div class="flex bg-gray-200 dark:bg-gray-800 p-1 rounded-xl">
+                <button id="btnSubTabMenu" class="flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all bg-white dark:bg-gray-900 text-indigo-700 dark:text-indigo-300 shadow-sm">
                     📅 Menú Semanal
                 </button>
-                <button id="btnSubTabShopping" class="flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all text-gray-600">
+                <button id="btnSubTabShopping" class="flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all text-gray-600 dark:text-gray-400">
                     🛒 Lista de Compra
                 </button>
             </div>
 
             <div id="subtab-menu-content" class="space-y-4">
-                <div class="bg-indigo-900 text-white p-4 rounded-xl shadow-lg border border-indigo-800 text-center">
+                <div class="bg-indigo-900 dark:bg-indigo-950 text-white p-4 rounded-xl shadow-lg border border-indigo-800 dark:border-indigo-900 text-center">
                     <h2 class="text-lg font-bold mb-1">Motor de Planificación</h2>
                     <p class="text-[11px] text-indigo-200 mb-3">Aplica reglas, control de especies, aprovechamiento de stock y proporciones por demanda.</p>
                     <div class="flex flex-col gap-2">
@@ -283,23 +292,23 @@
 
                 <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1" id="dayTabsContainer">
                     <button class="generator-day-tab active bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap" data-day="Lunes">Lunes</button>
-                    <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Martes">Martes</button>
-                    <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Miércoles">Miércoles</button>
-                    <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Jueves">Jueves</button>
-                    <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Viernes">Viernes</button>
-                    <button class="generator-day-tab bg-white text-gray-600 border px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Todos">Todos</button>
+                    <button class="generator-day-tab bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Martes">Martes</button>
+                    <button class="generator-day-tab bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Miércoles">Miércoles</button>
+                    <button class="generator-day-tab bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Jueves">Jueves</button>
+                    <button class="generator-day-tab bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Viernes">Viernes</button>
+                    <button class="generator-day-tab bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Todos">Todos</button>
                 </div>
 
                 <div id="generatedMenuContainer" class="space-y-6"></div>
             </div>
 
             <div id="subtab-shopping-content" class="hidden space-y-4">
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-3">
+                <div class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-3">
                     <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-gray-800 text-sm">Cálculo por Proveedores</h3>
-                        <span class="text-[10px] font-bold bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full" id="shoppingRacionesBadge">130 Raciones</span>
+                        <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Cálculo por Proveedores</h3>
+                        <span class="text-[10px] font-bold bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 px-2 py-0.5 rounded-full" id="shoppingRacionesBadge">130 Raciones</span>
                     </div>
-                    <p class="text-xs text-gray-500 leading-snug">Cantidades redondeadas hacia arriba y agrupadas en una única categoría unificada de Carne.</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 leading-snug">Cantidades redondeadas hacia arriba y agrupadas en una única categoría unificada de Carne.</p>
                     <button id="btnDownloadShoppingTxt" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-3 rounded-lg text-xs flex items-center justify-center gap-2 shadow-sm">
                         <span>📄</span> Descargar Lista (.txt)
                     </button>
@@ -310,31 +319,31 @@
 
         <!-- VISTA 5: AJUSTES Y HISTÓRICO -->
         <main id="view-settings" class="p-4 hidden space-y-5">
-            <h2 class="text-xl font-bold text-gray-800 mb-2">Ajustes y Datos</h2>
-            <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+            <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">Ajustes y Datos</h2>
+            <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
                 <div class="flex items-center gap-2 mb-3">
-                    <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <h3 class="font-bold text-gray-800 text-sm">Histórico de Menús</h3>
+                    <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Histórico de Menús</h3>
                 </div>
                 <div id="historyListContainer" class="space-y-2"></div>
             </section>
-            <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-4">
+            <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-4">
                 <div>
-                    <h3 class="font-bold text-gray-700 text-sm mb-2">Copia de Seguridad Integral</h3>
+                    <h3 class="font-bold text-gray-700 dark:text-gray-300 text-sm mb-2">Copia de Seguridad Integral</h3>
                     <div class="flex flex-col gap-3">
-                        <button id="btnExport" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2">
+                        <button id="btnExport" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                             Exportar Todo (JSON)
                         </button>
-                        <label class="w-full bg-blue-500 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2 cursor-pointer text-center">
+                        <label class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2 cursor-pointer text-center">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
                             Importar Datos (JSON)
                             <input type="file" id="fileImport" accept=".json" class="hidden">
                         </label>
                     </div>
                 </div>
-                <div class="border-t pt-4 mt-4">
-                    <button id="btnWipeData" class="w-full bg-red-100 text-red-600 py-3 rounded-lg font-bold text-sm shadow-sm">
+                <div class="border-t border-gray-200 dark:border-gray-800 pt-4 mt-4">
+                    <button id="btnWipeData" class="w-full bg-red-100 dark:bg-red-950/50 text-red-600 dark:text-red-400 hover:bg-red-200 py-3 rounded-lg font-bold text-sm shadow-sm">
                         Borrar Datos y Restaurar
                     </button>
                 </div>
@@ -344,8 +353,8 @@
 
     <!-- MODAL CAMBIAR PLATO -->
     <div id="modalChangeDish" class="hidden fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm">
-        <div class="bg-white w-full max-w-lg rounded-t-2xl sm:rounded-2xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl animate-fade-in">
-            <div class="p-4 bg-indigo-600 text-white flex justify-between items-center">
+        <div class="bg-white dark:bg-gray-900 w-full max-w-lg rounded-t-2xl sm:rounded-2xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl animate-fade-in border border-gray-200 dark:border-gray-800">
+            <div class="p-4 bg-indigo-600 dark:bg-indigo-950 text-white flex justify-between items-center">
                 <div>
                     <h3 class="font-bold text-sm" id="modalSwapTitle">Cambiar Plato</h3>
                     <p class="text-[11px] text-indigo-200" id="modalSwapSubtitle">Selecciona una alternativa</p>
@@ -354,32 +363,32 @@
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
-            <div class="p-3 border-b bg-gray-50">
-                <input type="text" id="modalSearchInput" placeholder="Buscar alternativa..." class="w-full p-2.5 border rounded-lg text-xs bg-white">
+            <div class="p-3 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800">
+                <input type="text" id="modalSearchInput" placeholder="Buscar alternativa..." class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
             </div>
             <div class="p-4 overflow-y-auto space-y-2 flex-1" id="modalDishList"></div>
         </div>
     </div>
 
     <!-- NAVEGACIÓN INFERIOR -->
-    <nav class="bg-white border-t border-gray-200 h-16 flex-shrink-0 flex justify-around items-center absolute bottom-0 w-full z-10 pb-safe">
-        <button class="nav-btn active flex flex-col items-center justify-center w-full h-full text-indigo-600" data-target="view-banco">
+    <nav class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 h-16 flex-shrink-0 flex justify-around items-center absolute bottom-0 w-full z-10 pb-safe transition-colors">
+        <button class="nav-btn active flex flex-col items-center justify-center w-full h-full text-indigo-600 dark:text-indigo-400" data-target="view-banco">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
             <span class="text-[9px] font-semibold">Banco Platos</span>
         </button>
-        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400" data-target="view-form">
+        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-form">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
             <span class="text-[9px] font-semibold">Añadir</span>
         </button>
-        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400" data-target="view-stock">
+        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-stock">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
             <span class="text-[9px] font-semibold">Stock/Prev.</span>
         </button>
-        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400" data-target="view-generator">
+        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-generator">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
             <span class="text-[9px] font-semibold">Generar</span>
         </button>
-        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400" data-target="view-settings">
+        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-settings">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             <span class="text-[9px] font-semibold">Ajustes</span>
         </button>
@@ -388,9 +397,9 @@
     <script>
         // --- 1. DATOS Y MAPAS DE ESTADO ---
         const demandMap = {
-            "Alta": { text: "🟢 Alta", class: "bg-green-100 text-green-800 border-green-200" },
-            "Media": { text: "🟡 Media", class: "bg-yellow-100 text-yellow-800 border-yellow-200" },
-            "Baja": { text: "🔴 Baja", class: "bg-red-100 text-red-800 border-red-200" }
+            "Alta": { text: "🟢 Alta", class: "bg-green-100 dark:bg-green-950 text-green-800 dark:text-green-300 border-green-200 dark:border-green-800" },
+            "Media": { text: "🟡 Media", class: "bg-yellow-100 dark:bg-yellow-950 text-yellow-800 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800" },
+            "Baja": { text: "🔴 Baja", class: "bg-red-100 dark:bg-red-950 text-red-800 dark:text-red-300 border-red-200 dark:border-red-800" }
         };
 
         const getDemandWeight = (d) => {
@@ -416,7 +425,7 @@
             { id: "14", nombre: "Tortilla de patatas casera", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Vegetariano/Ninguno", tecnica: "Brasa/Plancha", dificultad_lunes: "Normal/Complejo", demanda: "Alta", ingredientes: [{nombre: "Huevos", cantidad: 1.5, unidad: "ud", categoria_proveedor: "Lácteos"}, {nombre: "Patatas peladas", cantidad: 0.20, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] }
         ];
 
-        const seedSettings = { comensales: 100, margenActivo: true };
+        const seedSettings = { comensales: 100, margenActivo: true, darkMode: false };
         const seedRawStock = [];
         const seedPreparedStock = [];
         const proveedorCategorias = ["Carne", "Pescado", "Lácteos", "Verduras y frutas", "Secos", "Congelados"];
@@ -444,6 +453,10 @@
 
             const storedSettings = localStorage.getItem('chefTrack_settings');
             settings = storedSettings ? JSON.parse(storedSettings) : { ...seedSettings };
+            if (settings.darkMode === undefined) settings.darkMode = false;
+
+            applyDarkMode();
+
             const storedRaw = localStorage.getItem('chefTrack_rawStock');
             rawStock = storedRaw ? JSON.parse(storedRaw) : [...seedRawStock];
             const storedPrep = localStorage.getItem('chefTrack_preparedStock');
@@ -464,7 +477,7 @@
         function registerServiceWorker() {
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    const CACHE = 'cheftrack-v7';
+                    const CACHE = 'cheftrack-v8';
                     self.addEventListener('install', e => { self.skipWaiting(); });
                     self.addEventListener('activate', e => { self.clients.claim(); });
                     self.addEventListener('fetch', e => {
@@ -486,6 +499,23 @@
             else localStorage.removeItem('chefTrack_currentMenu');
         }
 
+        function toggleDarkMode() {
+            settings.darkMode = !settings.darkMode;
+            saveAll();
+            applyDarkMode();
+        }
+
+        function applyDarkMode() {
+            const btn = document.getElementById('themeToggleBtn');
+            if (settings.darkMode) {
+                document.documentElement.classList.add('dark');
+                if (btn) btn.innerText = '☀️';
+            } else {
+                document.documentElement.classList.remove('dark');
+                if (btn) btn.innerText = '🌙';
+            }
+        }
+
         // --- 3. EVENTOS Y VISTAS ---
         function setupEventListeners() {
             document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -493,11 +523,11 @@
                     const targetId = e.currentTarget.getAttribute('data-target');
                     switchView(targetId);
                     document.querySelectorAll('.nav-btn').forEach(b => {
-                        b.classList.remove('text-indigo-600', 'active');
-                        b.classList.add('text-gray-400');
+                        b.classList.remove('text-indigo-600', 'dark:text-indigo-400', 'active');
+                        b.classList.add('text-gray-400', 'dark:text-gray-500');
                     });
-                    e.currentTarget.classList.remove('text-gray-400');
-                    e.currentTarget.classList.add('text-indigo-600', 'active');
+                    e.currentTarget.classList.remove('text-gray-400', 'dark:text-gray-500');
+                    e.currentTarget.classList.add('text-indigo-600', 'dark:text-indigo-400', 'active');
                     if (targetId === 'view-form' && !document.getElementById('dishId').value) resetForm();
                 });
             });
@@ -506,9 +536,9 @@
                 btn.addEventListener('click', (e) => {
                     document.querySelectorAll('.filter-lvl1').forEach(b => {
                         b.classList.remove('bg-indigo-600', 'text-white', 'border-transparent', 'active');
-                        b.classList.add('bg-white', 'text-gray-600', 'border-gray-300');
+                        b.classList.add('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-700');
                     });
-                    e.currentTarget.classList.remove('bg-white', 'text-gray-600', 'border-gray-300');
+                    e.currentTarget.classList.remove('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-700');
                     e.currentTarget.classList.add('bg-indigo-600', 'text-white', 'border-transparent', 'active');
                     activeFilterLevel1 = e.currentTarget.getAttribute('data-filter');
                     activeFilterLevel2 = 'all';
@@ -530,11 +560,11 @@
                 btn.addEventListener('click', (e) => {
                     const parentContainer = e.currentTarget.parentElement;
                     parentContainer.querySelectorAll('.filter-lvl2').forEach(b => {
-                        b.classList.remove('bg-indigo-100', 'text-indigo-700', 'border-indigo-200', 'font-bold', 'active');
-                        b.classList.add('bg-white', 'text-gray-600', 'border-gray-300', 'font-semibold');
+                        b.classList.remove('bg-indigo-100', 'dark:bg-indigo-950', 'text-indigo-700', 'dark:text-indigo-300', 'border-indigo-200', 'dark:border-indigo-800', 'font-bold', 'active');
+                        b.classList.add('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-700', 'font-semibold');
                     });
-                    e.currentTarget.classList.remove('bg-white', 'text-gray-600', 'border-gray-300', 'font-semibold');
-                    e.currentTarget.classList.add('bg-indigo-100', 'text-indigo-700', 'border-indigo-200', 'font-bold', 'active');
+                    e.currentTarget.classList.remove('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-700', 'font-semibold');
+                    e.currentTarget.classList.add('bg-indigo-100', 'dark:bg-indigo-950', 'text-indigo-700', 'dark:text-indigo-300', 'border-indigo-200', 'dark:border-indigo-800', 'font-bold', 'active');
                     activeFilterLevel2 = e.currentTarget.getAttribute('data-filter');
                     renderDishes();
                 });
@@ -572,9 +602,9 @@
                 tab.addEventListener('click', (e) => {
                     document.querySelectorAll('.generator-day-tab').forEach(t => {
                         t.classList.remove('bg-indigo-600', 'text-white', 'active');
-                        t.classList.add('bg-white', 'text-gray-600');
+                        t.classList.add('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border', 'border-gray-300', 'dark:border-gray-700');
                     });
-                    e.currentTarget.classList.remove('bg-white', 'text-gray-600');
+                    e.currentTarget.classList.remove('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border', 'border-gray-300', 'dark:border-gray-700');
                     e.currentTarget.classList.add('bg-indigo-600', 'text-white', 'active');
                     selectedGeneratorDay = e.currentTarget.getAttribute('data-day');
                     renderGeneratorView();
@@ -602,12 +632,12 @@
             const contentShop = document.getElementById('subtab-shopping-content');
 
             if (tab === 'menu') {
-                btnMenu.className = "flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all bg-white text-indigo-700 shadow-sm";
-                btnShop.className = "flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all text-gray-600";
+                btnMenu.className = "flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all bg-white dark:bg-gray-900 text-indigo-700 dark:text-indigo-300 shadow-sm";
+                btnShop.className = "flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all text-gray-600 dark:text-gray-400";
                 contentMenu.classList.remove('hidden'); contentShop.classList.add('hidden');
             } else {
-                btnShop.className = "flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all bg-white text-indigo-700 shadow-sm";
-                btnMenu.className = "flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all text-gray-600";
+                btnShop.className = "flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all bg-white dark:bg-gray-900 text-indigo-700 dark:text-indigo-300 shadow-sm";
+                btnMenu.className = "flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all text-gray-600 dark:text-gray-400";
                 contentShop.classList.remove('hidden'); contentMenu.classList.add('hidden');
                 renderShoppingListUI();
             }
@@ -616,13 +646,13 @@
         function resetLevel2UI(containerSelector) {
             const container = document.querySelector(containerSelector);
             container.querySelectorAll('.filter-lvl2').forEach(b => {
-                b.classList.remove('bg-indigo-100', 'text-indigo-700', 'border-indigo-200', 'font-bold', 'active');
-                b.classList.add('bg-white', 'text-gray-600', 'border-gray-300', 'font-semibold');
+                b.classList.remove('bg-indigo-100', 'dark:bg-indigo-950', 'text-indigo-700', 'dark:text-indigo-300', 'border-indigo-200', 'dark:border-indigo-800', 'font-bold', 'active');
+                b.classList.add('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-700', 'font-semibold');
             });
             const allBtn = container.querySelector('[data-filter="all"]');
             if (allBtn) {
-                allBtn.classList.remove('bg-white', 'text-gray-600', 'border-gray-300', 'font-semibold');
-                allBtn.classList.add('bg-indigo-100', 'text-indigo-700', 'border-indigo-200', 'font-bold', 'active');
+                allBtn.classList.remove('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-700', 'font-semibold');
+                allBtn.classList.add('bg-indigo-100', 'dark:bg-indigo-950', 'text-indigo-700', 'dark:text-indigo-300', 'border-indigo-200', 'dark:border-indigo-800', 'font-bold', 'active');
             }
         }
 
@@ -643,32 +673,32 @@
             });
 
             if (filtered.length === 0) {
-                list.innerHTML = '<p class="text-center text-gray-500 mt-10 text-sm">No se encontraron platos.</p>';
+                list.innerHTML = '<p class="text-center text-gray-500 dark:text-gray-400 mt-10 text-sm">No se encontraron platos.</p>';
                 return;
             }
 
             filtered.forEach(d => {
                 const tagType = d.categoria === 'Primero' ? d.subcategoria_primero : d.proteina_segundo;
-                const difficultyColor = d.dificultad_lunes.includes("Fácil") ? "bg-emerald-100 text-emerald-700" : "bg-orange-100 text-orange-700";
+                const difficultyColor = d.dificultad_lunes.includes("Fácil") ? "bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300" : "bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300";
                 const demObj = demandMap[d.demanda || "Media"];
 
                 const card = document.createElement('div');
-                card.className = "bg-white p-3.5 rounded-xl shadow-sm border border-gray-200 relative";
+                card.className = "bg-white dark:bg-gray-900 p-3.5 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 relative transition-colors";
                 card.innerHTML = `
                     <div class="pr-12">
-                        <h3 class="font-bold text-gray-800 text-sm leading-tight mb-1.5">${d.nombre}</h3>
+                        <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm leading-tight mb-1.5">${d.nombre}</h3>
                         <div class="flex flex-wrap gap-1.5 mt-2 items-center">
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 text-indigo-700">${d.categoria}</span>
-                            ${tagType ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-600">${tagType}</span>` : ''}
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 text-purple-700">${d.especie_animal}</span>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-100 text-gray-600">${d.tecnica}</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">${d.categoria}</span>
+                            ${tagType ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-300">${tagType}</span>` : ''}
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300">${d.especie_animal}</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">${d.tecnica}</span>
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold ${difficultyColor}">${d.dificultad_lunes}</span>
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${demObj.class}">${demObj.text}</span>
                         </div>
                     </div>
                     <div class="absolute top-3 right-3 flex flex-col gap-2">
-                        <button onclick="editDish('${d.id}')" class="text-blue-500 bg-blue-50 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
-                        <button onclick="deleteDish('${d.id}')" class="text-red-500 bg-red-50 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                        <button onclick="editDish('${d.id}')" class="text-blue-500 bg-blue-50 dark:bg-blue-950 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
+                        <button onclick="deleteDish('${d.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                     </div>
                 `;
                 list.appendChild(card);
@@ -717,30 +747,30 @@
             const container = document.getElementById('rawStockList');
             container.innerHTML = '';
             if (rawStock.length === 0) {
-                container.innerHTML = '<p class="text-center text-gray-400 text-xs py-2">Sin materia prima en stock.</p>';
+                container.innerHTML = '<p class="text-center text-gray-400 dark:text-gray-500 text-xs py-2">Sin materia prima en stock.</p>';
                 return;
             }
 
             rawStock.forEach(item => {
                 const isFresh = item.conservacion.includes("Fresco") || item.conservacion.includes("Refrigerado");
-                const badgeColor = isFresh ? "bg-amber-100 text-amber-800 border-amber-200" : "bg-cyan-100 text-cyan-800 border-cyan-200";
+                const badgeColor = isFresh ? "bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800" : "bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300 border-cyan-200 dark:border-cyan-800";
 
                 const card = document.createElement('div');
-                card.className = "bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex justify-between items-center";
+                card.className = "bg-white dark:bg-gray-900 p-3 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm flex justify-between items-center transition-colors";
                 card.innerHTML = `
                     <div class="pr-2">
                         <div class="flex items-center gap-1.5 mb-1">
-                            <h4 class="font-bold text-gray-800 text-xs">${item.nombre}</h4>
+                            <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs">${item.nombre}</h4>
                             <span class="text-[9px] px-1.5 py-0.5 rounded font-bold border ${badgeColor}">${isFresh ? 'Fresco' : 'Congelado'}</span>
                         </div>
-                        <div class="text-[11px] text-gray-500">
-                            <span class="font-bold text-indigo-700">${item.cantidad} ${item.unidad}</span> • ${item.categoria_proveedor}
+                        <div class="text-[11px] text-gray-500 dark:text-gray-400">
+                            <span class="font-bold text-indigo-700 dark:text-indigo-400">${item.cantidad} ${item.unidad}</span> • ${item.categoria_proveedor}
                         </div>
                     </div>
                     <div class="flex items-center gap-1">
-                        <button onclick="changeRawQty('${item.id}', -1)" class="w-7 h-7 bg-gray-100 text-gray-700 font-bold rounded-lg text-xs hover:bg-gray-200">-</button>
-                        <button onclick="changeRawQty('${item.id}', 1)" class="w-7 h-7 bg-gray-100 text-gray-700 font-bold rounded-lg text-xs hover:bg-gray-200">+</button>
-                        <button onclick="deleteRaw('${item.id}')" class="text-red-500 bg-red-50 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                        <button onclick="changeRawQty('${item.id}', -1)" class="w-7 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">-</button>
+                        <button onclick="changeRawQty('${item.id}', 1)" class="w-7 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">+</button>
+                        <button onclick="deleteRaw('${item.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                     </div>
                 `;
                 container.appendChild(card);
@@ -780,28 +810,28 @@
             const container = document.getElementById('prepStockList');
             container.innerHTML = '';
             if (preparedStock.length === 0) {
-                container.innerHTML = '<p class="text-center text-gray-400 text-xs py-2">Sin platos elaborados registrados.</p>';
+                container.innerHTML = '<p class="text-center text-gray-400 dark:text-gray-500 text-xs py-2">Sin platos elaborados registrados.</p>';
                 return;
             }
 
             preparedStock.forEach(item => {
                 const isAssigned = item.asignacion && item.asignacion !== "Sin asignar";
-                const badgeColor = isAssigned ? "bg-emerald-100 text-emerald-800 border-emerald-200" : "bg-gray-100 text-gray-600 border-gray-200";
+                const badgeColor = isAssigned ? "bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800" : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700";
 
                 const card = document.createElement('div');
-                card.className = "bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex justify-between items-center";
+                card.className = "bg-white dark:bg-gray-900 p-3 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm flex justify-between items-center transition-colors";
                 card.innerHTML = `
                     <div class="pr-2">
-                        <h4 class="font-bold text-gray-800 text-xs mb-1">${item.nombre}</h4>
+                        <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs mb-1">${item.nombre}</h4>
                         <div class="flex items-center gap-1.5 flex-wrap">
-                            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">${item.raciones} rac.</span>
+                            <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded">${item.raciones} rac.</span>
                             <span class="text-[9px] px-1.5 py-0.5 rounded font-semibold border ${badgeColor}">${item.asignacion || "Sin asignar"}</span>
                         </div>
                     </div>
                     <div class="flex items-center gap-1">
-                        <button onclick="changePrepQty('${item.id}', -10)" class="px-2 h-7 bg-gray-100 text-gray-700 font-bold rounded-lg text-xs hover:bg-gray-200">-10</button>
-                        <button onclick="changePrepQty('${item.id}', 10)" class="px-2 h-7 bg-gray-100 text-gray-700 font-bold rounded-lg text-xs hover:bg-gray-200">+10</button>
-                        <button onclick="deletePrep('${item.id}')" class="text-red-500 bg-red-50 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                        <button onclick="changePrepQty('${item.id}', -10)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">-10</button>
+                        <button onclick="changePrepQty('${item.id}', 10)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">+10</button>
+                        <button onclick="deletePrep('${item.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                     </div>
                 `;
                 container.appendChild(card);
@@ -1018,10 +1048,10 @@
 
             if (!currentMenu || !currentMenu.days || Object.keys(currentMenu.days).length === 0) {
                 container.innerHTML = `
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border text-center space-y-3">
-                        <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto text-xl font-bold">📋</div>
-                        <h3 class="font-bold text-gray-800 text-sm">Menú no generado todavía</h3>
-                        <p class="text-xs text-gray-500 max-w-xs mx-auto">Pulsa el botón superior para calcular la planificación automática de Lunes a Viernes.</p>
+                    <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 text-center space-y-3">
+                        <div class="w-12 h-12 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 rounded-full flex items-center justify-center mx-auto text-xl font-bold">📋</div>
+                        <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Menú no generado todavía</h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 max-w-xs mx-auto">Pulsa el botón superior para calcular la planificación automática de Lunes a Viernes.</p>
                     </div>
                 `;
                 return;
@@ -1032,26 +1062,26 @@
             daysToRender.forEach(dayName => {
                 const slots = currentMenu.days[dayName] || [];
                 const dayCard = document.createElement('div');
-                dayCard.className = "bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-4";
+                dayCard.className = "bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-4 transition-colors";
                 const primeros = slots.slice(0, 3);
                 const segundos = slots.slice(3, 6);
 
                 dayCard.innerHTML = `
-                    <div class="flex justify-between items-center border-b pb-2">
+                    <div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-800 pb-2">
                         <div class="flex items-center gap-2">
                             <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
-                            <h3 class="font-bold text-gray-800 text-base">${dayName}</h3>
+                            <h3 class="font-bold text-gray-800 dark:text-gray-100 text-base">${dayName}</h3>
                         </div>
-                        <button onclick="regenerateSingleDay('${dayName}')" class="text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 shadow-sm">
+                        <button onclick="regenerateSingleDay('${dayName}')" class="text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 shadow-sm">
                             <span>🔄</span> Reorganizar Día
                         </button>
                     </div>
                     <div>
-                        <h4 class="text-xs font-black text-gray-400 uppercase tracking-wider mb-2">1. Primeros Platos</h4>
+                        <h4 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">1. Primeros Platos</h4>
                         <div class="space-y-2">${primeros.map((s, idx) => renderSlotCard(dayName, idx, s)).join('')}</div>
                     </div>
                     <div>
-                        <h4 class="text-xs font-black text-gray-400 uppercase tracking-wider mb-2">2. Segundos Platos</h4>
+                        <h4 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">2. Segundos Platos</h4>
                         <div class="space-y-2">${segundos.map((s, idx) => renderSlotCard(dayName, idx + 3, s)).join('')}</div>
                     </div>
                 `;
@@ -1067,30 +1097,30 @@
             const demObj = demandMap[d.demanda || "Media"];
 
             return `
-                <div class="bg-gray-50 p-3 rounded-lg border border-gray-200 relative flex justify-between items-start gap-2">
+                <div class="bg-gray-50 dark:bg-gray-800/60 p-3 rounded-lg border border-gray-200 dark:border-gray-700 relative flex justify-between items-start gap-2">
                     <div class="space-y-1 flex-1 pr-2">
                         <div class="flex flex-wrap gap-1 items-center">
-                            <span class="px-1.5 py-0.5 rounded text-[9px] font-black bg-indigo-100 text-indigo-800">${slotData.slotLabel}</span>
+                            <span class="px-1.5 py-0.5 rounded text-[9px] font-black bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300">${slotData.slotLabel}</span>
                             <span class="px-1.5 py-0.5 rounded text-[9px] font-bold border ${demObj.class}">${demObj.text}</span>
-                            ${isPrepared ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">📌 Stock</span>` : ''}
-                            ${hasFresh ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 text-amber-800 border border-amber-200">🌿 Fresco</span>` : ''}
-                            ${isRelaxed ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-orange-100 text-orange-800 border border-orange-200">${slotData.warning || '⚠️ Relajado'}</span>` : ''}
+                            ${isPrepared ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">📌 Stock</span>` : ''}
+                            ${hasFresh ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800">🌿 Fresco</span>` : ''}
+                            ${isRelaxed ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-orange-100 dark:bg-orange-950 text-orange-800 dark:text-orange-300 border border-orange-200 dark:border-orange-800">${slotData.warning || '⚠️ Relajado'}</span>` : ''}
                         </div>
-                        <h5 class="font-bold text-gray-800 text-xs leading-tight">${d.nombre || 'Sin asignación'}</h5>
-                        <div class="flex flex-wrap gap-1 text-[9px] text-gray-500 font-medium">
+                        <h5 class="font-bold text-gray-800 dark:text-gray-100 text-xs leading-tight">${d.nombre || 'Sin asignación'}</h5>
+                        <div class="flex flex-wrap gap-1 text-[9px] text-gray-500 dark:text-gray-400 font-medium">
                             ${d.especie_animal ? `<span>• ${d.especie_animal}</span>` : ''}
                             ${d.tecnica ? `<span>• ${d.tecnica}</span>` : ''}
                             ${d.dificultad_lunes ? `<span>• ${d.dificultad_lunes}</span>` : ''}
                         </div>
                     </div>
-                    <button onclick="openSwapModal('${dayName}', ${slotIndex})" class="text-indigo-600 bg-white border border-indigo-200 px-2.5 py-1.5 rounded-lg text-xs font-bold shadow-sm flex-shrink-0 active:bg-indigo-50">
+                    <button onclick="openSwapModal('${dayName}', ${slotIndex})" class="text-indigo-600 dark:text-indigo-400 bg-white dark:bg-gray-900 border border-indigo-200 dark:border-indigo-700 px-2.5 py-1.5 rounded-lg text-xs font-bold shadow-sm flex-shrink-0 active:bg-indigo-50 dark:active:bg-indigo-950">
                         ✏️ Cambiar
                     </button>
                 </div>
             `;
         }
 
-        // --- 7. CÁLCULO DE LA LISTA DE COMPRA (CON UNIFICACIÓN DE CARNE Y REDONDEO HACIA ARRIBA) ---
+        // --- 7. CÁLCULO DE LA LISTA DE COMPRA ---
         function calculateShoppingList() {
             if (!currentMenu || !currentMenu.days) return null;
 
@@ -1198,7 +1228,7 @@
                     stockUsedTracker[item.nombre.toLowerCase()] = (stockUsedTracker[item.nombre.toLowerCase()] || 0) + stockToApply;
 
                     const netNeeded = Math.max(0, totalNeed - stockToApply);
-                    const finalOrder = Math.ceil(netNeeded); // Redondeo hacia arriba al entero superior
+                    const finalOrder = Math.ceil(netNeeded);
 
                     return {
                         nombre: item.nombre,
@@ -1214,7 +1244,6 @@
             const carne1List = processItemsMap(carne1Map);
             const carne2List = processItemsMap(carne2Map);
 
-            // Unificación visual de la Carne
             const unifiedCarneMap = {};
             [...carne1List, ...carne2List].forEach(item => {
                 const key = `${item.nombre.toLowerCase()}_${item.unidad.toLowerCase()}`;
@@ -1259,7 +1288,7 @@
             const data = calculateShoppingList();
             
             if (!data) {
-                container.innerHTML = '<p class="text-center text-gray-500 py-6 text-xs">Genera el menú semanal para visualizar las necesidades de compra.</p>';
+                container.innerHTML = '<p class="text-center text-gray-500 dark:text-gray-400 py-6 text-xs">Genera el menú semanal para visualizar las necesidades de compra.</p>';
                 return;
             }
 
@@ -1268,28 +1297,28 @@
 
             function createCategoryCard(title, list, badgeColor) {
                 const card = document.createElement('div');
-                card.className = "bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-2";
+                card.className = "bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-2 transition-colors";
                 
                 let itemsHTML = '';
                 if (list.length === 0) {
-                    itemsHTML = '<p class="text-xs text-gray-400 italic">Todo cubierto por stock o sin necesidades.</p>';
+                    itemsHTML = '<p class="text-xs text-gray-400 dark:text-gray-500 italic">Todo cubierto por stock o sin necesidades.</p>';
                 } else {
                     itemsHTML = list.map(item => `
-                        <div class="flex justify-between items-center p-2 bg-gray-50 rounded-lg border text-xs">
+                        <div class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-800/60 rounded-lg border border-gray-200 dark:border-gray-700 text-xs">
                             <div>
-                                <span class="font-bold text-gray-800">${item.nombre}</span>
-                                ${item.stockApplied > 0 ? `<span class="block text-[10px] text-emerald-600 font-semibold">(Bruto: ${item.totalNeed}${item.unidad} - Stock: ${item.stockApplied}${item.unidad})</span>` : ''}
+                                <span class="font-bold text-gray-800 dark:text-gray-100">${item.nombre}</span>
+                                ${item.stockApplied > 0 ? `<span class="block text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">(Bruto: ${item.totalNeed}${item.unidad} - Stock: ${item.stockApplied}${item.unidad})</span>` : ''}
                             </div>
-                            <div class="font-black text-indigo-700 text-sm whitespace-nowrap">
-                                ${item.finalOrder} <span class="text-xs text-gray-500 font-medium">${item.unidad}</span>
+                            <div class="font-black text-indigo-700 dark:text-indigo-400 text-sm whitespace-nowrap">
+                                ${item.finalOrder} <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">${item.unidad}</span>
                             </div>
                         </div>
                     `).join('');
                 }
 
                 card.innerHTML = `
-                    <div class="flex justify-between items-center border-b pb-2">
-                        <h4 class="font-bold text-gray-800 text-xs uppercase tracking-wider">${title}</h4>
+                    <div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-800 pb-2">
+                        <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs uppercase tracking-wider">${title}</h4>
                         <span class="text-[10px] px-2 py-0.5 rounded-full font-bold ${badgeColor}">${list.length} arts.</span>
                     </div>
                     <div class="space-y-1.5 pt-1">${itemsHTML}</div>
@@ -1297,15 +1326,15 @@
                 return card;
             }
 
-            container.appendChild(createCategoryCard("🥩 Carne", data.carneList, "bg-red-100 text-red-800"));
-            container.appendChild(createCategoryCard("🐟 Pescado", data.otherLists["Pescado"] || [], "bg-blue-100 text-blue-800"));
-            container.appendChild(createCategoryCard("🥛 Lácteos", data.otherLists["Lácteos"] || [], "bg-purple-100 text-purple-800"));
-            container.appendChild(createCategoryCard("🥬 Verduras y frutas", data.otherLists["Verduras y frutas"] || [], "bg-emerald-100 text-emerald-800"));
-            container.appendChild(createCategoryCard("🌾 Secos", data.otherLists["Secos"] || [], "bg-amber-100 text-amber-800"));
-            container.appendChild(createCategoryCard("❄️ Congelados", data.otherLists["Congelados"] || [], "bg-cyan-100 text-cyan-800"));
+            container.appendChild(createCategoryCard("🥩 Carne", data.carneList, "bg-red-100 dark:bg-red-950 text-red-800 dark:text-red-300"));
+            container.appendChild(createCategoryCard("🐟 Pescado", data.otherLists["Pescado"] || [], "bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300"));
+            container.appendChild(createCategoryCard("🥛 Lácteos", data.otherLists["Lácteos"] || [], "bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300"));
+            container.appendChild(createCategoryCard("🥬 Verduras y frutas", data.otherLists["Verduras y frutas"] || [], "bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300"));
+            container.appendChild(createCategoryCard("🌾 Secos", data.otherLists["Secos"] || [], "bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300"));
+            container.appendChild(createCategoryCard("❄️ Congelados", data.otherLists["Congelados"] || [], "bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300"));
         }
 
-        // --- 8. EXPORTACIONES .TXT (MENÚ SEMANAL LIMPIO Y LISTA UNIFICADA) ---
+        // --- 8. EXPORTACIONES .TXT ---
         function downloadShoppingListTxt() {
             const data = calculateShoppingList();
             if (!data) { alert("Genera primero el menú semanal."); return; }
@@ -1400,21 +1429,21 @@
             if (!container) return;
             container.innerHTML = '';
             if (historyMenus.length === 0) {
-                container.innerHTML = '<p class="text-xs text-gray-400 py-2 text-center">No hay menús guardados en el histórico.</p>';
+                container.innerHTML = '<p class="text-xs text-gray-400 dark:text-gray-500 py-2 text-center">No hay menús guardados en el histórico.</p>';
                 return;
             }
 
             historyMenus.forEach(item => {
                 const card = document.createElement('div');
-                card.className = "bg-gray-50 p-3 rounded-lg border border-gray-200 flex justify-between items-center";
+                card.className = "bg-gray-50 dark:bg-gray-800/60 p-3 rounded-lg border border-gray-200 dark:border-gray-700 flex justify-between items-center transition-colors";
                 card.innerHTML = `
                     <div>
-                        <h4 class="font-bold text-gray-800 text-xs">${item.title}</h4>
-                        <p class="text-[10px] text-gray-500">Guardado el ${item.savedAt} • ${item.totalRaciones} rac.</p>
+                        <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs">${item.title}</h4>
+                        <p class="text-[10px] text-gray-500 dark:text-gray-400">Guardado el ${item.savedAt} • ${item.totalRaciones} rac.</p>
                     </div>
                     <div class="flex items-center gap-1.5">
-                        <button onclick="loadHistoryMenu('${item.id}')" class="text-indigo-600 bg-white border border-indigo-200 px-2 py-1 rounded text-xs font-bold shadow-sm">👁️ Cargar</button>
-                        <button onclick="deleteHistoryMenu('${item.id}')" class="text-red-500 bg-red-50 p-1 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                        <button onclick="loadHistoryMenu('${item.id}')" class="text-indigo-600 dark:text-indigo-400 bg-white dark:bg-gray-900 border border-indigo-200 dark:border-indigo-700 px-2 py-1 rounded text-xs font-bold shadow-sm">👁️ Cargar</button>
+                        <button onclick="deleteHistoryMenu('${item.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                     </div>
                 `;
                 container.appendChild(card);
@@ -1471,7 +1500,7 @@
             });
 
             if (categoryDishes.length === 0) {
-                container.innerHTML = '<p class="text-center text-gray-400 text-xs py-4">No hay platos disponibles.</p>';
+                container.innerHTML = '<p class="text-center text-gray-400 dark:text-gray-500 text-xs py-4">No hay platos disponibles.</p>';
                 return;
             }
 
@@ -1481,17 +1510,17 @@
                 const demObj = demandMap[d.demanda || "Media"];
 
                 const itemBtn = document.createElement('button');
-                itemBtn.className = `w-full text-left p-3 rounded-xl border flex justify-between items-center transition-all ${isCurrent ? 'bg-indigo-50 border-indigo-300 ring-2 ring-indigo-500' : 'bg-white border-gray-200 hover:bg-gray-50'}`;
+                itemBtn.className = `w-full text-left p-3 rounded-xl border flex justify-between items-center transition-all ${isCurrent ? 'bg-indigo-50 dark:bg-indigo-950 border-indigo-300 dark:border-indigo-700 ring-2 ring-indigo-500' : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800'}`;
                 itemBtn.innerHTML = `
                     <div>
-                        <h4 class="font-bold text-gray-800 text-xs mb-1">${d.nombre} ${isCurrent ? '<span class="text-indigo-600 font-bold ml-1">(Actual)</span>' : ''}</h4>
+                        <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs mb-1">${d.nombre} ${isCurrent ? '<span class="text-indigo-600 dark:text-indigo-400 font-bold ml-1">(Actual)</span>' : ''}</h4>
                         <div class="flex gap-1 flex-wrap items-center">
-                            <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-gray-100 text-gray-600">${tagType}</span>
-                            <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-purple-50 text-purple-700">${d.especie_animal}</span>
+                            <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">${tagType}</span>
+                            <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300">${d.especie_animal}</span>
                             <span class="px-1.5 py-0.5 rounded text-[9px] font-bold border ${demObj.class}">${demObj.text}</span>
                         </div>
                     </div>
-                    <span class="text-xs font-bold text-indigo-600">Seleccionar</span>
+                    <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400">Seleccionar</span>
                 `;
                 itemBtn.onclick = () => selectSwapDish(d);
                 container.appendChild(itemBtn);
@@ -1516,15 +1545,15 @@
             const catsHTML = proveedorCategorias.map(c => `<option value="${c}" ${ing && ing.categoria_proveedor === c ? 'selected' : ''}>${c}</option>`).join('');
 
             row.innerHTML = `
-                <input type="text" placeholder="Ingrediente..." class="w-2/5 p-2 border rounded-md text-xs ing-nombre" value="${ing ? ing.nombre : ''}" required>
-                <input type="number" step="0.001" placeholder="Cant." class="w-1/5 p-2 border rounded-md text-xs ing-cantidad" value="${ing ? ing.cantidad : ''}" required>
-                <select class="w-1/5 p-2 border rounded-md text-xs ing-unidad bg-white">
+                <input type="text" placeholder="Ingrediente..." class="w-2/5 p-2 border border-gray-300 dark:border-gray-700 rounded-md text-xs ing-nombre bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100" value="${ing ? ing.nombre : ''}" required>
+                <input type="number" step="0.001" placeholder="Cant." class="w-1/5 p-2 border border-gray-300 dark:border-gray-700 rounded-md text-xs ing-cantidad bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100" value="${ing ? ing.cantidad : ''}" required>
+                <select class="w-1/5 p-2 border border-gray-300 dark:border-gray-700 rounded-md text-xs ing-unidad bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                     <option value="kg" ${ing && ing.unidad === 'kg' ? 'selected' : ''}>kg</option>
                     <option value="g" ${ing && ing.unidad === 'g' ? 'selected' : ''}>g</option>
                     <option value="ud" ${ing && ing.unidad === 'ud' ? 'selected' : ''}>ud</option>
                     <option value="L" ${ing && ing.unidad === 'L' ? 'selected' : ''}>L</option>
                 </select>
-                <select class="w-1/5 p-2 border rounded-md text-xs ing-categoria bg-white">
+                <select class="w-1/5 p-2 border border-gray-300 dark:border-gray-700 rounded-md text-xs ing-categoria bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                     ${catsHTML}
                 </select>
                 <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold p-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
@@ -1616,7 +1645,7 @@
         // --- 12. RESPALDOS ---
         function exportData() {
             const backupObj = {
-                app: "ChefTrack", version: "7.0", date: new Date().toISOString(),
+                app: "ChefTrack", version: "8.0", date: new Date().toISOString(),
                 settings, dishes, rawStock, preparedStock, currentMenu, historyMenus
             };
             const dataStr = JSON.stringify(backupObj, null, 2);
