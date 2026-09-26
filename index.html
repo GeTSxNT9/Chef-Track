@@ -299,7 +299,7 @@
                         <h3 class="font-bold text-gray-800 text-sm">Cálculo por Proveedores</h3>
                         <span class="text-[10px] font-bold bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full" id="shoppingRacionesBadge">130 Raciones</span>
                     </div>
-                    <p class="text-xs text-gray-500 leading-snug">Raciones calculadas proporcionalmente según la demanda del plato (Alta=3x, Media=2x, Baja=1x) vs total del grupo.</p>
+                    <p class="text-xs text-gray-500 leading-snug">Cantidades redondeadas hacia arriba y agrupadas en una única categoría unificada de Carne.</p>
                     <button id="btnDownloadShoppingTxt" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-3 rounded-lg text-xs flex items-center justify-center gap-2 shadow-sm">
                         <span>📄</span> Descargar Lista (.txt)
                     </button>
@@ -396,7 +396,7 @@
         const getDemandWeight = (d) => {
             if (d === 'Alta') return 3;
             if (d === 'Baja') return 1;
-            return 2; // Media
+            return 2;
         };
 
         const seedDishes = [
@@ -464,7 +464,7 @@
         function registerServiceWorker() {
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    const CACHE = 'cheftrack-v6';
+                    const CACHE = 'cheftrack-v7';
                     self.addEventListener('install', e => { self.skipWaiting(); });
                     self.addEventListener('activate', e => { self.clients.claim(); });
                     self.addEventListener('fetch', e => {
@@ -1090,15 +1090,15 @@
             `;
         }
 
-        // --- 7. CÁLCULO DE LA LISTA DE COMPRA (CORREGIDO Y ROBUSTO) ---
+        // --- 7. CÁLCULO DE LA LISTA DE COMPRA (CON UNIFICACIÓN DE CARNE Y REDONDEO HACIA ARRIBA) ---
         function calculateShoppingList() {
             if (!currentMenu || !currentMenu.days) return null;
 
             const baseComensales = settings.comensales || 100;
             const totalRaciones = settings.margenActivo ? Math.round(baseComensales * 1.3) : baseComensales;
 
-            const carne1Map = {}; // Lunes a Miércoles
-            const carne2Map = {}; // Jueves y Viernes
+            const carne1Map = {}; 
+            const carne2Map = {}; 
             const otherMap = {
                 "Pescado": {},
                 "Lácteos": {},
@@ -1115,7 +1115,6 @@
                 const primeros = daySlots.slice(0, 3);
                 const segundos = daySlots.slice(3, 6);
 
-                // Pesos totales de demanda para el grupo de Primeros y Segundos de este día
                 const weightPrimeros = primeros.reduce((sum, slot) => {
                     const dish = slot.dish;
                     if (!dish || dish.id === 'none') return sum;
@@ -1136,7 +1135,6 @@
                     const groupWeight = isPrimero ? weightPrimeros : weightSegundos;
                     const dishWeight = getDemandWeight(dish.demanda || 'Media');
 
-                    // Proporción exacta de raciones para este plato en este día
                     const ratio = groupWeight > 0 ? (dishWeight / groupWeight) : (1 / 3);
                     const dishRaciones = totalRaciones * ratio;
 
@@ -1146,7 +1144,6 @@
                         let unit = ing.unidad || "kg";
                         const cat = ing.categoria_proveedor || "Secos";
 
-                        // Conversión segura de gramos a kilos
                         if (unit === 'g') {
                             qtyPerRation = qtyPerRation / 1000;
                             unit = 'kg';
@@ -1191,7 +1188,7 @@
 
             function processItemsMap(itemsMap) {
                 return Object.values(itemsMap).map(item => {
-                    const totalNeed = +item.cantidadNeeded.toFixed(2);
+                    const totalNeed = item.cantidadNeeded;
                     let availableStock = findStockForIngredient(item.nombre, item.unidad);
 
                     const used = stockUsedTracker[item.nombre.toLowerCase()] || 0;
@@ -1200,13 +1197,14 @@
                     const stockToApply = Math.min(totalNeed, availableStock);
                     stockUsedTracker[item.nombre.toLowerCase()] = (stockUsedTracker[item.nombre.toLowerCase()] || 0) + stockToApply;
 
-                    const finalOrder = +Math.max(0, totalNeed - stockToApply).toFixed(2);
+                    const netNeeded = Math.max(0, totalNeed - stockToApply);
+                    const finalOrder = Math.ceil(netNeeded); // Redondeo hacia arriba al entero superior
 
                     return {
                         nombre: item.nombre,
                         unidad: item.unidad,
                         categoria_proveedor: item.categoria_proveedor,
-                        totalNeed,
+                        totalNeed: +totalNeed.toFixed(2),
                         stockApplied: +stockToApply.toFixed(2),
                         finalOrder
                     };
@@ -1215,6 +1213,33 @@
 
             const carne1List = processItemsMap(carne1Map);
             const carne2List = processItemsMap(carne2Map);
+
+            // Unificación visual de la Carne
+            const unifiedCarneMap = {};
+            [...carne1List, ...carne2List].forEach(item => {
+                const key = `${item.nombre.toLowerCase()}_${item.unidad.toLowerCase()}`;
+                if (!unifiedCarneMap[key]) {
+                    unifiedCarneMap[key] = {
+                        nombre: item.nombre,
+                        unidad: item.unidad,
+                        categoria_proveedor: "Carne",
+                        totalNeed: 0,
+                        stockApplied: 0,
+                        finalOrder: 0
+                    };
+                }
+                unifiedCarneMap[key].totalNeed += item.totalNeed;
+                unifiedCarneMap[key].stockApplied += item.stockApplied;
+                unifiedCarneMap[key].finalOrder += item.finalOrder;
+            });
+
+            const carneList = Object.values(unifiedCarneMap).map(item => ({
+                ...item,
+                totalNeed: +item.totalNeed.toFixed(2),
+                stockApplied: +item.stockApplied.toFixed(2),
+                finalOrder: Math.ceil(item.finalOrder)
+            })).filter(item => item.finalOrder > 0);
+
             const otherLists = {};
             Object.keys(otherMap).forEach(cat => {
                 otherLists[cat] = processItemsMap(otherMap[cat]);
@@ -1224,8 +1249,7 @@
                 totalRaciones,
                 baseComensales,
                 margenActivo: settings.margenActivo,
-                carne1List,
-                carne2List,
+                carneList,
                 otherLists
             };
         }
@@ -1273,8 +1297,7 @@
                 return card;
             }
 
-            container.appendChild(createCategoryCard("🥩 Carne 1 (Lunes a Miércoles)", data.carne1List, "bg-red-100 text-red-800"));
-            container.appendChild(createCategoryCard("🥩 Carne 2 (Jueves y Viernes)", data.carne2List, "bg-orange-100 text-orange-800"));
+            container.appendChild(createCategoryCard("🥩 Carne", data.carneList, "bg-red-100 text-red-800"));
             container.appendChild(createCategoryCard("🐟 Pescado", data.otherLists["Pescado"] || [], "bg-blue-100 text-blue-800"));
             container.appendChild(createCategoryCard("🥛 Lácteos", data.otherLists["Lácteos"] || [], "bg-purple-100 text-purple-800"));
             container.appendChild(createCategoryCard("🥬 Verduras y frutas", data.otherLists["Verduras y frutas"] || [], "bg-emerald-100 text-emerald-800"));
@@ -1282,12 +1305,16 @@
             container.appendChild(createCategoryCard("❄️ Congelados", data.otherLists["Congelados"] || [], "bg-cyan-100 text-cyan-800"));
         }
 
-        // --- 8. EXPORTACIONES .TXT ---
+        // --- 8. EXPORTACIONES .TXT (MENÚ SEMANAL LIMPIO Y LISTA UNIFICADA) ---
         function downloadShoppingListTxt() {
             const data = calculateShoppingList();
             if (!data) { alert("Genera primero el menú semanal."); return; }
 
-            let txt = `========================================\nCHEFTRACK - LISTA DE COMPRA PROVEEDORES\nFecha: ${new Date().toLocaleDateString('es-ES')}\nPrevisión: ${data.totalRaciones} Raciones Totales\n========================================\n\n`;
+            let txt = `========================================\n`;
+            txt += `CHEFTRACK - LISTA DE COMPRA PROVEEDORES\n`;
+            txt += `Fecha: ${new Date().toLocaleDateString('es-ES')}\n`;
+            txt += `Previsión: ${data.totalRaciones} Raciones Totales\n`;
+            txt += `========================================\n\n`;
 
             function formatListSection(title, list) {
                 let sec = `--- ${title.toUpperCase()} ---\n`;
@@ -1299,8 +1326,7 @@
                 return sec + `\n`;
             }
 
-            txt += formatListSection("Carne - Pedido 1 (Lunes a Miércoles)", data.carne1List);
-            txt += formatListSection("Carne - Pedido 2 (Jueves y Viernes)", data.carne2List);
+            txt += formatListSection("Carne", data.carneList);
             txt += formatListSection("Pescado", data.otherLists["Pescado"] || []);
             txt += formatListSection("Lácteos", data.otherLists["Lácteos"] || []);
             txt += formatListSection("Verduras y Frutas", data.otherLists["Verduras y frutas"] || []);
@@ -1314,22 +1340,31 @@
             if (!currentMenu || !currentMenu.days) { alert("Genera primero el menú semanal."); return; }
             const totalRaciones = settings.margenActivo ? Math.round(settings.comensales * 1.3) : settings.comensales;
 
-            let txt = `========================================\nCHEFTRACK - MENÚ SEMANAL DE COMEDOR\nFecha: ${new Date().toLocaleDateString('es-ES')}\nPrevisión: ${totalRaciones} Raciones Diarias\n========================================\n\n`;
+            let txt = `CHEFTRACK - MENÚ SEMANAL DE COMEDOR\n`;
+            txt += `Fecha: ${new Date().toLocaleDateString('es-ES')} | Previsión: ${totalRaciones} Raciones\n\n`;
 
             daysList.forEach(dayName => {
-                txt += `========================================\n${dayName.toUpperCase()}\n========================================\n`;
+                txt += `${dayName.toUpperCase()}\n\n`;
                 const slots = currentMenu.days[dayName] || [];
                 const primeros = slots.slice(0, 3);
                 const segundos = slots.slice(3, 6);
 
-                txt += `PRIMEROS PLATOS:\n`;
-                primeros.forEach(s => { txt += `  • [${s.slotLabel}] ${s.dish.nombre || 'Sin asignación'}\n`; });
-                txt += `\nSEGUNDOS PLATOS:\n`;
-                segundos.forEach(s => { txt += `  • [${s.slotLabel}] ${s.dish.nombre || 'Sin asignación'}\n`; });
-                txt += `\n`;
+                txt += `Primeros\n`;
+                primeros.forEach(s => {
+                    const nombre = s.dish && s.dish.nombre ? s.dish.nombre : 'Sin asignación';
+                    txt += `- ${nombre}\n`;
+                });
+
+                txt += `\nSegundos\n`;
+                segundos.forEach(s => {
+                    const nombre = s.dish && s.dish.nombre ? s.dish.nombre : 'Sin asignación';
+                    txt += `- ${nombre}\n`;
+                });
+
+                txt += `\n\n`;
             });
 
-            downloadFile(txt, `ChefTrack_Menu_Semanal_${new Date().toISOString().split('T')[0]}.txt`, "text/plain;charset=utf-8");
+            downloadFile(txt.trim(), `ChefTrack_Menu_Semanal_${new Date().toISOString().split('T')[0]}.txt`, "text/plain;charset=utf-8");
         }
 
         function downloadFile(content, fileName, mimeType) {
@@ -1581,7 +1616,7 @@
         // --- 12. RESPALDOS ---
         function exportData() {
             const backupObj = {
-                app: "ChefTrack", version: "6.0", date: new Date().toISOString(),
+                app: "ChefTrack", version: "7.0", date: new Date().toISOString(),
                 settings, dishes, rawStock, preparedStock, currentMenu, historyMenus
             };
             const dataStr = JSON.stringify(backupObj, null, 2);
