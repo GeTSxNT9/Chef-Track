@@ -17,21 +17,21 @@
 
 ## Project Vision
 
-**GastroOS** is a high-performance Progressive Web App (PWA) engineered by a solo chef responsible for single-handedly preparing 6 distinct dishes daily for 150–200 diners. Unlike traditional static recipe managers, **GastroOS** acts as an operational decision engine—automating weekly menu creation (Monday through Friday) while guaranteeing strict nutritional balance, culinary logic, and repetition control with zero administrative overhead.
+**GastroOS** is a high-performance Progressive Web App (PWA) engineered by a solo chef responsible for single-handedly preparing 6 distinct dishes daily for 150–200 diners. Unlike traditional static recipe managers, **GastroOS** acts as an operational decision engine—automating weekly menu creation (Monday through Friday) while guaranteeing strict nutritional balance, culinary logic, texture compatibility, and zero-repetition rules with no administrative overhead.
 
 ---
 
 ## Key Features
 
-* **Solo-Operator Optimized**: Built specifically for single-chef operations where one person executes the entire 6-dish daily menu, drastically reducing decision fatigue and planning time.
+* **Solo-Operator Optimized**: Built specifically for single-chef operations executing an entire 6-dish daily menu, drastically eliminating decision fatigue and planning friction.
 * **Apple HIG-Inspired UI**: Clean, glassmorphic aesthetic with crystal-clear typography and high-ergonomics touch controls tailored for fast-paced kitchen environments.
 * **Strict 3x3 Daily Structure**:
   * **3 Starters**: `1st Vegetable` + `1st Spoon/Soup` + `1st Fork/Carbs`.
   * **3 Mains**: `2nd Meat (Option 1)` + `2nd Meat (Option 2)` + `2nd Fish (Mandatory)`.
-* **Smart Rotation Engine**: Intra-day and inter-day heuristic filtering to prevent protein overlap, limit fried foods, and enforce species rotation.
-* **2-Tier Fallback System**: Progressive rule relaxation if the user's recipe collection is limited, strictly preserving weekly dish ID uniqueness and daily animal variety.
+* **Advanced Heuristic Engine**: Enforces strict intra-day texture compatibility, zero weekly vegetable duplication, species rotation, and technique caps.
+* **Inter-Week Memory System**: Stores historical menus to alter weekly structures dynamically, preventing copy-paste template fatigue.
+* **2-Tier Fallback System**: Progressive rule relaxation if the user's recipe collection is limited, strictly preserving weekly dish ID uniqueness and daily meat variety.
 * **Zero Server / 100% Offline**: Privacy-first. Runs entirely in client storage (`localStorage` / `IndexedDB`) with zero external API dependencies.
-* **Retroactive Tagging Tool**: Seamless modal interface to classify legacy recipes with subcategories, exact fish species, and cooking techniques.
 
 ---
 
@@ -51,14 +51,18 @@
 ## Algorithm Logic & Rules
 
 ### 1. Intra-Day Constraints (Same Day)
-* **Protein Diversity**: Prohibited to serve the same animal type twice in a single day (e.g., *Chicken + Chicken*).
-* **Technique Balance**: Prohibited to pair two stewed meats or two fried/breaded options on the same day.
+* **Protein Diversity in Mains**: Prohibited to serve the same animal species across both meat mains on the same day (e.g., *Pork + Pork* is forbidden). Meat derivatives in starters (e.g., ham in vegetables) do not block animal selection for mains.
+* **Liquid Texture Incompatibility**: Prohibited to pair two liquid/puréed starters on the same day (`verdura_crema` and `cuchara_sopas_caldos` cannot co-exist in the same daily menu).
+* **Technique Balance**: Prohibited to offer two stewed meats or two fried options on the same day.
 
-### 2. Inter-Day Constraints (Consecutive Days)
-* **Fish Rotation**: Daily fish is mandatory, but **repeating the exact same species on consecutive days is forbidden** (e.g., *Hake* Tuesday ➔ *Cod* Wednesday).
-* **Meat Caps**: Maximum **2 consecutive days** featuring the same animal species.
+### 2. Inter-Day & Weekly Constraints (Monday to Friday)
+* **Zero Weekly Vegetable Repetition**: Strict veto on repeating the main vegetable ingredient in the `1st Vegetable` slot across the entire 5-day week (e.g., Green Beans on Monday vetoes Green Beans for the rest of the week).
+* **Fish Rotation**: Daily fish is mandatory, but **repeating the exact same species on consecutive days is forbidden**.
+* **Meat Caps & Techniques**: Maximum **2 consecutive days** featuring the same animal species. Stewed meats (`tecnica_guiso`) are strictly capped at **2–3 per week**, and fried foods (`tecnica_frito_rebozado`) at **max 2 per week**.
 * **Legumes & Cream Soups**: Forbidden on consecutive days (`cuchara_legumbres` & `verdura_crema`).
-* **Weekly Fried Food Limit**: Maximum **2 fried/breaded dishes per week** across the entire mains menu.
+
+### 3. Inter-Week Memory (Anti-Template System)
+* **Historical Memory**: Persists the previous week's generated menu (`previousWeekMenu`) in local storage. When generating a new week, the engine alters the menu layout and subcategory sequence to prevent pattern repetition.
 
 ---
 
