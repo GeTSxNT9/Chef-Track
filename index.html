@@ -81,7 +81,7 @@
                 <input type="hidden" id="dishId">
                 
                 <div>
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Nombre del Plato</label>
+                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Nombre</label>
                     <input type="text" id="dishName" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-900 focus:ring-2 focus:ring-indigo-500">
                 </div>
 
@@ -96,7 +96,7 @@
                     </div>
                     
                     <div id="subcatPrimeroContainer" class="hidden">
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Tipo de Primero</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Tipo</label>
                         <select id="dishSubcategory" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                             <option value="Verdura">Verdura</option>
                             <option value="Cuchara">Cuchara</option>
@@ -105,7 +105,7 @@
                     </div>
 
                     <div id="protSegundoContainer" class="hidden">
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Proteína Segundo</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Tipo</label>
                         <select id="dishProtein" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                             <option value="Carne">Carne</option>
                             <option value="Pescado">Pescado</option>
@@ -130,17 +130,17 @@
                     <select id="dishTechnique" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                         <option value="Guisado">Guisado</option>
                         <option value="Asado">Asado</option>
-                        <option value="Brasa/Plancha">Brasa/Plancha</option>
-                        <option value="Frito/Rebozado">Frito/Rebozado</option>
+                        <option value="Brasa/Plancha">Brasa / Plancha</option>
+                        <option value="Frito/Rebozado">Frito / Rebozado</option>
                     </select>
                 </div>
 
                 <div>
                     <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Aceptación/Demanda</label>
                     <select id="dishDemand" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                        <option value="Alta">🟢 Alta (Éxito)</option>
-                        <option value="Media" selected>🟡 Media (Estándar)</option>
-                        <option value="Baja">🔴 Baja (Ligera)</option>
+                        <option value="Alta">🟢 Alta</option>
+                        <option value="Media" selected>🟡 Media</option>
+                        <option value="Baja">🔴 Baja</option>
                     </select>
                 </div>
 
@@ -169,7 +169,7 @@
             <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
                 <div class="flex items-center gap-2 mb-3">
                     <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    <h2 class="text-base font-bold text-gray-800 dark:text-gray-100">Previsión de Comensales</h2>
+                    <h2 class="text-base font-bold text-gray-800 dark:text-gray-100">PREVISIÓN DE COMENSALES</h2>
                 </div>
                 <div class="grid grid-cols-1 gap-3">
                     <div>
@@ -191,7 +191,7 @@
                 <div class="flex justify-between items-center mb-3">
                     <div class="flex items-center gap-2">
                         <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-                        <h2 class="text-base font-bold text-gray-800 dark:text-gray-100">Materia Prima en Stock</h2>
+                        <h2 class="text-base font-bold text-gray-800 dark:text-gray-100">MATERIA PRIMA EN STOCK</h2>
                     </div>
                 </div>
                 <form id="rawStockForm" class="bg-gray-50 dark:bg-gray-800/60 p-3 rounded-lg border border-gray-200 dark:border-gray-700 space-y-3 mb-4">
@@ -229,7 +229,7 @@
             <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
                 <div class="flex items-center gap-2 mb-3">
                     <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                    <h2 class="text-base font-bold text-gray-800 dark:text-gray-100">Platos Ya Elaborados</h2>
+                    <h2 class="text-base font-bold text-gray-800 dark:text-gray-100">PLATOS ELABORADOS</h2>
                 </div>
                 <form id="prepStockForm" class="bg-gray-50 dark:bg-gray-800/60 p-3 rounded-lg border border-gray-200 dark:border-gray-700 space-y-3 mb-4">
                     <div>
@@ -302,10 +302,10 @@
             <div id="subtab-shopping-content" class="hidden space-y-4">
                 <div class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-3">
                     <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Cálculo por Proveedores</h3>
+                        <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">CÁLCULO CATEGORIZADO POR PROVEEDORES</h3>
                         <span class="text-[10px] font-bold bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 px-2 py-0.5 rounded-full" id="shoppingRacionesBadge">130 Raciones</span>
                     </div>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 leading-snug">Cantidades redondeadas estrictamente hacia arriba al número entero superior y agrupadas en categorías unificadas.</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 leading-snug">Cantidades agrupadas en categorías unificadas.</p>
                     <button id="btnDownloadShoppingTxt" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-3 rounded-lg text-xs flex items-center justify-center gap-2 shadow-sm">
                         <span>📄</span> Descargar Lista (.txt)
                     </button>
@@ -371,23 +371,23 @@
     <nav class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 h-16 flex-shrink-0 flex justify-around items-center absolute bottom-0 w-full z-10 pb-safe transition-colors">
         <button class="nav-btn active flex flex-col items-center justify-center w-full h-full text-indigo-600 dark:text-indigo-400" data-target="view-banco">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-            <span class="text-[9px] font-semibold">Banco Platos</span>
+            <span class="text-[9px] font-semibold">RECETARIO</span>
         </button>
         <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-form">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-            <span class="text-[9px] font-semibold">Añadir</span>
+            <span class="text-[9px] font-semibold">AÑADIR</span>
         </button>
         <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-stock">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-            <span class="text-[9px] font-semibold">Stock/Prev.</span>
+            <span class="text-[9px] font-semibold">STOCK/PREV.</span>
         </button>
         <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-generator">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-            <span class="text-[9px] font-semibold">Generar</span>
+            <span class="text-[9px] font-semibold">GENERAR</span>
         </button>
         <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-settings">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-            <span class="text-[9px] font-semibold">Ajustes</span>
+            <span class="text-[9px] font-semibold">AJUSTES</span>
         </button>
     </nav>
 
@@ -717,7 +717,7 @@
             row.className = 'ingredient-row flex gap-2 items-center';
             row.innerHTML = `
                 <input type="text" placeholder="Ingrediente..." value="${nombre}" required class="flex-2 w-full p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                <input type="text" inputmode="decimal" placeholder="Cant." value="${cantidad !== '' && cantidad !== undefined ? cantidad : ''}" required class="flex-1 w-full p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                <input type="text" inputmode="decimal" placeholder="Cant." value="${cantidad !== '' && cantidad !== undefined ? cantidad : ''}" required class="w-24 flex-shrink-0 p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                 <select class="flex-1 p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                     <option value="kg" ${unidad==='kg'?'selected':''}>kg</option>
                     <option value="g" ${unidad==='g'?'selected':''}>g</option>
@@ -833,7 +833,7 @@
         function resetForm() {
             document.getElementById('dishForm').reset();
             document.getElementById('dishId').value = '';
-            document.getElementById('form-title').innerText = "Añadir Nuevo Plato";
+            document.getElementById('form-title').innerText = "AÑADIR PLATO";
             document.getElementById('btnCancel').classList.add('hidden');
             document.getElementById('ingredientsContainer').innerHTML = '';
             document.getElementById('dishPrecooked').checked = false;
