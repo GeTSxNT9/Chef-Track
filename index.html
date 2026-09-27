@@ -6,9 +6,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="GastroOS">
-    <meta name="theme-color" content="#4f46e5">
+    <meta name="theme-color" content="#F5F5F7">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='50'>👨‍🍳</text></svg>">
-    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22GastroOS%22%2C%22short_name%22%3A%22GastroOS%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%234f46e5%22%2C%22theme_color%22%3A%22%234f46e5%22%7D">
+    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22GastroOS%22%2C%22short_name%22%3A%22GastroOS%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23F5F5F7%22%2C%22theme_color%22%3A%22%23F5F5F7%22%7D">
     <title>GastroOS - Gestión de Menús, Stock y Compras</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -25,17 +25,379 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
+
+    <style id="gastroos-apple-design-system">
+        :root {
+            color-scheme: light;
+            --g-bg: #f5f5f7;
+            --g-surface: rgba(255,255,255,.82);
+            --g-surface-strong: rgba(255,255,255,.94);
+            --g-border: rgba(15,23,42,.08);
+            --g-text: #0f172a;
+            --g-muted: #64748b;
+            --g-accent: #0071e3;
+            --g-accent-soft: #eaf4ff;
+            --g-shadow: 0 10px 35px rgba(15,23,42,.055);
+            --g-shadow-sm: 0 4px 18px rgba(15,23,42,.045);
+            --g-radius: 20px;
+            --g-control: rgba(241,245,249,.78);
+        }
+
+        html.dark {
+            color-scheme: dark;
+            --g-bg: #0b0b0d;
+            --g-surface: rgba(28,28,30,.82);
+            --g-surface-strong: rgba(30,30,32,.94);
+            --g-border: rgba(255,255,255,.09);
+            --g-text: #f5f5f7;
+            --g-muted: #a1a1aa;
+            --g-accent: #2997ff;
+            --g-accent-soft: rgba(41,151,255,.14);
+            --g-shadow: 0 14px 40px rgba(0,0,0,.24);
+            --g-shadow-sm: 0 5px 20px rgba(0,0,0,.2);
+            --g-control: rgba(39,39,42,.82);
+        }
+
+        * { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+        body {
+            background:
+                radial-gradient(circle at 12% -10%, rgba(0,113,227,.055), transparent 30%),
+                radial-gradient(circle at 88% 0%, rgba(120,119,198,.045), transparent 28%),
+                var(--g-bg) !important;
+            color: var(--g-text) !important;
+            letter-spacing: -.006em;
+        }
+
+        #main-container {
+            background: transparent;
+            scroll-behavior: smooth;
+        }
+
+        /* Native-app top bar */
+        body > header,
+        header {
+            height: 60px !important;
+            min-height: 60px;
+            background: rgba(255,255,255,.72) !important;
+            color: var(--g-text) !important;
+            border-bottom: 1px solid rgba(15,23,42,.075);
+            box-shadow: 0 1px 0 rgba(255,255,255,.75), 0 5px 18px rgba(15,23,42,.025) !important;
+            backdrop-filter: blur(22px) saturate(180%);
+            -webkit-backdrop-filter: blur(22px) saturate(180%);
+        }
+        html.dark body > header,
+        html.dark header {
+            background: rgba(28,28,30,.72) !important;
+            color: #f5f5f7 !important;
+            border-bottom-color: rgba(255,255,255,.08);
+        }
+        header h1 { font-weight: 700 !important; letter-spacing: -.035em !important; }
+        header svg { color: var(--g-accent) !important; }
+        #themeToggleBtn {
+            width: 34px !important;
+            height: 34px !important;
+            border-radius: 999px !important;
+            background: rgba(241,245,249,.9) !important;
+            color: #334155 !important;
+            border: 1px solid rgba(15,23,42,.07);
+            box-shadow: none !important;
+            transition: transform .18s ease, background .18s ease !important;
+        }
+        #themeToggleBtn:hover { background: #e9eef5 !important; }
+        #themeToggleBtn:active { transform: scale(.96); }
+
+        main { padding: 18px !important; }
+        main > h2 { letter-spacing: -.035em; }
+
+        /* Shared glass surfaces */
+        #dishesList > div,
+        #generatedMenuContainer > div,
+        #historyListContainer > div,
+        #rawStockList > div,
+        #prepStockList > div,
+        #shoppingListBreakdown > div,
+        main section,
+        #dishForm,
+        #subtab-shopping-content > div,
+        #modalChangeDish > div {
+            background: var(--g-surface) !important;
+            border: 1px solid var(--g-border) !important;
+            box-shadow: var(--g-shadow-sm) !important;
+            backdrop-filter: blur(18px) saturate(150%);
+            -webkit-backdrop-filter: blur(18px) saturate(150%);
+        }
+
+        main section, #dishForm { border-radius: 20px !important; }
+        #dishesList > div,
+        #generatedMenuContainer > div,
+        #historyListContainer > div,
+        #rawStockList > div,
+        #prepStockList > div { border-radius: 18px !important; }
+
+        /* Type */
+        h1,h2,h3,h4,h5,h6 { color: var(--g-text); }
+        p, label, span { }
+        .text-gray-800, .text-gray-700, .text-gray-600 { color: var(--g-text) !important; }
+        .text-gray-500, .text-gray-400 { color: var(--g-muted) !important; }
+
+        /* Search / controls */
+        #searchInput,
+        input:not([type="checkbox"]):not([type="file"]),
+        select,
+        textarea {
+            background: var(--g-control) !important;
+            color: var(--g-text) !important;
+            border-color: transparent !important;
+            border-radius: 12px !important;
+            box-shadow: inset 0 0 0 1px rgba(15,23,42,.035) !important;
+            transition: background .18s ease, box-shadow .18s ease, transform .18s ease !important;
+        }
+        #searchInput {
+            min-height: 46px;
+            padding-left: 15px !important;
+            font-size: 14px !important;
+        }
+        input:not([type="checkbox"]):not([type="file"]):focus,
+        select:focus,
+        textarea:focus,
+        #searchInput:focus {
+            outline: none !important;
+            background: rgba(255,255,255,.96) !important;
+            box-shadow: 0 0 0 3px rgba(0,113,227,.10), inset 0 0 0 1px rgba(0,113,227,.18) !important;
+        }
+        html.dark input:not([type="checkbox"]):not([type="file"]):focus,
+        html.dark select:focus,
+        html.dark textarea:focus,
+        html.dark #searchInput:focus {
+            background: rgba(39,39,42,.96) !important;
+            box-shadow: 0 0 0 3px rgba(41,151,255,.14), inset 0 0 0 1px rgba(41,151,255,.24) !important;
+        }
+
+        /* Pill filters and tabs */
+        .filter-lvl1,
+        .filter-lvl2,
+        .generator-day-tab {
+            border-radius: 999px !important;
+            border: 1px solid rgba(15,23,42,.07) !important;
+            box-shadow: none !important;
+            transition: all .18s ease-out !important;
+        }
+        .filter-lvl1 { min-height: 38px; }
+        .filter-lvl1.active,
+        .filter-lvl1.bg-indigo-600,
+        .generator-day-tab.active,
+        .generator-day-tab.bg-indigo-600 {
+            background: #0f172a !important;
+            color: white !important;
+            border-color: #0f172a !important;
+        }
+        .filter-lvl2.active,
+        .filter-lvl2.bg-indigo-100 {
+            background: var(--g-accent-soft) !important;
+            color: var(--g-accent) !important;
+            border-color: rgba(0,113,227,.12) !important;
+        }
+
+        /* Buttons */
+        button, label[for="fileImport"] { -webkit-tap-highlight-color: transparent; }
+        button:not(.nav-btn):not(.generator-day-tab):not(.filter-lvl1):not(.filter-lvl2) {
+            transition: transform .18s ease-out, background-color .18s ease-out, box-shadow .18s ease-out, opacity .18s ease-out !important;
+        }
+        button:not([disabled]):active,
+        label[for="fileImport"]:active { transform: scale(.98); }
+
+        #btnGenerateMenu,
+        #dishForm button[type="submit"],
+        #rawStockForm button[type="submit"],
+        #prepStockForm button[type="submit"],
+        #btnDownloadShoppingTxt,
+        #btnExport,
+        label[for="fileImport"] {
+            border-radius: 999px !important;
+            box-shadow: 0 4px 14px rgba(15,23,42,.08) !important;
+            font-weight: 600 !important;
+            letter-spacing: -.01em;
+        }
+        #btnGenerateMenu {
+            background: #0f172a !important;
+            color: #fff !important;
+        }
+        #btnGenerateMenu:hover { background: #1e293b !important; }
+        #dishForm button[type="submit"] { background: #0f172a !important; }
+        #rawStockForm button[type="submit"],
+        #prepStockForm button[type="submit"],
+        #btnDownloadShoppingTxt { background: #0f172a !important; }
+        #btnExport { background: #0f172a !important; }
+        label[for="fileImport"] { background: #eef2f7 !important; color: #334155 !important; }
+        html.dark label[for="fileImport"] { background: #27272a !important; color: #f4f4f5 !important; }
+
+        /* Form grouping */
+        #dishForm > div,
+        #rawStockForm,
+        #prepStockForm { }
+        #dishForm label,
+        #rawStockForm label,
+        #prepStockForm label {
+            letter-spacing: -.005em;
+        }
+        #dishPrecooked,
+        #checkMargen { accent-color: var(--g-accent); }
+        #dishPrecooked + label { }
+        #dishPrecookedContainer { }
+        #dishForm .border-t { border-color: rgba(15,23,42,.08) !important; }
+
+        /* Demand / semantic badges */
+        .rounded-full { }
+        .bg-indigo-50, .bg-indigo-100 { background-color: var(--g-accent-soft) !important; }
+        .text-indigo-600, .text-indigo-700 { color: var(--g-accent) !important; }
+        .border-indigo-100, .border-indigo-200 { border-color: rgba(0,113,227,.12) !important; }
+
+        /* Menu generator */
+        #subtab-menu-content > div:first-child {
+            background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(247,250,255,.82)) !important;
+            color: var(--g-text) !important;
+            border: 1px solid rgba(15,23,42,.08) !important;
+            border-radius: 22px !important;
+            box-shadow: var(--g-shadow) !important;
+        }
+        #subtab-menu-content > div:first-child p { color: var(--g-muted) !important; }
+        #btnSaveToHistory, #btnDownloadMenuTxt {
+            background: rgba(241,245,249,.9) !important;
+            color: #334155 !important;
+            border: 1px solid rgba(15,23,42,.07) !important;
+            border-radius: 999px !important;
+        }
+        #btnSubTabMenu, #btnSubTabShopping {
+            border-radius: 999px !important;
+        }
+
+        /* Slot cards */
+        .gastro-slot {
+            background: rgba(248,250,252,.72);
+            border: 1px solid rgba(15,23,42,.065);
+            border-radius: 16px;
+            min-height: 66px;
+            transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+        }
+        .gastro-slot:hover {
+            background: rgba(255,255,255,.92);
+            box-shadow: 0 5px 18px rgba(15,23,42,.045);
+            transform: translateY(-1px);
+        }
+        .gastro-slot-action {
+            width: 32px !important;
+            height: 32px !important;
+            border-radius: 999px !important;
+            background: rgba(255,255,255,.92) !important;
+            border: 1px solid rgba(15,23,42,.07) !important;
+            color: #475569 !important;
+        }
+        .gastro-section-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748b;
+            letter-spacing: .075em;
+            text-transform: uppercase;
+        }
+
+        /* Floating edit/delete actions */
+        #dishesList .absolute button {
+            width: 32px !important;
+            height: 32px !important;
+            padding: 0 !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px !important;
+            transition: transform .15s ease, background .15s ease !important;
+        }
+        #dishesList .absolute button:first-child {
+            background: #eaf4ff !important;
+            color: #0071e3 !important;
+        }
+        #dishesList .absolute button:last-child {
+            background: #fff1f2 !important;
+            color: #ef4444 !important;
+        }
+        #dishesList .absolute button:active { transform: scale(.95); }
+
+        /* Bottom navigation: translucent floating native feel */
+        body > nav,
+        nav.fixed {
+            height: 72px !important;
+            background: rgba(255,255,255,.76) !important;
+            border-top: 1px solid rgba(15,23,42,.075) !important;
+            box-shadow: 0 -8px 25px rgba(15,23,42,.035) !important;
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            padding-bottom: max(env(safe-area-inset-bottom), 4px) !important;
+        }
+        html.dark body > nav,
+        html.dark nav.fixed {
+            background: rgba(28,28,30,.78) !important;
+            border-top-color: rgba(255,255,255,.08) !important;
+        }
+        .nav-btn {
+            color: #94a3b8 !important;
+            transition: color .18s ease, transform .18s ease !important;
+        }
+        .nav-btn.active,
+        .nav-btn.text-indigo-600,
+        .nav-btn.text-indigo-400 {
+            color: var(--g-accent) !important;
+        }
+        .nav-btn:active { transform: scale(.96); }
+        .nav-btn span { font-size: 9px !important; letter-spacing: .035em; }
+
+        /* Modal */
+        #modalChangeDish { background: rgba(15,23,42,.20) !important; backdrop-filter: blur(10px) !important; }
+        #modalChangeDish > div {
+            border-radius: 22px !important;
+            overflow: hidden;
+            animation: gastroModalIn .2s ease-out both;
+        }
+        #modalChangeDish > div > div:first-child {
+            background: rgba(255,255,255,.82) !important;
+            color: var(--g-text) !important;
+            border-bottom: 1px solid var(--g-border);
+        }
+        #modalChangeDish #modalSearchInput { min-height: 42px; }
+        @keyframes gastroModalIn {
+            from { opacity: 0; transform: translateY(8px) scale(.985); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Accessibility / motion */
+        :focus-visible {
+            outline: 3px solid rgba(0,113,227,.18);
+            outline-offset: 2px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+            }
+        }
+        @media (min-width: 768px) {
+            main { max-width: 1100px; margin-inline: auto; }
+            #dishesList { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+            #dishesList > div { height: 100%; }
+            #generatedMenuContainer { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+            #generatedMenuContainer > div { margin: 0 !important; }
+        }
+    </style>
 </head>
-<body class="bg-gray-100 text-gray-800 dark:bg-gray-950 dark:text-gray-100 h-screen flex flex-col font-sans overflow-hidden transition-colors">
+<body class="h-screen flex flex-col font-sans overflow-hidden transition-colors">
 
     <!-- CABECERA PRINCIPAL -->
-    <header class="bg-indigo-600 dark:bg-indigo-950 text-white h-14 flex-shrink-0 flex items-center justify-between px-4 shadow-md relative z-10 transition-colors">
+    <header class="sticky top-0 z-40 flex-shrink-0 flex items-center justify-between px-4">
         <div class="w-8"></div>
         <div class="flex items-center gap-2">
             <svg class="w-6 h-6 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
             <h1 class="text-lg font-bold tracking-wide">GastroOS</h1>
         </div>
-        <button id="themeToggleBtn" onclick="toggleDarkMode()" class="w-9 h-9 flex items-center justify-center rounded-lg bg-indigo-700 dark:bg-indigo-900 text-white text-base shadow-sm hover:bg-indigo-800 transition-colors" title="Cambiar tema">
+        <button id="themeToggleBtn" onclick="toggleDarkMode()" class="w-9 h-9 flex items-center justify-center rounded-full transition-all" title="Cambiar tema">
             🌙
         </button>
     </header>
@@ -422,7 +784,7 @@
     </div>
 
     <!-- NAVEGACIÓN INFERIOR -->
-    <nav class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 h-16 flex-shrink-0 flex justify-around items-center fixed bottom-0 left-0 right-0 z-50 pb-safe transition-colors">
+    <nav class="flex-shrink-0 flex justify-around items-center fixed bottom-0 left-0 right-0 z-50">
         <button class="nav-btn active flex flex-col items-center justify-center w-full h-full text-indigo-600 dark:text-indigo-400" data-target="view-banco">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
             <span class="text-[9px] font-semibold">RECETARIO</span>
@@ -846,7 +1208,7 @@
                 const precookedBadge = d.precocinado ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-800">Precocinado</span>' : '';
 
                 const card = document.createElement('div');
-                card.className = "bg-white dark:bg-gray-900 p-3.5 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 relative transition-colors";
+                card.className = "bg-white/80 p-4 rounded-2xl relative transition-all";
                 card.innerHTML = `
                     <div class="pr-12">
                         <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm leading-tight mb-1.5">${escapeHtml(d.nombre)}</h3>
@@ -1165,7 +1527,7 @@
                 const badgeColor = isFresh ? "bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800" : "bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300 border-cyan-200 dark:border-cyan-800";
 
                 const card = document.createElement('div');
-                card.className = "bg-white dark:bg-gray-900 p-3 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm flex justify-between items-center transition-colors";
+                card.className = "bg-white/80 p-3.5 rounded-2xl flex justify-between items-center transition-all";
                 card.innerHTML = `
                     <div class="pr-2">
                         <div class="flex items-center gap-1.5 mb-1">
@@ -1272,7 +1634,7 @@
                 const servingsLabel = calculatedServings !== null ? `≈ ${calculatedServings} raciones` : (item.cantidadTotal !== undefined ? 'Raciones: se calculan con la receta' : '');
 
                 const card = document.createElement('div');
-                card.className = "bg-white dark:bg-gray-900 p-3 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm flex justify-between items-center transition-colors";
+                card.className = "bg-white/80 p-3.5 rounded-2xl flex justify-between items-center transition-all";
                 card.innerHTML = `
                     <div class="pr-2">
                         <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs mb-1">${item.nombre}</h4>
@@ -1740,7 +2102,7 @@
             daysToRender.forEach(dayName => {
                 const slots = currentMenu.days[dayName] || [];
                 const dayCard = document.createElement('div');
-                dayCard.className = "bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-4 transition-colors";
+                dayCard.className = "bg-white/80 p-4 rounded-2xl space-y-4 transition-all";
                 const primeros = slots.slice(0, 3);
                 const segundos = slots.slice(3, 6);
 
@@ -1775,14 +2137,14 @@
             const precookedBadge = (slot.dish && slot.dish.precocinado) ? `<span class="text-[10px] bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300 px-1.5 py-0.5 rounded font-bold ml-2">Precocinado</span>` : '';
 
             return `
-                <div class="flex items-center justify-between bg-gray-50 dark:bg-gray-800/50 p-2.5 rounded-lg border border-gray-200 dark:border-gray-700">
+                <div class="gastro-slot flex items-center justify-between p-3">
                     <div class="flex items-center gap-2 flex-1">
                         <div>
                             <div class="text-[10px] font-bold text-gray-500 uppercase">${slot.slotLabel}</div>
                             <div class="text-sm font-semibold text-gray-800 dark:text-gray-100 leading-tight">${dishName} ${warningBadge} ${stockBadge} ${precookedBadge}</div>
                         </div>
                     </div>
-                    <button onclick="openSwapModal('${dayName}', ${index}, '${slot.cat}', '${isPrimero ? (slot.dish?.subcategoria_primero || '') : ''}', '${!isPrimero ? (slot.dish?.proteina_segundo || '') : ''}')" class="w-8 h-8 flex items-center justify-center bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded shadow-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <button onclick="openSwapModal('${dayName}', ${index}, '${slot.cat}', '${isPrimero ? (slot.dish?.subcategoria_primero || '') : ''}', '${!isPrimero ? (slot.dish?.proteina_segundo || '') : ''}')" class="gastro-slot-action flex items-center justify-center">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                     </button>
                 </div>
@@ -2030,7 +2392,7 @@
 
             alternatives.forEach(d => {
                 const card = document.createElement('div');
-                card.className = "bg-gray-50 dark:bg-gray-800 p-3 rounded-xl border border-gray-200 dark:border-gray-700 flex justify-between items-center cursor-pointer hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors";
+                card.className = "bg-white/80 p-3.5 rounded-2xl border border-slate-200/60 flex justify-between items-center cursor-pointer hover:bg-slate-50 transition-all";
                 card.innerHTML = `
                     <div>
                         <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs mb-1">${d.nombre}</h4>
@@ -2089,7 +2451,7 @@
 
             historyMenus.forEach(item => {
                 const row = document.createElement('div');
-                row.className = "bg-gray-50 dark:bg-gray-800 p-3 rounded-xl border border-gray-200 dark:border-gray-700 flex justify-between items-center transition-colors";
+                row.className = "bg-white/80 p-3.5 rounded-2xl flex justify-between items-center transition-all";
                 row.innerHTML = `
                     <div>
                         <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs">Menú del ${item.date}</h4>
