@@ -96,16 +96,29 @@
                     </div>
                     
                     <div id="subcatPrimeroContainer" class="hidden">
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Tipo</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Subcategoría técnica</label>
                         <select id="dishSubcategory" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                            <option value="Verdura">Verdura</option>
-                            <option value="Cuchara">Cuchara</option>
-                            <option value="Tenedor">Tenedor</option>
+                            <option value="">Seleccionar subcategoría...</option>
+                            <optgroup label="CUCHARA">
+                                <option value="cuchara_legumbres">Legumbres</option>
+                                <option value="cuchara_guisos">Guisos</option>
+                                <option value="cuchara_sopas_cremas">Sopas / cremas</option>
+                            </optgroup>
+                            <optgroup label="VERDURA">
+                                <option value="verdura_crema">Crema / puré</option>
+                                <option value="verdura_entera">Verdura entera</option>
+                            </optgroup>
+                            <optgroup label="TENEDOR / HIDRATOS">
+                                <option value="pasta_corta_larga">Pasta corta / larga</option>
+                                <option value="pasta_rellena_horno">Pasta rellena / horno</option>
+                                <option value="arroz">Arroz</option>
+                                <option value="otros_hidratos">Otros hidratos</option>
+                            </optgroup>
                         </select>
                     </div>
 
                     <div id="protSegundoContainer" class="hidden">
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Tipo</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Proteína</label>
                         <select id="dishProtein" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                             <option value="Carne">Carne</option>
                             <option value="Pescado">Pescado</option>
@@ -114,24 +127,43 @@
                 </div>
 
                 <div id="speciesContainer" class="hidden">
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Especie Animal</label>
+                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Tipo de animal</label>
                     <select id="dishSpecies" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                        <option value="Cerdo">Cerdo</option>
-                        <option value="Pollo">Pollo</option>
-                        <option value="Pavo">Pavo</option>
-                        <option value="Conejo">Conejo</option>
-                        <option value="Ternera">Ternera</option>
-                        <option value="Otro">Otro / Libre</option>
+                        <option value="">Seleccionar animal...</option>
+                        <option value="carne_pollo">Pollo</option>
+                        <option value="carne_pavo">Pavo</option>
+                        <option value="carne_cerdo">Cerdo</option>
+                        <option value="carne_ternera">Ternera</option>
+                        <option value="carne_conejo">Conejo</option>
+                        <option value="carne_cordero">Cordero</option>
                     </select>
                 </div>
 
+                <div id="fishSpeciesContainer" class="hidden">
+                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Especie / tipo exacto de pescado</label>
+                    <select id="dishFishSpecies" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                        <option value="">Seleccionar especie...</option>
+                        <option value="merluza">Merluza</option>
+                        <option value="salmon">Salmón</option>
+                        <option value="bacalao">Bacalao</option>
+                        <option value="dorada">Dorada</option>
+                        <option value="lubina">Lubina</option>
+                        <option value="atun">Atún</option>
+                        <option value="calamares">Calamares</option>
+                        <option value="sepia">Sepia</option>
+                        <option value="sardina">Sardina</option>
+                        <option value="caballa">Caballa</option>
+                        <option value="otro">Otro (especificar)</option>
+                    </select>
+                    <input id="dishFishSpeciesCustom" type="text" placeholder="Especie exacta..." class="hidden mt-2 w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                </div>
+
                 <div id="techniqueContainer" class="hidden">
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Técnica</label>
+                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Técnica de cocina</label>
                     <select id="dishTechnique" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                        <option value="Guisado">Guisado</option>
-                        <option value="Asado">Asado</option>
-                        <option value="Brasa/Plancha">Brasa / Plancha</option>
-                        <option value="Frito/Rebozado">Frito / Rebozado</option>
+                        <option value="">Seleccionar técnica...</option>
+                        <option value="tecnica_guiso">Guiso / salsa / estofado</option>
+                        <option value="tecnica_seco">Seco / directo (plancha, brasa, horno, empanado, frito)</option>
                     </select>
                 </div>
 
@@ -332,6 +364,19 @@
                 </div>
                 <div id="historyListContainer" class="space-y-2"></div>
             </section>
+            <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-3">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Etiquetado rápido del recetario</h3>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">Completa las recetas antiguas sin subcategoría técnica sin borrarlas ni recrearlas.</p>
+                    </div>
+                    <span id="migrationPendingBadge" class="text-[10px] font-black bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 px-2 py-1 rounded-full">0 pendientes</span>
+                </div>
+                <div id="migrationList" class="space-y-2"></div>
+            </section>
+
+
+
             <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-4">
                 <div>
                     <h3 class="font-bold text-gray-700 dark:text-gray-300 text-sm mb-2">Copia de Seguridad Integral</h3>
@@ -413,16 +458,100 @@
             return 2;
         };
 
-        const seedDishes = [];
-
-        const seedSettings = { comensales: 100, margenActivo: true, darkMode: false };
-        const seedRawStock = [];
-        const seedPreparedStock = [];
+        const defaultSettings = { comensales: 100, margenActivo: true, darkMode: false };
         const proveedorCategorias = ["Carne", "Pescado", "Lácteos", "Verduras y frutas", "Secos", "Congelados"];
         const daysList = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
+        const FIRST_SUBCATEGORIES = {
+            cuchara: ["cuchara_legumbres", "cuchara_guisos", "cuchara_sopas_cremas"],
+            verdura: ["verdura_crema", "verdura_entera"],
+            tenedor: ["pasta_corta_larga", "pasta_rellena_horno", "arroz", "otros_hidratos"]
+        };
+        const MEAT_ANIMALS = ["carne_pollo", "carne_pavo", "carne_cerdo", "carne_ternera", "carne_conejo", "carne_cordero"];
+        const FISH_SPECIES = ["merluza", "salmon", "bacalao", "dorada", "lubina", "atun", "calamares", "sepia", "sardina", "caballa"];
+        const FISH_LABELS = {
+            merluza: "Merluza", salmon: "Salmón", bacalao: "Bacalao", dorada: "Dorada",
+            lubina: "Lubina", atun: "Atún", calamares: "Calamares", sepia: "Sepia",
+            sardina: "Sardina", caballa: "Caballa"
+        };
+        const MEAT_LABELS = {
+            carne_pollo: "Pollo", carne_pavo: "Pavo", carne_cerdo: "Cerdo",
+            carne_ternera: "Ternera", carne_conejo: "Conejo", carne_cordero: "Cordero"
+        };
+        const FIRST_LABELS = {
+            cuchara_legumbres: "Cuchara · Legumbres", cuchara_guisos: "Cuchara · Guisos",
+            cuchara_sopas_cremas: "Cuchara · Sopas/cremas", verdura_crema: "Verdura · Crema",
+            verdura_entera: "Verdura · Entera", pasta_corta_larga: "Pasta corta/larga",
+            pasta_rellena_horno: "Pasta rellena/horno", arroz: "Arroz", otros_hidratos: "Otros hidratos"
+        };
+
+        function normalizeDishData(d) {
+            const dish = { ...d };
+            dish.demanda = dish.demanda || "Media";
+            dish.precocinado = !!dish.precocinado;
+            dish.subcategoria_primero = dish.subcategoria_primero || "";
+            dish.subtipo_primero = dish.subtipo_primero || "";
+            dish.proteina_segundo = dish.proteina_segundo || "";
+            dish.animal_carne = dish.animal_carne || "";
+            dish.especie_pescado = dish.especie_pescado || "";
+            dish.tecnica_cocina = dish.tecnica_cocina || "";
+
+            // Migración transparente del modelo anterior.
+            const oldSub = dish.subcategoria_primero;
+            if (dish.categoria === "Primero" && !dish.subtipo_primero && FIRST_SUBCATEGORIES[oldSub?.toLowerCase?.()]) {
+                dish.subtipo_primero = "";
+            }
+            if (dish.categoria === "Primero" && !dish.subcategoria_primero && dish.subtipo_primero) {
+                dish.subcategoria_primero = firstParentFromTechnical(dish.subtipo_primero);
+            }
+            if (dish.categoria === "Segundo" && dish.proteina_segundo === "Carne") {
+                if (!dish.animal_carne) {
+                    const oldAnimal = String(dish.especie_animal || "").toLowerCase();
+                    const animalMap = {pollo:"carne_pollo", pavo:"carne_pavo", cerdo:"carne_cerdo", ternera:"carne_ternera", conejo:"carne_conejo", cordero:"carne_cordero"};
+                    dish.animal_carne = animalMap[oldAnimal] || "";
+                }
+                if (!dish.tecnica_cocina && dish.tecnica) {
+                    dish.tecnica_cocina = normalizeTechnique(dish.tecnica);
+                }
+            }
+            if (dish.categoria === "Segundo" && dish.proteina_segundo === "Pescado") {
+                if (!dish.especie_pescado && dish.especie_animal && dish.especie_animal !== "Pescado") {
+                    dish.especie_pescado = normalizeFishSpecies(dish.especie_animal);
+                }
+            }
+            if (!dish.tecnica && dish.tecnica_cocina) dish.tecnica = dish.tecnica_cocina;
+            if (!dish.especie_animal && dish.animal_carne) dish.especie_animal = dish.animal_carne;
+            return dish;
+        }
+
+        function firstParentFromTechnical(subtype) {
+            if (FIRST_SUBCATEGORIES.cuchara.includes(subtype)) return "Cuchara";
+            if (FIRST_SUBCATEGORIES.verdura.includes(subtype)) return "Verdura";
+            if (FIRST_SUBCATEGORIES.tenedor.includes(subtype)) return "Tenedor";
+            return "";
+        }
+
+        function normalizeTechnique(value) {
+            const v = String(value || "").toLowerCase();
+            return v.includes("guis") || v.includes("salsa") || v.includes("estof") ? "tecnica_guiso" : "tecnica_seco";
+        }
+
+        function normalizeFishSpecies(value) {
+            const v = String(value || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const match = FISH_SPECIES.find(x => v.includes(x));
+            return match || "";
+        }
+
+        function hasCompleteTechnicalTags(d) {
+            if (!d || !d.categoria) return false;
+            if (d.categoria === "Primero") return !!d.subtipo_primero;
+            if (d.proteina_segundo === "Carne") return MEAT_ANIMALS.includes(d.animal_carne) && ["tecnica_guiso", "tecnica_seco"].includes(d.tecnica_cocina);
+            if (d.proteina_segundo === "Pescado") return !!d.especie_pescado;
+            return false;
+        }
+
 
         let dishes = [];
-        let settings = { ...seedSettings };
+        let settings = { ...defaultSettings };
         let rawStock = [];
         let preparedStock = [];
         let currentMenu = null;
@@ -439,18 +568,18 @@
 
             const storedDishes = localStorage.getItem('chefTrack_dishes');
             dishes = storedDishes ? JSON.parse(storedDishes) : [];
-            dishes = dishes.map(d => ({ ...d, demanda: d.demanda || "Media", precocinado: !!d.precocinado }));
+            dishes = dishes.map(normalizeDishData);
 
             const storedSettings = localStorage.getItem('chefTrack_settings');
-            settings = storedSettings ? JSON.parse(storedSettings) : { ...seedSettings };
+            settings = storedSettings ? JSON.parse(storedSettings) : { ...defaultSettings };
             if (settings.darkMode === undefined) settings.darkMode = false;
 
             applyDarkMode();
 
             const storedRaw = localStorage.getItem('chefTrack_rawStock');
-            rawStock = storedRaw ? JSON.parse(storedRaw) : [...seedRawStock];
+            rawStock = storedRaw ? JSON.parse(storedRaw) : [];
             const storedPrep = localStorage.getItem('chefTrack_preparedStock');
-            preparedStock = storedPrep ? JSON.parse(storedPrep) : [...seedPreparedStock];
+            preparedStock = storedPrep ? JSON.parse(storedPrep) : [];
             const storedMenu = localStorage.getItem('chefTrack_currentMenu');
             currentMenu = storedMenu ? JSON.parse(storedMenu) : null;
             const storedHistory = localStorage.getItem('chefTrack_historyMenus');
@@ -463,6 +592,7 @@
             renderStockView();
             renderGeneratorView();
             renderHistorySection();
+            renderMigrationUI();
         }
 
         function registerServiceWorker() {
@@ -564,6 +694,7 @@
             document.getElementById('searchInput').addEventListener('input', renderDishes);
             document.getElementById('dishCategory').addEventListener('change', updateFormVisibility);
             document.getElementById('dishProtein').addEventListener('change', updateFormVisibility);
+            document.getElementById('dishFishSpecies').addEventListener('change', updateFormVisibility);
             document.getElementById('addIngredientBtn').addEventListener('click', () => addIngredientRow());
             document.getElementById('dishForm').addEventListener('submit', handleFormSubmit);
             document.getElementById('btnCancel').addEventListener('click', () => {
@@ -605,15 +736,21 @@
         function updateFormVisibility() {
             const cat = document.getElementById('dishCategory').value;
             const prot = document.getElementById('dishProtein').value;
-            
-            const isPrimero = (cat === 'Primero');
-            const isSegundo = (cat === 'Segundo');
-            const isCarne = (prot === 'Carne');
-            
+            const fish = document.getElementById('dishFishSpecies')?.value || "";
+            const isPrimero = cat === 'Primero';
+            const isSegundo = cat === 'Segundo';
+            const isCarne = isSegundo && prot === 'Carne';
+            const isPescado = isSegundo && prot === 'Pescado';
+
             document.getElementById('subcatPrimeroContainer').classList.toggle('hidden', !isPrimero);
             document.getElementById('protSegundoContainer').classList.toggle('hidden', !isSegundo);
-            document.getElementById('techniqueContainer').classList.toggle('hidden', !isSegundo);
-            document.getElementById('speciesContainer').classList.toggle('hidden', !(isSegundo && isCarne));
+            document.getElementById('speciesContainer').classList.toggle('hidden', !isCarne);
+            document.getElementById('fishSpeciesContainer').classList.toggle('hidden', !isPescado);
+            document.getElementById('techniqueContainer').classList.toggle('hidden', !(isSegundo && (isCarne || isPescado)));
+            if (document.getElementById('fishSpeciesCustom')) {
+                document.getElementById('fishSpeciesCustom').classList.toggle('hidden', !(isPescado && fish === "otro"));
+                document.getElementById('fishSpeciesCustom').required = isPescado && fish === "otro";
+            }
         }
 
         function switchView(viewId) {
@@ -660,49 +797,61 @@
             const list = document.getElementById('dishesList');
             const searchVal = document.getElementById('searchInput').value.toLowerCase();
             list.innerHTML = '';
-            
+
             const filtered = dishes.filter(d => {
-                if (searchVal && !d.nombre.toLowerCase().includes(searchVal)) return false;
-                if (activeFilterLevel1 !== 'all' && d.categoria !== activeFilterLevel1) return false;
+                const nd = normalizeDishData(d);
+                if (searchVal && !String(nd.nombre || '').toLowerCase().includes(searchVal)) return false;
+                if (activeFilterLevel1 !== 'all' && nd.categoria !== activeFilterLevel1) return false;
                 if (activeFilterLevel2 !== 'all') {
-                    if (activeFilterLevel1 === 'Primero' && d.subcategoria_primero !== activeFilterLevel2) return false;
-                    if (activeFilterLevel1 === 'Segundo' && d.proteina_segundo !== activeFilterLevel2) return false;
+                    if (activeFilterLevel1 === 'Primero' && nd.subcategoria_primero !== activeFilterLevel2) return false;
+                    if (activeFilterLevel1 === 'Segundo' && nd.proteina_segundo !== activeFilterLevel2) return false;
                 }
                 return true;
             });
 
-            if (filtered.length === 0) {
+            if (!filtered.length) {
                 list.innerHTML = '<p class="text-center text-gray-500 dark:text-gray-400 mt-10 text-sm">No se encontraron platos.</p>';
                 return;
             }
 
-            filtered.forEach(d => {
-                const tagType = d.categoria === 'Primero' ? d.subcategoria_primero : d.proteina_segundo;
+            filtered.forEach(raw => {
+                const d = normalizeDishData(raw);
+                const tagType = d.categoria === 'Primero'
+                    ? (FIRST_LABELS[d.subtipo_primero] || d.subcategoria_primero || "Sin subcategoría")
+                    : d.proteina_segundo;
+                const technical = d.categoria === "Primero"
+                    ? d.subtipo_primero
+                    : (d.proteina_segundo === "Carne" ? `${MEAT_LABELS[d.animal_carne] || "Sin animal"} · ${d.tecnica_cocina || "Sin técnica"}` : `Pescado · ${FISH_LABELS[d.especie_pescado] || d.especie_pescado || "Sin especie"}`);
                 const demObj = demandMap[d.demanda || "Media"];
-                const precookedBadge = d.precocinado ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-800">Precocinado</span>` : '';
+                const missing = !hasCompleteTechnicalTags(d);
+                const missingBadge = missing ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 border border-orange-200 dark:border-orange-800">⚠️ Etiquetado pendiente</span>' : '';
+                const precookedBadge = d.precocinado ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-800">Precocinado</span>' : '';
 
                 const card = document.createElement('div');
                 card.className = "bg-white dark:bg-gray-900 p-3.5 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 relative transition-colors";
                 card.innerHTML = `
                     <div class="pr-12">
-                        <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm leading-tight mb-1.5">${d.nombre}</h3>
+                        <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm leading-tight mb-1.5">${escapeHtml(d.nombre)}</h3>
                         <div class="flex flex-wrap gap-1.5 mt-2 items-center">
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">${d.categoria}</span>
-                            ${tagType ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-300">${tagType}</span>` : ''}
-                            ${d.especie_animal && d.especie_animal !== 'Pescado' && d.especie_animal !== 'Vegetariano/Ninguno' && d.especie_animal !== 'Otro' ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300">${d.especie_animal}</span>` : ''}
-                            ${d.tecnica ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">${d.tecnica}</span>` : ''}
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-300">${escapeHtml(tagType)}</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">${escapeHtml(technical)}</span>
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${demObj.class}">${demObj.text}</span>
-                            ${precookedBadge}
+                            ${missingBadge}${precookedBadge}
                         </div>
                     </div>
                     <div class="absolute top-3 right-3 flex flex-col gap-2">
                         <button onclick="editDish('${d.id}')" class="text-blue-500 bg-blue-50 dark:bg-blue-950 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
                         <button onclick="deleteDish('${d.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
-                    </div>
-                `;
+                    </div>`;
                 list.appendChild(card);
             });
         }
+
+        function escapeHtml(value) {
+            return String(value ?? "").replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
+        }
+
 
         function addIngredientRow(nombre = '', cantidad = '', unidad = 'kg', categoria = 'Secos') {
             const container = document.getElementById('ingredientsContainer');
@@ -730,32 +879,60 @@
             const id = document.getElementById('dishId').value || Date.now().toString();
             const cat = document.getElementById('dishCategory').value;
             const prot = document.getElementById('dishProtein').value;
-            
-            const isSegundo = (cat === 'Segundo');
-            const isCarne = (isSegundo && prot === 'Carne');
-            const isPescado = (isSegundo && prot === 'Pescado');
+            const isPrimero = cat === "Primero";
+            const isCarne = cat === "Segundo" && prot === "Carne";
+            const isPescado = cat === "Segundo" && prot === "Pescado";
+
+            let fishSpecies = "";
+            if (isPescado) {
+                const selected = document.getElementById('dishFishSpecies').value;
+                fishSpecies = selected === "otro"
+                    ? document.getElementById('dishFishSpeciesCustom').value.trim().toLowerCase()
+                    : selected;
+                if (!fishSpecies) {
+                    alert("El pescado debe tener registrada la especie/tipo exacto.");
+                    return;
+                }
+            }
+
+            const subtype = isPrimero ? document.getElementById('dishSubcategory').value : "";
+            if (isPrimero && !subtype) {
+                alert("Selecciona la subcategoría técnica del primero.");
+                return;
+            }
+            if (isCarne && !document.getElementById('dishSpecies').value) {
+                alert("Selecciona el tipo de animal de la carne.");
+                return;
+            }
+            if ((isCarne || isPescado) && !document.getElementById('dishTechnique').value) {
+                alert("Selecciona la técnica de cocina.");
+                return;
+            }
 
             const newDish = {
                 id,
-                nombre: document.getElementById('dishName').value,
+                nombre: document.getElementById('dishName').value.trim(),
                 categoria: cat,
-                subcategoria_primero: cat === 'Primero' ? document.getElementById('dishSubcategory').value : "",
-                proteina_segundo: isSegundo ? prot : "",
+                subcategoria_primero: isPrimero ? firstParentFromTechnical(subtype) : "",
+                subtipo_primero: subtype,
+                proteina_segundo: cat === "Segundo" ? prot : "",
+                animal_carne: isCarne ? document.getElementById('dishSpecies').value : "",
+                especie_pescado: isPescado ? fishSpecies : "",
+                // Se conservan aliases para compatibilidad con menús/histórico anteriores.
                 especie_animal: isCarne ? document.getElementById('dishSpecies').value : (isPescado ? "Pescado" : ""),
-                tecnica: isSegundo ? document.getElementById('dishTechnique').value : "",
+                tecnica_cocina: (isCarne || isPescado) ? document.getElementById('dishTechnique').value : "",
+                tecnica: (isCarne || isPescado) ? document.getElementById('dishTechnique').value : "",
                 precocinado: document.getElementById('dishPrecooked').checked,
                 demanda: document.getElementById('dishDemand').value,
                 ingredientes: []
             };
 
-            const ingRows = document.querySelectorAll('.ingredient-row');
-            ingRows.forEach(row => {
+            document.querySelectorAll('.ingredient-row').forEach(row => {
                 const inputs = row.querySelectorAll('input, select');
                 if (inputs[0].value.trim()) {
-                    const cantStr = inputs[1].value.toString().replace(',', '.');
                     newDish.ingredientes.push({
                         nombre: inputs[0].value.trim(),
-                        cantidad: parseFloat(cantStr) || 0,
+                        cantidad: parseFloat(inputs[1].value.toString().replace(',', '.')) || 0,
                         unidad: inputs[2].value,
                         categoria_proveedor: inputs[3].value
                     });
@@ -763,55 +940,45 @@
             });
 
             const idx = dishes.findIndex(d => d.id === id);
-            if (idx >= 0) dishes[idx] = newDish;
-            else dishes.unshift(newDish);
+            if (idx >= 0) dishes[idx] = normalizeDishData(newDish);
+            else dishes.unshift(normalizeDishData(newDish));
 
             saveAll();
             resetForm();
             document.querySelector('.nav-btn[data-target="view-banco"]').click();
             renderDishes();
+            renderMigrationUI();
         }
 
         function editDish(id) {
-            const d = dishes.find(x => x.id === id);
+            const d = normalizeDishData(dishes.find(x => x.id === id));
             if (!d) return;
 
             document.getElementById('form-title').innerText = "Editar Plato";
             document.getElementById('btnCancel').classList.remove('hidden');
-            
             document.getElementById('dishId').value = d.id;
-            document.getElementById('dishName').value = d.nombre;
-            document.getElementById('dishCategory').value = d.categoria;
-            
+            document.getElementById('dishName').value = d.nombre || "";
+            document.getElementById('dishCategory').value = d.categoria || "";
+
             if (d.categoria === 'Primero') {
-                const sub = d.subcategoria_primero;
-                document.getElementById('dishSubcategory').value = ['Verdura', 'Cuchara', 'Tenedor'].includes(sub) ? sub : 'Verdura';
-            }
-            if (d.categoria === 'Segundo') {
-                const p = d.proteina_segundo;
-                document.getElementById('dishProtein').value = ['Carne', 'Pescado'].includes(p) ? p : 'Carne';
-            }
-            
-            if (d.categoria === 'Segundo' && d.proteina_segundo === 'Carne') {
-                document.getElementById('dishSpecies').value = d.especie_animal || 'Cerdo';
-            }
-            
-            if (d.tecnica) {
-                const tech = d.tecnica;
-                document.getElementById('dishTechnique').value = ['Guisado', 'Asado', 'Brasa/Plancha', 'Frito/Rebozado'].includes(tech) ? tech : 'Guisado';
+                document.getElementById('dishSubcategory').value = d.subtipo_primero || "";
+            } else if (d.categoria === 'Segundo') {
+                document.getElementById('dishProtein').value = d.proteina_segundo || "Carne";
+                document.getElementById('dishSpecies').value = d.animal_carne || "";
+                const fish = d.especie_pescado || "";
+                const known = FISH_SPECIES.includes(fish);
+                document.getElementById('dishFishSpecies').value = known ? fish : (fish ? "otro" : "");
+                document.getElementById('dishFishSpeciesCustom').value = known ? "" : fish;
+                document.getElementById('dishTechnique').value = d.tecnica_cocina || "";
             }
 
             document.getElementById('dishPrecooked').checked = !!d.precocinado;
             document.getElementById('dishDemand').value = d.demanda || "Media";
-
             updateFormVisibility();
 
             const container = document.getElementById('ingredientsContainer');
             container.innerHTML = '';
-            if (d.ingredientes) {
-                d.ingredientes.forEach(ing => addIngredientRow(ing.nombre, ing.cantidad, ing.unidad, ing.categoria_proveedor));
-            }
-
+            (d.ingredientes || []).forEach(ing => addIngredientRow(ing.nombre, ing.cantidad, ing.unidad, ing.categoria_proveedor));
             document.querySelector('.nav-btn[data-target="view-form"]').click();
         }
 
@@ -830,9 +997,98 @@
             document.getElementById('btnCancel').classList.add('hidden');
             document.getElementById('ingredientsContainer').innerHTML = '';
             document.getElementById('dishPrecooked').checked = false;
+            document.getElementById('dishFishSpeciesCustom').value = '';
             updateFormVisibility();
         }
 
+
+        function getMigrationCandidates() {
+            return dishes.map(normalizeDishData).filter(d => !hasCompleteTechnicalTags(d));
+        }
+
+        function renderMigrationUI() {
+            const container = document.getElementById("migrationList");
+            const badge = document.getElementById("migrationPendingBadge");
+            if (!container) return;
+            const pending = getMigrationCandidates();
+            if (badge) badge.innerText = `${pending.length} pendientes`;
+            if (!pending.length) {
+                container.innerHTML = '<div class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold p-2 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg">✅ Todo el recetario tiene las etiquetas técnicas necesarias.</div>';
+                return;
+            }
+
+            container.innerHTML = pending.map(d => {
+                const first = d.categoria === "Primero";
+                const meat = d.categoria === "Segundo" && d.proteina_segundo === "Carne";
+                const fish = d.categoria === "Segundo" && d.proteina_segundo === "Pescado";
+                return `
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800/50" data-migration-id="${escapeHtml(d.id)}">
+                        <div class="mb-2">
+                            <div class="font-bold text-xs text-gray-800 dark:text-gray-100">${escapeHtml(d.nombre)}</div>
+                            <div class="text-[10px] text-gray-500 dark:text-gray-400">${escapeHtml(d.categoria)}${d.proteina_segundo ? ` · ${escapeHtml(d.proteina_segundo)}` : ''}</div>
+                        </div>
+                        ${first ? `
+                            <select id="mig-sub-${escapeHtml(d.id)}" class="w-full p-2 mb-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">
+                                <option value="">Subcategoría técnica...</option>
+                                ${Object.entries(FIRST_LABELS).map(([value,label]) => `<option value="${value}" ${d.subtipo_primero===value?'selected':''}>${label}</option>`).join("")}
+                            </select>` : ''}
+                        ${meat ? `
+                            <div class="grid grid-cols-2 gap-2 mb-2">
+                                <select id="mig-animal-${escapeHtml(d.id)}" class="p-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">
+                                    <option value="">Animal...</option>
+                                    ${MEAT_ANIMALS.map(a => `<option value="${a}" ${d.animal_carne===a?'selected':''}>${MEAT_LABELS[a]}</option>`).join("")}
+                                </select>
+                                <select id="mig-tech-${escapeHtml(d.id)}" class="p-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">
+                                    <option value="">Técnica...</option>
+                                    <option value="tecnica_guiso" ${d.tecnica_cocina==="tecnica_guiso"?'selected':''}>Guiso</option>
+                                    <option value="tecnica_seco" ${d.tecnica_cocina==="tecnica_seco"?'selected':''}>Seco / directo</option>
+                                </select>
+                            </div>` : ''}
+                        ${fish ? `
+                            <select id="mig-fish-${escapeHtml(d.id)}" class="w-full p-2 mb-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">
+                                <option value="">Especie exacta...</option>
+                                ${FISH_SPECIES.map(a => `<option value="${a}" ${d.especie_pescado===a?'selected':''}>${FISH_LABELS[a]}</option>`).join("")}
+                                <option value="otro" ${d.especie_pescado && !FISH_SPECIES.includes(d.especie_pescado) ? 'selected':''}>Otra</option>
+                            </select>
+                            <input id="mig-fish-custom-${escapeHtml(d.id)}" value="${escapeHtml(d.especie_pescado && !FISH_SPECIES.includes(d.especie_pescado) ? d.especie_pescado : '')}" placeholder="Si es otra, escribe la especie exacta" class="w-full p-2 mb-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">` : ''}
+                        <button onclick="saveMigrationTag('${escapeHtml(d.id)}')" class="w-full bg-indigo-600 text-white py-2 rounded-lg text-xs font-bold">Guardar etiqueta</button>
+                    </div>`;
+            }).join("");
+        }
+
+        function saveMigrationTag(id) {
+            const d = dishes.find(x => x.id === id);
+            if (!d) return;
+            const nd = normalizeDishData(d);
+
+            if (nd.categoria === "Primero") {
+                const subtype = document.getElementById(`mig-sub-${id}`)?.value || "";
+                if (!subtype) return alert("Selecciona una subcategoría.");
+                nd.subtipo_primero = subtype;
+                nd.subcategoria_primero = firstParentFromTechnical(subtype);
+            } else if (nd.proteina_segundo === "Carne") {
+                const animal = document.getElementById(`mig-animal-${id}`)?.value || "";
+                const technique = document.getElementById(`mig-tech-${id}`)?.value || "";
+                if (!animal || !technique) return alert("Selecciona animal y técnica.");
+                nd.animal_carne = animal;
+                nd.especie_animal = animal;
+                nd.tecnica_cocina = technique;
+                nd.tecnica = technique;
+            } else if (nd.proteina_segundo === "Pescado") {
+                const selected = document.getElementById(`mig-fish-${id}`)?.value || "";
+                const custom = document.getElementById(`mig-fish-custom-${id}`)?.value.trim().toLowerCase() || "";
+                const species = selected === "otro" ? custom : selected;
+                if (!species) return alert("Registra la especie exacta.");
+                nd.especie_pescado = species;
+                nd.especie_animal = "Pescado";
+            }
+
+            const index = dishes.findIndex(x => x.id === id);
+            dishes[index] = normalizeDishData(nd);
+            saveAll();
+            renderDishes();
+            renderMigrationUI();
+        }
         // --- 5. STOCK Y PREVISIÓN ---
         function renderStockView() {
             document.getElementById('inputComensales').value = settings.comensales;
@@ -1037,23 +1293,145 @@
         }
 
         // --- 6. MOTOR DE GENERACIÓN Y EXPORTACIÓN LIMPIA ---
-        function conflictsWithSecondSpecies(dishSpecies, chosenSpeciesList) {
-            if (!dishSpecies || dishSpecies === 'Vegetariano/Ninguno' || dishSpecies === 'Otro') return false;
-            const poultryFamily = ['Pollo', 'Pavo', 'Conejo'];
-            const isDishPoultry = poultryFamily.includes(dishSpecies);
+        // --- 6. MOTOR DE MENÚ: ESTRUCTURA FIJA + RESTRICCIONES + FALLBACK ---
+        function getDayDishList(menuDays, dayIndex, cat, protein) {
+            if (dayIndex < 0) return [];
+            const day = menuDays[daysList[dayIndex]] || [];
+            return day
+                .filter(s => s.cat === cat && (!protein || s.dish?.proteina_segundo === protein))
+                .map(s => s.dish)
+                .filter(Boolean);
+        }
 
-            for (const existing of chosenSpeciesList) {
-                if (existing === dishSpecies) return true;
-                if (isDishPoultry && poultryFamily.includes(existing)) return true;
+        function getPreviousDays(menuDays, dayIndex, count = 3) {
+            const result = [];
+            for (let i = Math.max(0, dayIndex - count); i < dayIndex; i++) {
+                result.push(menuDays[daysList[i]] || []);
+            }
+            return result;
+        }
+
+        function previousDayHasSubtype(menuDays, dayIndex, subtype) {
+            const prev = getDayDishList(menuDays, dayIndex - 1, "Primero");
+            return prev.some(d => d.subtipo_primero === subtype);
+        }
+
+        function previousDayFishSpecies(menuDays, dayIndex) {
+            const prev = getDayDishList(menuDays, dayIndex - 1, "Segundo", "Pescado");
+            return prev[0]?.especie_pescado || "";
+        }
+
+        function animalAppearedOnDay(menuDays, dayIndex, animal) {
+            return getDayDishList(menuDays, dayIndex, "Segundo", "Carne").some(d => d.animal_carne === animal);
+        }
+
+        function animalHasThreeDayStreak(menuDays, dayIndex, animal) {
+            if (dayIndex < 2) return false;
+            return animalAppearedOnDay(menuDays, dayIndex - 1, animal) &&
+                   animalAppearedOnDay(menuDays, dayIndex - 2, animal);
+        }
+
+        function getConsecutiveSubtypeStreak(menuDays, dayIndex, subtype) {
+            let streak = 0;
+            for (let i = dayIndex - 1; i >= 0; i--) {
+                const dishesOfDay = getDayDishList(menuDays, i, "Primero");
+                if (dishesOfDay.some(d => d.subtipo_primero === subtype)) streak++;
+                else break;
+            }
+            return streak;
+        }
+
+        function conflictsWithSecondSpecies(dishAnimal, chosenAnimals) {
+            return !!dishAnimal && chosenAnimals.includes(dishAnimal);
+        }
+
+        function isStructuralMatch(dish, spec) {
+            if (!dish || dish.categoria !== spec.cat) return false;
+            if (spec.cat === "Primero") {
+                if (spec.allowedParents) return spec.allowedParents.includes(dish.subcategoria_primero);
+                return dish.subtipo_primero === spec.subtipo;
+            }
+            if (spec.protein === "Carne") return dish.proteina_segundo === "Carne" && MEAT_ANIMALS.includes(dish.animal_carne) && ["tecnica_guiso", "tecnica_seco"].includes(dish.tecnica_cocina);
+            if (spec.protein === "Pescado") return dish.proteina_segundo === "Pescado" && !!dish.especie_pescado;
+            return false;
+        }
+
+        function violatesDayFirstRule(dish, spec, menuDays, dayIndex, relaxationLevel) {
+            if (spec.cat !== "Primero") return false;
+            const subtype = dish.subtipo_primero;
+
+            // Nivel 1 relaja las restricciones de repetición de legumbre/pasta/arroz.
+            if (relaxationLevel === 0) {
+                if (subtype === "cuchara_legumbres" && previousDayHasSubtype(menuDays, dayIndex, subtype)) return true;
+                if (["pasta_corta_larga", "pasta_rellena_horno", "arroz"].includes(subtype) && previousDayHasSubtype(menuDays, dayIndex, subtype)) return true;
+                if (subtype === "verdura_crema" && previousDayHasSubtype(menuDays, dayIndex, subtype)) return true;
+                if (subtype === "verdura_entera" && getConsecutiveSubtypeStreak(menuDays, dayIndex, "verdura_entera") >= 3) return true;
             }
             return false;
         }
 
-        function generateWeeklyMenu() {
-            const newMenu = { generatedAt: new Date().toISOString(), days: {} };
-            const usedDishIdsThisWeek = new Set();
+        function violatesDaySecondRule(dish, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, relaxationLevel) {
+            if (spec.cat !== "Segundo") return false;
+
+            if (spec.protein === "Pescado") {
+                if (relaxationLevel === 0 && previousDayFishSpecies(menuDays, dayIndex) === dish.especie_pescado) return true;
+                return false;
+            }
+
+            // Estas dos restricciones son intocables en todos los niveles.
+            if (conflictsWithSecondSpecies(dish.animal_carne, chosenAnimals)) return true;
+
+            // Nivel 2 relaja únicamente el máximo de 2 días consecutivos de animal.
+            if (relaxationLevel < 2 && animalHasThreeDayStreak(menuDays, dayIndex, dish.animal_carne)) return true;
+
+            // Nivel 0 exige como máximo un guiso dentro del día.
+            if (relaxationLevel === 0 && dish.tecnica_cocina === "tecnica_guiso" && chosenTechniques.includes("tecnica_guiso")) return true;
+            return false;
+        }
+
+        function candidateScore(dish, spec, menuDays, dayIndex) {
+            let score = getDemandWeight(dish.demanda);
+            if (usesFreshStock(dish)) score += dayIndex < 2 ? 2 : 0;
+            if (spec.cat === "Segundo" && spec.protein === "Pescado") score += dayIndex === 0 ? 1 : 0;
+            return score + Math.random();
+        }
+
+        function pickDishForSlot(dayName, spec, usedDishIdsThisWeek, menuDays, dayIndex, chosenAnimals, chosenTechniques) {
+            // La relajación es deliberadamente incremental:
+            // 0 = todo estricto
+            // 1 = permite técnica de carne repetida y repeticiones de legumbre/pasta/arroz consecutivas
+            // 2 = además permite especie de pescado consecutiva y animal de carne 3 días.
+            for (let relaxationLevel = 0; relaxationLevel <= 2; relaxationLevel++) {
+                const candidates = dishes
+                    .map(normalizeDishData)
+                    .filter(d => isStructuralMatch(d, spec))
+                    .filter(d => !usedDishIdsThisWeek.has(d.id))
+                    .filter(d => !violatesDayFirstRule(d, spec, menuDays, dayIndex, relaxationLevel))
+                    .filter(d => !violatesDaySecondRule(d, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, relaxationLevel));
+
+                if (candidates.length) {
+                    candidates.sort((a,b) => candidateScore(b, spec, menuDays, dayIndex) - candidateScore(a, spec, menuDays, dayIndex));
+                    const dish = candidates[0];
+                    return {
+                        dish,
+                        relaxed: relaxationLevel > 0,
+                        relaxationLevel,
+                        warning: relaxationLevel === 0 ? "" : `⚠️ Fallback nivel ${relaxationLevel}`
+                    };
+                }
+            }
+
+            // Red de seguridad: nunca reutilizar plato exacto ni romper la estructura de 3+3.
+            return {
+                dish: { id: "none", nombre: "Sin plato disponible", categoria: spec.cat, proteina_segundo: spec.protein || "", ingredientes: [] },
+                relaxed: true,
+                relaxationLevel: 3,
+                warning: "⚠️ Sin candidato compatible"
+            };
+        }
+
+        function getPreparedMap() {
             const prepMap = {};
-            
             preparedStock.forEach(prep => {
                 if (prep.asignacion && prep.asignacion !== "Sin asignar") {
                     const key = prep.asignacion.replace(/\s+/g, '');
@@ -1061,182 +1439,247 @@
                     prepMap[key].push(prep);
                 }
             });
+            return prepMap;
+        }
 
-            daysList.forEach(dayName => {
-                newMenu.days[dayName] = generateDayMenu(dayName, usedDishIdsThisWeek, prepMap);
+        function generateWeeklyMenu() {
+            const newMenu = { generatedAt: new Date().toISOString(), days: {}, engineVersion: "menu-rules-v2" };
+            const usedDishIdsThisWeek = new Set();
+            const prepMap = getPreparedMap();
+
+            daysList.forEach((dayName, dayIndex) => {
+                newMenu.days[dayName] = generateDayMenu(dayName, dayIndex, newMenu.days, usedDishIdsThisWeek, prepMap);
             });
 
             currentMenu = newMenu;
             saveAll();
             renderGeneratorView();
+
+            const validation = validateWeeklyMenu(currentMenu);
+            if (!validation.valid) {
+                alert(`Menú generado con incidencias: ${validation.errors.join(" | ")}`);
+            }
         }
 
-        function generateDayMenu(dayName, usedDishIdsThisWeek, prepMap) {
+        function generateDayMenu(dayName, dayIndex, menuDays, usedDishIdsThisWeek, prepMap) {
             const slotSpecs = [
-                { slotLabel: "1º Verdura", cat: "Primero", subcat: "Verdura" },
-                { slotLabel: "1º Cuchara", cat: "Primero", subcat: "Cuchara" },
-                { slotLabel: "1º Tenedor", cat: "Primero", subcat: "Tenedor" },
-                { slotLabel: "2º Carne", cat: "Segundo", protein: "Carne" },
-                { slotLabel: "2º Carne", cat: "Segundo", protein: "Carne" },
+                { slotLabel: "1º Verdura", cat: "Primero", subtipo: "VERDURA_SLOT" },
+                { slotLabel: "1º Cuchara", cat: "Primero", subtipo: "CUCHARA_SLOT" },
+                { slotLabel: "1º Tenedor / Hidratos", cat: "Primero", subtipo: "TENEDOR_SLOT" },
+                { slotLabel: "2º Carne (Opción 1)", cat: "Segundo", protein: "Carne" },
+                { slotLabel: "2º Carne (Opción 2)", cat: "Segundo", protein: "Carne" },
                 { slotLabel: "2º Pescado", cat: "Segundo", protein: "Pescado" }
             ];
 
+            const resolvedSpecs = [
+                { ...slotSpecs[0], allowedParents: ["Verdura"] },
+                { ...slotSpecs[1], allowedParents: ["Cuchara"] },
+                { ...slotSpecs[2], allowedParents: ["Tenedor"] },
+                ...slotSpecs.slice(3)
+            ];
             const daySlots = [];
-            const chosenSecondSpecies = [];
-            let guisadoCount = 0, brasaCount = 0;
+            const chosenAnimals = [];
+            const chosenTechniques = [];
+            const assignedPrimero = [...(prepMap[`${dayName}-Primero`] || [])];
+            const assignedSegundo = [...(prepMap[`${dayName}-Segundo`] || [])];
 
-            const prepPrimeroKey = `${dayName}-Primero`;
-            const prepSegundoKey = `${dayName}-Segundo`;
-            const assignedPrepPrimero = prepMap[prepPrimeroKey] ? [...prepMap[prepPrimeroKey]] : [];
-            const assignedPrepSegundo = prepMap[prepSegundoKey] ? [...prepMap[prepSegundoKey]] : [];
+            for (let index = 0; index < resolvedSpecs.length; index++) {
+                const spec = resolvedSpecs[index];
+                const assignedList = spec.cat === "Primero" ? assignedPrimero : assignedSegundo;
+                let lockedDish = null;
 
-            for (let index = 0; index < slotSpecs.length; index++) {
-                const spec = slotSpecs[index];
-                let lockedItem = null;
-
-                if (spec.cat === "Primero" && assignedPrepPrimero.length > 0) lockedItem = assignedPrepPrimero.shift();
-                else if (spec.cat === "Segundo" && assignedPrepSegundo.length > 0) lockedItem = assignedPrepSegundo.shift();
-
-                if (lockedItem) {
-                    let dish = dishes.find(d => d.nombre.toLowerCase() === lockedItem.nombre.toLowerCase());
-                    if (!dish) {
-                        dish = {
-                            id: lockedItem.id || `prep-${Date.now()}`,
-                            nombre: lockedItem.nombre,
-                            categoria: spec.cat,
-                            subcategoria_primero: spec.subcat || "Verdura",
-                            proteina_segundo: spec.protein || "Carne",
-                            especie_animal: spec.cat === "Segundo" ? "Otro" : "",
-                            tecnica: "Otra",
-                            precocinado: true,
-                            demanda: "Media",
-                            ingredientes: []
-                        };
+                // El stock preparado solo bloquea la casilla si realmente pertenece a ella
+                // y cumple las reglas. Así no puede romper la estructura ni las restricciones.
+                while (assignedList.length && !lockedDish) {
+                    const prep = assignedList.shift();
+                    const candidate = normalizeDishData(dishes.find(d => d.nombre.toLowerCase() === String(prep.nombre || "").toLowerCase()) || {
+                        id: prep.id || `prep-${Date.now()}-${index}`,
+                        nombre: prep.nombre,
+                        categoria: spec.cat,
+                        subcategoria_primero: spec.allowedParents?.[0] || "",
+                        subtipo_primero: "",
+                        proteina_segundo: spec.protein || "",
+                        animal_carne: "",
+                        especie_pescado: "",
+                        tecnica_cocina: "",
+                        ingredientes: []
+                    });
+                    if (isStructuralMatch(candidate, spec) &&
+                        !usedDishIdsThisWeek.has(candidate.id) &&
+                        !violatesDayFirstRule(candidate, spec, menuDays, dayIndex, 0) &&
+                        !violatesDaySecondRule(candidate, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, 0)) {
+                        lockedDish = candidate;
                     }
-                    if (spec.cat === "Segundo" && dish.especie_animal && dish.especie_animal !== "Vegetariano/Ninguno" && dish.especie_animal !== "Otro") {
-                        chosenSecondSpecies.push(dish.especie_animal);
-                    }
-                    if (spec.cat === "Segundo") {
-                        if (dish.tecnica === "Guisado") guisadoCount++;
-                        if (dish.tecnica === "Brasa/Plancha") brasaCount++;
-                    }
-                    usedDishIdsThisWeek.add(dish.id);
-                    daySlots.push({ slotLabel: spec.slotLabel, cat: spec.cat, dish: dish, relaxed: false, warning: "", isPreparedStock: true });
-                    continue;
                 }
 
-                const pickResult = pickDishForSlot(dayName, spec, usedDishIdsThisWeek, guisadoCount, brasaCount, chosenSecondSpecies);
-                const dish = pickResult.dish;
-                
+                let result;
+                if (lockedDish) {
+                    result = { dish: lockedDish, relaxed: false, relaxationLevel: 0, warning: "" };
+                } else {
+                    // Los slots de primeros necesitan un filtro padre + subcategoría.
+                    const specForPick = { ...spec };
+                    if (spec.cat === "Primero") {
+                        const parent = spec.allowedParents[0];
+                        result = pickDishForSlotWithParent(dayName, specForPick, parent, usedDishIdsThisWeek, menuDays, dayIndex, chosenAnimals, chosenTechniques);
+                    } else {
+                        result = pickDishForSlot(dayName, specForPick, usedDishIdsThisWeek, menuDays, dayIndex, chosenAnimals, chosenTechniques);
+                    }
+                }
+
+                const dish = result.dish;
                 if (dish && dish.id !== "none") {
                     usedDishIdsThisWeek.add(dish.id);
-                    if (spec.cat === "Segundo" && dish.especie_animal && dish.especie_animal !== "Vegetariano/Ninguno" && dish.especie_animal !== "Otro") {
-                        chosenSecondSpecies.push(dish.especie_animal);
-                    }
-                    if (spec.cat === "Segundo") {
-                        if (dish.tecnica === "Guisado") guisadoCount++;
-                        if (dish.tecnica === "Brasa/Plancha") brasaCount++;
+                    if (spec.cat === "Segundo" && spec.protein === "Carne") {
+                        chosenAnimals.push(dish.animal_carne);
+                        chosenTechniques.push(dish.tecnica_cocina);
                     }
                 }
-
-                daySlots.push({ slotLabel: spec.slotLabel, cat: spec.cat, dish: dish, relaxed: pickResult.relaxed, warning: pickResult.warning, isPreparedStock: false });
+                daySlots.push({
+                    slotLabel: spec.slotLabel,
+                    cat: spec.cat,
+                    dish,
+                    relaxed: result.relaxed,
+                    relaxationLevel: result.relaxationLevel,
+                    warning: result.warning,
+                    isPreparedStock: !!lockedDish
+                });
             }
             return daySlots;
         }
 
-        function pickDishForSlot(dayName, spec, usedDishIdsThisWeek, guisadoCount, brasaCount, chosenSecondSpecies) {
-            const pool = dishes.filter(d => {
-                if (d.categoria !== spec.cat) return false;
-                if (spec.cat === "Primero" && spec.subcat && d.subcategoria_primero !== spec.subcat) return false;
-                if (spec.cat === "Segundo" && spec.protein && d.proteina_segundo !== spec.protein) return false;
-                if (spec.cat === "Segundo" && conflictsWithSecondSpecies(d.especie_animal, chosenSecondSpecies)) return false;
-                return true;
-            });
+        function pickDishForSlotWithParent(dayName, spec, parent, usedDishIdsThisWeek, menuDays, dayIndex, chosenAnimals, chosenTechniques) {
+            for (let relaxationLevel = 0; relaxationLevel <= 2; relaxationLevel++) {
+                const candidates = dishes
+                    .map(normalizeDishData)
+                    .filter(d => d.categoria === "Primero")
+                    .filter(d => d.subcategoria_primero === parent)
+                    .filter(d => !usedDishIdsThisWeek.has(d.id))
+                    .filter(d => !violatesDayFirstRule(d, {cat:"Primero"}, menuDays, dayIndex, relaxationLevel))
+                    .filter(d => !violatesDayFirstRuleByParent(d, parent, menuDays, dayIndex, relaxationLevel));
 
-            if (pool.length === 0) {
-                const fallbackPool = dishes.filter(d => {
-                    if (d.categoria !== spec.cat) return false;
-                    if (spec.cat === "Primero" && spec.subcat && d.subcategoria_primero !== spec.subcat) return false;
-                    if (spec.cat === "Segundo" && spec.protein && d.proteina_segundo !== spec.protein) return false;
-                    return true;
-                });
-                if (fallbackPool.length > 0) return { dish: fallbackPool[Math.floor(Math.random() * fallbackPool.length)], relaxed: true, warning: "⚠️ Regla relajada" };
-                return { dish: { id: "none", nombre: "Sin plato disponible", categoria: spec.cat, especie_animal: "-", tecnica: "-", demanda:"Media", ingredientes: [] }, relaxed: true, warning: "⚠️ Sin recetario" };
+                if (candidates.length) {
+                    candidates.sort((a,b) => candidateScore(b, spec, menuDays, dayIndex) - candidateScore(a, spec, menuDays, dayIndex));
+                    return { dish: candidates[0], relaxed: relaxationLevel > 0, relaxationLevel, warning: relaxationLevel ? `⚠️ Fallback nivel ${relaxationLevel}` : "" };
+                }
             }
+            return { dish: { id:"none", nombre:"Sin plato disponible", categoria:"Primero", ingredientes:[] }, relaxed:true, relaxationLevel:3, warning:"⚠️ Sin candidato compatible" };
+        }
 
-            let level0 = pool.filter(d => {
-                if (usedDishIdsThisWeek.has(d.id)) return false;
-                if (spec.cat === "Segundo") {
-                    if (d.tecnica === "Guisado" && guisadoCount >= 1) return false;
-                    if (d.tecnica === "Brasa/Plancha" && brasaCount >= 1) return false;
-                }
-                return true;
-            });
-
-            if (level0.length > 0) {
-                if (dayName === "Lunes" || dayName === "Martes") {
-                    const freshMatches = level0.filter(d => usesFreshStock(d));
-                    if (freshMatches.length > 0) {
-                        return { dish: freshMatches[Math.floor(Math.random() * freshMatches.length)], relaxed: false, warning: "" };
-                    }
-                }
-                return { dish: level0[Math.floor(Math.random() * level0.length)], relaxed: false, warning: "" };
+        function violatesDayFirstRuleByParent(dish, parent, menuDays, dayIndex, relaxationLevel) {
+            if (relaxationLevel > 0) return false;
+            const subtype = dish.subtipo_primero;
+            if (parent === "Cuchara") return subtype === "cuchara_legumbres" && previousDayHasSubtype(menuDays, dayIndex, subtype);
+            if (parent === "Tenedor") return ["pasta_corta_larga", "pasta_rellena_horno", "arroz"].includes(subtype) && previousDayHasSubtype(menuDays, dayIndex, subtype);
+            if (parent === "Verdura") {
+                if (subtype === "verdura_crema" && previousDayHasSubtype(menuDays, dayIndex, subtype)) return true;
+                if (subtype === "verdura_entera" && getConsecutiveSubtypeStreak(menuDays, dayIndex, "verdura_entera") >= 3) return true;
             }
-
-            let level1 = pool.filter(d => {
-                if (spec.cat === "Segundo") {
-                    if (d.tecnica === "Guisado" && guisadoCount >= 1) return false;
-                    if (d.tecnica === "Brasa/Plancha" && brasaCount >= 1) return false;
-                }
-                return true;
-            });
-
-            if (level1.length > 0) return { dish: level1[Math.floor(Math.random() * level1.length)], relaxed: true, warning: "⚠️ Variedad relajada" };
-
-            let level2 = pool;
-            if (level2.length > 0) return { dish: level2[Math.floor(Math.random() * level2.length)], relaxed: true, warning: "⚠️ Variedad relajada" };
-
-            return { dish: pool[Math.floor(Math.random() * pool.length)], relaxed: true, warning: "⚠️ Red de seguridad" };
+            return false;
         }
 
         function usesFreshStock(dish) {
-            if (!dish.ingredientes || !Array.isArray(dish.ingredientes)) return false;
+            if (!dish?.ingredientes || !Array.isArray(dish.ingredientes)) return false;
             const freshNames = rawStock
-                .filter(r => {
-                    const conservacion = String(r.conservacion || '');
-                    return (conservacion.includes("Fresco") || conservacion.includes("Refrigerado")) && Number(r.cantidad) > 0;
-                })
-                .map(r => String(r.nombre || '').toLowerCase())
-                .filter(Boolean);
+                .filter(r => (String(r.conservacion || '').includes("Fresco") || String(r.conservacion || '').includes("Refrigerado")) && Number(r.cantidad) > 0)
+                .map(r => String(r.nombre || '').toLowerCase()).filter(Boolean);
             return dish.ingredientes.some(ing => {
-                const ingName = ing.nombre.toLowerCase();
+                const ingName = String(ing.nombre || '').toLowerCase();
                 return freshNames.some(raw => ingName.includes(raw) || raw.includes(ingName));
             });
         }
 
         function regenerateSingleDay(dayName) {
-            if (!currentMenu || !currentMenu.days) return;
+            if (!currentMenu?.days) return;
             const usedDishIdsInOtherDays = new Set();
             daysList.forEach(d => {
-                if (d !== dayName && currentMenu.days[d]) {
-                    currentMenu.days[d].forEach(slot => {
-                        if (slot.dish && slot.dish.id) usedDishIdsInOtherDays.add(slot.dish.id);
+                if (d !== dayName) {
+                    (currentMenu.days[d] || []).forEach(slot => {
+                        if (slot.dish?.id) usedDishIdsInOtherDays.add(slot.dish.id);
                     });
                 }
             });
 
-            const prepMap = {};
-            preparedStock.forEach(prep => {
-                if (prep.asignacion && prep.asignacion !== "Sin asignar") {
-                    const key = prep.asignacion.replace(/\s+/g, '');
-                    if (!prepMap[key]) prepMap[key] = [];
-                    prepMap[key].push(prep);
+            const rebuilt = {};
+            daysList.forEach((d, i) => {
+                if (d === dayName) return;
+                rebuilt[d] = currentMenu.days[d] || [];
+            });
+            const dayIndex = daysList.indexOf(dayName);
+            currentMenu.days[dayName] = generateDayMenu(dayName, dayIndex, rebuilt, usedDishIdsInOtherDays, getPreparedMap());
+            saveAll();
+            renderGeneratorView();
+        }
+
+
+        function validateWeeklyMenu(menu, options = {}) {
+            const errors = [];
+            const days = Object.keys(menu?.days || {});
+            const expectedLabels = ["1º Verdura", "1º Cuchara", "1º Tenedor / Hidratos", "2º Carne (Opción 1)", "2º Carne (Opción 2)", "2º Pescado"];
+            const usedIds = new Set();
+
+            days.forEach((dayName, dayIndex) => {
+                const slots = menu.days[dayName] || [];
+                if (slots.length !== 6) {
+                    errors.push(`${dayName}: deben existir exactamente 6 opciones.`);
+                    return;
+                }
+
+                slots.forEach((slot, index) => {
+                    if (slot.slotLabel !== expectedLabels[index]) errors.push(`${dayName}: slot ${index + 1} no respeta la estructura fija.`);
+                    if (slot.dish?.id && slot.dish.id !== "none") {
+                        if (usedIds.has(slot.dish.id)) errors.push(`${dayName}: el plato "${slot.dish.nombre}" se repite en la semana.`);
+                        usedIds.add(slot.dish.id);
+                    }
+                });
+
+                const verdura = slots[0]?.dish;
+                const cuchara = slots[1]?.dish;
+                const tenedor = slots[2]?.dish;
+                if (verdura?.subcategoria_primero !== "Verdura") errors.push(`${dayName}: el 1º Verdura no es Verdura.`);
+                if (cuchara?.subcategoria_primero !== "Cuchara") errors.push(`${dayName}: el 1º Cuchara no es Cuchara.`);
+                if (tenedor?.subcategoria_primero !== "Tenedor") errors.push(`${dayName}: el 1º Tenedor/Hidratos no es Tenedor.`);
+
+                const meats = slots.slice(3,5).map(s => s.dish).filter(Boolean);
+                if (meats.length !== 2) errors.push(`${dayName}: deben existir 2 carnes.`);
+                if (meats[0]?.animal_carne && meats[0].animal_carne === meats[1]?.animal_carne) errors.push(`${dayName}: las dos carnes usan el mismo animal.`);
+                if (meats.filter(m => m?.tecnica_cocina === "tecnica_guiso").length > 1) errors.push(`${dayName}: hay dos carnes guisadas.`);
+                if (slots[5]?.dish?.proteina_segundo !== "Pescado") errors.push(`${dayName}: falta el pescado obligatorio.`);
+                if (!slots[5]?.dish?.especie_pescado) errors.push(`${dayName}: el pescado no tiene especie exacta.`);
+
+                if (dayIndex > 0) {
+                    const prev = menu.days[days[dayIndex - 1]] || [];
+                    const prevFish = prev[5]?.dish?.especie_pescado;
+                    const fish = slots[5]?.dish?.especie_pescado;
+                    if (prevFish && fish && prevFish === fish) errors.push(`${dayName}: pescado repetido respecto al día anterior.`);
+
+                    const prevSubtypes = prev.slice(0,3).map(s => s.dish?.subtipo_primero).filter(Boolean);
+                    if (slots[1]?.dish?.subtipo_primero === "cuchara_legumbres" && prevSubtypes.includes("cuchara_legumbres")) errors.push(`${dayName}: legumbres en días consecutivos.`);
+                    const currentHydrate = slots[2]?.dish?.subtipo_primero;
+                    if (["pasta_corta_larga","pasta_rellena_horno","arroz"].includes(currentHydrate) && prevSubtypes.includes(currentHydrate)) errors.push(`${dayName}: hidrato/pasta repetido en días consecutivos.`);
+                    if (slots[0]?.dish?.subtipo_primero === "verdura_crema" && prevSubtypes.includes("verdura_crema")) errors.push(`${dayName}: crema de verdura en días consecutivos.`);
+                }
+
+                if (dayIndex >= 3 && slots[0]?.dish?.subtipo_primero === "verdura_entera") {
+                    const d1 = menu.days[days[dayIndex-1]]?.[0]?.dish?.subtipo_primero;
+                    const d2 = menu.days[days[dayIndex-2]]?.[0]?.dish?.subtipo_primero;
+                    const d3 = menu.days[days[dayIndex-3]]?.[0]?.dish?.subtipo_primero;
+                    if (d1 === "verdura_entera" && d2 === "verdura_entera" && d3 === "verdura_entera") errors.push(`${dayName}: verdura entera supera 3 días seguidos.`);
+                }
+
+                if (dayIndex >= 2) {
+                    const previousTwoAnimals = [
+                        ...(menu.days[days[dayIndex-1]] || []).slice(3,5).map(s => s.dish?.animal_carne),
+                        ...(menu.days[days[dayIndex-2]] || []).slice(3,5).map(s => s.dish?.animal_carne)
+                    ];
+                    meats.forEach(m => {
+                        if (m?.animal_carne && previousTwoAnimals.filter(a => a === m.animal_carne).length === 2) {
+                            errors.push(`${dayName}: ${MEAT_LABELS[m.animal_carne] || m.animal_carne} aparece 3 días consecutivos.`);
+                        }
+                    });
                 }
             });
 
-            currentMenu.days[dayName] = generateDayMenu(dayName, usedDishIdsInOtherDays, prepMap);
-            saveAll();
-            renderGeneratorView();
+            return { valid: errors.length === 0, errors };
         }
 
         function renderGeneratorView() {
@@ -1663,14 +2106,10 @@
                     const data = JSON.parse(evt.target.result);
 
                     if (Array.isArray(data.dishes)) {
-                        dishes = data.dishes.map(d => ({
-                            ...d,
-                            demanda: d.demanda || "Media",
-                            precocinado: !!d.precocinado
-                        }));
+                        dishes = data.dishes.map(normalizeDishData);
                     }
                     if (data.settings && typeof data.settings === 'object') {
-                        settings = { ...seedSettings, ...data.settings };
+                        settings = { ...defaultSettings, ...data.settings };
                     }
                     if (Array.isArray(data.rawStock)) rawStock = data.rawStock;
                     if (Array.isArray(data.preparedStock)) preparedStock = data.preparedStock;
@@ -1684,6 +2123,7 @@
                     renderStockView();
                     renderGeneratorView();
                     renderHistorySection();
+                    renderMigrationUI();
                     alert("Datos importados correctamente.");
                 } catch(err) {
                     alert("Error al importar el archivo JSON.");
