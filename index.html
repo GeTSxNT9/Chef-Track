@@ -405,22 +405,7 @@
             return 2;
         };
 
-        const seedDishes = [
-            { id: "1", nombre: "Lentejas castellanas con embutido", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "", tecnica: "", precocinado: false, demanda: "Media", ingredientes: [{nombre: "Lentejas secas", cantidad: 0.10, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Chorizo", cantidad: 0.025, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "2", nombre: "Crema de verduras desde cero", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "", tecnica: "", precocinado: false, demanda: "Baja", ingredientes: [{nombre: "Calabacín", cantidad: 0.10, unidad: "kg", categoria_proveedor: "Verduras y frutas"}, {nombre: "Puerro", cantidad: 0.04, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] },
-            { id: "3", nombre: "Macarrones con tomate (Bandeja Externa)", categoria: "Primero", subcategoria_primero: "Tenedor", proteina_segundo: "", especie_animal: "", tecnica: "", precocinado: true, demanda: "Alta", ingredientes: [] },
-            { id: "4", nombre: "Judías verdes salteadas con jamón", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "", tecnica: "", precocinado: false, demanda: "Media", ingredientes: [{nombre: "Judías verdes", cantidad: 0.15, unidad: "kg", categoria_proveedor: "Congelados"}, {nombre: "Jamón picado", cantidad: 0.02, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "5", nombre: "Sopa de fideos con pollo", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "", tecnica: "", precocinado: false, demanda: "Alta", ingredientes: [{nombre: "Fideos finos", cantidad: 0.04, unidad: "kg", categoria_proveedor: "Secos"}] },
-            { id: "6", nombre: "Magro de cerdo guisado con guisantes", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Guisado", precocinado: false, demanda: "Media", ingredientes: [{nombre: "Magro de cerdo", cantidad: 0.22, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "7", nombre: "Cinta de lomo a la plancha", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", precocinado: false, demanda: "Alta", ingredientes: [{nombre: "Cinta de lomo", cantidad: 0.25, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "8", nombre: "Alitas confitadas al horno", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo", tecnica: "Asado", precocinado: false, demanda: "Alta", ingredientes: [{nombre: "Alitas de pollo", cantidad: 0.30, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "9", nombre: "Muslos de pollo asados en su jugo", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo", tecnica: "Asado", precocinado: false, demanda: "Media", ingredientes: [{nombre: "Muslos de pollo", cantidad: 0.25, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "10", nombre: "Merluza congelada al horno", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Pescado", especie_animal: "Pescado", tecnica: "Asado", precocinado: false, demanda: "Baja", ingredientes: [{nombre: "Filetes de merluza", cantidad: 0.22, unidad: "kg", categoria_proveedor: "Congelados"}] },
-            { id: "11", nombre: "Bacaladillas rebozadas", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Pescado", especie_animal: "Pescado", tecnica: "Frito/Rebozado", precocinado: false, demanda: "Media", ingredientes: [{nombre: "Bacaladillas limpias", cantidad: 0.20, unidad: "kg", categoria_proveedor: "Pescado"}, {nombre: "Harina", cantidad: 0.02, unidad: "kg", categoria_proveedor: "Secos"}] },
-            { id: "12", nombre: "Tacos de ternera guisados al vino", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Ternera", tecnica: "Guisado", precocinado: false, demanda: "Media", ingredientes: [{nombre: "Ternera para guisar", cantidad: 0.25, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "13", nombre: "Longaniza fresca a la brasa", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", precocinado: false, demanda: "Alta", ingredientes: [{nombre: "Longaniza fresca", cantidad: 0.22, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "14", nombre: "Tortilla de patatas (Plato Externo)", categoria: "Primero", subcategoria_primero: "Tenedor", proteina_segundo: "", especie_animal: "", tecnica: "", precocinado: true, demanda: "Alta", ingredientes: [] }
-        ];
+        const seedDishes = [];
 
         const seedSettings = { comensales: 100, margenActivo: true, darkMode: false };
         const seedRawStock = [];
@@ -445,7 +430,7 @@
             registerServiceWorker();
 
             const storedDishes = localStorage.getItem('chefTrack_dishes');
-            dishes = storedDishes ? JSON.parse(storedDishes) : [...seedDishes];
+            dishes = storedDishes ? JSON.parse(storedDishes) : [];
             dishes = dishes.map(d => ({ ...d, demanda: d.demanda || "Media", precocinado: !!d.precocinado }));
 
             const storedSettings = localStorage.getItem('chefTrack_settings');
@@ -717,7 +702,7 @@
             row.className = 'ingredient-row flex gap-2 items-center';
             row.innerHTML = `
                 <input type="text" placeholder="Ingrediente..." value="${nombre}" required class="flex-2 w-full p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                <input type="text" inputmode="decimal" placeholder="Cant." value="${cantidad !== '' && cantidad !== undefined ? cantidad : ''}" required class="w-24 flex-shrink-0 p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                <input type="text" inputmode="decimal" placeholder="Cant." value="${cantidad !== '' && cantidad !== undefined ? cantidad : ''}" required class="w-32 min-w-[8rem] flex-shrink-0 p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                 <select class="flex-1 p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                     <option value="kg" ${unidad==='kg'?'selected':''}>kg</option>
                     <option value="g" ${unidad==='g'?'selected':''}>g</option>
