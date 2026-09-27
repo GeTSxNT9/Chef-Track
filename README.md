@@ -17,12 +17,13 @@
 
 ## Project Vision
 
-**GastroOS** is a high-performance Progressive Web App (PWA) engineered for head chefs and institutional catering managers. Unlike traditional static recipe managers, **GastroOS** operates as a smart algorithmic engine that automates weekly menu creation (Monday through Friday), guaranteeing strict nutritional balance, culinary logic, and repetition control.
+**GastroOS** is a high-performance Progressive Web App (PWA) engineered by a solo chef responsible for single-handedly preparing 6 distinct dishes daily for 150–200 diners. Unlike traditional static recipe managers, **GastroOS** acts as an operational decision engine—automating weekly menu creation (Monday through Friday) while guaranteeing strict nutritional balance, culinary logic, and repetition control with zero administrative overhead.
 
 ---
 
 ## Key Features
 
+* **Solo-Operator Optimized**: Built specifically for single-chef operations where one person executes the entire 6-dish daily menu, drastically reducing decision fatigue and planning time.
 * **Apple HIG-Inspired UI**: Clean, glassmorphic aesthetic with crystal-clear typography and high-ergonomics touch controls tailored for fast-paced kitchen environments.
 * **Strict 3x3 Daily Structure**:
   * **3 Starters**: `1st Vegetable` + `1st Spoon/Soup` + `1st Fork/Carbs`.
