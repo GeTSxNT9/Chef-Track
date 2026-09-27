@@ -113,36 +113,26 @@
                     </div>
                 </div>
 
-                <!-- ESPECIE ANIMAL (SOLO SEGUNDOS DE CARNE) -->
                 <div id="speciesContainer" class="hidden">
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Especie Animal (Solo Carne)</label>
+                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Especie Animal</label>
                     <select id="dishSpecies" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                         <option value="Cerdo">Cerdo</option>
                         <option value="Pollo">Pollo</option>
                         <option value="Pavo">Pavo</option>
                         <option value="Conejo">Conejo</option>
                         <option value="Ternera">Ternera</option>
+                        <option value="Otro">Otro / Libre</option>
                     </select>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Dificultad (Lunes)</label>
-                        <select id="dishDifficulty" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                            <option value="Fácil/Rápido">Fácil / Rápido</option>
-                            <option value="Normal/Complejo">Normal / Complejo</option>
-                        </select>
-                    </div>
-                    
-                    <!-- TÉCNICA CULINARIA (SOLO SEGUNDOS) -->
-                    <div id="techniqueContainer" class="hidden">
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Técnica</label>
-                        <select id="dishTechnique" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                            <option value="Guisado">Guisado</option>
-                            <option value="Asado">Asado</option>
-                            <option value="Brasa/Plancha">Brasa/Plancha</option>
-                        </select>
-                    </div>
+                <div id="techniqueContainer" class="hidden">
+                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Técnica</label>
+                    <select id="dishTechnique" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                        <option value="Guisado">Guisado</option>
+                        <option value="Asado">Asado</option>
+                        <option value="Brasa/Plancha">Brasa/Plancha</option>
+                        <option value="Frito/Rebozado">Frito/Rebozado</option>
+                    </select>
                 </div>
 
                 <div>
@@ -152,6 +142,11 @@
                         <option value="Media" selected>🟡 Media (Estándar)</option>
                         <option value="Baja">🔴 Baja (Ligera)</option>
                     </select>
+                </div>
+
+                <div class="flex items-center justify-between bg-indigo-50 dark:bg-indigo-950/50 p-3 rounded-lg border border-indigo-100 dark:border-indigo-900 mt-2">
+                    <label for="dishPrecooked" class="text-sm font-bold text-indigo-900 dark:text-indigo-300">¿Es plato precocinado / externo?</label>
+                    <input type="checkbox" id="dishPrecooked" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500">
                 </div>
 
                 <div class="border-t border-gray-200 dark:border-gray-800 pt-4 mt-4">
@@ -204,12 +199,12 @@
                         <input type="text" id="rawName" placeholder="Nombre ingrediente..." required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <input type="number" step="0.1" id="rawQty" placeholder="Cantidad" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+                        <input type="text" inputmode="decimal" id="rawQty" placeholder="Cantidad" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                         <select id="rawUnit" class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                             <option value="kg">kg</option>
                             <option value="g">g</option>
-                            <option value="ud">unidades</option>
                             <option value="L">L</option>
+                            <option value="ml">ml</option>
                         </select>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
@@ -241,7 +236,7 @@
                         <input type="text" id="prepName" placeholder="Nombre plato..." required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <input type="number" id="prepRaciones" placeholder="Raciones disponibles" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+                        <input type="text" inputmode="numeric" id="prepRaciones" placeholder="Raciones disponibles" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                         <select id="prepAsignacion" class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                             <option value="Sin asignar">Sin asignar</option>
                             <option value="Lunes - Primero">Lunes - Primero</option>
@@ -310,7 +305,7 @@
                         <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Cálculo por Proveedores</h3>
                         <span class="text-[10px] font-bold bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 px-2 py-0.5 rounded-full" id="shoppingRacionesBadge">130 Raciones</span>
                     </div>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 leading-snug">Cantidades redondeadas hacia arriba y agrupadas en una única categoría unificada de Carne.</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 leading-snug">Cantidades redondeadas estrictamente hacia arriba al número entero superior y agrupadas en categorías unificadas.</p>
                     <button id="btnDownloadShoppingTxt" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-3 rounded-lg text-xs flex items-center justify-center gap-2 shadow-sm">
                         <span>📄</span> Descargar Lista (.txt)
                     </button>
@@ -411,20 +406,20 @@
         };
 
         const seedDishes = [
-            { id: "1", nombre: "Lentejas castellanas con embutido", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "", tecnica: "", dificultad_lunes: "Normal/Complejo", demanda: "Media", ingredientes: [{nombre: "Lentejas secas", cantidad: 0.10, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Chorizo", cantidad: 0.025, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "2", nombre: "Crema de verduras desde cero", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "", tecnica: "", dificultad_lunes: "Fácil/Rápido", demanda: "Baja", ingredientes: [{nombre: "Calabacín", cantidad: 0.10, unidad: "kg", categoria_proveedor: "Verduras y frutas"}, {nombre: "Puerro", cantidad: 0.04, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] },
-            { id: "3", nombre: "Macarrones con tomate y orégano", categoria: "Primero", subcategoria_primero: "Tenedor", proteina_segundo: "", especie_animal: "", tecnica: "", dificultad_lunes: "Fácil/Rápido", demanda: "Alta", ingredientes: [{nombre: "Macarrones", cantidad: 0.12, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Tomate frito", cantidad: 0.08, unidad: "L", categoria_proveedor: "Secos"}] },
-            { id: "4", nombre: "Judías verdes salteadas con jamón", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "", tecnica: "", dificultad_lunes: "Fácil/Rápido", demanda: "Media", ingredientes: [{nombre: "Judías verdes", cantidad: 0.15, unidad: "kg", categoria_proveedor: "Congelados"}, {nombre: "Jamón picado", cantidad: 0.02, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "5", nombre: "Sopa de fideos con pollo", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "", tecnica: "", dificultad_lunes: "Fácil/Rápido", demanda: "Alta", ingredientes: [{nombre: "Fideos finos", cantidad: 0.04, unidad: "kg", categoria_proveedor: "Secos"}] },
-            { id: "6", nombre: "Magro de cerdo guisado con guisantes", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", demanda: "Media", ingredientes: [{nombre: "Magro de cerdo", cantidad: 0.22, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "7", nombre: "Cinta de lomo a la plancha", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", demanda: "Alta", ingredientes: [{nombre: "Cinta de lomo", cantidad: 0.25, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "8", nombre: "Alitas confitadas al horno", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo", tecnica: "Asado", dificultad_lunes: "Normal/Complejo", demanda: "Alta", ingredientes: [{nombre: "Alitas de pollo", cantidad: 0.30, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "9", nombre: "Muslos de pollo asados en su jugo", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo", tecnica: "Asado", dificultad_lunes: "Fácil/Rápido", demanda: "Media", ingredientes: [{nombre: "Muslos de pollo", cantidad: 1.0, unidad: "ud", categoria_proveedor: "Carne"}] },
-            { id: "10", nombre: "Merluza congelada al horno", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Pescado", especie_animal: "Pescado", tecnica: "Asado", dificultad_lunes: "Fácil/Rápido", demanda: "Baja", ingredientes: [{nombre: "Filetes de merluza", cantidad: 0.22, unidad: "kg", categoria_proveedor: "Congelados"}] },
-            { id: "11", nombre: "Bacaladillas rebozadas", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Pescado", especie_animal: "Pescado", tecnica: "Brasa/Plancha", dificultad_lunes: "Normal/Complejo", demanda: "Media", ingredientes: [{nombre: "Bacaladillas limpias", cantidad: 0.20, unidad: "kg", categoria_proveedor: "Pescado"}, {nombre: "Harina", cantidad: 0.02, unidad: "kg", categoria_proveedor: "Secos"}] },
-            { id: "12", nombre: "Tacos de ternera guisados al vino", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Ternera", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", demanda: "Media", ingredientes: [{nombre: "Ternera para guisar", cantidad: 0.25, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "13", nombre: "Longaniza fresca a la brasa", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", demanda: "Alta", ingredientes: [{nombre: "Longaniza fresca", cantidad: 0.22, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "14", nombre: "Tortilla de patatas casera (Alternativa Vegetariana)", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo", tecnica: "Brasa/Plancha", dificultad_lunes: "Normal/Complejo", demanda: "Alta", ingredientes: [{nombre: "Huevos", cantidad: 1.5, unidad: "ud", categoria_proveedor: "Lácteos"}, {nombre: "Patatas peladas", cantidad: 0.20, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] }
+            { id: "1", nombre: "Lentejas castellanas con embutido", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "", tecnica: "", precocinado: false, demanda: "Media", ingredientes: [{nombre: "Lentejas secas", cantidad: 0.10, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Chorizo", cantidad: 0.025, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "2", nombre: "Crema de verduras desde cero", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "", tecnica: "", precocinado: false, demanda: "Baja", ingredientes: [{nombre: "Calabacín", cantidad: 0.10, unidad: "kg", categoria_proveedor: "Verduras y frutas"}, {nombre: "Puerro", cantidad: 0.04, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] },
+            { id: "3", nombre: "Macarrones con tomate (Bandeja Externa)", categoria: "Primero", subcategoria_primero: "Tenedor", proteina_segundo: "", especie_animal: "", tecnica: "", precocinado: true, demanda: "Alta", ingredientes: [] },
+            { id: "4", nombre: "Judías verdes salteadas con jamón", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "", tecnica: "", precocinado: false, demanda: "Media", ingredientes: [{nombre: "Judías verdes", cantidad: 0.15, unidad: "kg", categoria_proveedor: "Congelados"}, {nombre: "Jamón picado", cantidad: 0.02, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "5", nombre: "Sopa de fideos con pollo", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "", tecnica: "", precocinado: false, demanda: "Alta", ingredientes: [{nombre: "Fideos finos", cantidad: 0.04, unidad: "kg", categoria_proveedor: "Secos"}] },
+            { id: "6", nombre: "Magro de cerdo guisado con guisantes", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Guisado", precocinado: false, demanda: "Media", ingredientes: [{nombre: "Magro de cerdo", cantidad: 0.22, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "7", nombre: "Cinta de lomo a la plancha", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", precocinado: false, demanda: "Alta", ingredientes: [{nombre: "Cinta de lomo", cantidad: 0.25, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "8", nombre: "Alitas confitadas al horno", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo", tecnica: "Asado", precocinado: false, demanda: "Alta", ingredientes: [{nombre: "Alitas de pollo", cantidad: 0.30, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "9", nombre: "Muslos de pollo asados en su jugo", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo", tecnica: "Asado", precocinado: false, demanda: "Media", ingredientes: [{nombre: "Muslos de pollo", cantidad: 0.25, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "10", nombre: "Merluza congelada al horno", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Pescado", especie_animal: "Pescado", tecnica: "Asado", precocinado: false, demanda: "Baja", ingredientes: [{nombre: "Filetes de merluza", cantidad: 0.22, unidad: "kg", categoria_proveedor: "Congelados"}] },
+            { id: "11", nombre: "Bacaladillas rebozadas", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Pescado", especie_animal: "Pescado", tecnica: "Frito/Rebozado", precocinado: false, demanda: "Media", ingredientes: [{nombre: "Bacaladillas limpias", cantidad: 0.20, unidad: "kg", categoria_proveedor: "Pescado"}, {nombre: "Harina", cantidad: 0.02, unidad: "kg", categoria_proveedor: "Secos"}] },
+            { id: "12", nombre: "Tacos de ternera guisados al vino", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Ternera", tecnica: "Guisado", precocinado: false, demanda: "Media", ingredientes: [{nombre: "Ternera para guisar", cantidad: 0.25, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "13", nombre: "Longaniza fresca a la brasa", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", precocinado: false, demanda: "Alta", ingredientes: [{nombre: "Longaniza fresca", cantidad: 0.22, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "14", nombre: "Tortilla de patatas (Plato Externo)", categoria: "Primero", subcategoria_primero: "Tenedor", proteina_segundo: "", especie_animal: "", tecnica: "", precocinado: true, demanda: "Alta", ingredientes: [] }
         ];
 
         const seedSettings = { comensales: 100, margenActivo: true, darkMode: false };
@@ -451,7 +446,7 @@
 
             const storedDishes = localStorage.getItem('chefTrack_dishes');
             dishes = storedDishes ? JSON.parse(storedDishes) : [...seedDishes];
-            dishes = dishes.map(d => ({ ...d, demanda: d.demanda || "Media" }));
+            dishes = dishes.map(d => ({ ...d, demanda: d.demanda || "Media", precocinado: !!d.precocinado }));
 
             const storedSettings = localStorage.getItem('chefTrack_settings');
             settings = storedSettings ? JSON.parse(storedSettings) : { ...seedSettings };
@@ -480,7 +475,7 @@
         function registerServiceWorker() {
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    const CACHE = 'cheftrack-v9';
+                    const CACHE = 'cheftrack-v12';
                     self.addEventListener('install', e => { self.skipWaiting(); });
                     self.addEventListener('activate', e => { self.clients.claim(); });
                     self.addEventListener('fetch', e => {
@@ -614,7 +609,6 @@
             document.getElementById('btnWipeData').addEventListener('click', wipeData);
         }
 
-        // --- ACTUALIZACIÓN DE VISIBILIDAD DE RESTRICCIONES EN FORMULARIO ---
         function updateFormVisibility() {
             const cat = document.getElementById('dishCategory').value;
             const prot = document.getElementById('dishProtein').value;
@@ -624,12 +618,8 @@
             const isCarne = (prot === 'Carne');
             
             document.getElementById('subcatPrimeroContainer').classList.toggle('hidden', !isPrimero);
-            
-            // Si es segundo, mostramos tipo de proteína y técnica
             document.getElementById('protSegundoContainer').classList.toggle('hidden', !isSegundo);
             document.getElementById('techniqueContainer').classList.toggle('hidden', !isSegundo);
-            
-            // Especie solo si es Segundo Y es Carne
             document.getElementById('speciesContainer').classList.toggle('hidden', !(isSegundo && isCarne));
         }
 
@@ -695,8 +685,8 @@
 
             filtered.forEach(d => {
                 const tagType = d.categoria === 'Primero' ? d.subcategoria_primero : d.proteina_segundo;
-                const difficultyColor = d.dificultad_lunes.includes("Fácil") ? "bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300" : "bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300";
                 const demObj = demandMap[d.demanda || "Media"];
+                const precookedBadge = d.precocinado ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-800">Precocinado</span>` : '';
 
                 const card = document.createElement('div');
                 card.className = "bg-white dark:bg-gray-900 p-3.5 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 relative transition-colors";
@@ -706,10 +696,10 @@
                         <div class="flex flex-wrap gap-1.5 mt-2 items-center">
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">${d.categoria}</span>
                             ${tagType ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-300">${tagType}</span>` : ''}
-                            ${d.especie_animal && d.especie_animal !== 'Pescado' && d.especie_animal !== 'Vegetariano/Ninguno' ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300">${d.especie_animal}</span>` : ''}
+                            ${d.especie_animal && d.especie_animal !== 'Pescado' && d.especie_animal !== 'Vegetariano/Ninguno' && d.especie_animal !== 'Otro' ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300">${d.especie_animal}</span>` : ''}
                             ${d.tecnica ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">${d.tecnica}</span>` : ''}
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${difficultyColor}">${d.dificultad_lunes}</span>
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${demObj.class}">${demObj.text}</span>
+                            ${precookedBadge}
                         </div>
                     </div>
                     <div class="absolute top-3 right-3 flex flex-col gap-2">
@@ -727,12 +717,12 @@
             row.className = 'ingredient-row flex gap-2 items-center';
             row.innerHTML = `
                 <input type="text" placeholder="Ingrediente..." value="${nombre}" required class="flex-2 w-full p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                <input type="number" step="0.001" placeholder="Cant." value="${cantidad}" required class="flex-1 w-full p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                <input type="text" inputmode="decimal" placeholder="Cant." value="${cantidad !== '' && cantidad !== undefined ? cantidad : ''}" required class="flex-1 w-full p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                 <select class="flex-1 p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                     <option value="kg" ${unidad==='kg'?'selected':''}>kg</option>
                     <option value="g" ${unidad==='g'?'selected':''}>g</option>
-                    <option value="ud" ${unidad==='ud'?'selected':''}>ud</option>
                     <option value="L" ${unidad==='L'?'selected':''}>L</option>
+                    <option value="ml" ${unidad==='ml'?'selected':''}>ml</option>
                 </select>
                 <select class="flex-2 p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                     ${proveedorCategorias.map(c => `<option value="${c}" ${categoria===c?'selected':''}>${c}</option>`).join('')}
@@ -760,7 +750,7 @@
                 proteina_segundo: isSegundo ? prot : "",
                 especie_animal: isCarne ? document.getElementById('dishSpecies').value : (isPescado ? "Pescado" : ""),
                 tecnica: isSegundo ? document.getElementById('dishTechnique').value : "",
-                dificultad_lunes: document.getElementById('dishDifficulty').value,
+                precocinado: document.getElementById('dishPrecooked').checked,
                 demanda: document.getElementById('dishDemand').value,
                 ingredientes: []
             };
@@ -769,9 +759,10 @@
             ingRows.forEach(row => {
                 const inputs = row.querySelectorAll('input, select');
                 if (inputs[0].value.trim()) {
+                    const cantStr = inputs[1].value.toString().replace(',', '.');
                     newDish.ingredientes.push({
                         nombre: inputs[0].value.trim(),
-                        cantidad: parseFloat(inputs[1].value) || 0,
+                        cantidad: parseFloat(cantStr) || 0,
                         unidad: inputs[2].value,
                         categoria_proveedor: inputs[3].value
                     });
@@ -798,12 +789,26 @@
             document.getElementById('dishId').value = d.id;
             document.getElementById('dishName').value = d.nombre;
             document.getElementById('dishCategory').value = d.categoria;
-            if (d.categoria === 'Primero') document.getElementById('dishSubcategory').value = d.subcategoria_primero || 'Verdura';
-            if (d.categoria === 'Segundo') document.getElementById('dishProtein').value = d.proteina_segundo || 'Carne';
-            if (d.categoria === 'Segundo' && d.proteina_segundo === 'Carne') document.getElementById('dishSpecies').value = d.especie_animal || 'Cerdo';
             
-            if (d.tecnica) document.getElementById('dishTechnique').value = d.tecnica;
-            document.getElementById('dishDifficulty').value = d.dificultad_lunes || "Normal/Complejo";
+            if (d.categoria === 'Primero') {
+                const sub = d.subcategoria_primero;
+                document.getElementById('dishSubcategory').value = ['Verdura', 'Cuchara', 'Tenedor'].includes(sub) ? sub : 'Verdura';
+            }
+            if (d.categoria === 'Segundo') {
+                const p = d.proteina_segundo;
+                document.getElementById('dishProtein').value = ['Carne', 'Pescado'].includes(p) ? p : 'Carne';
+            }
+            
+            if (d.categoria === 'Segundo' && d.proteina_segundo === 'Carne') {
+                document.getElementById('dishSpecies').value = d.especie_animal || 'Cerdo';
+            }
+            
+            if (d.tecnica) {
+                const tech = d.tecnica;
+                document.getElementById('dishTechnique').value = ['Guisado', 'Asado', 'Brasa/Plancha', 'Frito/Rebozado'].includes(tech) ? tech : 'Guisado';
+            }
+
+            document.getElementById('dishPrecooked').checked = !!d.precocinado;
             document.getElementById('dishDemand').value = d.demanda || "Media";
 
             updateFormVisibility();
@@ -831,6 +836,7 @@
             document.getElementById('form-title').innerText = "Añadir Nuevo Plato";
             document.getElementById('btnCancel').classList.add('hidden');
             document.getElementById('ingredientsContainer').innerHTML = '';
+            document.getElementById('dishPrecooked').checked = false;
             updateFormVisibility();
         }
 
@@ -858,10 +864,11 @@
 
         function handleAddRawStock(e) {
             e.preventDefault();
+            const cantStr = document.getElementById('rawQty').value.toString().replace(',', '.');
             const item = {
                 id: Date.now().toString(),
                 nombre: document.getElementById('rawName').value,
-                cantidad: parseFloat(document.getElementById('rawQty').value),
+                cantidad: parseFloat(cantStr) || 0,
                 unidad: document.getElementById('rawUnit').value,
                 categoria_proveedor: document.getElementById('rawCategory').value,
                 conservacion: document.getElementById('rawConserv').value
@@ -926,7 +933,7 @@
             const item = {
                 id: Date.now().toString(),
                 nombre: document.getElementById('prepName').value,
-                raciones: parseInt(document.getElementById('prepRaciones').value),
+                raciones: parseInt(document.getElementById('prepRaciones').value) || 0,
                 asignacion: document.getElementById('prepAsignacion').value
             };
             preparedStock.unshift(item);
@@ -982,9 +989,9 @@
             renderPreparedStock();
         }
 
-        // --- 6. MOTOR DE GENERACIÓN ---
+        // --- 6. MOTOR DE GENERACIÓN Y EXPORTACIÓN LIMPIA ---
         function conflictsWithSecondSpecies(dishSpecies, chosenSpeciesList) {
-            if (!dishSpecies || dishSpecies === 'Vegetariano/Ninguno') return false;
+            if (!dishSpecies || dishSpecies === 'Vegetariano/Ninguno' || dishSpecies === 'Otro') return false;
             const poultryFamily = ['Pollo', 'Pavo', 'Conejo'];
             const isDishPoultry = poultryFamily.includes(dishSpecies);
 
@@ -1050,16 +1057,16 @@
                             id: lockedItem.id || `prep-${Date.now()}`,
                             nombre: lockedItem.nombre,
                             categoria: spec.cat,
-                            subcategoria_primero: spec.subcat || "",
-                            proteina_segundo: spec.protein || "",
-                            especie_animal: spec.cat === "Segundo" ? "Pescado" : "",
-                            tecnica: "Guisado",
-                            dificultad_lunes: "Fácil/Rápido",
+                            subcategoria_primero: spec.subcat || "Verdura",
+                            proteina_segundo: spec.protein || "Carne",
+                            especie_animal: spec.cat === "Segundo" ? "Otro" : "",
+                            tecnica: "Otra",
+                            precocinado: true,
                             demanda: "Media",
                             ingredientes: []
                         };
                     }
-                    if (spec.cat === "Segundo" && dish.especie_animal && dish.especie_animal !== "Vegetariano/Ninguno") {
+                    if (spec.cat === "Segundo" && dish.especie_animal && dish.especie_animal !== "Vegetariano/Ninguno" && dish.especie_animal !== "Otro") {
                         chosenSecondSpecies.push(dish.especie_animal);
                     }
                     if (spec.cat === "Segundo") {
@@ -1076,7 +1083,7 @@
                 
                 if (dish && dish.id !== "none") {
                     usedDishIdsThisWeek.add(dish.id);
-                    if (spec.cat === "Segundo" && dish.especie_animal && dish.especie_animal !== "Vegetariano/Ninguno") {
+                    if (spec.cat === "Segundo" && dish.especie_animal && dish.especie_animal !== "Vegetariano/Ninguno" && dish.especie_animal !== "Otro") {
                         chosenSecondSpecies.push(dish.especie_animal);
                     }
                     if (spec.cat === "Segundo") {
@@ -1107,7 +1114,7 @@
                     return true;
                 });
                 if (fallbackPool.length > 0) return { dish: fallbackPool[Math.floor(Math.random() * fallbackPool.length)], relaxed: true, warning: "⚠️ Regla relajada" };
-                return { dish: { id: "none", nombre: "Sin plato disponible", categoria: spec.cat, especie_animal: "-", tecnica: "-", dificultad_lunes: "-", demanda:"Media", ingredientes: [] }, relaxed: true, warning: "⚠️ Sin recetario" };
+                return { dish: { id: "none", nombre: "Sin plato disponible", categoria: spec.cat, especie_animal: "-", tecnica: "-", demanda:"Media", ingredientes: [] }, relaxed: true, warning: "⚠️ Sin recetario" };
             }
 
             let level0 = pool.filter(d => {
@@ -1123,16 +1130,8 @@
                 if (dayName === "Lunes" || dayName === "Martes") {
                     const freshMatches = level0.filter(d => usesFreshStock(d));
                     if (freshMatches.length > 0) {
-                        if (dayName === "Lunes") {
-                            const easyFresh = freshMatches.filter(d => d.dificultad_lunes === "Fácil/Rápido");
-                            if (easyFresh.length > 0) return { dish: easyFresh[Math.floor(Math.random() * easyFresh.length)], relaxed: false, warning: "" };
-                        }
                         return { dish: freshMatches[Math.floor(Math.random() * freshMatches.length)], relaxed: false, warning: "" };
                     }
-                }
-                if (dayName === "Lunes") {
-                    const easyMatches = level0.filter(d => d.dificultad_lunes === "Fácil/Rápido");
-                    if (easyMatches.length > 0) return { dish: easyMatches[Math.floor(Math.random() * easyMatches.length)], relaxed: false, warning: "" };
                 }
                 return { dish: level0[Math.floor(Math.random() * level0.length)], relaxed: false, warning: "" };
             }
@@ -1227,66 +1226,248 @@
                     </div>
                     <div>
                         <h4 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">2. Segundos Platos</h4>
-                        <div class="space-y-2">${segundos.map((s, idx) => renderSlotCard(dayName, idx + 3, s)).join('')}</div>
+                        <div class="space-y-2">${segundos.map((s, idx) => renderSlotCard(dayName, idx+3, s)).join('')}</div>
                     </div>
                 `;
                 container.appendChild(dayCard);
             });
         }
 
-        function renderSlotCard(dayName, slotIndex, slotData) {
-            const d = slotData.dish || {};
-            const isPrepared = slotData.isPreparedStock;
-            const hasFresh = usesFreshStock(d);
-            const isRelaxed = slotData.relaxed;
-            const demObj = demandMap[d.demanda || "Media"];
+        function renderSlotCard(dayName, index, slot) {
+            const isPrimero = slot.cat === 'Primero';
+            let dishName = slot.dish ? slot.dish.nombre : "Sin asignar";
+            const warningBadge = slot.warning ? `<span class="text-[10px] bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-300 px-1.5 py-0.5 rounded font-bold ml-2">${slot.warning}</span>` : '';
+            const stockBadge = slot.isPreparedStock ? `<span class="text-[10px] bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded font-bold ml-2">Stock Elaborado</span>` : '';
+            const precookedBadge = (slot.dish && slot.dish.precocinado) ? `<span class="text-[10px] bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300 px-1.5 py-0.5 rounded font-bold ml-2">Precocinado</span>` : '';
 
             return `
-                <div class="bg-gray-50 dark:bg-gray-800/60 p-3 rounded-lg border border-gray-200 dark:border-gray-700 relative flex justify-between items-start gap-2">
-                    <div class="space-y-1 flex-1 pr-2">
-                        <div class="flex flex-wrap gap-1 items-center">
-                            <span class="px-1.5 py-0.5 rounded text-[9px] font-black bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300">${slotData.slotLabel}</span>
-                            <span class="px-1.5 py-0.5 rounded text-[9px] font-bold border ${demObj.class}">${demObj.text}</span>
-                            ${isPrepared ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">📌 Stock</span>` : ''}
-                            ${hasFresh ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800">🌿 Fresco</span>` : ''}
-                            ${isRelaxed ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-orange-100 dark:bg-orange-950 text-orange-800 dark:text-orange-300 border border-orange-200 dark:border-orange-800">${slotData.warning || '⚠️ Relajado'}</span>` : ''}
-                        </div>
-                        <h5 class="font-bold text-gray-800 dark:text-gray-100 text-xs leading-tight">${d.nombre || 'Sin asignación'}</h5>
-                        <div class="flex flex-wrap gap-1 text-[9px] text-gray-500 dark:text-gray-400 font-medium">
-                            ${d.especie_animal && d.especie_animal !== 'Vegetariano/Ninguno' ? `<span>• ${d.especie_animal}</span>` : ''}
-                            ${d.tecnica ? `<span>• ${d.tecnica}</span>` : ''}
-                            ${d.dificultad_lunes ? `<span>• ${d.dificultad_lunes}</span>` : ''}
+                <div class="flex items-center justify-between bg-gray-50 dark:bg-gray-800/50 p-2.5 rounded-lg border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center gap-2 flex-1">
+                        <div>
+                            <div class="text-[10px] font-bold text-gray-500 uppercase">${slot.slotLabel}</div>
+                            <div class="text-sm font-semibold text-gray-800 dark:text-gray-100 leading-tight">${dishName} ${warningBadge} ${stockBadge} ${precookedBadge}</div>
                         </div>
                     </div>
-                    <button onclick="openSwapModal('${dayName}', ${slotIndex})" class="text-indigo-600 dark:text-indigo-400 bg-white dark:bg-gray-900 border border-indigo-200 dark:border-indigo-700 px-2.5 py-1.5 rounded-lg text-xs font-bold shadow-sm flex-shrink-0 active:bg-indigo-50 dark:active:bg-indigo-950">
-                        ✏️ Cambiar
+                    <button onclick="openSwapModal('${dayName}', ${index}, '${slot.cat}', '${isPrimero ? (slot.dish?.subcategoria_primero || '') : ''}', '${!isPrimero ? (slot.dish?.proteina_segundo || '') : ''}')" class="w-8 h-8 flex items-center justify-center bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded shadow-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                     </button>
                 </div>
             `;
         }
 
-        // --- 7. MODAL DE CAMBIO ESTRICTO ---
-        function openSwapModal(dayName, slotIndex) {
-            swapTarget = { dayName, slotIndex };
-            const slot = currentMenu.days[dayName][slotIndex];
-            const originalDish = slot.dish;
-            
-            let subtitle = "";
-            if (slot.cat === "Primero") {
-                const subcat = slot.slotLabel.replace('1º ', '').trim();
-                subtitle = `Filtrando: Primero de ${subcat}`;
-            } else if (slot.cat === "Segundo") {
-                if (slot.slotLabel.includes("Pescado")) {
-                    subtitle = `Filtrando: Segundo de Pescado`;
-                } else {
-                    subtitle = `Filtrando: Carne (${originalDish.especie_animal || 'Cualquiera'} - ${originalDish.tecnica || 'Cualquiera'})`;
-                }
+        // --- EXPORTAR MENÚ EN FORMATO TXT LIMPIO ---
+        function downloadWeeklyMenuTxt() {
+            if (!currentMenu || !currentMenu.days) {
+                alert("No hay ningún menú generado para exportar.");
+                return;
             }
+            let text = "";
+            daysList.forEach(dayName => {
+                text += `--- ${dayName.toUpperCase()} ---\n\n`;
+                text += `PRIMEROS\n`;
+                const slots = currentMenu.days[dayName] || [];
+                const primeros = slots.slice(0, 3);
+                const segundos = slots.slice(3, 6);
+                
+                primeros.forEach(s => {
+                    const name = s.dish && s.dish.nombre ? s.dish.nombre : "Sin asignar";
+                    text += `${name}\n`;
+                });
+                text += `\nSEGUNDOS\n`;
+                segundos.forEach(s => {
+                    const name = s.dish && s.dish.nombre ? s.dish.nombre : "Sin asignar";
+                    text += `${name}\n`;
+                });
+                text += `\n`;
+            });
             
-            document.getElementById('modalSwapSubtitle').innerText = subtitle;
+            const blob = new Blob([text.trim()], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `menu_semanal_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // --- LISTA DE COMPRA CON REDONDEO ESTRICTO HACIA ARRIBA ---
+        function renderShoppingListUI() {
+            if (!currentMenu || !currentMenu.days) {
+                document.getElementById('shoppingListBreakdown').innerHTML = '<p class="text-center text-gray-500 text-xs py-4">Genera un menú semanal para calcular la lista de la compra.</p>';
+                document.getElementById('shoppingRacionesBadge').innerText = `${settings.comensales} Raciones`;
+                return;
+            }
+
+            const totalRacionesPorComida = settings.margenActivo ? Math.round(settings.comensales * 1.3) : settings.comensales;
+            document.getElementById('shoppingRacionesBadge').innerText = `${totalRacionesPorComida} Raciones (base)`;
+
+            const aggregated = {};
+
+            daysList.forEach(dayName => {
+                const slots = currentMenu.days[dayName] || [];
+                slots.forEach(slot => {
+                    if (slot.dish && slot.dish.ingredientes) {
+                        slot.dish.ingredientes.forEach(ing => {
+                            let qtyInGramsOrMl = 0;
+                            let baseUnit = 'kg';
+                            const unit = (ing.unidad || 'kg').toLowerCase();
+                            const rawQty = ing.cantidad || 0;
+                            const totalForMeal = rawQty * totalRacionesPorComida;
+
+                            if (unit === 'kg') {
+                                qtyInGramsOrMl = totalForMeal * 1000;
+                                baseUnit = 'kg';
+                            } else if (unit === 'g') {
+                                qtyInGramsOrMl = totalForMeal;
+                                baseUnit = 'kg';
+                            } else if (unit === 'l') {
+                                qtyInGramsOrMl = totalForMeal * 1000;
+                                baseUnit = 'L';
+                            } else if (unit === 'ml') {
+                                qtyInGramsOrMl = totalForMeal;
+                                baseUnit = 'L';
+                            } else {
+                                qtyInGramsOrMl = totalForMeal * 1000;
+                                baseUnit = 'kg';
+                            }
+
+                            const key = ing.nombre.toLowerCase().trim();
+                            if (!aggregated[key]) {
+                                aggregated[key] = {
+                                    nombre: ing.nombre,
+                                    totalBaseQty: 0,
+                                    cat: ing.categoria_proveedor || 'Secos',
+                                    baseUnit: baseUnit
+                                };
+                            }
+                            aggregated[key].totalBaseQty += qtyInGramsOrMl;
+                        });
+                    }
+                });
+            });
+
+            const groupedByCategory = {};
+            proveedorCategorias.forEach(cat => groupedByCategory[cat] = []);
+
+            Object.values(aggregated).forEach(item => {
+                let finalVal = 0;
+                let displayUnit = item.baseUnit;
+                if (item.baseUnit === 'kg') {
+                    finalVal = Math.ceil(item.totalBaseQty / 1000);
+                    displayUnit = 'kg';
+                } else {
+                    finalVal = Math.ceil(item.totalBaseQty / 1000);
+                    displayUnit = 'L';
+                }
+                if (groupedByCategory[item.cat]) {
+                    groupedByCategory[item.cat].push({ nombre: item.nombre, cantidad: finalVal, unidad: displayUnit });
+                }
+            });
+
+            const container = document.getElementById('shoppingListBreakdown');
+            container.innerHTML = '';
+
+            let hasItems = false;
+            proveedorCategorias.forEach(cat => {
+                const items = groupedByCategory[cat];
+                if (items && items.length > 0) {
+                    hasItems = true;
+                    const section = document.createElement('div');
+                    section.className = "bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-2";
+                    section.innerHTML = `
+                        <h4 class="font-bold text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-800 pb-1">${cat}</h4>
+                        <ul class="space-y-1.5">
+                            ${items.map(i => `<li class="flex justify-between text-xs text-gray-800 dark:text-gray-200"><span>${i.nombre}</span><span class="font-bold">${i.cantidad}${i.unidad}</span></li>`).join('')}
+                        </ul>
+                    `;
+                    container.appendChild(section);
+                }
+            });
+
+            if (!hasItems) {
+                container.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">No hay ingredientes necesarios en el menú actual.</p>';
+            }
+        }
+
+        function downloadShoppingListTxt() {
+            if (!currentMenu || !currentMenu.days) {
+                alert("Genera un menú semanal primero.");
+                return;
+            }
+            const totalRacionesPorComida = settings.margenActivo ? Math.round(settings.comensales * 1.3) : settings.comensales;
+            const aggregated = {};
+
+            daysList.forEach(dayName => {
+                const slots = currentMenu.days[dayName] || [];
+                slots.forEach(slot => {
+                    if (slot.dish && slot.dish.ingredientes) {
+                        slot.dish.ingredientes.forEach(ing => {
+                            let qtyInGramsOrMl = 0;
+                            let baseUnit = 'kg';
+                            const unit = (ing.unidad || 'kg').toLowerCase();
+                            const rawQty = ing.cantidad || 0;
+                            const totalForMeal = rawQty * totalRacionesPorComida;
+
+                            if (unit === 'kg') { qtyInGramsOrMl = totalForMeal * 1000; baseUnit = 'kg'; }
+                            else if (unit === 'g') { qtyInGramsOrMl = totalForMeal; baseUnit = 'kg'; }
+                            else if (unit === 'l') { qtyInGramsOrMl = totalForMeal * 1000; baseUnit = 'L'; }
+                            else if (unit === 'ml') { qtyInGramsOrMl = totalForMeal; baseUnit = 'L'; }
+                            else { qtyInGramsOrMl = totalForMeal * 1000; baseUnit = 'kg'; }
+
+                            const key = ing.nombre.toLowerCase().trim();
+                            if (!aggregated[key]) {
+                                aggregated[key] = { nombre: ing.nombre, totalBaseQty: 0, cat: ing.categoria_proveedor || 'Secos', baseUnit: baseUnit };
+                            }
+                            aggregated[key].totalBaseQty += qtyInGramsOrMl;
+                        });
+                    }
+                });
+            });
+
+            const groupedByCategory = {};
+            proveedorCategorias.forEach(cat => groupedByCategory[cat] = []);
+
+            Object.values(aggregated).forEach(item => {
+                const finalVal = Math.ceil(item.totalBaseQty / 1000);
+                const displayUnit = item.baseUnit;
+                if (groupedByCategory[item.cat]) {
+                    groupedByCategory[item.cat].push({ nombre: item.nombre, cantidad: finalVal, unidad: displayUnit });
+                }
+            });
+
+            let text = `LISTA DE COMPRA - ${totalRacionesPorComida} RACIONES\n\n`;
+            proveedorCategorias.forEach(cat => {
+                const items = groupedByCategory[cat];
+                if (items && items.length > 0) {
+                    text += `=== ${cat.toUpperCase()} ===\n`;
+                    items.forEach(i => {
+                        text += `- ${i.nombre}: ${i.cantidad} ${i.unidad}\n`;
+                    });
+                    text += `\n`;
+                }
+            });
+
+            const blob = new Blob([text.trim()], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `lista_compra_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // --- 7. MODAL DE CAMBIO DE PLATO ---
+        function openSwapModal(dayName, slotIndex, cat, subcat, protein) {
+            swapTarget = { dayName, slotIndex, cat, subcat, protein };
+            document.getElementById('modalSwapTitle').innerText = `Cambiar Plato (${dayName})`;
+            document.getElementById('modalSwapSubtitle').innerText = `Filtrado para ${cat}`;
             document.getElementById('modalSearchInput').value = '';
-            document.getElementById('modalChangeDish').classList.remove('hidden');
             renderModalDishList();
+            document.getElementById('modalChangeDish').classList.remove('hidden');
         }
 
         function closeSwapModal() {
@@ -1296,400 +1477,144 @@
 
         function renderModalDishList() {
             if (!swapTarget) return;
-            const { dayName, slotIndex } = swapTarget;
-            const slot = currentMenu.days[dayName][slotIndex];
-            const originalDish = slot.dish;
-            
-            const searchVal = document.getElementById('modalSearchInput').value.toLowerCase();
             const container = document.getElementById('modalDishList');
+            const searchVal = document.getElementById('modalSearchInput').value.toLowerCase();
             container.innerHTML = '';
-            
-            const filtered = dishes.filter(d => {
+
+            const alternatives = dishes.filter(d => {
+                if (d.categoria !== swapTarget.cat) return false;
                 if (searchVal && !d.nombre.toLowerCase().includes(searchVal)) return false;
-                
-                // === FILTRADO ESTRICTO ===
-                if (d.categoria !== slot.cat) return false;
-                
-                if (slot.cat === "Primero") {
-                    const reqSubcat = slot.slotLabel.replace('1º ', '').trim();
-                    if (d.subcategoria_primero !== reqSubcat) return false;
-                } else if (slot.cat === "Segundo") {
-                    if (slot.slotLabel.includes("Pescado")) {
-                        if (d.proteina_segundo !== "Pescado") return false;
-                    } else if (slot.slotLabel.includes("Carne")) {
-                        if (d.proteina_segundo !== "Carne") return false;
-                        // Forzar misma especie y técnica si el original la tiene definida
-                        if (originalDish.especie_animal && d.especie_animal !== originalDish.especie_animal) return false;
-                        if (originalDish.tecnica && d.tecnica !== originalDish.tecnica) return false;
-                    }
-                }
-                
                 return true;
             });
-            
-            if (filtered.length === 0) {
-                container.innerHTML = '<p class="text-sm text-center text-gray-500 dark:text-gray-400 p-4">No hay platos en el banco que cumplan exactamente con estas restricciones.</p>';
-                return;
-            }
-            
-            filtered.forEach(d => {
-                const div = document.createElement('div');
-                div.className = "p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm flex justify-between items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors";
-                div.onclick = () => selectSwapDish(d);
-                div.innerHTML = `
-                    <div>
-                        <h4 class="font-bold text-sm text-gray-800 dark:text-gray-100">${d.nombre}</h4>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">${d.especie_animal || ''} ${d.tecnica ? '• ' + d.tecnica : ''}</p>
-                    </div>
-                    <span class="text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950 px-2 py-1 rounded text-xs font-bold whitespace-nowrap ml-2">Seleccionar</span>
-                `;
-                container.appendChild(div);
-            });
-        }
 
-        function selectSwapDish(dish) {
-            if (!swapTarget) return;
-            const { dayName, slotIndex } = swapTarget;
-            currentMenu.days[dayName][slotIndex].dish = dish;
-            currentMenu.days[dayName][slotIndex].isPreparedStock = false; 
-            currentMenu.days[dayName][slotIndex].relaxed = false; 
-            currentMenu.days[dayName][slotIndex].warning = "🔄 Modificado";
-            
-            saveAll();
-            closeSwapModal();
-            renderGeneratorView();
-        }
-
-        // --- 8. CÁLCULO DE LA LISTA DE COMPRA ---
-        function calculateShoppingList() {
-            if (!currentMenu || !currentMenu.days) return null;
-
-            const baseComensales = settings.comensales || 100;
-            const totalRaciones = settings.margenActivo ? Math.round(baseComensales * 1.3) : baseComensales;
-
-            const carne1Map = {}; 
-            const carne2Map = {}; 
-            const otherMap = {
-                "Pescado": {},
-                "Lácteos": {},
-                "Verduras y frutas": {},
-                "Secos": {},
-                "Congelados": {}
-            };
-
-            daysList.forEach(dayName => {
-                const daySlots = currentMenu.days[dayName] || [];
-                if (daySlots.length === 0) return;
-
-                const isMonWed = (dayName === "Lunes" || dayName === "Martes" || dayName === "Miércoles");
-                const primeros = daySlots.slice(0, 3);
-                const segundos = daySlots.slice(3, 6);
-
-                const weightPrimeros = primeros.reduce((sum, slot) => {
-                    const dish = slot.dish;
-                    if (!dish || dish.id === 'none') return sum;
-                    return sum + getDemandWeight(dish.demanda || 'Media');
-                }, 0);
-
-                const weightSegundos = segundos.reduce((sum, slot) => {
-                    const dish = slot.dish;
-                    if (!dish || dish.id === 'none') return sum;
-                    return sum + getDemandWeight(dish.demanda || 'Media');
-                }, 0);
-
-                daySlots.forEach((slot, index) => {
-                    const dish = slot.dish;
-                    if (!dish || dish.id === 'none' || !dish.ingredientes || !Array.isArray(dish.ingredientes)) return;
-
-                    const isPrimero = index < 3;
-                    const groupWeight = isPrimero ? weightPrimeros : weightSegundos;
-                    const dishWeight = getDemandWeight(dish.demanda || 'Media');
-
-                    const ratio = groupWeight > 0 ? (dishWeight / groupWeight) : (1 / 3);
-                    const dishRaciones = totalRaciones * ratio;
-
-                    dish.ingredientes.forEach(ing => {
-                        const name = ing.nombre.trim();
-                        let qtyPerRation = parseFloat(ing.cantidad) || 0;
-                        let unit = ing.unidad || "kg";
-                        const cat = ing.categoria_proveedor || "Secos";
-
-                        if (unit === 'g') {
-                            qtyPerRation = qtyPerRation / 1000;
-                            unit = 'kg';
-                        }
-
-                        let qtyNeeded = qtyPerRation * dishRaciones;
-                        const key = `${name.toLowerCase()}_${unit.toLowerCase()}`;
-
-                        if (cat === "Carne") {
-                            const targetMap = isMonWed ? carne1Map : carne2Map;
-                            if (!targetMap[key]) {
-                                targetMap[key] = { nombre: name, unidad: unit, categoria_proveedor: "Carne", cantidadNeeded: 0 };
-                            }
-                            targetMap[key].cantidadNeeded += qtyNeeded;
-                        } else {
-                            const targetCat = otherMap[cat] ? cat : "Secos";
-                            if (!otherMap[targetCat][key]) {
-                                otherMap[targetCat][key] = { nombre: name, unidad: unit, categoria_proveedor: targetCat, cantidadNeeded: 0 };
-                            }
-                            otherMap[targetCat][key].cantidadNeeded += qtyNeeded;
-                        }
-                    });
-                });
-            });
-
-            function findStockForIngredient(ingName, neededUnit) {
-                const lowerName = ingName.toLowerCase();
-                let matchedStock = 0;
-                rawStock.forEach(s => {
-                    if (s.nombre.toLowerCase().includes(lowerName) || lowerName.includes(s.nombre.toLowerCase())) {
-                        let stockQty = parseFloat(s.cantidad) || 0;
-                        let stockUnit = s.unidad || 'kg';
-                        if (stockUnit === 'g' && neededUnit === 'kg') stockQty /= 1000;
-                        else if (stockUnit === 'kg' && neededUnit === 'g') stockQty *= 1000;
-                        matchedStock += stockQty;
-                    }
-                });
-                return matchedStock;
-            }
-
-            const stockUsedTracker = {};
-
-            function processItemsMap(itemsMap) {
-                return Object.values(itemsMap).map(item => {
-                    const totalNeed = item.cantidadNeeded;
-                    let availableStock = findStockForIngredient(item.nombre, item.unidad);
-
-                    const used = stockUsedTracker[item.nombre.toLowerCase()] || 0;
-                    availableStock = Math.max(0, availableStock - used);
-
-                    const stockToApply = Math.min(totalNeed, availableStock);
-                    stockUsedTracker[item.nombre.toLowerCase()] = (stockUsedTracker[item.nombre.toLowerCase()] || 0) + stockToApply;
-
-                    const netNeeded = Math.max(0, totalNeed - stockToApply);
-                    const finalOrder = Math.ceil(netNeeded);
-
-                    return {
-                        nombre: item.nombre,
-                        unidad: item.unidad,
-                        categoria_proveedor: item.categoria_proveedor,
-                        totalNeed: +totalNeed.toFixed(2),
-                        stockApplied: +stockToApply.toFixed(2),
-                        finalOrder
-                    };
-                }).filter(item => item.finalOrder > 0);
-            }
-
-            const carne1List = processItemsMap(carne1Map);
-            const carne2List = processItemsMap(carne2Map);
-
-            const unifiedCarneMap = {};
-            [...carne1List, ...carne2List].forEach(item => {
-                const key = `${item.nombre.toLowerCase()}_${item.unidad.toLowerCase()}`;
-                if (!unifiedCarneMap[key]) {
-                    unifiedCarneMap[key] = {
-                        nombre: item.nombre,
-                        unidad: item.unidad,
-                        categoria_proveedor: "Carne",
-                        totalNeed: 0,
-                        stockApplied: 0,
-                        finalOrder: 0
-                    };
-                }
-                unifiedCarneMap[key].totalNeed += item.totalNeed;
-                unifiedCarneMap[key].stockApplied += item.stockApplied;
-                unifiedCarneMap[key].finalOrder += item.finalOrder;
-            });
-
-            const carneList = Object.values(unifiedCarneMap).map(item => ({
-                ...item,
-                totalNeed: +item.totalNeed.toFixed(2),
-                stockApplied: +item.stockApplied.toFixed(2),
-                finalOrder: Math.ceil(item.finalOrder)
-            })).filter(item => item.finalOrder > 0);
-
-            const otherLists = {};
-            Object.keys(otherMap).forEach(cat => {
-                otherLists[cat] = processItemsMap(otherMap[cat]);
-            });
-
-            return {
-                totalRaciones,
-                baseComensales,
-                margenActivo: settings.margenActivo,
-                carneList,
-                otherLists
-            };
-        }
-
-        function renderShoppingListUI() {
-            const container = document.getElementById('shoppingListBreakdown');
-            const data = calculateShoppingList();
-            
-            if (!data) {
-                container.innerHTML = '<p class="text-center text-gray-500 dark:text-gray-400 py-6 text-xs">Genera el menú semanal para visualizar las necesidades de compra.</p>';
+            if (alternatives.length === 0) {
+                container.innerHTML = '<p class="text-center text-gray-400 text-xs py-4">No hay alternativas disponibles.</p>';
                 return;
             }
 
-            document.getElementById('shoppingRacionesBadge').innerText = `${data.totalRaciones} Raciones Estimadas`;
-            container.innerHTML = '';
-
-            function createCategoryCard(title, list, badgeColor) {
+            alternatives.forEach(d => {
                 const card = document.createElement('div');
-                card.className = "bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-2 transition-colors";
-                
-                let itemsHTML = '';
-                if (list.length === 0) {
-                    itemsHTML = '<p class="text-xs text-gray-400 dark:text-gray-500 italic">Todo cubierto por stock o sin necesidades.</p>';
-                } else {
-                    itemsHTML = list.map(item => `
-                        <div class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-800/60 rounded-lg border border-gray-200 dark:border-gray-700 text-xs">
-                            <div>
-                                <span class="font-bold text-gray-800 dark:text-gray-100">${item.nombre}</span>
-                                ${item.stockApplied > 0 ? `<span class="block text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">(Bruto: ${item.totalNeed}${item.unidad} - Stock: ${item.stockApplied}${item.unidad})</span>` : ''}
-                            </div>
-                            <div class="font-black text-indigo-700 dark:text-indigo-400 text-sm whitespace-nowrap">
-                                ${item.finalOrder} <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">${item.unidad}</span>
-                            </div>
-                        </div>
-                    `).join('');
-                }
-
+                card.className = "bg-gray-50 dark:bg-gray-800 p-3 rounded-xl border border-gray-200 dark:border-gray-700 flex justify-between items-center cursor-pointer hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors";
                 card.innerHTML = `
-                    <div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-800 pb-2">
-                        <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs uppercase tracking-wider">${title}</h4>
-                        <span class="text-[10px] px-2 py-0.5 rounded-full font-bold ${badgeColor}">${list.length} arts.</span>
+                    <div>
+                        <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs mb-1">${d.nombre}</h4>
+                        <div class="flex gap-1.5">
+                            <span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">${d.categoria}</span>
+                            ${d.precocinado ? '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300">Precocinado</span>' : ''}
+                        </div>
                     </div>
-                    <div class="space-y-1.5 pt-1">${itemsHTML}</div>
+                    <button onclick="confirmSwap('${d.id}')" class="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Seleccionar</button>
                 `;
-                return card;
-            }
-
-            container.appendChild(createCategoryCard("🥩 Carne", data.carneList, "bg-red-100 dark:bg-red-950 text-red-800 dark:text-red-300"));
-            container.appendChild(createCategoryCard("🐟 Pescado", data.otherLists["Pescado"] || [], "bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300"));
-            container.appendChild(createCategoryCard("🥛 Lácteos", data.otherLists["Lácteos"] || [], "bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300"));
-            container.appendChild(createCategoryCard("🥦 Verduras y frutas", data.otherLists["Verduras y frutas"] || [], "bg-green-100 dark:bg-green-950 text-green-800 dark:text-green-300"));
-            container.appendChild(createCategoryCard("📦 Secos", data.otherLists["Secos"] || [], "bg-yellow-100 dark:bg-yellow-950 text-yellow-800 dark:text-yellow-300"));
-            container.appendChild(createCategoryCard("❄️ Congelados", data.otherLists["Congelados"] || [], "bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300"));
-        }
-
-        // --- 9. FUNCIONES DE EXPORTACIÓN Y AJUSTES ---
-        function downloadWeeklyMenuTxt() {
-            if (!currentMenu || !currentMenu.days) return alert("Genera primero el menú.");
-            let txt = "MENÚ SEMANAL - CHEFTRACK\n========================\n\n";
-            
-            daysList.forEach(day => {
-                txt += `[ ${day.toUpperCase()} ]\n`;
-                if(currentMenu.days[day]) {
-                    currentMenu.days[day].forEach(slot => {
-                        txt += `- ${slot.slotLabel}: ${slot.dish.nombre}\n`;
-                    });
-                }
-                txt += "\n";
+                container.appendChild(card);
             });
-            downloadTxtFile(txt, `Menu_Semanal_${new Date().toISOString().split('T')[0]}.txt`);
         }
 
-        function downloadShoppingListTxt() {
-            const data = calculateShoppingList();
-            if (!data) return alert("Genera el menú primero.");
-            
-            let txt = "LISTA DE LA COMPRA - CHEFTRACK\n==============================\n\n";
-            txt += `Base de Comensales: ${data.baseComensales}\n`;
-            txt += `Raciones Estimadas: ${data.totalRaciones} ${data.margenActivo ? '(Incluye +30%)' : ''}\n\n`;
+        function confirmSwap(dishId) {
+            if (!swapTarget || !currentMenu || !currentMenu.days) return;
+            const newDish = dishes.find(d => d.id === dishId);
+            if (!newDish) return;
 
-            const writeCategory = (title, list) => {
-                if (list.length > 0) {
-                    txt += `--- ${title.toUpperCase()} ---\n`;
-                    list.forEach(item => {
-                        txt += `[ ] ${item.finalOrder} ${item.unidad} de ${item.nombre}\n`;
-                    });
-                    txt += "\n";
-                }
-            };
+            currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].dish = newDish;
+            currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].warning = "⚠️ Intercambio manual";
+            currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].isPreparedStock = false;
 
-            writeCategory("Carne", data.carneList);
-            writeCategory("Pescado", data.otherLists["Pescado"]);
-            writeCategory("Lácteos", data.otherLists["Lácteos"]);
-            writeCategory("Verduras y Frutas", data.otherLists["Verduras y frutas"]);
-            writeCategory("Secos", data.otherLists["Secos"]);
-            writeCategory("Congelados", data.otherLists["Congelados"]);
-
-            downloadTxtFile(txt, `Lista_Compra_${new Date().toISOString().split('T')[0]}.txt`);
+            saveAll();
+            renderGeneratorView();
+            closeSwapModal();
         }
 
-        function downloadTxtFile(content, filename) {
-            const blob = new Blob([content], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = filename;
-            link.click();
-        }
-
+        // --- 8. HISTÓRICO Y BACKUP ---
         function saveMenuToHistory() {
-            if (!currentMenu) return alert("No hay menú generado actual.");
-            const dateStr = new Date().toLocaleDateString('es-ES');
-            historyMenus.unshift({ date: dateStr, menu: JSON.parse(JSON.stringify(currentMenu)) });
-            if (historyMenus.length > 10) historyMenus.pop(); // Guardar solo los últimos 10
+            if (!currentMenu || !currentMenu.days) {
+                alert("No hay menú activo para guardar.");
+                return;
+            }
+            const record = {
+                id: Date.now().toString(),
+                date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+                menu: JSON.parse(JSON.stringify(currentMenu))
+            };
+            historyMenus.unshift(record);
+            if (historyMenus.length > 10) historyMenus.pop();
             saveAll();
             renderHistorySection();
-            alert("Menú guardado en el historial correctamente.");
+            alert("Menú guardado en el histórico correctamente.");
         }
 
         function renderHistorySection() {
             const container = document.getElementById('historyListContainer');
+            if (!container) return;
             container.innerHTML = '';
+
             if (historyMenus.length === 0) {
-                container.innerHTML = '<p class="text-sm text-gray-500">No hay historiales guardados.</p>';
+                container.innerHTML = '<p class="text-center text-gray-400 dark:text-gray-500 text-xs py-2">No hay menús guardados en el histórico.</p>';
                 return;
             }
-            historyMenus.forEach((h, index) => {
-                const div = document.createElement('div');
-                div.className = "flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700 text-sm font-semibold";
-                div.innerHTML = `
-                    <span>Menú del ${h.date}</span>
-                    <button onclick="restoreHistoryMenu(${index})" class="text-indigo-600 dark:text-indigo-400">Ver</button>
+
+            historyMenus.forEach(item => {
+                const row = document.createElement('div');
+                row.className = "bg-gray-50 dark:bg-gray-800 p-3 rounded-xl border border-gray-200 dark:border-gray-700 flex justify-between items-center transition-colors";
+                row.innerHTML = `
+                    <div>
+                        <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs">Menú del ${item.date}</h4>
+                        <span class="text-[10px] text-gray-500">Planificación semanal completa</span>
+                    </div>
+                    <div class="flex gap-1.5">
+                        <button onclick="loadHistoryMenu('${item.id}')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-xs font-bold">Cargar</button>
+                        <button onclick="deleteHistoryMenu('${item.id}')" class="bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 px-2.5 py-1 rounded-lg text-xs font-bold">×</button>
+                    </div>
                 `;
-                container.appendChild(div);
+                container.appendChild(row);
             });
         }
 
-        function restoreHistoryMenu(index) {
-            currentMenu = historyMenus[index].menu;
+        function loadHistoryMenu(id) {
+            const item = historyMenus.find(h => h.id === id);
+            if (item) {
+                currentMenu = JSON.parse(JSON.stringify(item.menu));
+                saveAll();
+                renderGeneratorView();
+                document.querySelector('.nav-btn[data-target="view-generator"]').click();
+                switchGeneratorSubTab('menu');
+            }
+        }
+
+        function deleteHistoryMenu(id) {
+            historyMenus = historyMenus.filter(h => h.id !== id);
             saveAll();
-            document.querySelector('.nav-btn[data-target="view-generator"]').click();
-            renderGeneratorView();
+            renderHistorySection();
         }
 
         function exportData() {
-            const data = {
-                dishes, settings, rawStock, preparedStock, currentMenu, historyMenus
-            };
-            const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `ChefTrack_Backup_${new Date().toISOString().split('T')[0]}.json`;
-            link.click();
+            const data = { dishes, settings, rawStock, preparedStock, currentMenu, historyMenus };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `cheftrack_backup_${new Date().toISOString().slice(0,10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
 
         function importData(e) {
             const file = e.target.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = (event) => {
+            reader.onload = function(evt) {
                 try {
-                    const data = JSON.parse(event.target.result);
+                    const data = JSON.parse(evt.target.result);
                     if (data.dishes) dishes = data.dishes;
                     if (data.settings) settings = data.settings;
                     if (data.rawStock) rawStock = data.rawStock;
                     if (data.preparedStock) preparedStock = data.preparedStock;
-                    if (data.currentMenu !== undefined) currentMenu = data.currentMenu;
+                    if (data.currentMenu) currentMenu = data.currentMenu;
                     if (data.historyMenus) historyMenus = data.historyMenus;
                     saveAll();
                     init();
-                    alert("Datos importados con éxito.");
-                } catch (error) {
+                    alert("Datos importados correctamente.");
+                } catch(err) {
                     alert("Error al importar el archivo JSON.");
                 }
             };
@@ -1697,14 +1622,13 @@
         }
 
         function wipeData() {
-            if (confirm("⚠️ ¿Estás totalmente seguro? Esto borrará todos los platos y ajustes, y restaurará el sistema a la versión de fábrica.")) {
+            if (confirm("¿Estás completamente seguro de borrar todos los datos y restaurar valores iniciales?")) {
                 localStorage.clear();
-                window.location.reload();
+                location.reload();
             }
         }
 
         window.onload = init;
-
     </script>
 </body>
 </html>
