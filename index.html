@@ -113,17 +113,15 @@
                     </div>
                 </div>
 
-                <!-- ESPECIE ANIMAL (SOLO SEGUNDOS) -->
+                <!-- ESPECIE ANIMAL (SOLO SEGUNDOS DE CARNE) -->
                 <div id="speciesContainer" class="hidden">
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Especie Animal (Solo Segundos)</label>
+                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Especie Animal (Solo Carne)</label>
                     <select id="dishSpecies" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                         <option value="Cerdo">Cerdo</option>
                         <option value="Pollo">Pollo</option>
                         <option value="Pavo">Pavo</option>
                         <option value="Conejo">Conejo</option>
                         <option value="Ternera">Ternera</option>
-                        <option value="Pescado">Pescado</option>
-                        <option value="Vegetariano/Ninguno">Vegetariano/Ninguno</option>
                     </select>
                 </div>
 
@@ -135,9 +133,11 @@
                             <option value="Normal/Complejo">Normal / Complejo</option>
                         </select>
                     </div>
-                    <div>
+                    
+                    <!-- TÉCNICA CULINARIA (SOLO SEGUNDOS) -->
+                    <div id="techniqueContainer" class="hidden">
                         <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Técnica</label>
-                        <select id="dishTechnique" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                        <select id="dishTechnique" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                             <option value="Guisado">Guisado</option>
                             <option value="Asado">Asado</option>
                             <option value="Brasa/Plancha">Brasa/Plancha</option>
@@ -411,11 +411,11 @@
         };
 
         const seedDishes = [
-            { id: "1", nombre: "Lentejas castellanas con embutido", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", demanda: "Media", ingredientes: [{nombre: "Lentejas secas", cantidad: 0.10, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Chorizo", cantidad: 0.025, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "2", nombre: "Crema de verduras desde cero", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", demanda: "Baja", ingredientes: [{nombre: "Calabacín", cantidad: 0.10, unidad: "kg", categoria_proveedor: "Verduras y frutas"}, {nombre: "Puerro", cantidad: 0.04, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] },
-            { id: "3", nombre: "Macarrones con tomate y orégano", categoria: "Primero", subcategoria_primero: "Tenedor", proteina_segundo: "", especie_animal: "", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", demanda: "Alta", ingredientes: [{nombre: "Macarrones", cantidad: 0.12, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Tomate frito", cantidad: 0.08, unidad: "L", categoria_proveedor: "Secos"}] },
-            { id: "4", nombre: "Judías verdes salteadas con jamón", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", demanda: "Media", ingredientes: [{nombre: "Judías verdes", cantidad: 0.15, unidad: "kg", categoria_proveedor: "Congelados"}, {nombre: "Jamón picado", cantidad: 0.02, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "5", nombre: "Sopa de fideos con pollo", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "", tecnica: "Guisado", dificultad_lunes: "Fácil/Rápido", demanda: "Alta", ingredientes: [{nombre: "Fideos finos", cantidad: 0.04, unidad: "kg", categoria_proveedor: "Secos"}] },
+            { id: "1", nombre: "Lentejas castellanas con embutido", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "", tecnica: "", dificultad_lunes: "Normal/Complejo", demanda: "Media", ingredientes: [{nombre: "Lentejas secas", cantidad: 0.10, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Chorizo", cantidad: 0.025, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "2", nombre: "Crema de verduras desde cero", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "", tecnica: "", dificultad_lunes: "Fácil/Rápido", demanda: "Baja", ingredientes: [{nombre: "Calabacín", cantidad: 0.10, unidad: "kg", categoria_proveedor: "Verduras y frutas"}, {nombre: "Puerro", cantidad: 0.04, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] },
+            { id: "3", nombre: "Macarrones con tomate y orégano", categoria: "Primero", subcategoria_primero: "Tenedor", proteina_segundo: "", especie_animal: "", tecnica: "", dificultad_lunes: "Fácil/Rápido", demanda: "Alta", ingredientes: [{nombre: "Macarrones", cantidad: 0.12, unidad: "kg", categoria_proveedor: "Secos"}, {nombre: "Tomate frito", cantidad: 0.08, unidad: "L", categoria_proveedor: "Secos"}] },
+            { id: "4", nombre: "Judías verdes salteadas con jamón", categoria: "Primero", subcategoria_primero: "Verdura", proteina_segundo: "", especie_animal: "", tecnica: "", dificultad_lunes: "Fácil/Rápido", demanda: "Media", ingredientes: [{nombre: "Judías verdes", cantidad: 0.15, unidad: "kg", categoria_proveedor: "Congelados"}, {nombre: "Jamón picado", cantidad: 0.02, unidad: "kg", categoria_proveedor: "Carne"}] },
+            { id: "5", nombre: "Sopa de fideos con pollo", categoria: "Primero", subcategoria_primero: "Cuchara", proteina_segundo: "", especie_animal: "", tecnica: "", dificultad_lunes: "Fácil/Rápido", demanda: "Alta", ingredientes: [{nombre: "Fideos finos", cantidad: 0.04, unidad: "kg", categoria_proveedor: "Secos"}] },
             { id: "6", nombre: "Magro de cerdo guisado con guisantes", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", demanda: "Media", ingredientes: [{nombre: "Magro de cerdo", cantidad: 0.22, unidad: "kg", categoria_proveedor: "Carne"}] },
             { id: "7", nombre: "Cinta de lomo a la plancha", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", demanda: "Alta", ingredientes: [{nombre: "Cinta de lomo", cantidad: 0.25, unidad: "kg", categoria_proveedor: "Carne"}] },
             { id: "8", nombre: "Alitas confitadas al horno", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo", tecnica: "Asado", dificultad_lunes: "Normal/Complejo", demanda: "Alta", ingredientes: [{nombre: "Alitas de pollo", cantidad: 0.30, unidad: "kg", categoria_proveedor: "Carne"}] },
@@ -424,7 +424,7 @@
             { id: "11", nombre: "Bacaladillas rebozadas", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Pescado", especie_animal: "Pescado", tecnica: "Brasa/Plancha", dificultad_lunes: "Normal/Complejo", demanda: "Media", ingredientes: [{nombre: "Bacaladillas limpias", cantidad: 0.20, unidad: "kg", categoria_proveedor: "Pescado"}, {nombre: "Harina", cantidad: 0.02, unidad: "kg", categoria_proveedor: "Secos"}] },
             { id: "12", nombre: "Tacos de ternera guisados al vino", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Ternera", tecnica: "Guisado", dificultad_lunes: "Normal/Complejo", demanda: "Media", ingredientes: [{nombre: "Ternera para guisar", cantidad: 0.25, unidad: "kg", categoria_proveedor: "Carne"}] },
             { id: "13", nombre: "Longaniza fresca a la brasa", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Cerdo", tecnica: "Brasa/Plancha", dificultad_lunes: "Fácil/Rápido", demanda: "Alta", ingredientes: [{nombre: "Longaniza fresca", cantidad: 0.22, unidad: "kg", categoria_proveedor: "Carne"}] },
-            { id: "14", nombre: "Tortilla de patatas casera", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Vegetariano/Ninguno", tecnica: "Brasa/Plancha", dificultad_lunes: "Normal/Complejo", demanda: "Alta", ingredientes: [{nombre: "Huevos", cantidad: 1.5, unidad: "ud", categoria_proveedor: "Lácteos"}, {nombre: "Patatas peladas", cantidad: 0.20, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] }
+            { id: "14", nombre: "Tortilla de patatas casera (Alternativa Vegetariana)", categoria: "Segundo", subcategoria_primero: "", proteina_segundo: "Carne", especie_animal: "Pollo", tecnica: "Brasa/Plancha", dificultad_lunes: "Normal/Complejo", demanda: "Alta", ingredientes: [{nombre: "Huevos", cantidad: 1.5, unidad: "ud", categoria_proveedor: "Lácteos"}, {nombre: "Patatas peladas", cantidad: 0.20, unidad: "kg", categoria_proveedor: "Verduras y frutas"}] }
         ];
 
         const seedSettings = { comensales: 100, margenActivo: true, darkMode: false };
@@ -470,6 +470,7 @@
 
             saveAll();
             setupEventListeners();
+            updateFormVisibility(); 
             renderDishes();
             renderStockView();
             renderGeneratorView();
@@ -573,15 +574,8 @@
             });
 
             document.getElementById('searchInput').addEventListener('input', renderDishes);
-
-            document.getElementById('dishCategory').addEventListener('change', (e) => {
-                const isPrimero = e.target.value === 'Primero';
-                const isSegundo = e.target.value === 'Segundo';
-                document.getElementById('subcatPrimeroContainer').classList.toggle('hidden', !isPrimero);
-                document.getElementById('protSegundoContainer').classList.toggle('hidden', !isSegundo);
-                document.getElementById('speciesContainer').classList.toggle('hidden', !isSegundo);
-            });
-
+            document.getElementById('dishCategory').addEventListener('change', updateFormVisibility);
+            document.getElementById('dishProtein').addEventListener('change', updateFormVisibility);
             document.getElementById('addIngredientBtn').addEventListener('click', () => addIngredientRow());
             document.getElementById('dishForm').addEventListener('submit', handleFormSubmit);
             document.getElementById('btnCancel').addEventListener('click', () => {
@@ -618,6 +612,25 @@
             document.getElementById('btnExport').addEventListener('click', exportData);
             document.getElementById('fileImport').addEventListener('change', importData);
             document.getElementById('btnWipeData').addEventListener('click', wipeData);
+        }
+
+        // --- ACTUALIZACIÓN DE VISIBILIDAD DE RESTRICCIONES EN FORMULARIO ---
+        function updateFormVisibility() {
+            const cat = document.getElementById('dishCategory').value;
+            const prot = document.getElementById('dishProtein').value;
+            
+            const isPrimero = (cat === 'Primero');
+            const isSegundo = (cat === 'Segundo');
+            const isCarne = (prot === 'Carne');
+            
+            document.getElementById('subcatPrimeroContainer').classList.toggle('hidden', !isPrimero);
+            
+            // Si es segundo, mostramos tipo de proteína y técnica
+            document.getElementById('protSegundoContainer').classList.toggle('hidden', !isSegundo);
+            document.getElementById('techniqueContainer').classList.toggle('hidden', !isSegundo);
+            
+            // Especie solo si es Segundo Y es Carne
+            document.getElementById('speciesContainer').classList.toggle('hidden', !(isSegundo && isCarne));
         }
 
         function switchView(viewId) {
@@ -659,7 +672,7 @@
             }
         }
 
-        // --- 4. BANCO DE PLATOS ---
+        // --- 4. BANCO DE PLATOS Y FORMULARIO ---
         function renderDishes() {
             const list = document.getElementById('dishesList');
             const searchVal = document.getElementById('searchInput').value.toLowerCase();
@@ -693,8 +706,8 @@
                         <div class="flex flex-wrap gap-1.5 mt-2 items-center">
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">${d.categoria}</span>
                             ${tagType ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-300">${tagType}</span>` : ''}
-                            ${d.especie_animal ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300">${d.especie_animal}</span>` : ''}
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">${d.tecnica}</span>
+                            ${d.especie_animal && d.especie_animal !== 'Pescado' && d.especie_animal !== 'Vegetariano/Ninguno' ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300">${d.especie_animal}</span>` : ''}
+                            ${d.tecnica ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">${d.tecnica}</span>` : ''}
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold ${difficultyColor}">${d.dificultad_lunes}</span>
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${demObj.class}">${demObj.text}</span>
                         </div>
@@ -706,6 +719,119 @@
                 `;
                 list.appendChild(card);
             });
+        }
+
+        function addIngredientRow(nombre = '', cantidad = '', unidad = 'kg', categoria = 'Secos') {
+            const container = document.getElementById('ingredientsContainer');
+            const row = document.createElement('div');
+            row.className = 'ingredient-row flex gap-2 items-center';
+            row.innerHTML = `
+                <input type="text" placeholder="Ingrediente..." value="${nombre}" required class="flex-2 w-full p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                <input type="number" step="0.001" placeholder="Cant." value="${cantidad}" required class="flex-1 w-full p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                <select class="flex-1 p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                    <option value="kg" ${unidad==='kg'?'selected':''}>kg</option>
+                    <option value="g" ${unidad==='g'?'selected':''}>g</option>
+                    <option value="ud" ${unidad==='ud'?'selected':''}>ud</option>
+                    <option value="L" ${unidad==='L'?'selected':''}>L</option>
+                </select>
+                <select class="flex-2 p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                    ${proveedorCategorias.map(c => `<option value="${c}" ${categoria===c?'selected':''}>${c}</option>`).join('')}
+                </select>
+                <button type="button" class="text-red-500 font-bold px-1" onclick="this.parentElement.remove()">×</button>
+            `;
+            container.appendChild(row);
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('dishId').value || Date.now().toString();
+            const cat = document.getElementById('dishCategory').value;
+            const prot = document.getElementById('dishProtein').value;
+            
+            const isSegundo = (cat === 'Segundo');
+            const isCarne = (isSegundo && prot === 'Carne');
+            const isPescado = (isSegundo && prot === 'Pescado');
+
+            const newDish = {
+                id,
+                nombre: document.getElementById('dishName').value,
+                categoria: cat,
+                subcategoria_primero: cat === 'Primero' ? document.getElementById('dishSubcategory').value : "",
+                proteina_segundo: isSegundo ? prot : "",
+                especie_animal: isCarne ? document.getElementById('dishSpecies').value : (isPescado ? "Pescado" : ""),
+                tecnica: isSegundo ? document.getElementById('dishTechnique').value : "",
+                dificultad_lunes: document.getElementById('dishDifficulty').value,
+                demanda: document.getElementById('dishDemand').value,
+                ingredientes: []
+            };
+
+            const ingRows = document.querySelectorAll('.ingredient-row');
+            ingRows.forEach(row => {
+                const inputs = row.querySelectorAll('input, select');
+                if (inputs[0].value.trim()) {
+                    newDish.ingredientes.push({
+                        nombre: inputs[0].value.trim(),
+                        cantidad: parseFloat(inputs[1].value) || 0,
+                        unidad: inputs[2].value,
+                        categoria_proveedor: inputs[3].value
+                    });
+                }
+            });
+
+            const idx = dishes.findIndex(d => d.id === id);
+            if (idx >= 0) dishes[idx] = newDish;
+            else dishes.unshift(newDish);
+
+            saveAll();
+            resetForm();
+            document.querySelector('.nav-btn[data-target="view-banco"]').click();
+            renderDishes();
+        }
+
+        function editDish(id) {
+            const d = dishes.find(x => x.id === id);
+            if (!d) return;
+
+            document.getElementById('form-title').innerText = "Editar Plato";
+            document.getElementById('btnCancel').classList.remove('hidden');
+            
+            document.getElementById('dishId').value = d.id;
+            document.getElementById('dishName').value = d.nombre;
+            document.getElementById('dishCategory').value = d.categoria;
+            if (d.categoria === 'Primero') document.getElementById('dishSubcategory').value = d.subcategoria_primero || 'Verdura';
+            if (d.categoria === 'Segundo') document.getElementById('dishProtein').value = d.proteina_segundo || 'Carne';
+            if (d.categoria === 'Segundo' && d.proteina_segundo === 'Carne') document.getElementById('dishSpecies').value = d.especie_animal || 'Cerdo';
+            
+            if (d.tecnica) document.getElementById('dishTechnique').value = d.tecnica;
+            document.getElementById('dishDifficulty').value = d.dificultad_lunes || "Normal/Complejo";
+            document.getElementById('dishDemand').value = d.demanda || "Media";
+
+            updateFormVisibility();
+
+            const container = document.getElementById('ingredientsContainer');
+            container.innerHTML = '';
+            if (d.ingredientes) {
+                d.ingredientes.forEach(ing => addIngredientRow(ing.nombre, ing.cantidad, ing.unidad, ing.categoria_proveedor));
+            }
+
+            document.querySelector('.nav-btn[data-target="view-form"]').click();
+        }
+
+        function deleteDish(id) {
+            if (confirm("¿Seguro que quieres borrar este plato?")) {
+                dishes = dishes.filter(d => d.id !== id);
+                saveAll();
+                renderDishes();
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('dishForm').reset();
+            document.getElementById('dishId').value = '';
+            document.getElementById('form-title').innerText = "Añadir Nuevo Plato";
+            document.getElementById('btnCancel').classList.add('hidden');
+            document.getElementById('ingredientsContainer').innerHTML = '';
+            updateFormVisibility();
         }
 
         // --- 5. STOCK Y PREVISIÓN ---
@@ -902,7 +1028,7 @@
             ];
 
             const daySlots = [];
-            const chosenSecondSpecies = []; // Control estricto entre los 3 segundos del día
+            const chosenSecondSpecies = [];
             let guisadoCount = 0, brasaCount = 0;
 
             const prepPrimeroKey = `${dayName}-Primero`;
@@ -926,7 +1052,7 @@
                             categoria: spec.cat,
                             subcategoria_primero: spec.subcat || "",
                             proteina_segundo: spec.protein || "",
-                            especie_animal: spec.cat === "Segundo" ? "Vegetariano/Ninguno" : "",
+                            especie_animal: spec.cat === "Segundo" ? "Pescado" : "",
                             tecnica: "Guisado",
                             dificultad_lunes: "Fácil/Rápido",
                             demanda: "Media",
@@ -1127,7 +1253,7 @@
                         </div>
                         <h5 class="font-bold text-gray-800 dark:text-gray-100 text-xs leading-tight">${d.nombre || 'Sin asignación'}</h5>
                         <div class="flex flex-wrap gap-1 text-[9px] text-gray-500 dark:text-gray-400 font-medium">
-                            ${d.especie_animal ? `<span>• ${d.especie_animal}</span>` : ''}
+                            ${d.especie_animal && d.especie_animal !== 'Vegetariano/Ninguno' ? `<span>• ${d.especie_animal}</span>` : ''}
                             ${d.tecnica ? `<span>• ${d.tecnica}</span>` : ''}
                             ${d.dificultad_lunes ? `<span>• ${d.dificultad_lunes}</span>` : ''}
                         </div>
@@ -1139,7 +1265,102 @@
             `;
         }
 
-        // --- 7. CÁLCULO DE LA LISTA DE COMPRA ---
+        // --- 7. MODAL DE CAMBIO ESTRICTO ---
+        function openSwapModal(dayName, slotIndex) {
+            swapTarget = { dayName, slotIndex };
+            const slot = currentMenu.days[dayName][slotIndex];
+            const originalDish = slot.dish;
+            
+            let subtitle = "";
+            if (slot.cat === "Primero") {
+                const subcat = slot.slotLabel.replace('1º ', '').trim();
+                subtitle = `Filtrando: Primero de ${subcat}`;
+            } else if (slot.cat === "Segundo") {
+                if (slot.slotLabel.includes("Pescado")) {
+                    subtitle = `Filtrando: Segundo de Pescado`;
+                } else {
+                    subtitle = `Filtrando: Carne (${originalDish.especie_animal || 'Cualquiera'} - ${originalDish.tecnica || 'Cualquiera'})`;
+                }
+            }
+            
+            document.getElementById('modalSwapSubtitle').innerText = subtitle;
+            document.getElementById('modalSearchInput').value = '';
+            document.getElementById('modalChangeDish').classList.remove('hidden');
+            renderModalDishList();
+        }
+
+        function closeSwapModal() {
+            document.getElementById('modalChangeDish').classList.add('hidden');
+            swapTarget = null;
+        }
+
+        function renderModalDishList() {
+            if (!swapTarget) return;
+            const { dayName, slotIndex } = swapTarget;
+            const slot = currentMenu.days[dayName][slotIndex];
+            const originalDish = slot.dish;
+            
+            const searchVal = document.getElementById('modalSearchInput').value.toLowerCase();
+            const container = document.getElementById('modalDishList');
+            container.innerHTML = '';
+            
+            const filtered = dishes.filter(d => {
+                if (searchVal && !d.nombre.toLowerCase().includes(searchVal)) return false;
+                
+                // === FILTRADO ESTRICTO ===
+                if (d.categoria !== slot.cat) return false;
+                
+                if (slot.cat === "Primero") {
+                    const reqSubcat = slot.slotLabel.replace('1º ', '').trim();
+                    if (d.subcategoria_primero !== reqSubcat) return false;
+                } else if (slot.cat === "Segundo") {
+                    if (slot.slotLabel.includes("Pescado")) {
+                        if (d.proteina_segundo !== "Pescado") return false;
+                    } else if (slot.slotLabel.includes("Carne")) {
+                        if (d.proteina_segundo !== "Carne") return false;
+                        // Forzar misma especie y técnica si el original la tiene definida
+                        if (originalDish.especie_animal && d.especie_animal !== originalDish.especie_animal) return false;
+                        if (originalDish.tecnica && d.tecnica !== originalDish.tecnica) return false;
+                    }
+                }
+                
+                return true;
+            });
+            
+            if (filtered.length === 0) {
+                container.innerHTML = '<p class="text-sm text-center text-gray-500 dark:text-gray-400 p-4">No hay platos en el banco que cumplan exactamente con estas restricciones.</p>';
+                return;
+            }
+            
+            filtered.forEach(d => {
+                const div = document.createElement('div');
+                div.className = "p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm flex justify-between items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors";
+                div.onclick = () => selectSwapDish(d);
+                div.innerHTML = `
+                    <div>
+                        <h4 class="font-bold text-sm text-gray-800 dark:text-gray-100">${d.nombre}</h4>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">${d.especie_animal || ''} ${d.tecnica ? '• ' + d.tecnica : ''}</p>
+                    </div>
+                    <span class="text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950 px-2 py-1 rounded text-xs font-bold whitespace-nowrap ml-2">Seleccionar</span>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function selectSwapDish(dish) {
+            if (!swapTarget) return;
+            const { dayName, slotIndex } = swapTarget;
+            currentMenu.days[dayName][slotIndex].dish = dish;
+            currentMenu.days[dayName][slotIndex].isPreparedStock = false; 
+            currentMenu.days[dayName][slotIndex].relaxed = false; 
+            currentMenu.days[dayName][slotIndex].warning = "🔄 Modificado";
+            
+            saveAll();
+            closeSwapModal();
+            renderGeneratorView();
+        }
+
+        // --- 8. CÁLCULO DE LA LISTA DE COMPRA ---
         function calculateShoppingList() {
             if (!currentMenu || !currentMenu.days) return null;
 
@@ -1348,365 +1569,142 @@
             container.appendChild(createCategoryCard("🥩 Carne", data.carneList, "bg-red-100 dark:bg-red-950 text-red-800 dark:text-red-300"));
             container.appendChild(createCategoryCard("🐟 Pescado", data.otherLists["Pescado"] || [], "bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300"));
             container.appendChild(createCategoryCard("🥛 Lácteos", data.otherLists["Lácteos"] || [], "bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300"));
-            container.appendChild(createCategoryCard("🥬 Verduras y frutas", data.otherLists["Verduras y frutas"] || [], "bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300"));
-            container.appendChild(createCategoryCard("🌾 Secos", data.otherLists["Secos"] || [], "bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300"));
+            container.appendChild(createCategoryCard("🥦 Verduras y frutas", data.otherLists["Verduras y frutas"] || [], "bg-green-100 dark:bg-green-950 text-green-800 dark:text-green-300"));
+            container.appendChild(createCategoryCard("📦 Secos", data.otherLists["Secos"] || [], "bg-yellow-100 dark:bg-yellow-950 text-yellow-800 dark:text-yellow-300"));
             container.appendChild(createCategoryCard("❄️ Congelados", data.otherLists["Congelados"] || [], "bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300"));
         }
 
-        // --- 8. EXPORTACIONES .TXT ---
+        // --- 9. FUNCIONES DE EXPORTACIÓN Y AJUSTES ---
+        function downloadWeeklyMenuTxt() {
+            if (!currentMenu || !currentMenu.days) return alert("Genera primero el menú.");
+            let txt = "MENÚ SEMANAL - CHEFTRACK\n========================\n\n";
+            
+            daysList.forEach(day => {
+                txt += `[ ${day.toUpperCase()} ]\n`;
+                if(currentMenu.days[day]) {
+                    currentMenu.days[day].forEach(slot => {
+                        txt += `- ${slot.slotLabel}: ${slot.dish.nombre}\n`;
+                    });
+                }
+                txt += "\n";
+            });
+            downloadTxtFile(txt, `Menu_Semanal_${new Date().toISOString().split('T')[0]}.txt`);
+        }
+
         function downloadShoppingListTxt() {
             const data = calculateShoppingList();
-            if (!data) { alert("Genera primero el menú semanal."); return; }
+            if (!data) return alert("Genera el menú primero.");
+            
+            let txt = "LISTA DE LA COMPRA - CHEFTRACK\n==============================\n\n";
+            txt += `Base de Comensales: ${data.baseComensales}\n`;
+            txt += `Raciones Estimadas: ${data.totalRaciones} ${data.margenActivo ? '(Incluye +30%)' : ''}\n\n`;
 
-            let txt = `========================================\n`;
-            txt += `CHEFTRACK - LISTA DE COMPRA PROVEEDORES\n`;
-            txt += `Fecha: ${new Date().toLocaleDateString('es-ES')}\n`;
-            txt += `Previsión: ${data.totalRaciones} Raciones Totales\n`;
-            txt += `========================================\n\n`;
-
-            function formatListSection(title, list) {
-                let sec = `--- ${title.toUpperCase()} ---\n`;
-                if (list.length === 0) return sec + `(Sin necesidades de compra)\n\n`;
-                list.forEach(item => {
-                    let stockStr = item.stockApplied > 0 ? ` [Bruto: ${item.totalNeed}${item.unidad} | Stock: -${item.stockApplied}${item.unidad}]` : '';
-                    sec += `• ${item.nombre}: ${item.finalOrder} ${item.unidad}${stockStr}\n`;
-                });
-                return sec + `\n`;
-            }
-
-            txt += formatListSection("Carne", data.carneList);
-            txt += formatListSection("Pescado", data.otherLists["Pescado"] || []);
-            txt += formatListSection("Lácteos", data.otherLists["Lácteos"] || []);
-            txt += formatListSection("Verduras y Frutas", data.otherLists["Verduras y frutas"] || []);
-            txt += formatListSection("Secos", data.otherLists["Secos"] || []);
-            txt += formatListSection("Congelados", data.otherLists["Congelados"] || []);
-
-            downloadFile(txt, `ChefTrack_Lista_Compra_${new Date().toISOString().split('T')[0]}.txt`, "text/plain;charset=utf-8");
-        }
-
-        function downloadWeeklyMenuTxt() {
-            if (!currentMenu || !currentMenu.days) { alert("Genera primero el menú semanal."); return; }
-            const totalRaciones = settings.margenActivo ? Math.round(settings.comensales * 1.3) : settings.comensales;
-
-            let txt = `CHEFTRACK - MENÚ SEMANAL DE COMEDOR\n`;
-            txt += `Fecha: ${new Date().toLocaleDateString('es-ES')} | Previsión: ${totalRaciones} Raciones\n\n`;
-
-            daysList.forEach(dayName => {
-                txt += `${dayName.toUpperCase()}\n\n`;
-                const slots = currentMenu.days[dayName] || [];
-                const primeros = slots.slice(0, 3);
-                const segundos = slots.slice(3, 6);
-
-                txt += `Primeros\n`;
-                primeros.forEach(s => {
-                    const nombre = s.dish && s.dish.nombre ? s.dish.nombre : 'Sin asignación';
-                    txt += `- ${nombre}\n`;
-                });
-
-                txt += `\nSegundos\n`;
-                segundos.forEach(s => {
-                    const nombre = s.dish && s.dish.nombre ? s.dish.nombre : 'Sin asignación';
-                    txt += `- ${nombre}\n`;
-                });
-
-                txt += `\n\n`;
-            });
-
-            downloadFile(txt.trim(), `ChefTrack_Menu_Semanal_${new Date().toISOString().split('T')[0]}.txt`, "text/plain;charset=utf-8");
-        }
-
-        function downloadFile(content, fileName, mimeType) {
-            const blob = new Blob([content], { type: mimeType });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url; a.download = fileName; a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        // --- 9. HISTÓRICO ---
-        function saveMenuToHistory() {
-            if (!currentMenu || !currentMenu.days) { alert("No hay ningún menú generado para guardar."); return; }
-            const now = new Date();
-            const totalRaciones = settings.margenActivo ? Math.round(settings.comensales * 1.3) : settings.comensales;
-
-            const historyItem = {
-                id: `hist_${Date.now()}`,
-                title: `Semana del ${now.toLocaleDateString('es-ES')}`,
-                savedAt: `${now.toLocaleDateString('es-ES')} (${now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })})`,
-                totalRaciones,
-                menuData: JSON.parse(JSON.stringify(currentMenu))
+            const writeCategory = (title, list) => {
+                if (list.length > 0) {
+                    txt += `--- ${title.toUpperCase()} ---\n`;
+                    list.forEach(item => {
+                        txt += `[ ] ${item.finalOrder} ${item.unidad} de ${item.nombre}\n`;
+                    });
+                    txt += "\n";
+                }
             };
 
-            historyMenus.unshift(historyItem);
+            writeCategory("Carne", data.carneList);
+            writeCategory("Pescado", data.otherLists["Pescado"]);
+            writeCategory("Lácteos", data.otherLists["Lácteos"]);
+            writeCategory("Verduras y Frutas", data.otherLists["Verduras y frutas"]);
+            writeCategory("Secos", data.otherLists["Secos"]);
+            writeCategory("Congelados", data.otherLists["Congelados"]);
+
+            downloadTxtFile(txt, `Lista_Compra_${new Date().toISOString().split('T')[0]}.txt`);
+        }
+
+        function downloadTxtFile(content, filename) {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            link.click();
+        }
+
+        function saveMenuToHistory() {
+            if (!currentMenu) return alert("No hay menú generado actual.");
+            const dateStr = new Date().toLocaleDateString('es-ES');
+            historyMenus.unshift({ date: dateStr, menu: JSON.parse(JSON.stringify(currentMenu)) });
+            if (historyMenus.length > 10) historyMenus.pop(); // Guardar solo los últimos 10
             saveAll();
             renderHistorySection();
-            alert(`Menú guardado en el histórico ("${historyItem.title}")`);
+            alert("Menú guardado en el historial correctamente.");
         }
 
         function renderHistorySection() {
             const container = document.getElementById('historyListContainer');
-            if (!container) return;
             container.innerHTML = '';
             if (historyMenus.length === 0) {
-                container.innerHTML = '<p class="text-xs text-gray-400 dark:text-gray-500 py-2 text-center">No hay menús guardados en el histórico.</p>';
+                container.innerHTML = '<p class="text-sm text-gray-500">No hay historiales guardados.</p>';
                 return;
             }
-
-            historyMenus.forEach(item => {
-                const card = document.createElement('div');
-                card.className = "bg-gray-50 dark:bg-gray-800/60 p-3 rounded-lg border border-gray-200 dark:border-gray-700 flex justify-between items-center transition-colors";
-                card.innerHTML = `
-                    <div>
-                        <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs">${item.title}</h4>
-                        <p class="text-[10px] text-gray-500 dark:text-gray-400">Guardado el ${item.savedAt} • ${item.totalRaciones} rac.</p>
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <button onclick="loadHistoryMenu('${item.id}')" class="text-indigo-600 dark:text-indigo-400 bg-white dark:bg-gray-900 border border-indigo-200 dark:border-indigo-700 px-2 py-1 rounded text-xs font-bold shadow-sm">👁️ Cargar</button>
-                        <button onclick="deleteHistoryMenu('${item.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
-                    </div>
+            historyMenus.forEach((h, index) => {
+                const div = document.createElement('div');
+                div.className = "flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700 text-sm font-semibold";
+                div.innerHTML = `
+                    <span>Menú del ${h.date}</span>
+                    <button onclick="restoreHistoryMenu(${index})" class="text-indigo-600 dark:text-indigo-400">Ver</button>
                 `;
-                container.appendChild(card);
+                container.appendChild(div);
             });
         }
 
-        function loadHistoryMenu(id) {
-            const item = historyMenus.find(h => h.id === id);
-            if (item) {
-                currentMenu = JSON.parse(JSON.stringify(item.menuData));
-                saveAll();
-                renderGeneratorView();
-                document.querySelector('.nav-btn[data-target="view-generator"]').click();
-                alert(`Menú "${item.title}" cargado como Menú Actual.`);
-            }
-        }
-
-        function deleteHistoryMenu(id) {
-            if (confirm("¿Deseas eliminar este menú del histórico?")) {
-                historyMenus = historyMenus.filter(h => h.id !== id);
-                saveAll();
-                renderHistorySection();
-            }
-        }
-
-        // --- 10. MODAL SWAP ---
-        function openSwapModal(dayName, slotIndex) {
-            swapTarget = { dayName, slotIndex };
-            const slot = currentMenu.days[dayName][slotIndex];
-            document.getElementById('modalSwapTitle').innerText = `Cambiar Plato (${dayName})`;
-            document.getElementById('modalSwapSubtitle').innerText = `Posición: ${slot.slotLabel} (${slot.cat})`;
-            document.getElementById('modalSearchInput').value = '';
-            document.getElementById('modalChangeDish').classList.remove('hidden');
-            renderModalDishList();
-        }
-
-        function closeSwapModal() {
-            document.getElementById('modalChangeDish').classList.add('hidden');
-            swapTarget = null;
-        }
-
-        function renderModalDishList() {
-            if (!swapTarget) return;
-            const { dayName, slotIndex } = swapTarget;
-            const slot = currentMenu.days[dayName][slotIndex];
-            const searchVal = document.getElementById('modalSearchInput').value.toLowerCase();
-            const container = document.getElementById('modalDishList');
-            container.innerHTML = '';
-
-            const categoryDishes = dishes.filter(d => {
-                if (d.categoria !== slot.cat) return false;
-                if (searchVal && !d.nombre.toLowerCase().includes(searchVal)) return false;
-                return true;
-            });
-
-            if (categoryDishes.length === 0) {
-                container.innerHTML = '<p class="text-center text-gray-400 dark:text-gray-500 text-xs py-4">No hay platos disponibles.</p>';
-                return;
-            }
-
-            categoryDishes.forEach(d => {
-                const isCurrent = slot.dish && slot.dish.id === d.id;
-                const tagType = d.categoria === 'Primero' ? d.subcategoria_primero : d.proteina_segundo;
-                const demObj = demandMap[d.demanda || "Media"];
-
-                const itemBtn = document.createElement('button');
-                itemBtn.className = `w-full text-left p-3 rounded-xl border flex justify-between items-center transition-all ${isCurrent ? 'bg-indigo-50 dark:bg-indigo-950 border-indigo-300 dark:border-indigo-700 ring-2 ring-indigo-500' : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800'}`;
-                itemBtn.innerHTML = `
-                    <div>
-                        <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs mb-1">${d.nombre} ${isCurrent ? '<span class="text-indigo-600 dark:text-indigo-400 font-bold ml-1">(Actual)</span>' : ''}</h4>
-                        <div class="flex gap-1 flex-wrap items-center">
-                            <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">${tagType}</span>
-                            ${d.especie_animal ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300">${d.especie_animal}</span>` : ''}
-                            <span class="px-1.5 py-0.5 rounded text-[9px] font-bold border ${demObj.class}">${demObj.text}</span>
-                        </div>
-                    </div>
-                    <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400">Seleccionar</span>
-                `;
-                itemBtn.onclick = () => selectSwapDish(d);
-                container.appendChild(itemBtn);
-            });
-        }
-
-        function selectSwapDish(chosenDish) {
-            if (!swapTarget || !currentMenu) return;
-            const { dayName, slotIndex } = swapTarget;
-            currentMenu.days[dayName][slotIndex] = { ...currentMenu.days[dayName][slotIndex], dish: chosenDish, relaxed: false, warning: "", isPreparedStock: false };
+        function restoreHistoryMenu(index) {
+            currentMenu = historyMenus[index].menu;
             saveAll();
-            closeSwapModal();
+            document.querySelector('.nav-btn[data-target="view-generator"]').click();
             renderGeneratorView();
         }
 
-        // --- 11. FORMULARIO BANCO PLATOS ---
-        function addIngredientRow(ing = null) {
-            const container = document.getElementById('ingredientsContainer');
-            const row = document.createElement('div');
-            row.className = "flex gap-2 items-center mb-2 ingredient-row animate-fade-in";
-            
-            const catsHTML = proveedorCategorias.map(c => `<option value="${c}" ${ing && ing.categoria_proveedor === c ? 'selected' : ''}>${c}</option>`).join('');
-
-            row.innerHTML = `
-                <input type="text" placeholder="Ingrediente..." class="w-2/5 p-2 border border-gray-300 dark:border-gray-700 rounded-md text-xs ing-nombre bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100" value="${ing ? ing.nombre : ''}" required>
-                <input type="number" step="0.001" placeholder="Cant." class="w-1/5 p-2 border border-gray-300 dark:border-gray-700 rounded-md text-xs ing-cantidad bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100" value="${ing ? ing.cantidad : ''}" required>
-                <select class="w-1/5 p-2 border border-gray-300 dark:border-gray-700 rounded-md text-xs ing-unidad bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-                    <option value="kg" ${ing && ing.unidad === 'kg' ? 'selected' : ''}>kg</option>
-                    <option value="g" ${ing && ing.unidad === 'g' ? 'selected' : ''}>g</option>
-                    <option value="ud" ${ing && ing.unidad === 'ud' ? 'selected' : ''}>ud</option>
-                    <option value="L" ${ing && ing.unidad === 'L' ? 'selected' : ''}>L</option>
-                </select>
-                <select class="w-1/5 p-2 border border-gray-300 dark:border-gray-700 rounded-md text-xs ing-categoria bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-                    ${catsHTML}
-                </select>
-                <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold p-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
-            `;
-            container.appendChild(row);
-        }
-
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            const id = document.getElementById('dishId').value || Date.now().toString();
-            
-            const ingRows = document.querySelectorAll('.ingredient-row');
-            const ingredientes = Array.from(ingRows).map(row => ({
-                nombre: row.querySelector('.ing-nombre').value,
-                cantidad: parseFloat(row.querySelector('.ing-cantidad').value),
-                unidad: row.querySelector('.ing-unidad').value,
-                categoria_proveedor: row.querySelector('.ing-categoria').value
-            }));
-
-            const category = document.getElementById('dishCategory').value;
-            const newDish = {
-                id: id,
-                nombre: document.getElementById('dishName').value,
-                categoria: category,
-                subcategoria_primero: category === 'Primero' ? document.getElementById('dishSubcategory').value : "",
-                proteina_segundo: category === 'Segundo' ? document.getElementById('dishProtein').value : "",
-                especie_animal: category === 'Segundo' ? document.getElementById('dishSpecies').value : "",
-                tecnica: document.getElementById('dishTechnique').value,
-                dificultad_lunes: document.getElementById('dishDifficulty').value,
-                demanda: document.getElementById('dishDemand').value,
-                ingredientes: ingredientes
-            };
-
-            const existingIndex = dishes.findIndex(d => d.id === id);
-            if (existingIndex >= 0) dishes[existingIndex] = newDish;
-            else dishes.unshift(newDish);
-
-            saveAll();
-            resetForm();
-            renderDishes();
-            document.querySelector('.nav-btn[data-target="view-banco"]').click();
-        }
-
-        function editDish(id) {
-            const dish = dishes.find(d => d.id === id);
-            if(!dish) return;
-
-            document.getElementById('dishId').value = dish.id;
-            document.getElementById('dishName').value = dish.nombre;
-            document.getElementById('dishCategory').value = dish.categoria;
-            document.getElementById('dishCategory').dispatchEvent(new Event('change'));
-            
-            if(dish.categoria === 'Primero') document.getElementById('dishSubcategory').value = dish.subcategoria_primero;
-            if(dish.categoria === 'Segundo') {
-                document.getElementById('dishProtein').value = dish.proteina_segundo;
-                document.getElementById('dishSpecies').value = dish.especie_animal || 'Cerdo';
-            }
-            
-            document.getElementById('dishTechnique').value = dish.tecnica;
-            document.getElementById('dishDifficulty').value = dish.dificultad_lunes;
-            document.getElementById('dishDemand').value = dish.demanda || 'Media';
-
-            const container = document.getElementById('ingredientsContainer');
-            container.innerHTML = '';
-            dish.ingredientes.forEach(ing => addIngredientRow(ing));
-
-            document.getElementById('form-title').innerText = "Editar Plato";
-            document.getElementById('btnCancel').classList.remove('hidden');
-            document.querySelector('.nav-btn[data-target="view-form"]').click();
-        }
-
-        function deleteDish(id) {
-            if(confirm('¿Estás seguro de eliminar este plato?')) {
-                dishes = dishes.filter(d => d.id !== id);
-                saveAll();
-                renderDishes();
-            }
-        }
-
-        function resetForm() {
-            document.getElementById('dishForm').reset();
-            document.getElementById('dishId').value = '';
-            document.getElementById('form-title').innerText = "Añadir Nuevo Plato";
-            document.getElementById('ingredientsContainer').innerHTML = '';
-            document.getElementById('dishCategory').dispatchEvent(new Event('change'));
-            document.getElementById('dishDemand').value = 'Media';
-            document.getElementById('btnCancel').classList.add('hidden');
-            addIngredientRow();
-        }
-
-        // --- 12. RESPALDOS ---
         function exportData() {
-            const backupObj = {
-                app: "ChefTrack", version: "9.0", date: new Date().toISOString(),
-                settings, dishes, rawStock, preparedStock, currentMenu, historyMenus
+            const data = {
+                dishes, settings, rawStock, preparedStock, currentMenu, historyMenus
             };
-            const dataStr = JSON.stringify(backupObj, null, 2);
-            downloadFile(dataStr, `ChefTrack_Backup_${new Date().toISOString().split('T')[0]}.json`, "application/json");
+            const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `ChefTrack_Backup_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
         }
 
-        function importData(event) {
-            const file = event.target.files[0];
+        function importData(e) {
+            const file = e.target.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = (event) => {
                 try {
-                    const imported = JSON.parse(e.target.result);
-                    if (Array.isArray(imported)) dishes = imported;
-                    else if (imported && typeof imported === 'object') {
-                        if (imported.dishes) dishes = imported.dishes;
-                        if (imported.settings) settings = imported.settings;
-                        if (imported.rawStock) rawStock = imported.rawStock;
-                        if (imported.preparedStock) preparedStock = imported.preparedStock;
-                        if (imported.currentMenu) currentMenu = imported.currentMenu;
-                        if (imported.historyMenus) historyMenus = imported.historyMenus;
-                    }
-                    dishes = dishes.map(d => ({ ...d, demanda: d.demanda || "Media" }));
-                    saveAll(); init();
-                    alert("Datos importados correctamente.");
-                } catch (error) { alert("Error al leer el archivo JSON."); }
-                event.target.value = "";
+                    const data = JSON.parse(event.target.result);
+                    if (data.dishes) dishes = data.dishes;
+                    if (data.settings) settings = data.settings;
+                    if (data.rawStock) rawStock = data.rawStock;
+                    if (data.preparedStock) preparedStock = data.preparedStock;
+                    if (data.currentMenu !== undefined) currentMenu = data.currentMenu;
+                    if (data.historyMenus) historyMenus = data.historyMenus;
+                    saveAll();
+                    init();
+                    alert("Datos importados con éxito.");
+                } catch (error) {
+                    alert("Error al importar el archivo JSON.");
+                }
             };
             reader.readAsText(file);
         }
 
         function wipeData() {
-            if(confirm("¿Estás seguro de borrar TODOS los datos y restaurar de fábrica?")) {
+            if (confirm("⚠️ ¿Estás totalmente seguro? Esto borrará todos los platos y ajustes, y restaurará el sistema a la versión de fábrica.")) {
                 localStorage.clear();
                 window.location.reload();
             }
         }
 
-        // Iniciar App
-        init();
+        window.onload = init;
+
     </script>
 </body>
 </html>
