@@ -7,14 +7,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="GastroOS">
     <meta name="theme-color" content="#F5F5F7">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='50'>👨‍🍳</text></svg>">
-    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22GastroOS%22%2C%22short_name%22%3A%22GastroOS%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23F5F5F7%22%2C%22theme_color%22%3A%22%23F5F5F7%22%7D">
-    <title>GastroOS - Gestión de Menús, Stock y Compras</title>
+    <title>GastroOS - Motor de Menús</title>
+    
+    <!-- CARGA EXCLUSIVA DEL RECETARIO DESACOPLADO -->
+    <script src="recipes.js"></script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-        }
+        tailwind.config = { darkMode: 'class' }
     </script>
     <style>
         body {
@@ -24,2844 +24,330 @@
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
 
-    <style id="gastroos-apple-design-system">
+        /* Sistema de diseño adaptado Apple HIG */
         :root {
             color-scheme: light;
             --g-bg: #f5f5f7;
             --g-surface: rgba(255,255,255,.82);
-            --g-surface-strong: rgba(255,255,255,.94);
             --g-border: rgba(15,23,42,.08);
             --g-text: #0f172a;
             --g-muted: #64748b;
             --g-accent: #0071e3;
-            --g-accent-soft: #eaf4ff;
-            --g-shadow: 0 10px 35px rgba(15,23,42,.055);
             --g-shadow-sm: 0 4px 18px rgba(15,23,42,.045);
-            --g-radius: 20px;
-            --g-control: rgba(241,245,249,.78);
         }
-
         html.dark {
             color-scheme: dark;
             --g-bg: #0b0b0d;
             --g-surface: rgba(28,28,30,.82);
-            --g-surface-strong: rgba(30,30,32,.94);
             --g-border: rgba(255,255,255,.09);
             --g-text: #f5f5f7;
             --g-muted: #a1a1aa;
             --g-accent: #2997ff;
-            --g-accent-soft: rgba(41,151,255,.14);
-            --g-shadow: 0 14px 40px rgba(0,0,0,.24);
-            --g-shadow-sm: 0 5px 20px rgba(0,0,0,.2);
-            --g-control: rgba(39,39,42,.82);
         }
-
-        * { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
         body {
-            background:
-                radial-gradient(circle at 12% -10%, rgba(0,113,227,.055), transparent 30%),
-                radial-gradient(circle at 88% 0%, rgba(120,119,198,.045), transparent 28%),
-                var(--g-bg) !important;
+            background: var(--g-bg) !important;
             color: var(--g-text) !important;
             letter-spacing: -.006em;
         }
-
-        #main-container {
-            background: transparent;
-            scroll-behavior: smooth;
-        }
-
-        /* Native-app top bar */
-        body > header,
         header {
-            height: 60px !important;
-            min-height: 60px;
-            background: rgba(255,255,255,.72) !important;
-            color: var(--g-text) !important;
-            border-bottom: 1px solid rgba(15,23,42,.075);
-            box-shadow: 0 1px 0 rgba(255,255,255,.75), 0 5px 18px rgba(15,23,42,.025) !important;
+            height: 60px;
+            background: rgba(255,255,255,.72);
             backdrop-filter: blur(22px) saturate(180%);
-            -webkit-backdrop-filter: blur(22px) saturate(180%);
+            border-bottom: 1px solid var(--g-border);
         }
-        html.dark body > header,
-        html.dark header {
-            background: rgba(28,28,30,.72) !important;
-            color: #f5f5f7 !important;
-            border-bottom-color: rgba(255,255,255,.08);
-        }
-        header h1 { font-weight: 700 !important; letter-spacing: -.035em !important; }
-        header svg { color: var(--g-accent) !important; }
-        #themeToggleBtn {
-            width: 34px !important;
-            height: 34px !important;
-            border-radius: 999px !important;
-            background: rgba(241,245,249,.9) !important;
-            color: #334155 !important;
-            border: 1px solid rgba(15,23,42,.07);
-            box-shadow: none !important;
-            transition: transform .18s ease, background .18s ease !important;
-        }
-        #themeToggleBtn:hover { background: #e9eef5 !important; }
-        #themeToggleBtn:active { transform: scale(.96); }
-
-        main { padding: 18px !important; }
-        main > h2 { letter-spacing: -.035em; }
-
-        /* Shared glass surfaces */
-        #dishesList > div,
-        #generatedMenuContainer > div,
-        #historyListContainer > div,
-        #rawStockList > div,
-        #prepStockList > div,
-        #shoppingListBreakdown > div,
-        main section,
-        #dishForm,
-        #subtab-shopping-content > div,
-        #modalChangeDish > div {
-            background: var(--g-surface) !important;
-            border: 1px solid var(--g-border) !important;
-            box-shadow: var(--g-shadow-sm) !important;
+        html.dark header { background: rgba(28,28,30,.72); }
+        main section, .glass-card {
+            background: var(--g-surface);
+            border: 1px solid var(--g-border);
+            box-shadow: var(--g-shadow-sm);
             backdrop-filter: blur(18px) saturate(150%);
-            -webkit-backdrop-filter: blur(18px) saturate(150%);
+            border-radius: 20px;
         }
-
-        main section, #dishForm { border-radius: 20px !important; }
-        #dishesList > div,
-        #generatedMenuContainer > div,
-        #historyListContainer > div,
-        #rawStockList > div,
-        #prepStockList > div { border-radius: 18px !important; }
-
-        /* Type */
-        h1,h2,h3,h4,h5,h6 { color: var(--g-text); }
-        p, label, span { }
-        .text-gray-800, .text-gray-700, .text-gray-600 { color: var(--g-text) !important; }
-        .text-gray-500, .text-gray-400 { color: var(--g-muted) !important; }
-
-        /* Search / controls */
-        #searchInput,
-        input:not([type="checkbox"]):not([type="file"]),
-        select,
-        textarea {
-            background: var(--g-control) !important;
-            color: var(--g-text) !important;
-            border-color: transparent !important;
-            border-radius: 12px !important;
-            box-shadow: inset 0 0 0 1px rgba(15,23,42,.035) !important;
-            transition: background .18s ease, box-shadow .18s ease, transform .18s ease !important;
-        }
-        #searchInput {
-            min-height: 46px;
-            padding-left: 15px !important;
-            font-size: 14px !important;
-        }
-        input:not([type="checkbox"]):not([type="file"]):focus,
-        select:focus,
-        textarea:focus,
-        #searchInput:focus {
-            outline: none !important;
-            background: rgba(255,255,255,.96) !important;
-            box-shadow: 0 0 0 3px rgba(0,113,227,.10), inset 0 0 0 1px rgba(0,113,227,.18) !important;
-        }
-        html.dark input:not([type="checkbox"]):not([type="file"]):focus,
-        html.dark select:focus,
-        html.dark textarea:focus,
-        html.dark #searchInput:focus {
-            background: rgba(39,39,42,.96) !important;
-            box-shadow: 0 0 0 3px rgba(41,151,255,.14), inset 0 0 0 1px rgba(41,151,255,.24) !important;
-        }
-
-        /* Pill filters and tabs */
-        .filter-lvl1,
-        .filter-lvl2,
-        .generator-day-tab {
-            border-radius: 999px !important;
-            border: 1px solid rgba(15,23,42,.07) !important;
-            box-shadow: none !important;
-            transition: all .18s ease-out !important;
-        }
-        .filter-lvl1 { min-height: 38px; }
-        .filter-lvl1.active,
-        .filter-lvl1.bg-indigo-600,
-        .generator-day-tab.active,
-        .generator-day-tab.bg-indigo-600 {
-            background: #0f172a !important;
-            color: white !important;
-            border-color: #0f172a !important;
-        }
-        .filter-lvl2.active,
-        .filter-lvl2.bg-indigo-100 {
-            background: var(--g-accent-soft) !important;
-            color: var(--g-accent) !important;
-            border-color: rgba(0,113,227,.12) !important;
-        }
-
-        /* Buttons */
-        button, label[for="fileImport"] { -webkit-tap-highlight-color: transparent; }
-        button:not(.nav-btn):not(.generator-day-tab):not(.filter-lvl1):not(.filter-lvl2) {
-            transition: transform .18s ease-out, background-color .18s ease-out, box-shadow .18s ease-out, opacity .18s ease-out !important;
-        }
-        button:not([disabled]):active,
-        label[for="fileImport"]:active { transform: scale(.98); }
-
-        #btnGenerateMenu,
-        #dishForm button[type="submit"],
-        #rawStockForm button[type="submit"],
-        #prepStockForm button[type="submit"],
-        #btnDownloadShoppingTxt,
-        #btnExport,
-        label[for="fileImport"] {
-            border-radius: 999px !important;
-            box-shadow: 0 4px 14px rgba(15,23,42,.08) !important;
-            font-weight: 600 !important;
-            letter-spacing: -.01em;
-        }
-        #btnGenerateMenu {
-            background: #0f172a !important;
-            color: #fff !important;
-        }
-        #btnGenerateMenu:hover { background: #1e293b !important; }
-        #dishForm button[type="submit"] { background: #0f172a !important; }
-        #rawStockForm button[type="submit"],
-        #prepStockForm button[type="submit"],
-        #btnDownloadShoppingTxt { background: #0f172a !important; }
-        #btnExport { background: #0f172a !important; }
-        label[for="fileImport"] { background: #eef2f7 !important; color: #334155 !important; }
-        html.dark label[for="fileImport"] { background: #27272a !important; color: #f4f4f5 !important; }
-
-        /* Form grouping */
-        #dishForm > div,
-        #rawStockForm,
-        #prepStockForm { }
-        #dishForm label,
-        #rawStockForm label,
-        #prepStockForm label {
-            letter-spacing: -.005em;
-        }
-        #dishPrecooked,
-        #checkMargen { accent-color: var(--g-accent); }
-        #dishPrecooked + label { }
-        #dishPrecookedContainer { }
-        #dishForm .border-t { border-color: rgba(15,23,42,.08) !important; }
-
-        /* Demand / semantic badges */
-        .rounded-full { }
-        .bg-indigo-50, .bg-indigo-100 { background-color: var(--g-accent-soft) !important; }
-        .text-indigo-600, .text-indigo-700 { color: var(--g-accent) !important; }
-        .border-indigo-100, .border-indigo-200 { border-color: rgba(0,113,227,.12) !important; }
-
-        /* Menu generator */
-        #subtab-menu-content > div:first-child {
-            background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(247,250,255,.82)) !important;
-            color: var(--g-text) !important;
-            border: 1px solid rgba(15,23,42,.08) !important;
-            border-radius: 22px !important;
-            box-shadow: var(--g-shadow) !important;
-        }
-        #subtab-menu-content > div:first-child p { color: var(--g-muted) !important; }
-        #btnSaveToHistory, #btnDownloadMenuTxt {
-            background: rgba(241,245,249,.9) !important;
-            color: #334155 !important;
-            border: 1px solid rgba(15,23,42,.07) !important;
-            border-radius: 999px !important;
-        }
-        #btnSubTabMenu, #btnSubTabShopping {
-            border-radius: 999px !important;
-        }
-
-        /* Slot cards */
+        .nav-btn.active { color: var(--g-accent) !important; }
+        
         .gastro-slot {
             background: rgba(248,250,252,.72);
             border: 1px solid rgba(15,23,42,.065);
             border-radius: 16px;
             min-height: 66px;
-            transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
         }
-        .gastro-slot:hover {
-            background: rgba(255,255,255,.92);
-            box-shadow: 0 5px 18px rgba(15,23,42,.045);
-            transform: translateY(-1px);
-        }
-        .gastro-slot-action {
-            width: 32px !important;
-            height: 32px !important;
-            border-radius: 999px !important;
-            background: rgba(255,255,255,.92) !important;
-            border: 1px solid rgba(15,23,42,.07) !important;
-            color: #475569 !important;
-        }
-        .gastro-section-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: #64748b;
-            letter-spacing: .075em;
-            text-transform: uppercase;
-        }
-
-        /* Floating edit/delete actions */
-        #dishesList .absolute button {
-            width: 32px !important;
-            height: 32px !important;
-            padding: 0 !important;
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            border-radius: 999px !important;
-            transition: transform .15s ease, background .15s ease !important;
-        }
-        #dishesList .absolute button:first-child {
-            background: #eaf4ff !important;
-            color: #0071e3 !important;
-        }
-        #dishesList .absolute button:last-child {
-            background: #fff1f2 !important;
-            color: #ef4444 !important;
-        }
-        #dishesList .absolute button:active { transform: scale(.95); }
-
-        /* Bottom navigation: translucent floating native feel */
-        body > nav,
-        nav.fixed {
-            height: 72px !important;
-            background: rgba(255,255,255,.76) !important;
-            border-top: 1px solid rgba(15,23,42,.075) !important;
-            box-shadow: 0 -8px 25px rgba(15,23,42,.035) !important;
+        html.dark .gastro-slot { background: rgba(39,39,42,.6); border-color: rgba(255,255,255,.05); }
+        
+        body > nav {
+            height: 72px;
+            background: rgba(255,255,255,.76);
             backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            padding-bottom: max(env(safe-area-inset-bottom), 4px) !important;
+            border-top: 1px solid var(--g-border);
+            padding-bottom: max(env(safe-area-inset-bottom), 4px);
         }
-        html.dark body > nav,
-        html.dark nav.fixed {
-            background: rgba(28,28,30,.78) !important;
-            border-top-color: rgba(255,255,255,.08) !important;
-        }
-        .nav-btn {
-            color: #94a3b8 !important;
-            transition: color .18s ease, transform .18s ease !important;
-        }
-        .nav-btn.active,
-        .nav-btn.text-indigo-600,
-        .nav-btn.text-indigo-400 {
-            color: var(--g-accent) !important;
-        }
-        .nav-btn:active { transform: scale(.96); }
-        .nav-btn span { font-size: 9px !important; letter-spacing: .035em; }
-
-        /* Modal */
-        #modalChangeDish { background: rgba(15,23,42,.20) !important; backdrop-filter: blur(10px) !important; }
-        #modalChangeDish > div {
-            border-radius: 22px !important;
-            overflow: hidden;
-            animation: gastroModalIn .2s ease-out both;
-        }
-        #modalChangeDish > div > div:first-child {
-            background: rgba(255,255,255,.82) !important;
-            color: var(--g-text) !important;
-            border-bottom: 1px solid var(--g-border);
-        }
-        #modalChangeDish #modalSearchInput { min-height: 42px; }
-        @keyframes gastroModalIn {
-            from { opacity: 0; transform: translateY(8px) scale(.985); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        /* Accessibility / motion */
-        :focus-visible {
-            outline: 3px solid rgba(0,113,227,.18);
-            outline-offset: 2px;
-        }
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                scroll-behavior: auto !important;
-                transition-duration: .01ms !important;
-                animation-duration: .01ms !important;
-            }
-        }
-        @media (min-width: 768px) {
-            main { max-width: 1100px; margin-inline: auto; }
-            #dishesList { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
-            #dishesList > div { height: 100%; }
-            #generatedMenuContainer { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
-            #generatedMenuContainer > div { margin: 0 !important; }
-        }
+        html.dark body > nav { background: rgba(28,28,30,.78); }
     </style>
 </head>
 <body class="h-screen flex flex-col font-sans overflow-hidden transition-colors">
 
-    <!-- CABECERA PRINCIPAL -->
     <header class="sticky top-0 z-40 flex-shrink-0 flex items-center justify-between px-4">
         <div class="w-8"></div>
         <div class="flex items-center gap-2">
-            <svg class="w-6 h-6 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
             <h1 class="text-lg font-bold tracking-wide">GastroOS</h1>
         </div>
-        <button id="themeToggleBtn" onclick="toggleDarkMode()" class="w-9 h-9 flex items-center justify-center rounded-full transition-all" title="Cambiar tema">
-            🌙
-        </button>
+        <button id="themeToggleBtn" onclick="toggleDarkMode()" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-xl">🌙</button>
     </header>
 
-    <!-- CONTENEDOR PRINCIPAL DE VISTAS -->
     <div class="flex-1 overflow-y-auto no-scrollbar relative pb-24" id="main-container">
         
-        <!-- VISTA 1: BANCO DE PLATOS -->
+        <!-- VISTA 1: CATÁLOGO LECTURA -->
         <main id="view-banco" class="p-4 block">
-            <div class="mb-4">
-                <input type="text" id="searchInput" placeholder="Buscar plato..." class="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
-            </div>
-
-            <!-- Filtros Nivel 1 -->
-            <div class="flex gap-2 mb-3">
-                <button class="filter-lvl1 active bg-indigo-600 text-white px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="all">TODOS</button>
-                <button class="filter-lvl1 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="Primero">PRIMEROS</button>
-                <button class="filter-lvl1 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="Segundo">SEGUNDOS</button>
-            </div>
-
-            <!-- Filtros Nivel 2 (Primeros) -->
-            <div id="filters-primeros" class="hidden flex gap-2 overflow-x-auto no-scrollbar mb-4 pb-1">
-                <button class="filter-lvl2 active bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm" data-filter="all">Todas</button>
-                <button class="filter-lvl2 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Verdura">Verdura</button>
-                <button class="filter-lvl2 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Cuchara">Cuchara</button>
-                <button class="filter-lvl2 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Tenedor">Tenedor</button>
-            </div>
-
-            <!-- Filtros Nivel 2 (Segundos) -->
-            <div id="filters-segundos" class="hidden flex gap-2 overflow-x-auto no-scrollbar mb-4 pb-1">
-                <button class="filter-lvl2 active bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm" data-filter="all">Todas</button>
-                <button class="filter-lvl2 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Carne">Carne</button>
-                <button class="filter-lvl2 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm" data-filter="Pescado">Pescado</button>
-            </div>
-
-            <div id="dishesList" class="space-y-3"></div>
+            <h2 class="text-xl font-bold mb-4">Catálogo de Recetas</h2>
+            <div id="dishesList" class="space-y-3 grid grid-cols-1 md:grid-cols-2 md:gap-3 md:space-y-0"></div>
         </main>
 
-        <!-- VISTA 2: AÑADIR / EDITAR PLATO -->
-        <main id="view-form" class="p-4 hidden">
-            <h2 id="form-title" class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Añadir Nuevo Plato</h2>
-            <form id="dishForm" class="space-y-4 bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
-                <input type="hidden" id="dishId">
-                
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Nombre</label>
-                    <input type="text" id="dishName" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-900 focus:ring-2 focus:ring-indigo-500">
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Categoría</label>
-                        <select id="dishCategory" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                            <option value="">Seleccionar...</option>
-                            <option value="Primero">Primero</option>
-                            <option value="Segundo">Segundo</option>
-                        </select>
-                    </div>
-                    
-                    <div id="subcatPrimeroContainer" class="hidden">
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Subcategoría técnica</label>
-                        <select id="dishSubcategory" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                            <option value="">Seleccionar...</option>
-                            <optgroup label="CUCHARA">
-                                <option value="cuchara_legumbres">Legumbres</option>
-                                <option value="cuchara_guisos">Guisos</option>
-                                <option value="cuchara_sopas_cremas">Sopas / caldos</option>
-                            </optgroup>
-                            <optgroup label="VERDURA">
-                                <option value="verdura_crema">Cremas</option>
-                                <option value="verdura_entera">Verduras enteras</option>
-                            </optgroup>
-                            <optgroup label="TENEDOR">
-                                <option value="pasta_corta_larga">Pastas</option>
-                                <option value="pasta_rellena_horno">Pastas rellenas</option>
-                                <option value="arroz">Arroces</option>
-                                <option value="otros_hidratos">Otros hidratos</option>
-                            </optgroup>
-                        </select>
-                    </div>
-
-                    <div id="protSegundoContainer" class="hidden">
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Proteína</label>
-                        <select id="dishProtein" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                            <option value="Carne">Carne</option>
-                            <option value="Pescado">Pescado</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div id="speciesContainer" class="hidden">
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Tipo de animal</label>
-                    <select id="dishSpecies" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                        <option value="">Seleccionar animal...</option>
-                        <option value="carne_pollo">Pollo</option>
-                        <option value="carne_pavo">Pavo</option>
-                        <option value="carne_cerdo">Cerdo</option>
-                        <option value="carne_ternera">Ternera</option>
-                        <option value="carne_conejo">Conejo</option>
-                        <option value="carne_cordero">Cordero</option>
-                    </select>
-                </div>
-
-                <div id="fishSpeciesContainer" class="hidden">
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Especie / tipo exacto de pescado</label>
-                    <select id="dishFishSpecies" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                        <option value="">Seleccionar especie...</option>
-                        <option value="merluza">Merluza</option>
-                        <option value="salmon">Salmón</option>
-                        <option value="bacalao">Bacalao</option>
-                        <option value="dorada">Dorada</option>
-                        <option value="lubina">Lubina</option>
-                        <option value="atun">Atún</option>
-                        <option value="calamares">Calamares</option>
-                        <option value="sepia">Sepia</option>
-                        <option value="sardina">Sardina</option>
-                        <option value="caballa">Caballa</option>
-                        <option value="otro">Otro (especificar)</option>
-                    </select>
-                    <input id="dishFishSpeciesCustom" type="text" placeholder="Especie exacta..." class="hidden mt-2 w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                </div>
-
-                <div id="techniqueContainer" class="hidden">
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Técnica de cocina</label>
-                    <select id="dishTechnique" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                        <option value="">Seleccionar técnica...</option>
-                        <option value="tecnica_guiso">Guiso / En salsa</option>
-                        <option value="tecnica_seco_asado">Plancha / Asado / Brasa</option>
-                        <option value="tecnica_frito_rebozado">Frito / Rebozado / Empanado</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Aceptación/Demanda</label>
-                    <select id="dishDemand" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                        <option value="Alta">🟢 Alta</option>
-                        <option value="Media" selected>🟡 Media</option>
-                        <option value="Baja">🔴 Baja</option>
-                    </select>
-                </div>
-
-                <div class="flex items-center justify-between bg-indigo-50 dark:bg-indigo-950/50 p-3 rounded-lg border border-indigo-100 dark:border-indigo-900 mt-2">
-                    <label for="dishPrecooked" class="text-sm font-bold text-indigo-900 dark:text-indigo-300">¿Es un plato precocinado?</label>
-                    <input type="checkbox" id="dishPrecooked" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500">
-                </div>
-
-                <div class="border-t border-gray-200 dark:border-gray-800 pt-4 mt-4">
-                    <div class="flex justify-between items-center mb-2">
-                        <label class="block text-sm font-semibold text-gray-800 dark:text-gray-200">Ingredientes (por 1 ración)</label>
-                        <button type="button" id="addIngredientBtn" class="text-indigo-600 dark:text-indigo-400 font-bold text-xs bg-indigo-50 dark:bg-indigo-950 px-2 py-1 rounded">+ Añadir</button>
-                    </div>
-                    <div id="ingredientsContainer" class="space-y-2"></div>
-                </div>
-
-                <div class="pt-4 flex gap-2">
-                    <button type="button" id="btnCancel" class="hidden flex-1 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 py-3 rounded-lg font-bold text-sm shadow-sm">Cancelar</button>
-                    <button type="submit" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold text-sm shadow-md">GUARDAR</button>
-                </div>
-            </form>
-        </main>
-
-        <!-- VISTA 3: STOCK Y PREVISIÓN -->
+        <!-- VISTA 2: STOCK Y PREVISIÓN -->
         <main id="view-stock" class="p-4 hidden space-y-5">
-            <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
-                <div class="flex items-center gap-2 mb-3">
-                    <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    <h2 class="text-base font-bold text-gray-800 dark:text-gray-100">PREVISIÓN DE COMENSALES</h2>
-                </div>
-                <div class="grid grid-cols-1 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Comensales Estimados</label>
-                        <input type="number" id="inputComensales" min="1" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-900 focus:ring-2 focus:ring-indigo-500">
-                    </div>
-                    <div class="flex items-center justify-between bg-indigo-50 dark:bg-indigo-950/50 p-3 rounded-lg border border-indigo-100 dark:border-indigo-900">
-                        <span class="text-xs font-bold text-indigo-900 dark:text-indigo-300">Margen Seguridad (+30%)</span>
-                        <input type="checkbox" id="checkMargen" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500">
-                    </div>
-                    <div class="bg-gray-900 dark:bg-gray-950 text-white p-3.5 rounded-lg text-center shadow-inner border border-gray-800">
-                        <div class="text-2xl font-black text-amber-400" id="totalRacionesDisplay">130 raciones</div>
-                        <div class="text-[11px] text-gray-300 dark:text-gray-400 font-medium" id="totalRacionesSubtext">100 base + 30% margen</div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
-                <div class="flex justify-between items-center mb-3">
-                    <div class="flex items-center gap-2">
-                        <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-                        <h2 class="text-base font-bold text-gray-800 dark:text-gray-100">MATERIA PRIMA EN STOCK</h2>
-                    </div>
-                </div>
-                <form id="rawStockForm" class="bg-gray-50 dark:bg-gray-800/60 p-3 rounded-lg border border-gray-200 dark:border-gray-700 space-y-3 mb-4">
-                    <div>
-                        <input type="text" id="rawName" placeholder="Nombre" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="text" inputmode="decimal" id="rawQty" placeholder="Cantidad" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-                        <select id="rawUnit" class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-                            <option value="kg">kg</option>
-                            <option value="g">g</option>
-                            <option value="L">L</option>
-                            <option value="ml">ml</option>
-                        </select>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <select id="rawCategory" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-                            <option value="Carne">Carne</option>
-                            <option value="Pescado">Pescado</option>
-                            <option value="Lácteos">Lácteos</option>
-                            <option value="Verduras y frutas">Verduras y frutas</option>
-                            <option value="Secos">Secos</option>
-                            <option value="Congelados">Congelados</option>
-                        </select>
-                        <select id="rawConserv" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-                            <option value="Refrigerado/Fresco (Prioridad Alta)">Refrigerado / Fresco</option>
-                            <option value="Congelado (Prioridad Baja)">Congelado</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-bold text-xs shadow-sm">+ Añadir Materia Prima</button>
-                </form>
-                <div id="rawStockList" class="space-y-2"></div>
-            </section>
-
-            <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
-                <div class="flex items-center gap-2 mb-3">
-                    <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                    <h2 class="text-base font-bold text-gray-800 dark:text-gray-100">PLATOS ELABORADOS</h2>
-                </div>
-                <form id="prepStockForm" class="bg-gray-50 dark:bg-gray-800/60 p-3 rounded-lg border border-gray-200 dark:border-gray-700 space-y-3 mb-4">
-                    <div>
-                        <input type="text" id="prepName" placeholder="Nombre" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="text" inputmode="decimal" id="prepCantidad" placeholder="Cantidad" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-                        <select id="prepUnidad" class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-                            <option value="kg">kg</option>
-                            <option value="g">g</option>
-                            <option value="L">L</option>
-                            <option value="ml">ml</option>
-                        </select>
-                    </div>
-                    <div>
-                        <select id="prepAsignacion" class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-                            <option value="Sin asignar">Sin asignar</option>
-                            <option value="Lunes - Primero">Lunes - Primero</option>
-                            <option value="Lunes - Segundo">Lunes - Segundo</option>
-                            <option value="Martes - Primero">Martes - Primero</option>
-                            <option value="Martes - Segundo">Martes - Segundo</option>
-                            <option value="Miércoles - Primero">Miércoles - Primero</option>
-                            <option value="Miércoles - Segundo">Miércoles - Segundo</option>
-                            <option value="Jueves - Primero">Jueves - Primero</option>
-                            <option value="Jueves - Segundo">Jueves - Segundo</option>
-                            <option value="Viernes - Primero">Viernes - Primero</option>
-                            <option value="Viernes - Segundo">Viernes - Segundo</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-bold text-xs shadow-sm">+ Registrar Plato Elaborado</button>
-                </form>
-                <div id="prepStockList" class="space-y-2"></div>
+            <section class="glass-card p-4">
+                <h2 class="text-base font-bold mb-3">MATERIA PRIMA EN STOCK</h2>
+                <div id="rawStockList" class="space-y-2 text-sm text-gray-500">Módulo en construcción...</div>
             </section>
         </main>
 
-        <!-- VISTA 4: GENERAR MENÚ Y COMPRAS -->
+        <!-- VISTA 3: GENERADOR DE MENÚ -->
         <main id="view-generator" class="p-4 hidden space-y-4">
-            <div class="flex bg-gray-200 dark:bg-gray-800 p-1 rounded-xl">
-                <button id="btnSubTabMenu" class="flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all bg-white dark:bg-gray-900 text-indigo-700 dark:text-indigo-300 shadow-sm">
-                    📅 MENÚ SEMANAL
+            <div class="bg-indigo-900 dark:bg-indigo-950 text-white p-4 rounded-xl shadow-lg text-center">
+                <h2 class="text-lg font-bold mb-1">Motor de Planificación</h2>
+                <p class="text-[11px] text-indigo-200 mb-3">Aplica reglas cruzadas de ingredientes, técnicas y frecuencias.</p>
+                <button onclick="generateMenu()" class="w-full bg-amber-400 hover:bg-amber-500 text-indigo-950 font-black py-3 rounded-xl text-sm shadow-md active:scale-95">
+                    🎲 GENERAR MENÚ
                 </button>
-                <button id="btnSubTabShopping" class="flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all text-gray-600 dark:text-gray-400">
-                    🛒 LISTA DE COMPRA
-                </button>
             </div>
-
-            <div id="subtab-menu-content" class="space-y-4">
-                <div class="bg-indigo-900 dark:bg-indigo-950 text-white p-4 rounded-xl shadow-lg border border-indigo-800 dark:border-indigo-900 text-center">
-                    <h2 class="text-lg font-bold mb-1">Motor de Planificación</h2>
-                    <p class="text-[11px] text-indigo-200 mb-3">Aplica reglas, control de especies, aprovechamiento de stock y proporciones por demanda.</p>
-                    <div class="flex flex-col gap-2">
-                        <button id="btnGenerateMenu" class="w-full bg-amber-400 hover:bg-amber-500 text-indigo-950 font-black py-3 px-4 rounded-xl text-sm shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
-                            <span class="text-base">🎲</span> GENERAR MENÚ
-                        </button>
-                        <div class="flex gap-2">
-                            <button id="btnSaveToHistory" class="flex-1 bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-2 px-3 rounded-lg text-xs flex items-center justify-center gap-1 border border-indigo-600 shadow-sm">
-                                <span>💾</span> Guardar Historial
-                            </button>
-                            <button id="btnDownloadMenuTxt" class="flex-1 bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-2 px-3 rounded-lg text-xs flex items-center justify-center gap-1 border border-indigo-600 shadow-sm">
-                                <span>📋</span> Exportar (.txt)
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1" id="dayTabsContainer">
-                    <button class="generator-day-tab active bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap" data-day="Lunes">Lunes</button>
-                    <button class="generator-day-tab bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Martes">Martes</button>
-                    <button class="generator-day-tab bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Miércoles">Miércoles</button>
-                    <button class="generator-day-tab bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Jueves">Jueves</button>
-                    <button class="generator-day-tab bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Viernes">Viernes</button>
-                    <button class="generator-day-tab bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap" data-day="Todos">Todos</button>
-                </div>
-
-                <div id="generatedMenuContainer" class="space-y-6"></div>
+            <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1" id="dayTabsContainer">
+                <button class="day-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white" data-day="Todos">Semana</button>
             </div>
-
-            <div id="subtab-shopping-content" class="hidden space-y-4">
-                <div class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-3">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">CÁLCULO CATEGORIZADO POR PROVEEDORES</h3>
-                        <span class="text-[10px] font-bold bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 px-2 py-0.5 rounded-full" id="shoppingRacionesBadge">130 Raciones</span>
-                    </div>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 leading-snug">Cantidades agrupadas en categorías unificadas.</p>
-                    <button id="btnDownloadShoppingTxt" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-3 rounded-lg text-xs flex items-center justify-center gap-2 shadow-sm">
-                        <span>📄</span> Descargar Lista (.txt)
-                    </button>
-                </div>
-                <div id="shoppingListBreakdown" class="space-y-4"></div>
-            </div>
+            <div id="generatedMenuContainer" class="space-y-6 md:grid md:grid-cols-2 md:gap-4 md:space-y-0"></div>
         </main>
 
-        <!-- VISTA 5: AJUSTES Y HISTÓRICO -->
+        <!-- VISTA 4: AJUSTES -->
         <main id="view-settings" class="p-4 hidden space-y-5">
-            <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">AJUSTES Y DATOS</h2>
-            <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
-                <div class="flex items-center gap-2 mb-3">
-                    <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Histórico de Menús</h3>
-                </div>
-                <div id="historyListContainer" class="space-y-2"></div>
-            </section>
-            <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-3">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Etiquetado rápido</h3>
-                        <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">Completa las recetas sin subcategoría técnica.</p>
-                    </div>
-                    <span id="migrationPendingBadge" class="text-[10px] font-black bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 px-2 py-1 rounded-full">0 pendientes</span>
-                </div>
-                <div id="migrationList" class="space-y-2"></div>
-            </section>
-
-
-
-            <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-4">
-                <div>
-                    <h3 class="font-bold text-gray-700 dark:text-gray-300 text-sm mb-2">Copia de Seguridad Integral</h3>
-                    <div class="flex flex-col gap-3">
-                        <button id="btnExport" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                            Exportar Todo (JSON)
-                        </button>
-                        <label class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2 cursor-pointer text-center">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                            Importar Datos (JSON)
-                            <input type="file" id="fileImport" accept=".json" class="hidden">
-                        </label>
-                    </div>
-                </div>
-                <div class="border-t border-gray-200 dark:border-gray-800 pt-4 mt-4">
-                    <button id="btnWipeData" class="w-full bg-red-100 dark:bg-red-950/50 text-red-600 dark:text-red-400 hover:bg-red-200 py-3 rounded-lg font-bold text-sm shadow-sm">
-                        Borrar Datos y Restaurar
-                    </button>
-                </div>
+            <section class="glass-card p-4">
+                <h3 class="font-bold text-sm mb-3">Histórico y Memoria Inter-Semanal</h3>
+                <button onclick="saveWeekToHistory()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-bold text-sm">Guardar Semana Actual</button>
             </section>
         </main>
     </div>
 
-    <!-- MODAL CAMBIAR PLATO -->
-    <div id="modalChangeDish" class="hidden fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm">
-        <div class="bg-white dark:bg-gray-900 w-full max-w-lg rounded-t-2xl sm:rounded-2xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl animate-fade-in border border-gray-200 dark:border-gray-800">
-            <div class="p-4 bg-indigo-600 dark:bg-indigo-950 text-white flex justify-between items-center">
-                <div>
-                    <h3 class="font-bold text-sm" id="modalSwapTitle">Cambiar Plato</h3>
-                    <p class="text-[11px] text-indigo-200" id="modalSwapSubtitle">Selecciona una alternativa</p>
-                </div>
-                <button onclick="closeSwapModal()" class="text-white hover:bg-indigo-700 p-1 rounded-lg">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            <div class="p-3 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800">
-                <input type="text" id="modalSearchInput" placeholder="Buscar alternativa..." class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-            </div>
-            <div class="p-4 overflow-y-auto space-y-2 flex-1" id="modalDishList"></div>
-        </div>
-    </div>
-
-    <!-- NAVEGACIÓN INFERIOR -->
-    <nav class="flex-shrink-0 flex justify-around items-center fixed bottom-0 left-0 right-0 z-50">
-        <button class="nav-btn active flex flex-col items-center justify-center w-full h-full text-indigo-600 dark:text-indigo-400" data-target="view-banco">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-            <span class="text-[9px] font-semibold">RECETARIO</span>
+    <!-- NAVEGACIÓN INFERIOR HIG -->
+    <nav class="flex-shrink-0 flex justify-between px-2 items-center fixed bottom-0 left-0 right-0 z-50">
+        <button class="nav-btn active flex flex-col items-center justify-center w-1/4 h-full text-indigo-600 dark:text-indigo-400" data-target="view-banco">
+            <span class="text-xl mb-0.5">📖</span><span class="text-[9px] font-semibold">RECETARIO</span>
         </button>
-        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-form">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-            <span class="text-[9px] font-semibold">AÑADIR</span>
+        <button class="nav-btn flex flex-col items-center justify-center w-1/4 h-full text-gray-400" data-target="view-stock">
+            <span class="text-xl mb-0.5">📦</span><span class="text-[9px] font-semibold">STOCK</span>
         </button>
-        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-stock">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-            <span class="text-[9px] font-semibold">STOCK/PREV.</span>
+        <button class="nav-btn flex flex-col items-center justify-center w-1/4 h-full text-gray-400" data-target="view-generator">
+            <span class="text-xl mb-0.5">⚙️</span><span class="text-[9px] font-semibold">GENERAR</span>
         </button>
-        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-generator">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-            <span class="text-[9px] font-semibold">GENERAR</span>
-        </button>
-        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-settings">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-            <span class="text-[9px] font-semibold">AJUSTES</span>
+        <button class="nav-btn flex flex-col items-center justify-center w-1/4 h-full text-gray-400" data-target="view-settings">
+            <span class="text-xl mb-0.5">⚙️</span><span class="text-[9px] font-semibold">AJUSTES</span>
         </button>
     </nav>
 
     <script>
-
-        // --- 1. DATOS Y MAPAS DE ESTADO ---
-        const demandMap = {
-            "Alta": { text: "🟢 Alta", class: "bg-green-100 dark:bg-green-950 text-green-800 dark:text-green-300 border-green-200 dark:border-green-800" },
-            "Media": { text: "🟡 Media", class: "bg-yellow-100 dark:bg-yellow-950 text-yellow-800 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800" },
-            "Baja": { text: "🔴 Baja", class: "bg-red-100 dark:bg-red-950 text-red-800 dark:text-red-300 border-red-200 dark:border-red-800" }
-        };
-
-        const getDemandWeight = (d) => {
-            if (d === 'Alta') return 3;
-            if (d === 'Baja') return 1;
-            return 2;
-        };
-
-        const defaultSettings = { comensales: 100, margenActivo: true, darkMode: false };
-        const proveedorCategorias = ["Carne", "Pescado", "Lácteos", "Verduras y frutas", "Secos", "Congelados"];
-        const daysList = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
-        const FIRST_SUBCATEGORIES = {
-            cuchara: ["cuchara_legumbres", "cuchara_guisos", "cuchara_sopas_cremas"],
-            verdura: ["verdura_crema", "verdura_entera"],
-            tenedor: ["pasta_corta_larga", "pasta_rellena_horno", "arroz", "otros_hidratos"]
-        };
-        const MEAT_ANIMALS = ["carne_pollo", "carne_pavo", "carne_cerdo", "carne_ternera", "carne_conejo", "carne_cordero"];
-        const FISH_SPECIES = ["merluza", "salmon", "bacalao", "dorada", "lubina", "atun", "calamares", "sepia", "sardina", "caballa"];
-        const FISH_LABELS = {
-            merluza: "Merluza", salmon: "Salmón", bacalao: "Bacalao", dorada: "Dorada",
-            lubina: "Lubina", atun: "Atún", calamares: "Calamares", sepia: "Sepia",
-            sardina: "Sardina", caballa: "Caballa"
-        };
-        const MEAT_LABELS = {
-            carne_pollo: "Pollo", carne_pavo: "Pavo", carne_cerdo: "Cerdo",
-            carne_ternera: "Ternera", carne_conejo: "Conejo", carne_cordero: "Cordero"
-        };
-        const FIRST_LABELS = {
-            cuchara_legumbres: "Cuchara · Legumbres", cuchara_guisos: "Cuchara · Guisos",
-            cuchara_sopas_cremas: "Cuchara · Sopas/cremas", verdura_crema: "Verdura · Crema",
-            verdura_entera: "Verdura · Entera", pasta_corta_larga: "Pasta corta/larga",
-            pasta_rellena_horno: "Pasta rellena/horno", arroz: "Arroz", otros_hidratos: "Otros hidratos"
-        };
-
-        function normalizeDishData(d) {
-            const dish = { ...d };
-            dish.demanda = dish.demanda || "Media";
-            dish.precocinado = !!dish.precocinado;
-            dish.subcategoria_primero = dish.subcategoria_primero || "";
-            dish.subtipo_primero = dish.subtipo_primero || "";
-            dish.proteina_segundo = dish.proteina_segundo || "";
-            dish.animal_carne = dish.animal_carne || "";
-            dish.especie_pescado = dish.especie_pescado || "";
-            dish.tecnica_cocina = dish.tecnica_cocina || "";
-
-            // Migración transparente del modelo anterior.
-            const oldSub = dish.subcategoria_primero;
-            if (dish.categoria === "Primero" && !dish.subtipo_primero && FIRST_SUBCATEGORIES[oldSub?.toLowerCase?.()]) {
-                dish.subtipo_primero = "";
-            }
-            if (dish.categoria === "Primero" && !dish.subcategoria_primero && dish.subtipo_primero) {
-                dish.subcategoria_primero = firstParentFromTechnical(dish.subtipo_primero);
-            }
-            if (dish.categoria === "Segundo" && dish.proteina_segundo === "Carne") {
-                if (!dish.animal_carne) {
-                    const oldAnimal = String(dish.especie_animal || "").toLowerCase();
-                    const animalMap = {pollo:"carne_pollo", pavo:"carne_pavo", cerdo:"carne_cerdo", ternera:"carne_ternera", conejo:"carne_conejo", cordero:"carne_cordero"};
-                    dish.animal_carne = animalMap[oldAnimal] || "";
-                }
-                if (!dish.tecnica_cocina && dish.tecnica) {
-                    dish.tecnica_cocina = normalizeTechnique(dish.tecnica);
-                }
-            }
-            if (dish.categoria === "Segundo" && dish.proteina_segundo === "Pescado") {
-                if (!dish.especie_pescado && dish.especie_animal && dish.especie_animal !== "Pescado") {
-                    dish.especie_pescado = normalizeFishSpecies(dish.especie_animal);
-                }
-            }
-            if (!dish.tecnica && dish.tecnica_cocina) dish.tecnica = dish.tecnica_cocina;
-            if (!dish.especie_animal && dish.animal_carne) dish.especie_animal = dish.animal_carne;
-            return dish;
-        }
-
-        function firstParentFromTechnical(subtype) {
-            if (FIRST_SUBCATEGORIES.cuchara.includes(subtype)) return "Cuchara";
-            if (FIRST_SUBCATEGORIES.verdura.includes(subtype)) return "Verdura";
-            if (FIRST_SUBCATEGORIES.tenedor.includes(subtype)) return "Tenedor";
-            return "";
-        }
-
-        function normalizeTechnique(value) {
-            const raw = String(value || "").trim();
-            const v = raw.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            if (raw === "tecnica_guiso" || v.includes("guis") || v.includes("salsa") || v.includes("estof")) return "tecnica_guiso";
-            if (raw === "tecnica_frito_rebozado" || v.includes("frit") || v.includes("reboz") || v.includes("empan") || v.includes("milanes") || v.includes("san jacobo") || v.includes("croquet")) return "tecnica_frito_rebozado";
-            if (raw === "tecnica_seco_asado" || v.includes("seco") || v.includes("asado") || v.includes("brasa") || v.includes("parrilla") || v.includes("plancha")) return "tecnica_seco_asado";
-            if (raw === "tecnica_seco") return "tecnica_seco";
-            return raw;
-        }
-
-        function normalizeFishSpecies(value) {
-            const v = String(value || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            const match = FISH_SPECIES.find(x => v.includes(x));
-            return match || "";
-        }
-
-        function hasCompleteTechnicalTags(d) {
-            if (!d || !d.categoria) return false;
-            if (d.categoria === "Primero") return !!d.subtipo_primero;
-            if (d.proteina_segundo === "Carne") return MEAT_ANIMALS.includes(d.animal_carne) && ["tecnica_guiso", "tecnica_seco_asado", "tecnica_frito_rebozado"].includes(d.tecnica_cocina);
-            if (d.proteina_segundo === "Pescado") return !!d.especie_pescado;
-            return false;
-        }
-
-
+        // ESTADO GLOBAL
         let dishes = [];
-        let settings = { ...defaultSettings };
-        let rawStock = [];
-        let preparedStock = [];
         let currentMenu = null;
-        let previousWeekMenu = null;
-        let historyMenus = [];
+        let previousWeekMenu = JSON.parse(localStorage.getItem('gastro_previousWeek')) || null;
+        let isDarkMode = JSON.parse(localStorage.getItem('gastro_dark')) || false;
 
-        let activeFilterLevel1 = 'all';
-        let activeFilterLevel2 = 'all';
-        let selectedGeneratorDay = 'Lunes';
-        let swapTarget = null;
+        function init() {
+            // Cargar recetas desde el archivo desacoplado recipes.js
+            dishes = (typeof DEFAULT_RECIPES !== 'undefined') ? DEFAULT_RECIPES : [];
+            
+            const storedMenu = localStorage.getItem('gastro_currentMenu');
+            if (storedMenu) currentMenu = JSON.parse(storedMenu);
 
-        // --- 2. INICIALIZACIÓN ---
-        function migrateStorageNamespace() {
-            const keys = ["dishes", "settings", "rawStock", "preparedStock", "currentMenu", "previousWeekMenu", "historyMenus"];
-            keys.forEach(key => {
-                const gastroKey = `GastroOS_${key}`;
-                const legacyKey = `chefTrack_${key}`;
-                if (localStorage.getItem(gastroKey) === null && localStorage.getItem(legacyKey) !== null) {
-                    localStorage.setItem(gastroKey, localStorage.getItem(legacyKey));
-                }
+            applyDarkMode();
+            renderDishes();
+            renderGeneratorView();
+
+            // Setup Navigation
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const target = e.currentTarget.getAttribute('data-target');
+                    document.querySelectorAll('main').forEach(m => {
+                        m.classList.remove('block');
+                        m.classList.add('hidden');
+                    });
+                    document.getElementById(target).classList.remove('hidden');
+                    document.getElementById(target).classList.add('block');
+
+                    document.querySelectorAll('.nav-btn').forEach(b => {
+                        b.classList.remove('text-indigo-600', 'dark:text-indigo-400', 'active');
+                        b.classList.add('text-gray-400');
+                    });
+                    e.currentTarget.classList.remove('text-gray-400');
+                    e.currentTarget.classList.add('text-indigo-600', 'dark:text-indigo-400', 'active');
+                });
             });
         }
 
-        function init() {
-            registerServiceWorker();
-            migrateStorageNamespace();
-
-            const storedDishes = localStorage.getItem('chefTrack_dishes');
-            dishes = storedDishes ? JSON.parse(storedDishes) : [];
-            dishes = dishes.map(normalizeDishData);
-
-            const storedSettings = localStorage.getItem('chefTrack_settings');
-            settings = storedSettings ? JSON.parse(storedSettings) : { ...defaultSettings };
-            if (settings.darkMode === undefined) settings.darkMode = false;
-
-            applyDarkMode();
-
-            const storedRaw = localStorage.getItem('chefTrack_rawStock');
-            rawStock = storedRaw ? JSON.parse(storedRaw) : [];
-            const storedPrep = localStorage.getItem('chefTrack_preparedStock');
-            preparedStock = storedPrep ? JSON.parse(storedPrep) : [];
-            const storedMenu = localStorage.getItem('chefTrack_currentMenu');
-            currentMenu = storedMenu ? JSON.parse(storedMenu) : null;
-            const storedPreviousWeek = localStorage.getItem('chefTrack_previousWeekMenu');
-            previousWeekMenu = storedPreviousWeek ? JSON.parse(storedPreviousWeek) : null;
-            const storedHistory = localStorage.getItem('chefTrack_historyMenus');
-            historyMenus = storedHistory ? JSON.parse(storedHistory) : [];
-
-            saveAll();
-            setupEventListeners();
-            updateFormVisibility(); 
-            renderDishes();
-            renderStockView();
-            renderGeneratorView();
-            renderHistorySection();
-            renderMigrationUI();
-        }
-
-        function registerServiceWorker() {
-            if ('serviceWorker' in navigator) {
-                const swCode = `
-                    const CACHE = 'cheftrack-v12';
-                    self.addEventListener('install', e => { self.skipWaiting(); });
-                    self.addEventListener('activate', e => { self.clients.claim(); });
-                    self.addEventListener('fetch', e => {
-                        e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
-                    });
-                `;
-                const blob = new Blob([swCode], { type: 'application/javascript' });
-                navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
-            }
-        }
-
-        function saveAll() {
-            localStorage.setItem('chefTrack_dishes', JSON.stringify(dishes));
-            localStorage.setItem('chefTrack_settings', JSON.stringify(settings));
-            localStorage.setItem('chefTrack_rawStock', JSON.stringify(rawStock));
-            localStorage.setItem('chefTrack_preparedStock', JSON.stringify(preparedStock));
-            localStorage.setItem('chefTrack_historyMenus', JSON.stringify(historyMenus));
-            if (currentMenu) localStorage.setItem('chefTrack_currentMenu', JSON.stringify(currentMenu));
-            else localStorage.removeItem('chefTrack_currentMenu');
-            if (previousWeekMenu) localStorage.setItem('chefTrack_previousWeekMenu', JSON.stringify(previousWeekMenu));
-            else localStorage.removeItem('chefTrack_previousWeekMenu');
-        }
-
         function toggleDarkMode() {
-            settings.darkMode = !settings.darkMode;
-            saveAll();
+            isDarkMode = !isDarkMode;
+            localStorage.setItem('gastro_dark', isDarkMode);
             applyDarkMode();
         }
 
         function applyDarkMode() {
             const btn = document.getElementById('themeToggleBtn');
-            if (settings.darkMode) {
+            if (isDarkMode) {
                 document.documentElement.classList.add('dark');
-                if (btn) btn.innerText = '☀️';
+                btn.innerText = '☀️';
             } else {
                 document.documentElement.classList.remove('dark');
-                if (btn) btn.innerText = '🌙';
+                btn.innerText = '🌙';
             }
         }
 
-        // --- 3. EVENTOS Y VISTAS ---
-        function setupEventListeners() {
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const targetId = e.currentTarget.getAttribute('data-target');
-                    switchView(targetId);
-                    document.querySelectorAll('.nav-btn').forEach(b => {
-                        b.classList.remove('text-indigo-600', 'dark:text-indigo-400', 'active');
-                        b.classList.add('text-gray-400', 'dark:text-gray-500');
-                    });
-                    e.currentTarget.classList.remove('text-gray-400', 'dark:text-gray-500');
-                    e.currentTarget.classList.add('text-indigo-600', 'dark:text-indigo-400', 'active');
-                    if (targetId === 'view-form' && !document.getElementById('dishId').value) resetForm();
-                });
-            });
-
-            document.querySelectorAll('.filter-lvl1').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.filter-lvl1').forEach(b => {
-                        b.classList.remove('bg-indigo-600', 'text-white', 'border-transparent', 'active');
-                        b.classList.add('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-700');
-                    });
-                    e.currentTarget.classList.remove('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-700');
-                    e.currentTarget.classList.add('bg-indigo-600', 'text-white', 'border-transparent', 'active');
-                    activeFilterLevel1 = e.currentTarget.getAttribute('data-filter');
-                    activeFilterLevel2 = 'all';
-                    
-                    document.getElementById('filters-primeros').classList.add('hidden');
-                    document.getElementById('filters-segundos').classList.add('hidden');
-                    if (activeFilterLevel1 === 'Primero') {
-                        document.getElementById('filters-primeros').classList.remove('hidden');
-                        resetLevel2UI('#filters-primeros');
-                    } else if (activeFilterLevel1 === 'Segundo') {
-                        document.getElementById('filters-segundos').classList.remove('hidden');
-                        resetLevel2UI('#filters-segundos');
-                    }
-                    renderDishes();
-                });
-            });
-
-            document.querySelectorAll('.filter-lvl2').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const parentContainer = e.currentTarget.parentElement;
-                    parentContainer.querySelectorAll('.filter-lvl2').forEach(b => {
-                        b.classList.remove('bg-indigo-100', 'dark:bg-indigo-950', 'text-indigo-700', 'dark:text-indigo-300', 'border-indigo-200', 'dark:border-indigo-800', 'font-bold', 'active');
-                        b.classList.add('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-700', 'font-semibold');
-                    });
-                    e.currentTarget.classList.remove('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-700', 'font-semibold');
-                    e.currentTarget.classList.add('bg-indigo-100', 'dark:bg-indigo-950', 'text-indigo-700', 'dark:text-indigo-300', 'border-indigo-200', 'dark:border-indigo-800', 'font-bold', 'active');
-                    activeFilterLevel2 = e.currentTarget.getAttribute('data-filter');
-                    renderDishes();
-                });
-            });
-
-            document.getElementById('searchInput').addEventListener('input', renderDishes);
-            document.getElementById('dishCategory').addEventListener('change', updateFormVisibility);
-            document.getElementById('dishProtein').addEventListener('change', updateFormVisibility);
-            document.getElementById('dishFishSpecies').addEventListener('change', updateFormVisibility);
-            document.getElementById('addIngredientBtn').addEventListener('click', () => addIngredientRow());
-            document.getElementById('dishForm').addEventListener('submit', handleFormSubmit);
-            document.getElementById('btnCancel').addEventListener('click', () => {
-                resetForm();
-                document.querySelector('.nav-btn[data-target="view-banco"]').click();
-            });
-
-            document.getElementById('inputComensales').addEventListener('input', updateCalculatedRaciones);
-            document.getElementById('checkMargen').addEventListener('change', updateCalculatedRaciones);
-            document.getElementById('rawStockForm').addEventListener('submit', handleAddRawStock);
-            document.getElementById('prepStockForm').addEventListener('submit', handleAddPrepStock);
-
-            document.getElementById('btnSubTabMenu').addEventListener('click', () => switchGeneratorSubTab('menu'));
-            document.getElementById('btnSubTabShopping').addEventListener('click', () => switchGeneratorSubTab('shopping'));
-            document.getElementById('btnGenerateMenu').addEventListener('click', generateWeeklyMenu);
-            document.getElementById('btnSaveToHistory').addEventListener('click', saveMenuToHistory);
-            document.getElementById('btnDownloadMenuTxt').addEventListener('click', downloadWeeklyMenuTxt);
-            document.getElementById('btnDownloadShoppingTxt').addEventListener('click', downloadShoppingListTxt);
-
-            document.querySelectorAll('.generator-day-tab').forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    document.querySelectorAll('.generator-day-tab').forEach(t => {
-                        t.classList.remove('bg-indigo-600', 'text-white', 'active');
-                        t.classList.add('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border', 'border-gray-300', 'dark:border-gray-700');
-                    });
-                    e.currentTarget.classList.remove('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border', 'border-gray-300', 'dark:border-gray-700');
-                    e.currentTarget.classList.add('bg-indigo-600', 'text-white', 'active');
-                    selectedGeneratorDay = e.currentTarget.getAttribute('data-day');
-                    renderGeneratorView();
-                });
-            });
-
-            document.getElementById('modalSearchInput').addEventListener('input', renderModalDishList);
-            document.getElementById('btnExport').addEventListener('click', exportData);
-            document.getElementById('fileImport').addEventListener('change', importData);
-            document.getElementById('btnWipeData').addEventListener('click', wipeData);
-        }
-
-        function updateFormVisibility() {
-            const cat = document.getElementById('dishCategory').value;
-            const prot = document.getElementById('dishProtein').value;
-            const fish = document.getElementById('dishFishSpecies')?.value || "";
-            const isPrimero = cat === 'Primero';
-            const isSegundo = cat === 'Segundo';
-            const isCarne = isSegundo && prot === 'Carne';
-            const isPescado = isSegundo && prot === 'Pescado';
-
-            document.getElementById('subcatPrimeroContainer').classList.toggle('hidden', !isPrimero);
-            document.getElementById('protSegundoContainer').classList.toggle('hidden', !isSegundo);
-            document.getElementById('speciesContainer').classList.toggle('hidden', !isCarne);
-            document.getElementById('fishSpeciesContainer').classList.toggle('hidden', !isPescado);
-            document.getElementById('techniqueContainer').classList.toggle('hidden', !(isSegundo && (isCarne || isPescado)));
-            if (document.getElementById('fishSpeciesCustom')) {
-                document.getElementById('fishSpeciesCustom').classList.toggle('hidden', !(isPescado && fish === "otro"));
-                document.getElementById('fishSpeciesCustom').required = isPescado && fish === "otro";
-            }
-        }
-
-        function switchView(viewId) {
-            ['view-banco', 'view-form', 'view-stock', 'view-generator', 'view-settings'].forEach(id => {
-                const el = document.getElementById(id);
-                if (id === viewId) { el.classList.remove('hidden'); el.classList.add('block'); }
-                else { el.classList.remove('block'); el.classList.add('hidden'); }
-            });
-        }
-
-        function switchGeneratorSubTab(tab) {
-            const btnMenu = document.getElementById('btnSubTabMenu');
-            const btnShop = document.getElementById('btnSubTabShopping');
-            const contentMenu = document.getElementById('subtab-menu-content');
-            const contentShop = document.getElementById('subtab-shopping-content');
-
-            if (tab === 'menu') {
-                btnMenu.className = "flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all bg-white dark:bg-gray-900 text-indigo-700 dark:text-indigo-300 shadow-sm";
-                btnShop.className = "flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all text-gray-600 dark:text-gray-400";
-                contentMenu.classList.remove('hidden'); contentShop.classList.add('hidden');
-            } else {
-                btnShop.className = "flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all bg-white dark:bg-gray-900 text-indigo-700 dark:text-indigo-300 shadow-sm";
-                btnMenu.className = "flex-1 py-2 rounded-lg text-xs font-bold text-center transition-all text-gray-600 dark:text-gray-400";
-                contentShop.classList.remove('hidden'); contentMenu.classList.add('hidden');
-                renderShoppingListUI();
-            }
-        }
-
-        function resetLevel2UI(containerSelector) {
-            const container = document.querySelector(containerSelector);
-            container.querySelectorAll('.filter-lvl2').forEach(b => {
-                b.classList.remove('bg-indigo-100', 'dark:bg-indigo-950', 'text-indigo-700', 'dark:text-indigo-300', 'border-indigo-200', 'dark:border-indigo-800', 'font-bold', 'active');
-                b.classList.add('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-700', 'font-semibold');
-            });
-            const allBtn = container.querySelector('[data-filter="all"]');
-            if (allBtn) {
-                allBtn.classList.remove('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-700', 'font-semibold');
-                allBtn.classList.add('bg-indigo-100', 'dark:bg-indigo-950', 'text-indigo-700', 'dark:text-indigo-300', 'border-indigo-200', 'dark:border-indigo-800', 'font-bold', 'active');
-            }
-        }
-
-        // --- 4. BANCO DE PLATOS Y FORMULARIO ---
+        // RENDER CATÁLOGO LECTURA (Sin botones de edición)
         function renderDishes() {
-            const list = document.getElementById('dishesList');
-            const searchVal = document.getElementById('searchInput').value.toLowerCase();
-            list.innerHTML = '';
-
-            const filtered = dishes.filter(d => {
-                const nd = normalizeDishData(d);
-                if (searchVal && !String(nd.nombre || '').toLowerCase().includes(searchVal)) return false;
-                if (activeFilterLevel1 !== 'all' && nd.categoria !== activeFilterLevel1) return false;
-                if (activeFilterLevel2 !== 'all') {
-                    if (activeFilterLevel1 === 'Primero' && nd.subcategoria_primero !== activeFilterLevel2) return false;
-                    if (activeFilterLevel1 === 'Segundo' && nd.proteina_segundo !== activeFilterLevel2) return false;
-                }
-                return true;
-            });
-
-            if (!filtered.length) {
-                list.innerHTML = '<p class="text-center text-gray-500 dark:text-gray-400 mt-10 text-sm">No se encontraron platos.</p>';
-                return;
-            }
-
-            filtered.forEach(raw => {
-                const d = normalizeDishData(raw);
-                const tagType = d.categoria === 'Primero'
-                    ? (FIRST_LABELS[d.subtipo_primero] || d.subcategoria_primero || "Sin subcategoría")
-                    : d.proteina_segundo;
-                const technical = d.categoria === "Primero"
-                    ? d.subtipo_primero
-                    : (d.proteina_segundo === "Carne" ? `${MEAT_LABELS[d.animal_carne] || "Sin animal"} · ${d.tecnica_cocina || "Sin técnica"}` : `Pescado · ${FISH_LABELS[d.especie_pescado] || d.especie_pescado || "Sin especie"}`);
-                const demObj = demandMap[d.demanda || "Media"];
-                const missing = !hasCompleteTechnicalTags(d);
-                const missingBadge = missing ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 border border-orange-200 dark:border-orange-800">⚠️ Etiquetado pendiente</span>' : '';
-                const precookedBadge = d.precocinado ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-800">Precocinado</span>' : '';
-
-                const card = document.createElement('div');
-                card.className = "bg-white/80 p-4 rounded-2xl relative transition-all";
-                card.innerHTML = `
-                    <div class="pr-12">
-                        <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm leading-tight mb-1.5">${escapeHtml(d.nombre)}</h3>
-                        <div class="flex flex-wrap gap-1.5 mt-2 items-center">
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">${d.categoria}</span>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-300">${escapeHtml(tagType)}</span>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">${escapeHtml(technical)}</span>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${demObj.class}">${demObj.text}</span>
-                            ${missingBadge}${precookedBadge}
-                        </div>
+            const container = document.getElementById('dishesList');
+            container.innerHTML = dishes.map(d => `
+                <div class="glass-card p-3 flex justify-between items-center">
+                    <div>
+                        <div class="text-[10px] font-bold text-indigo-600 uppercase mb-0.5">${d.categoria} | ${d.demanda || 'Media'}</div>
+                        <div class="text-sm font-bold text-gray-800 dark:text-gray-100">${d.nombre}</div>
+                        <div class="text-xs text-gray-500">${d.subcategoria || d.proteina + ' - ' + d.tecnicaCocina}</div>
                     </div>
-                    <div class="absolute top-3 right-3 flex flex-col gap-2">
-                        <button onclick="editDish('${d.id}')" class="text-blue-500 bg-blue-50 dark:bg-blue-950 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
-                        <button onclick="deleteDish('${d.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
-                    </div>`;
-                list.appendChild(card);
-            });
+                </div>
+            `).join('');
         }
 
-        function escapeHtml(value) {
-            return String(value ?? "").replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
-        }
-
-
-        function addIngredientRow(nombre = '', cantidad = '', unidad = 'kg', categoria = 'Secos') {
-            const container = document.getElementById('ingredientsContainer');
-            const row = document.createElement('div');
-            row.className = 'ingredient-row flex gap-2 items-center';
-            row.innerHTML = `
-                <input type="text" placeholder="Ingrediente..." value="${nombre}" required class="flex-[3] min-w-0 w-full p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                <input type="text" inputmode="decimal" placeholder="Cant." value="${cantidad !== '' && cantidad !== undefined ? cantidad : ''}" required class="w-16 min-w-[4rem] flex-[0_0_4rem] p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                <select class="w-14 min-w-[3.5rem] flex-[0_0_3.5rem] p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                    <option value="kg" ${unidad==='kg'?'selected':''}>kg</option>
-                    <option value="g" ${unidad==='g'?'selected':''}>g</option>
-                    <option value="L" ${unidad==='L'?'selected':''}>L</option>
-                    <option value="ml" ${unidad==='ml'?'selected':''}>ml</option>
-                </select>
-                <select class="flex-2 p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                    ${proveedorCategorias.map(c => `<option value="${c}" ${categoria===c?'selected':''}>${c}</option>`).join('')}
-                </select>
-                <button type="button" class="text-red-500 font-bold px-1" onclick="this.parentElement.remove()">×</button>
-            `;
-            container.appendChild(row);
-        }
-
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            const id = document.getElementById('dishId').value || Date.now().toString();
-            const cat = document.getElementById('dishCategory').value;
-            const prot = document.getElementById('dishProtein').value;
-            const isPrimero = cat === "Primero";
-            const isCarne = cat === "Segundo" && prot === "Carne";
-            const isPescado = cat === "Segundo" && prot === "Pescado";
-
-            let fishSpecies = "";
-            if (isPescado) {
-                const selected = document.getElementById('dishFishSpecies').value;
-                fishSpecies = selected === "otro"
-                    ? document.getElementById('dishFishSpeciesCustom').value.trim().toLowerCase()
-                    : selected;
-                if (!fishSpecies) {
-                    alert("El pescado debe tener registrada la especie/tipo exacto.");
-                    return;
-                }
-            }
-
-            const subtype = isPrimero ? document.getElementById('dishSubcategory').value : "";
-            if (isPrimero && !subtype) {
-                alert("Selecciona la subcategoría técnica del primero.");
-                return;
-            }
-            if (isCarne && !document.getElementById('dishSpecies').value) {
-                alert("Selecciona el tipo de animal de la carne.");
-                return;
-            }
-            if ((isCarne || isPescado) && !document.getElementById('dishTechnique').value) {
-                alert("Selecciona la técnica de cocina.");
-                return;
-            }
-
-            const newDish = {
-                id,
-                nombre: document.getElementById('dishName').value.trim(),
-                categoria: cat,
-                subcategoria_primero: isPrimero ? firstParentFromTechnical(subtype) : "",
-                subtipo_primero: subtype,
-                proteina_segundo: cat === "Segundo" ? prot : "",
-                animal_carne: isCarne ? document.getElementById('dishSpecies').value : "",
-                especie_pescado: isPescado ? fishSpecies : "",
-                // Se conservan aliases para compatibilidad con menús/histórico anteriores.
-                especie_animal: isCarne ? document.getElementById('dishSpecies').value : (isPescado ? "Pescado" : ""),
-                tecnica_cocina: (isCarne || isPescado) ? document.getElementById('dishTechnique').value : "",
-                tecnica: (isCarne || isPescado) ? document.getElementById('dishTechnique').value : "",
-                precocinado: document.getElementById('dishPrecooked').checked,
-                demanda: document.getElementById('dishDemand').value,
-                ingredientes: []
-            };
-
-            document.querySelectorAll('.ingredient-row').forEach(row => {
-                const inputs = row.querySelectorAll('input, select');
-                if (inputs[0].value.trim()) {
-                    newDish.ingredientes.push({
-                        nombre: inputs[0].value.trim(),
-                        cantidad: parseFloat(inputs[1].value.toString().replace(',', '.')) || 0,
-                        unidad: inputs[2].value,
-                        categoria_proveedor: inputs[3].value
-                    });
-                }
-            });
-
-            const idx = dishes.findIndex(d => d.id === id);
-            if (idx >= 0) dishes[idx] = normalizeDishData(newDish);
-            else dishes.unshift(normalizeDishData(newDish));
-
-            saveAll();
-            resetForm();
-            document.querySelector('.nav-btn[data-target="view-banco"]').click();
-            renderDishes();
-            renderMigrationUI();
-        }
-
-        function editDish(id) {
-            const d = normalizeDishData(dishes.find(x => x.id === id));
-            if (!d) return;
-
-            document.getElementById('form-title').innerText = "Editar Plato";
-            document.getElementById('btnCancel').classList.remove('hidden');
-            document.getElementById('dishId').value = d.id;
-            document.getElementById('dishName').value = d.nombre || "";
-            document.getElementById('dishCategory').value = d.categoria || "";
-
-            if (d.categoria === 'Primero') {
-                document.getElementById('dishSubcategory').value = d.subtipo_primero || "";
-            } else if (d.categoria === 'Segundo') {
-                document.getElementById('dishProtein').value = d.proteina_segundo || "Carne";
-                document.getElementById('dishSpecies').value = d.animal_carne || "";
-                const fish = d.especie_pescado || "";
-                const known = FISH_SPECIES.includes(fish);
-                document.getElementById('dishFishSpecies').value = known ? fish : (fish ? "otro" : "");
-                document.getElementById('dishFishSpeciesCustom').value = known ? "" : fish;
-                document.getElementById('dishTechnique').value = d.tecnica_cocina || "";
-            }
-
-            document.getElementById('dishPrecooked').checked = !!d.precocinado;
-            document.getElementById('dishDemand').value = d.demanda || "Media";
-            updateFormVisibility();
-
-            const container = document.getElementById('ingredientsContainer');
-            container.innerHTML = '';
-            (d.ingredientes || []).forEach(ing => addIngredientRow(ing.nombre, ing.cantidad, ing.unidad, ing.categoria_proveedor));
-            document.querySelector('.nav-btn[data-target="view-form"]').click();
-        }
-
-        function deleteDish(id) {
-            if (confirm("¿Seguro que quieres borrar este plato?")) {
-                dishes = dishes.filter(d => d.id !== id);
-                saveAll();
-                renderDishes();
-            }
-        }
-
-        function resetForm() {
-            document.getElementById('dishForm').reset();
-            document.getElementById('dishId').value = '';
-            document.getElementById('form-title').innerText = "AÑADIR PLATO";
-            document.getElementById('btnCancel').classList.add('hidden');
-            document.getElementById('ingredientsContainer').innerHTML = '';
-            document.getElementById('dishPrecooked').checked = false;
-            document.getElementById('dishFishSpeciesCustom').value = '';
-            updateFormVisibility();
-        }
-
-
-        function getMigrationCandidates() {
-            return dishes.map(normalizeDishData).filter(d => !hasCompleteTechnicalTags(d));
-        }
-
-        function renderMigrationUI() {
-            const container = document.getElementById("migrationList");
-            const badge = document.getElementById("migrationPendingBadge");
-            if (!container) return;
-            const pending = getMigrationCandidates();
-            if (badge) badge.innerText = `${pending.length} pendientes`;
-            if (!pending.length) {
-                container.innerHTML = '<div class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold p-2 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg">✅ Todo el recetario está correctamente etiquetado.</div>';
-                return;
-            }
-
-            container.innerHTML = pending.map(d => {
-                const first = d.categoria === "Primero";
-                const meat = d.categoria === "Segundo" && d.proteina_segundo === "Carne";
-                const fish = d.categoria === "Segundo" && d.proteina_segundo === "Pescado";
-                return `
-                    <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800/50" data-migration-id="${escapeHtml(d.id)}">
-                        <div class="mb-2">
-                            <div class="font-bold text-xs text-gray-800 dark:text-gray-100">${escapeHtml(d.nombre)}</div>
-                            <div class="text-[10px] text-gray-500 dark:text-gray-400">${escapeHtml(d.categoria)}${d.proteina_segundo ? ` · ${escapeHtml(d.proteina_segundo)}` : ''}</div>
-                        </div>
-                        ${first ? `
-                            <select id="mig-sub-${escapeHtml(d.id)}" class="w-full p-2 mb-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">
-                                <option value="">Subcategoría técnica...</option>
-                                ${Object.entries(FIRST_LABELS).map(([value,label]) => `<option value="${value}" ${d.subtipo_primero===value?'selected':''}>${label}</option>`).join("")}
-                            </select>` : ''}
-                        ${meat ? `
-                            <div class="grid grid-cols-2 gap-2 mb-2">
-                                <select id="mig-animal-${escapeHtml(d.id)}" class="p-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">
-                                    <option value="">Animal...</option>
-                                    ${MEAT_ANIMALS.map(a => `<option value="${a}" ${d.animal_carne===a?'selected':''}>${MEAT_LABELS[a]}</option>`).join("")}
-                                </select>
-                                <select id="mig-tech-${escapeHtml(d.id)}" class="p-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">
-                                    <option value="">Técnica...</option>
-                                    <option value="tecnica_guiso" ${d.tecnica_cocina==="tecnica_guiso"?'selected':''}>Guiso / En salsa</option>
-                                    <option value="tecnica_seco_asado" ${(d.tecnica_cocina==="tecnica_seco_asado" || d.tecnica_cocina==="tecnica_seco")?'selected':''}>Plancha / Asado / Brasa</option>
-                                    <option value="tecnica_frito_rebozado" ${d.tecnica_cocina==="tecnica_frito_rebozado"?'selected':''}>Frito / Rebozado / Empanado</option>
-                                </select>
-                            </div>` : ''}
-                        ${fish ? `
-                            <select id="mig-fish-${escapeHtml(d.id)}" class="w-full p-2 mb-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">
-                                <option value="">Especie exacta...</option>
-                                ${FISH_SPECIES.map(a => `<option value="${a}" ${d.especie_pescado===a?'selected':''}>${FISH_LABELS[a]}</option>`).join("")}
-                                <option value="otro" ${d.especie_pescado && !FISH_SPECIES.includes(d.especie_pescado) ? 'selected':''}>Otra</option>
-                            </select>
-                            <input id="mig-fish-custom-${escapeHtml(d.id)}" value="${escapeHtml(d.especie_pescado && !FISH_SPECIES.includes(d.especie_pescado) ? d.especie_pescado : '')}" placeholder="Si es otra, escribe la especie exacta" class="w-full p-2 mb-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">` : ''}
-                        <button onclick="saveMigrationTag('${escapeHtml(d.id)}')" class="w-full bg-indigo-600 text-white py-2 rounded-lg text-xs font-bold">Guardar etiqueta</button>
-                    </div>`;
-            }).join("");
-        }
-
-        function saveMigrationTag(id) {
-            const d = dishes.find(x => x.id === id);
-            if (!d) return;
-            const nd = normalizeDishData(d);
-
-            if (nd.categoria === "Primero") {
-                const subtype = document.getElementById(`mig-sub-${id}`)?.value || "";
-                if (!subtype) return alert("Selecciona una subcategoría.");
-                nd.subtipo_primero = subtype;
-                nd.subcategoria_primero = firstParentFromTechnical(subtype);
-            } else if (nd.proteina_segundo === "Carne") {
-                const animal = document.getElementById(`mig-animal-${id}`)?.value || "";
-                const technique = document.getElementById(`mig-tech-${id}`)?.value || "";
-                if (!animal || !technique) return alert("Selecciona animal y técnica.");
-                nd.animal_carne = animal;
-                nd.especie_animal = animal;
-                nd.tecnica_cocina = technique;
-                nd.tecnica = technique;
-            } else if (nd.proteina_segundo === "Pescado") {
-                const selected = document.getElementById(`mig-fish-${id}`)?.value || "";
-                const custom = document.getElementById(`mig-fish-custom-${id}`)?.value.trim().toLowerCase() || "";
-                const species = selected === "otro" ? custom : selected;
-                if (!species) return alert("Registra la especie exacta.");
-                nd.especie_pescado = species;
-                nd.especie_animal = "Pescado";
-            }
-
-            const index = dishes.findIndex(x => x.id === id);
-            dishes[index] = normalizeDishData(nd);
-            saveAll();
-            renderDishes();
-            renderMigrationUI();
-        }
-        // --- 5. STOCK Y PREVISIÓN ---
-        function renderStockView() {
-            document.getElementById('inputComensales').value = settings.comensales;
-            document.getElementById('checkMargen').checked = settings.margenActivo;
-            updateCalculatedRaciones(false);
-            renderRawStock();
-            renderPreparedStock();
-        }
-
-        function getTotalRaciones() {
-            const base = Math.max(0, Number(settings.comensales) || 0);
-            return settings.margenActivo ? Math.ceil(base * 1.3) : base;
-        }
-
-        function updateCalculatedRaciones(shouldSave = true) {
-            const base = parseInt(document.getElementById('inputComensales').value) || 0;
-            const margen = document.getElementById('checkMargen').checked;
-            settings.comensales = base;
-            settings.margenActivo = margen;
-            if (shouldSave) saveAll();
-
-            const total = getTotalRaciones();
-            const infoText = margen ? `${base} base + 30% margen de seguridad` : `Sin margen de seguridad aplicado`;
-            document.getElementById('totalRacionesDisplay').innerText = `${total} raciones`;
-            document.getElementById('totalRacionesSubtext').innerText = infoText;
-        }
-
-        function handleAddRawStock(e) {
-            e.preventDefault();
-            const cantStr = document.getElementById('rawQty').value.toString().replace(',', '.');
-            const item = {
-                id: Date.now().toString(),
-                nombre: document.getElementById('rawName').value,
-                cantidad: parseFloat(cantStr) || 0,
-                unidad: document.getElementById('rawUnit').value,
-                categoria_proveedor: document.getElementById('rawCategory').value,
-                conservacion: document.getElementById('rawConserv').value
-            };
-            rawStock.unshift(item);
-            saveAll();
-            renderRawStock();
-            document.getElementById('rawStockForm').reset();
-        }
-
-        function renderRawStock() {
-            const container = document.getElementById('rawStockList');
-            container.innerHTML = '';
-            if (rawStock.length === 0) {
-                container.innerHTML = '<p class="text-center text-gray-400 dark:text-gray-500 text-xs py-2">Sin materia prima en stock.</p>';
-                return;
-            }
-
-            rawStock.forEach(item => {
-                const isFresh = item.conservacion.includes("Fresco") || item.conservacion.includes("Refrigerado");
-                const badgeColor = isFresh ? "bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800" : "bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300 border-cyan-200 dark:border-cyan-800";
-
-                const card = document.createElement('div');
-                card.className = "bg-white/80 p-3.5 rounded-2xl flex justify-between items-center transition-all";
-                card.innerHTML = `
-                    <div class="pr-2">
-                        <div class="flex items-center gap-1.5 mb-1">
-                            <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs">${item.nombre}</h4>
-                            <span class="text-[9px] px-1.5 py-0.5 rounded font-bold border ${badgeColor}">${isFresh ? 'Fresco' : 'Congelado'}</span>
-                        </div>
-                        <div class="text-[11px] text-gray-500 dark:text-gray-400">
-                            <span class="font-bold text-indigo-700 dark:text-indigo-400">${item.cantidad} ${item.unidad}</span> • ${item.categoria_proveedor}
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <button onclick="changeRawQty('${item.id}', -1)" class="w-7 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">-</button>
-                        <button onclick="changeRawQty('${item.id}', 1)" class="w-7 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">+</button>
-                        <button onclick="deleteRaw('${item.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function changeRawQty(id, delta) {
-            const item = rawStock.find(r => r.id === id);
-            if (item) {
-                item.cantidad = Math.max(0, +(item.cantidad + delta).toFixed(2));
-                saveAll();
-                renderRawStock();
-            }
-        }
-
-        function deleteRaw(id) {
-            rawStock = rawStock.filter(r => r.id !== id);
-            saveAll();
-            renderRawStock();
-        }
-
-        function getPrepUnitDimension(unit) {
-            const normalizedUnit = String(unit || '').trim().toLowerCase();
-            return ['kg', 'g'].includes(normalizedUnit) ? 'weight' : (['l', 'ml'].includes(normalizedUnit) ? 'volume' : null);
-        }
-
-        function normalizePrepQuantity(quantity, unit) {
-            const value = Number(quantity) || 0;
-            const normalizedUnit = String(unit || '').trim().toLowerCase();
-            if (normalizedUnit === 'kg' || normalizedUnit === 'l') return value * 1000;
-            return value;
-        }
-
-        function getDishPerServingQuantity(dishName, preparedUnit) {
-            const dish = dishes.find(d => d.nombre.toLowerCase() === String(dishName || '').toLowerCase());
-            if (!dish || !Array.isArray(dish.ingredientes) || dish.ingredientes.length === 0) return null;
-
-            const dimension = getPrepUnitDimension(preparedUnit);
-            if (!dimension) return null;
-
-            let total = 0;
-            let found = false;
-            for (const ing of dish.ingredientes) {
-                if (getPrepUnitDimension(ing.unidad) !== dimension) continue;
-                found = true;
-                total += normalizePrepQuantity(ing.cantidad, ing.unidad);
-            }
-            return found && total > 0 ? total : null;
-        }
-
-        function getPreparedServings(item) {
-            if (item.cantidadTotal !== undefined && item.unidad) {
-                const perServing = getDishPerServingQuantity(item.nombre, item.unidad);
-                return perServing !== null
-                    ? Math.floor(normalizePrepQuantity(item.cantidadTotal, item.unidad) / perServing)
-                    : null;
-            }
-            return Number.isFinite(Number(item.raciones)) ? Number(item.raciones) : null;
-        }
-
-        function handleAddPrepStock(e) {
-            e.preventDefault();
-            const cantStr = document.getElementById('prepCantidad').value.toString().replace(',', '.');
-            const item = {
-                id: Date.now().toString(),
-                nombre: document.getElementById('prepName').value,
-                cantidadTotal: parseFloat(cantStr) || 0,
-                unidad: document.getElementById('prepUnidad').value,
-                asignacion: document.getElementById('prepAsignacion').value
-            };
-            preparedStock.unshift(item);
-            saveAll();
-            renderPreparedStock();
-            document.getElementById('prepStockForm').reset();
-        }
-
-        function renderPreparedStock() {
-            const container = document.getElementById('prepStockList');
-            container.innerHTML = '';
-            if (preparedStock.length === 0) {
-                container.innerHTML = '<p class="text-center text-gray-400 dark:text-gray-500 text-xs py-2">Sin platos elaborados registrados.</p>';
-                return;
-            }
-
-            preparedStock.forEach(item => {
-                const isAssigned = item.asignacion && item.asignacion !== "Sin asignar";
-                const badgeColor = isAssigned ? "bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800" : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700";
-                const calculatedServings = getPreparedServings(item);
-                const quantityLabel = item.cantidadTotal !== undefined ? `${item.cantidadTotal} ${item.unidad}` : `${item.raciones} rac.`;
-                const servingsLabel = calculatedServings !== null ? `≈ ${calculatedServings} raciones` : (item.cantidadTotal !== undefined ? 'Raciones: se calculan con la receta' : '');
-
-                const card = document.createElement('div');
-                card.className = "bg-white/80 p-3.5 rounded-2xl flex justify-between items-center transition-all";
-                card.innerHTML = `
-                    <div class="pr-2">
-                        <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs mb-1">${item.nombre}</h4>
-                        <div class="flex items-center gap-1.5 flex-wrap">
-                            <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded">${quantityLabel}</span>
-                            ${servingsLabel ? `<span class="text-[10px] text-gray-500 dark:text-gray-400">${servingsLabel}</span>` : ''}
-                            <span class="text-[9px] px-1.5 py-0.5 rounded font-semibold border ${badgeColor}">${item.asignacion || "Sin asignar"}</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <button onclick="changePrepQty('${item.id}', -1)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">-</button>
-                        <button onclick="changePrepQty('${item.id}', 1)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">+</button>
-                        <button onclick="deletePrep('${item.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function changePrepQty(id, delta) {
-            const item = preparedStock.find(p => p.id === id);
-            if (item) {
-                if (item.cantidadTotal !== undefined) {
-                    item.cantidadTotal = Math.max(0, +(Number(item.cantidadTotal) + delta).toFixed(2));
-                } else {
-                    item.raciones = Math.max(0, Number(item.raciones) + (delta * 10));
-                }
-                saveAll();
-                renderPreparedStock();
-            }
-        }
-
-        function deletePrep(id) {
-            preparedStock = preparedStock.filter(p => p.id !== id);
-            saveAll();
-            renderPreparedStock();
-        }
-
-        // --- 6. MOTOR DE GENERACIÓN Y EXPORTACIÓN LIMPIA ---
-        // --- 6. MOTOR DE MENÚ: REGLAS PROFESIONALES + FALLBACK DETERMINISTA ---
-
-        const ENGINE_VERSION = "menu-rules-v4-professional";
-        const FIRST_SLOT_LABELS = {
-            vegetable: "1º Verdura",
-            spoon: "1º Cuchara",
-            starch: "1º Tenedor / Hidratos"
-        };
-        const MEAT_TECHNIQUES = ["tecnica_guiso", "tecnica_seco_asado", "tecnica_frito_rebozado"];
-        const SOUP_SUBTYPES = ["cuchara_sopas_cremas"];
-        const LIQUID_FIRST_SUBTYPES = new Set(["verdura_crema", "cuchara_sopas_cremas"]);
-        const VEGETABLE_ALIASES = {
-            "judias verdes": "judias verdes", "judia verde": "judias verdes",
-            "habichuela": "judias verdes", "habichuelas": "judias verdes",
-            "calabacin": "calabacin", "calabacín": "calabacin",
-            "berenjena": "berenjena", "espinaca": "espinacas", "espinacas": "espinacas",
-            "acelga": "acelgas", "acelgas": "acelgas", "brocoli": "brocoli", "brócoli": "brocoli",
-            "coliflor": "coliflor", "zanahoria": "zanahoria", "puerro": "puerro",
-            "pimiento": "pimiento", "pimientos": "pimiento", "tomate": "tomate",
-            "calabaza": "calabaza", "cebolla": "cebolla", "patata": "patata",
-            "patatas": "patata", "alcachofa": "alcachofa", "alcachofas": "alcachofa",
-            "guisante": "guisantes", "guisantes": "guisantes", "judion": "judias",
-            "judiones": "judias", "col": "col", "repollo": "col", "repollo": "col"
-        };
-
-        function getDayDishList(menuDays, dayIndex, cat, protein) {
-            if (dayIndex < 0) return [];
-            const day = menuDays?.[daysList[dayIndex]] || [];
-            return day
-                .filter(s => s.cat === cat && (!protein || s.dish?.proteina_segundo === protein))
-                .map(s => s.dish)
-                .filter(Boolean);
-        }
-
-        function getPreviousDays(menuDays, dayIndex, count = 3) {
-            const result = [];
-            for (let i = Math.max(0, dayIndex - count); i < dayIndex; i++) {
-                result.push(menuDays?.[daysList[i]] || []);
-            }
-            return result;
-        }
-
-        function previousDayHasSubtype(menuDays, dayIndex, subtype) {
-            return getDayDishList(menuDays, dayIndex - 1, "Primero").some(d => d.subtipo_primero === subtype);
-        }
-
-        function previousDayFishSpecies(menuDays, dayIndex) {
-            return getDayDishList(menuDays, dayIndex - 1, "Segundo", "Pescado")[0]?.especie_pescado || "";
-        }
-
-        function animalAppearedOnDay(menuDays, dayIndex, animal) {
-            return getDayDishList(menuDays, dayIndex, "Segundo", "Carne").some(d => d.animal_carne === animal);
-        }
-
-        function animalHasThreeDayStreak(menuDays, dayIndex, animal) {
-            if (dayIndex < 2) return false;
-            return animalAppearedOnDay(menuDays, dayIndex - 1, animal) &&
-                   animalAppearedOnDay(menuDays, dayIndex - 2, animal);
-        }
-
-        function getConsecutiveSubtypeStreak(menuDays, dayIndex, subtype) {
-            let streak = 0;
-            for (let i = dayIndex - 1; i >= 0; i--) {
-                const dayDishes = getDayDishList(menuDays, i, "Primero");
-                if (dayDishes.some(d => d.subtipo_primero === subtype)) streak++;
-                else break;
-            }
-            return streak;
-        }
-
-        function conflictsWithSecondSpecies(dishAnimal, chosenAnimals) {
-            return !!dishAnimal && chosenAnimals.includes(dishAnimal);
-        }
-
-        function countWeeklyTechnique(menuDays, technique) {
-            return daysList.reduce((total, dayName) =>
-                total + (menuDays?.[dayName] || [])
-                    .filter(s => s.cat === "Segundo" && s.dish?.tecnica_cocina === technique).length, 0);
-        }
-
-        function getWeeklyTechniqueCount(menuDays, technique, chosenTechniques = []) {
-            return countWeeklyTechnique(menuDays, technique) +
-                chosenTechniques.filter(t => t === technique).length;
-        }
-
-        function normalizeFoodKey(value) {
-            return String(value || "")
-                .toLowerCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-                .replace(/[^a-z0-9]+/g, " ")
-                .trim();
-        }
-
-        function canonicalVegetable(value) {
-            const normalized = normalizeFoodKey(value);
-            if (!normalized) return "";
-            const direct = VEGETABLE_ALIASES[normalized];
-            if (direct) return normalizeFoodKey(direct);
-            const keys = Object.keys(VEGETABLE_ALIASES).sort((a, b) => b.length - a.length);
-            const match = keys.find(k => normalized.includes(normalizeFoodKey(k)));
-            return match ? normalizeFoodKey(VEGETABLE_ALIASES[match]) : normalized;
-        }
-
-        function getPrimaryVegetableKey(dish) {
-            if (!dish || dish.categoria !== "Primero" || dish.subcategoria_primero !== "Verdura") return "";
-            const ingredients = Array.isArray(dish.ingredientes) ? dish.ingredientes : [];
-            const vegetableIngredient = ingredients.find(ing =>
-                String(ing?.categoria_proveedor || "").toLowerCase().includes("verduras") ||
-                String(ing?.categoria_proveedor || "").toLowerCase().includes("frutas")
-            );
-            if (vegetableIngredient?.nombre) return canonicalVegetable(vegetableIngredient.nombre);
-            return canonicalVegetable(String(dish.nombre || "").split(/[,/()-]/)[0]);
-        }
-
-        function getWeeklyUsedVegetableKeys(menuDays, exceptDayName = "") {
-            const used = new Set();
-            daysList.forEach(dayName => {
-                if (dayName === exceptDayName) return;
-                const dish = (menuDays?.[dayName] || [])[0]?.dish;
-                const key = getPrimaryVegetableKey(dish);
-                if (key) used.add(key);
-            });
-            return used;
-        }
-
-        function hasLiquidFirstConflict(candidate, chosenFirsts) {
-            if (!candidate || candidate.categoria !== "Primero") return false;
-            const subtype = candidate.subtipo_primero;
-            if (!LIQUID_FIRST_SUBTYPES.has(subtype)) return false;
-            return chosenFirsts.some(d => LIQUID_FIRST_SUBTYPES.has(d?.subtipo_primero));
-        }
-
-        function isStructuralMatch(dish, spec) {
-            if (!dish || dish.categoria !== spec.cat) return false;
-            if (spec.cat === "Primero") {
-                return spec.allowedParents
-                    ? spec.allowedParents.includes(dish.subcategoria_primero)
-                    : dish.subtipo_primero === spec.subtipo;
-            }
-            if (spec.protein === "Carne") {
-                return dish.proteina_segundo === "Carne" &&
-                    MEAT_ANIMALS.includes(dish.animal_carne) &&
-                    MEAT_TECHNIQUES.includes(dish.tecnica_cocina);
-            }
-            if (spec.protein === "Pescado") {
-                return dish.proteina_segundo === "Pescado" && !!dish.especie_pescado;
-            }
-            return false;
-        }
-
-        function dayPatternSignature(slots) {
-            return (slots || []).map(slot => {
-                const d = slot?.dish || {};
-                return [
-                    slot?.cat || "",
-                    d.subtipo_primero || "",
-                    d.proteina_segundo || "",
-                    d.animal_carne || "",
-                    d.tecnica_cocina || "",
-                    d.especie_pescado || "",
-                    getPrimaryVegetableKey(d)
-                ].join("~");
-            }).join("|");
-        }
-
-        function getPreviousWeekPatternSignatures(previousMenu) {
-            const signatures = new Set();
-            daysList.forEach(dayName => {
-                const slots = previousMenu?.days?.[dayName] || [];
-                if (slots.length === 6) signatures.add(dayPatternSignature(slots));
-            });
-            return signatures;
-        }
-
-        function getPreviousWeekSlotDishIds(previousMenu, slotIndex) {
-            const ids = new Set();
-            daysList.forEach(dayName => {
-                const id = previousMenu?.days?.[dayName]?.[slotIndex]?.dish?.id;
-                if (id && id !== "none") ids.add(id);
-            });
-            return ids;
-        }
-
-        function violatesPreviousWeekTemplate(dish, spec, slotIndex, previousMenu, currentDaySlots) {
-            if (!previousMenu?.days) return false;
-
-            // Nunca copiar el mismo plato en la misma posición de la semana anterior.
-            const previousIds = getPreviousWeekSlotDishIds(previousMenu, slotIndex);
-            if (dish?.id && previousIds.has(dish.id)) return true;
-
-            // No se copia el mismo plato en la misma posición de la semana anterior.
-            // La variedad de verduras entre semanas no es un veto: la regla de unicidad
-            // de verdura es estrictamente intraseñana y así se evita bloquear bases de datos pequeñas.
-            return false;
-        }
-
-        function violatesDayFirstRule(dish, spec, menuDays, dayIndex, relaxationLevel, chosenFirsts = [], usedVegetableKeys = new Set(), previousMenu = null, slotIndex = 0) {
-            if (spec.cat !== "Primero") return false;
-
-            // Reglas intocables: nunca dos primeros líquidos/triturados en el mismo día.
-            if (hasLiquidFirstConflict(dish, chosenFirsts)) return true;
-
-            // Regla intocable: una verdura principal solo puede aparecer una vez de lunes a viernes.
-            if (spec.allowedParents?.includes("Verdura")) {
-                const vegetableKey = getPrimaryVegetableKey(dish);
-                if (vegetableKey && usedVegetableKeys.has(vegetableKey)) return true;
-            }
-
-            // Reglas heredadas del motor, conservadas como restricciones duras.
-            const subtype = dish.subtipo_primero;
-            if (subtype === "cuchara_legumbres" && previousDayHasSubtype(menuDays, dayIndex, subtype)) return true;
-            if (["pasta_corta_larga", "pasta_rellena_horno", "arroz"].includes(subtype) &&
-                previousDayHasSubtype(menuDays, dayIndex, subtype)) return true;
-            if (subtype === "verdura_crema" && previousDayHasSubtype(menuDays, dayIndex, subtype)) return true;
-            if (subtype === "verdura_entera" && getConsecutiveSubtypeStreak(menuDays, dayIndex, "verdura_entera") >= 3) return true;
-
-            // Anti-plantilla inter-semanal: no repetir platos/verduras en la misma estructura.
-            return violatesPreviousWeekTemplate(dish, spec, slotIndex, previousMenu, chosenFirsts);
-        }
-
-        function violatesDaySecondRule(dish, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, relaxationLevel) {
-            if (spec.cat !== "Segundo") return false;
-
-            if (spec.protein === "Pescado") {
-                // Regla heredada: evitar la misma especie dos días consecutivos.
-                if (previousDayFishSpecies(menuDays, dayIndex) === dish.especie_pescado) return true;
-                return false;
-            }
-
-            // REGLA INTOMABLE: las dos carnes del mismo día nunca pueden compartir animal.
-            if (conflictsWithSecondSpecies(dish.animal_carne, chosenAnimals)) return true;
-
-            // Máximo un frito/rebozado por día.
-            if (dish.tecnica_cocina === "tecnica_frito_rebozado" &&
-                chosenTechniques.includes("tecnica_frito_rebozado")) return true;
-
-            // Máximo 2 fritos/rebozados en toda la semana.
-            if (dish.tecnica_cocina === "tecnica_frito_rebozado" &&
-                getWeeklyTechniqueCount(menuDays, "tecnica_frito_rebozado", chosenTechniques) >= 2) return true;
-
-            // Máximo 3 guisos en toda la semana.
-            if (dish.tecnica_cocina === "tecnica_guiso" &&
-                getWeeklyTechniqueCount(menuDays, "tecnica_guiso", chosenTechniques) >= 3) return true;
-
-            // Regla heredada: evitar el mismo animal durante tres días consecutivos.
-            if (animalHasThreeDayStreak(menuDays, dayIndex, dish.animal_carne)) return true;
-
-            // Máximo un guiso por día.
-            if (dish.tecnica_cocina === "tecnica_guiso" &&
-                chosenTechniques.includes("tecnica_guiso")) return true;
-
-            return false;
-        }
-
-        function usesFreshStock(dish) {
-            if (!dish?.ingredientes || !Array.isArray(dish.ingredientes)) return false;
-            const freshNames = rawStock
-                .filter(r => {
-                    const conservation = String(r?.conservacion || "");
-                    return (conservation.includes("Fresco") || conservation.includes("Refrigerado")) &&
-                        Number(r?.cantidad) > 0;
-                })
-                .map(r => String(r?.nombre || "").toLowerCase())
-                .filter(Boolean);
-
-            return dish.ingredientes.some(ing => {
-                const ingredientName = String(ing?.nombre || "").toLowerCase();
-                return ingredientName && freshNames.some(raw => ingredientName.includes(raw) || raw.includes(ingredientName));
-            });
-        }
-
-        function candidateScore(dish, spec, menuDays, dayIndex, previousMenu = null, slotIndex = 0) {
-            let score = getDemandWeight(dish.demanda) * 10;
-            if (usesFreshStock(dish)) score += dayIndex < 2 ? 3 : 0;
-            if (spec.cat === "Segundo" && spec.protein === "Pescado" && dayIndex === 0) score += 1;
-
-            // Favorece la alternancia de técnicas sin convertirla en una regla frágil.
-            if (spec.cat === "Segundo" && spec.protein === "Carne") {
-                if (dish.tecnica_cocina === "tecnica_seco_asado") score += 2;
-                if (dish.tecnica_cocina === "tecnica_guiso") score += 1;
-            }
-
-            // Penaliza coincidencias con la semana anterior para reforzar el cambio de estructura.
-            if (previousMenu?.days) {
-                const previousIds = getPreviousWeekSlotDishIds(previousMenu, slotIndex);
-                if (previousIds.has(dish.id)) score -= 1000;
-            }
-
-            return score + Math.random();
-        }
-
-        function getUniqueNormalizedDishes() {
-            const seen = new Set();
-            return dishes
-                .map(normalizeDishData)
-                .filter(d => d && d.id !== undefined && d.id !== null && d.id !== "")
-                .filter(d => {
-                    const id = String(d.id);
-                    if (seen.has(id)) return false;
-                    seen.add(id);
+        // MOTOR ALGORÍTMICO
+        function generateMenu() {
+            const menu = {};
+            const days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
+            
+            // Reglas de Memoria
+            let usedVegs = new Set();
+            let guisoCount = 0;
+            let fritoCount = 0;
+            let lastFishSpecies = previousWeekMenu?.["Viernes"]?.segundos?.[2]?.especiePescado || null;
+
+            const firsts = dishes.filter(d => d.categoria === "Primero");
+            const meats = dishes.filter(d => d.categoria === "Segundo" && d.proteina === "Carne");
+            const fishes = dishes.filter(d => d.categoria === "Segundo" && d.proteina === "Pescado");
+
+            const shuffle = array => array.sort(() => Math.random() - 0.5);
+
+            for (const day of days) {
+                // --- PRIMEROS ---
+                let availableFirsts = shuffle([...firsts]);
+                let selectedFirst1 = availableFirsts.find(d => 
+                    (d.subcategoria === "Verduras enteras" || d.subcategoria === "Cremas") && 
+                    !usedVegs.has(d.ingredientePrincipal)
+                ) || availableFirsts[0];
+
+                if (selectedFirst1?.ingredientePrincipal) usedVegs.add(selectedFirst1.ingredientePrincipal);
+
+                let isFirst1Crema = selectedFirst1?.subcategoria === "Cremas";
+                let isFirst1Sopa = selectedFirst1?.subcategoria === "Sopas / caldos";
+
+                let selectedFirst2 = availableFirsts.find(d => {
+                    if (d.id === selectedFirst1?.id) return false;
+                    let isCrema = d.subcategoria === "Cremas";
+                    let isSopa = d.subcategoria === "Sopas / caldos";
+                    if ((isFirst1Crema && isSopa) || (isFirst1Sopa && isCrema)) return false; // Incompatibilidad
+                    return true;
+                }) || availableFirsts.find(d => d.id !== selectedFirst1?.id);
+
+                // --- SEGUNDOS ---
+                let availableMeats = shuffle([...meats]);
+                let validMeats = availableMeats.filter(d => {
+                    if (d.tecnicaCocina === "Guiso / En salsa" && guisoCount >= 2) return false;
+                    if (d.tecnicaCocina === "Frito / Rebozado / Empanado" && fritoCount >= 2) return false;
                     return true;
                 });
-        }
 
-        function pickDishForSlot(dayName, spec, usedDishIdsThisWeek, menuDays, dayIndex, chosenAnimals, chosenTechniques, options = {}) {
-            const previousMenu = options.previousMenu || null;
-            const chosenFirsts = options.chosenFirsts || [];
-            const usedVegetableKeys = options.usedVegetableKeys || new Set();
-            const slotIndex = options.slotIndex ?? 0;
+                let selectedMeat1 = validMeats[0] || availableMeats[0];
+                if(selectedMeat1?.tecnicaCocina === "Guiso / En salsa") guisoCount++;
+                if(selectedMeat1?.tecnicaCocina === "Frito / Rebozado / Empanado") fritoCount++;
 
-            // El fallback es estricto: ninguna regla de negocio se relaja. Los niveles se conservan
-            // solo por compatibilidad con el formato existente de los slots y para evitar bucles infinitos.
-            for (let relaxationLevel = 0; relaxationLevel <= 0; relaxationLevel++) {
-                const candidates = getUniqueNormalizedDishes()
-                    .filter(d => isStructuralMatch(d, spec))
-                    .filter(d => !usedDishIdsThisWeek.has(String(d.id)))
-                    .filter(d => !violatesDayFirstRule(d, spec, menuDays, dayIndex, relaxationLevel, chosenFirsts, usedVegetableKeys, previousMenu, slotIndex))
-                    .filter(d => !violatesDaySecondRule(d, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, relaxationLevel));
+                let selectedMeat2 = validMeats.find(d => 
+                    d.id !== selectedMeat1?.id && 
+                    d.tipoAnimal !== selectedMeat1?.tipoAnimal &&
+                    !(d.tecnicaCocina === "Guiso / En salsa" && guisoCount >= 2) &&
+                    !(d.tecnicaCocina === "Frito / Rebozado / Empanado" && fritoCount >= 2)
+                ) || availableMeats.find(d => d.id !== selectedMeat1?.id);
 
-                if (candidates.length) {
-                    candidates.sort((a, b) =>
-                        candidateScore(b, spec, menuDays, dayIndex, previousMenu, slotIndex) -
-                        candidateScore(a, spec, menuDays, dayIndex, previousMenu, slotIndex)
-                    );
-                    return {
-                        dish: candidates[0],
-                        relaxed: false,
-                        relaxationLevel: 0,
-                        warning: ""
-                    };
-                }
+                if(selectedMeat2?.tecnicaCocina === "Guiso / En salsa") guisoCount++;
+                if(selectedMeat2?.tecnicaCocina === "Frito / Rebozado / Empanado") fritoCount++;
+
+                let availableFishes = shuffle([...fishes]);
+                let selectedFish = availableFishes.find(d => d.especiePescado !== lastFishSpecies) || availableFishes[0];
+                if (selectedFish) lastFishSpecies = selectedFish.especiePescado;
+
+                menu[day] = {
+                    primeros: [selectedFirst1, selectedFirst2].filter(Boolean),
+                    segundos: [selectedMeat1, selectedMeat2, selectedFish].filter(Boolean)
+                };
             }
 
-            return {
-                dish: { id: "none", nombre: "Sin plato disponible", categoria: spec.cat, proteina_segundo: spec.protein || "", ingredientes: [] },
-                relaxed: true,
-                relaxationLevel: 3,
-                warning: "⚠️ Sin candidato compatible"
-            };
-        }
-
-        function pickDishForSlotWithParent(dayName, spec, parent, usedDishIdsThisWeek, menuDays, dayIndex, chosenAnimals, chosenTechniques, options = {}) {
-            const mergedSpec = { ...spec, cat: "Primero", allowedParents: [parent] };
-            return pickDishForSlot(
-                dayName,
-                mergedSpec,
-                usedDishIdsThisWeek,
-                menuDays,
-                dayIndex,
-                chosenAnimals,
-                chosenTechniques,
-                options
-            );
-        }
-
-        function violatesDayFirstRuleByParent(dish, parent, menuDays, dayIndex, relaxationLevel, chosenFirsts = [], usedVegetableKeys = new Set(), previousMenu = null, slotIndex = 0) {
-            return violatesDayFirstRule(
-                dish,
-                { cat: "Primero", allowedParents: [parent] },
-                menuDays,
-                dayIndex,
-                relaxationLevel,
-                chosenFirsts,
-                usedVegetableKeys,
-                previousMenu,
-                slotIndex
-            );
-        }
-
-        function getPreparedMap() {
-            const prepMap = {};
-            preparedStock.forEach(prep => {
-                if (prep.asignacion && prep.asignacion !== "Sin asignar") {
-                    const key = prep.asignacion.replace(/\s+/g, "");
-                    if (!prepMap[key]) prepMap[key] = [];
-                    prepMap[key].push(prep);
-                }
-            });
-            return prepMap;
-        }
-
-        function getPreparedCandidate(prep, spec, dayName, slotIndex) {
-            const name = String(prep?.nombre || "").trim();
-            const found = dishes.find(d => String(d?.nombre || "").toLowerCase() === name.toLowerCase());
-            if (found) return normalizeDishData(found);
-
-            const safeName = normalizeFoodKey(name).replace(/\s+/g, "-") || `slot-${slotIndex}`;
-            return normalizeDishData({
-                id: prep?.id || `prepared-${dayName}-${slotIndex}-${safeName}`,
-                nombre: name,
-                categoria: spec.cat,
-                subcategoria_primero: spec.allowedParents?.[0] || "",
-                subtipo_primero: "",
-                proteina_segundo: spec.protein || "",
-                animal_carne: "",
-                especie_pescado: "",
-                tecnica_cocina: "",
-                ingredientes: []
-            });
-        }
-
-        function getDayFirsts(daySlots) {
-            return (daySlots || []).slice(0, 3).map(s => s.dish).filter(d => d && d.id !== "none");
-        }
-
-        function generateDayMenu(dayName, dayIndex, menuDays, usedDishIdsThisWeek, prepMap, options = {}) {
-            const slotSpecs = [
-                { slotLabel: FIRST_SLOT_LABELS.vegetable, cat: "Primero", allowedParents: ["Verdura"] },
-                { slotLabel: FIRST_SLOT_LABELS.spoon, cat: "Primero", allowedParents: ["Cuchara"] },
-                { slotLabel: FIRST_SLOT_LABELS.starch, cat: "Primero", allowedParents: ["Tenedor"] },
-                { slotLabel: "2º Carne (Opción 1)", cat: "Segundo", protein: "Carne" },
-                { slotLabel: "2º Carne (Opción 2)", cat: "Segundo", protein: "Carne" },
-                { slotLabel: "2º Pescado", cat: "Segundo", protein: "Pescado" }
-            ];
-
-            const daySlots = [];
-            const chosenAnimals = [];
-            const chosenTechniques = [];
-            const chosenFirsts = [];
-            const assignedPrimero = [...(prepMap[`${dayName}-Primero`] || [])];
-            const assignedSegundo = [...(prepMap[`${dayName}-Segundo`] || [])];
-            const previousMenu = options.previousMenu || previousWeekMenu || null;
-            const usedVegetableKeys = options.usedVegetableKeys || getWeeklyUsedVegetableKeys(menuDays, dayName);
-
-            for (let index = 0; index < slotSpecs.length; index++) {
-                const spec = slotSpecs[index];
-                const assignedList = spec.cat === "Primero" ? assignedPrimero : assignedSegundo;
-                let lockedDish = null;
-
-                while (assignedList.length && !lockedDish) {
-                    const prep = assignedList.shift();
-                    const candidate = getPreparedCandidate(prep, spec, dayName, index);
-                    if (
-                        isStructuralMatch(candidate, spec) &&
-                        !usedDishIdsThisWeek.has(String(candidate.id)) &&
-                        !violatesDayFirstRule(candidate, spec, menuDays, dayIndex, 0, chosenFirsts, usedVegetableKeys, previousMenu, index) &&
-                        !violatesDaySecondRule(candidate, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, 0)
-                    ) {
-                        lockedDish = candidate;
-                    }
-                }
-
-                const result = lockedDish
-                    ? { dish: lockedDish, relaxed: false, relaxationLevel: 0, warning: "" }
-                    : pickDishForSlot(
-                        dayName,
-                        spec,
-                        usedDishIdsThisWeek,
-                        menuDays,
-                        dayIndex,
-                        chosenAnimals,
-                        chosenTechniques,
-                        {
-                            previousMenu,
-                            chosenFirsts,
-                            usedVegetableKeys,
-                            slotIndex: index
-                        }
-                    );
-
-                const dish = result.dish;
-                if (dish && dish.id !== "none") {
-                    const id = String(dish.id);
-                    usedDishIdsThisWeek.add(id);
-                    if (spec.cat === "Segundo" && spec.protein === "Carne") {
-                        chosenAnimals.push(dish.animal_carne);
-                        chosenTechniques.push(dish.tecnica_cocina);
-                    }
-                    if (spec.cat === "Primero") chosenFirsts.push(dish);
-                    if (spec.allowedParents?.includes("Verdura")) {
-                        const vegetableKey = getPrimaryVegetableKey(dish);
-                        if (vegetableKey) usedVegetableKeys.add(vegetableKey);
-                    }
-                }
-
-                daySlots.push({
-                    slotLabel: spec.slotLabel,
-                    cat: spec.cat,
-                    dish,
-                    relaxed: result.relaxed,
-                    relaxationLevel: result.relaxationLevel,
-                    warning: result.warning,
-                    isPreparedStock: !!lockedDish
-                });
-            }
-
-            return daySlots;
-        }
-
-        function getISOWeekKey(date) {
-            const d = new Date(date);
-            if (Number.isNaN(d.getTime())) return "";
-            d.setHours(0, 0, 0, 0);
-            const day = d.getDay() || 7;
-            d.setDate(d.getDate() + 4 - day);
-            const yearStart = new Date(d.getFullYear(), 0, 1);
-            const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-            return `${d.getFullYear()}-W${String(week).padStart(2, "0")}`;
-        }
-
-        function getPreviousWeekCandidateMenu() {
-            if (previousWeekMenu?.days) return previousWeekMenu;
-            const currentWeek = getISOWeekKey(new Date());
-            const current = currentMenu?.generatedAt ? currentMenu : null;
-            if (current?.days && getISOWeekKey(new Date(current.generatedAt)) !== currentWeek) {
-                return current;
-            }
-            const historyCandidate = [...(historyMenus || [])]
-                .map(item => item?.menu)
-                .filter(menu => menu?.generatedAt && getISOWeekKey(new Date(menu.generatedAt)) !== currentWeek)
-                .sort((a, b) => new Date(b.generatedAt) - new Date(a.generatedAt))[0];
-            return historyCandidate || null;
-        }
-
-        function generateWeeklyMenu() {
-            const previousCandidate = getPreviousWeekCandidateMenu();
-            const previousForAntiTemplate = previousCandidate?.days ? previousCandidate : null;
-            const newMenu = {
-                generatedAt: new Date().toISOString(),
-                days: {},
-                engineVersion: ENGINE_VERSION
-            };
-            const usedDishIdsThisWeek = new Set();
-            const prepMap = getPreparedMap();
-            const usedVegetableKeys = new Set();
-
-            daysList.forEach((dayName, dayIndex) => {
-                newMenu.days[dayName] = generateDayMenu(
-                    dayName,
-                    dayIndex,
-                    newMenu.days,
-                    usedDishIdsThisWeek,
-                    prepMap,
-                    { previousMenu: previousForAntiTemplate, usedVegetableKeys }
-                );
-            });
-
-            // A previous current-week menu is not a previous-week template.
-            // Only promote an older weekly menu to persistent memory.
-            if (currentMenu?.generatedAt) {
-                const currentDate = new Date(currentMenu.generatedAt);
-                const currentWeek = getISOWeekKey(new Date());
-                if (!Number.isNaN(currentDate.getTime()) && getISOWeekKey(currentDate) !== currentWeek) {
-                    previousWeekMenu = JSON.parse(JSON.stringify(currentMenu));
-                }
-            }
-            if (!previousWeekMenu?.days && previousForAntiTemplate?.days) {
-                previousWeekMenu = JSON.parse(JSON.stringify(previousForAntiTemplate));
-            }
-
-            currentMenu = newMenu;
-            saveAll();
-            renderGeneratorView();
-
-            const validation = validateWeeklyMenu(currentMenu);
-            if (!validation.valid) {
-                alert(`Menú generado con incidencias: ${validation.errors.join(" | ")}`);
-            }
-        }
-
-        function regenerateSingleDay(dayName) {
-            if (!currentMenu?.days) return;
-
-            const usedDishIdsInOtherDays = new Set();
-            daysList.forEach(d => {
-                if (d !== dayName) {
-                    (currentMenu.days[d] || []).forEach(slot => {
-                        if (slot.dish?.id && slot.dish.id !== "none") usedDishIdsInOtherDays.add(String(slot.dish.id));
-                    });
-                }
-            });
-
-            const rebuilt = {};
-            daysList.forEach(d => {
-                if (d !== dayName) rebuilt[d] = currentMenu.days[d] || [];
-            });
-
-            const dayIndex = daysList.indexOf(dayName);
-            const usedVegetableKeys = getWeeklyUsedVegetableKeys(rebuilt, dayName);
-            const previousMenu = previousWeekMenu?.days ? previousWeekMenu : null;
-
-            currentMenu.days[dayName] = generateDayMenu(
-                dayName,
-                dayIndex,
-                rebuilt,
-                usedDishIdsInOtherDays,
-                getPreparedMap(),
-                { previousMenu, usedVegetableKeys }
-            );
-
-            saveAll();
+            currentMenu = menu;
+            localStorage.setItem('gastro_currentMenu', JSON.stringify(menu));
             renderGeneratorView();
         }
 
-        function validateWeeklyMenu(menu, options = {}) {
-            const errors = [];
-            const days = daysList.filter(day => menu?.days?.[day]);
-            const expectedLabels = [
-                "1º Verdura",
-                "1º Cuchara",
-                "1º Tenedor / Hidratos",
-                "2º Carne (Opción 1)",
-                "2º Carne (Opción 2)",
-                "2º Pescado"
-            ];
-            const usedIds = new Set();
-            const vegetableKeys = new Set();
-            let weeklyGuisos = 0;
-            let weeklyFritos = 0;
-
-            days.forEach((dayName, dayIndex) => {
-                const slots = menu.days[dayName] || [];
-                if (slots.length !== 6) {
-                    errors.push(`${dayName}: deben existir exactamente 6 opciones.`);
-                    return;
-                }
-
-                slots.forEach((slot, index) => {
-                    if (slot.slotLabel !== expectedLabels[index]) {
-                        errors.push(`${dayName}: slot ${index + 1} no respeta la estructura fija.`);
-                    }
-                    const id = slot.dish?.id;
-                    if (id && id !== "none") {
-                        const normalizedId = String(id);
-                        if (usedIds.has(normalizedId)) errors.push(`${dayName}: el plato "${slot.dish?.nombre || ""}" se repite en la semana.`);
-                        usedIds.add(normalizedId);
-                    }
-                });
-
-                const verdura = slots[0]?.dish;
-                const cuchara = slots[1]?.dish;
-                const tenedor = slots[2]?.dish;
-                if (verdura?.subcategoria_primero !== "Verdura") errors.push(`${dayName}: el 1º Verdura no es Verdura.`);
-                if (cuchara?.subcategoria_primero !== "Cuchara") errors.push(`${dayName}: el 1º Cuchara no es Cuchara.`);
-                if (tenedor?.subcategoria_primero !== "Tenedor") errors.push(`${dayName}: el 1º Tenedor/Hidratos no es Tenedor.`);
-
-                const firsts = [verdura, cuchara, tenedor].filter(Boolean);
-                if (firsts.filter(d => LIQUID_FIRST_SUBTYPES.has(d?.subtipo_primero)).length > 1) {
-                    errors.push(`${dayName}: no se pueden combinar crema de verduras y sopa/caldo en los primeros.`);
-                }
-
-                const vegetableKey = getPrimaryVegetableKey(verdura);
-                if (vegetableKey) {
-                    if (vegetableKeys.has(vegetableKey)) errors.push(`${dayName}: se repite la verdura principal durante la semana.`);
-                    vegetableKeys.add(vegetableKey);
-                }
-
-                const meats = slots.slice(3, 5).map(s => s.dish).filter(Boolean);
-                if (meats.length !== 2) errors.push(`${dayName}: deben existir 2 carnes.`);
-                const meatAnimals = meats.map(m => m?.animal_carne).filter(Boolean);
-                if (new Set(meatAnimals).size !== meatAnimals.length) errors.push(`${dayName}: las dos carnes usan el mismo animal.`);
-                if (meats.some(m => m?.proteina_segundo !== "Carne")) errors.push(`${dayName}: una opción de carne no está marcada como Carne.`);
-
-                const dayGuisos = meats.filter(m => m?.tecnica_cocina === "tecnica_guiso").length;
-                const dayFritos = meats.filter(m => m?.tecnica_cocina === "tecnica_frito_rebozado").length;
-                if (dayGuisos > 1) errors.push(`${dayName}: hay dos carnes guisadas.`);
-                if (dayFritos > 1) errors.push(`${dayName}: hay dos fritos/rebozados.`);
-                weeklyGuisos += dayGuisos;
-                weeklyFritos += dayFritos;
-
-                const fish = slots[5]?.dish;
-                if (fish?.proteina_segundo !== "Pescado") errors.push(`${dayName}: falta el pescado obligatorio.`);
-                if (fish && !fish.especie_pescado) errors.push(`${dayName}: el pescado no tiene especie exacta.`);
-
-                if (dayIndex > 0) {
-                    const prev = menu.days[days[dayIndex - 1]] || [];
-                    const prevFish = prev[5]?.dish?.especie_pescado;
-                    if (prevFish && fish?.especie_pescado && prevFish === fish.especie_pescado) {
-                        errors.push(`${dayName}: pescado repetido respecto al día anterior.`);
-                    }
-
-                    const prevFirsts = prev.slice(0, 3).map(s => s.dish).filter(Boolean);
-                    if (slots[1]?.dish?.subtipo_primero === "cuchara_legumbres" &&
-                        prevFirsts.some(d => d.subtipo_primero === "cuchara_legumbres")) {
-                        errors.push(`${dayName}: legumbres en días consecutivos.`);
-                    }
-
-                    const currentHydrate = slots[2]?.dish?.subtipo_primero;
-                    if (["pasta_corta_larga", "pasta_rellena_horno", "arroz"].includes(currentHydrate) &&
-                        prevFirsts.some(d => d.subtipo_primero === currentHydrate)) {
-                        errors.push(`${dayName}: hidrato/pasta repetido en días consecutivos.`);
-                    }
-
-                    if (slots[0]?.dish?.subtipo_primero === "verdura_crema" &&
-                        prevFirsts.some(d => d.subtipo_primero === "verdura_crema")) {
-                        errors.push(`${dayName}: crema de verdura en días consecutivos.`);
-                    }
-                }
-
-                if (dayIndex >= 2) {
-                    const previousTwoAnimals = [
-                        ...(menu.days[days[dayIndex - 1]] || []).slice(3, 5).map(s => s.dish?.animal_carne),
-                        ...(menu.days[days[dayIndex - 2]] || []).slice(3, 5).map(s => s.dish?.animal_carne)
-                    ].filter(Boolean);
-
-                    meats.forEach(m => {
-                        if (m?.animal_carne && previousTwoAnimals.filter(a => a === m.animal_carne).length >= 2) {
-                            errors.push(`${dayName}: ${MEAT_LABELS[m.animal_carne] || m.animal_carne} aparece 3 días consecutivos.`);
-                        }
-                    });
-                }
-            });
-
-            if (weeklyFritos > 2) errors.push(`Semana: hay ${weeklyFritos} fritos/rebozados; el máximo es 2.`);
-            if (weeklyGuisos > 3) errors.push(`Semana: hay ${weeklyGuisos} guisos; el máximo es 3.`);
-
-            if (previousWeekMenu?.days && menu?.generatedAt) {
-                const previousSignatures = getPreviousWeekPatternSignatures(previousWeekMenu);
-                daysList.forEach(dayName => {
-                    const currentSignature = dayPatternSignature(menu.days[dayName] || []);
-                    if (currentSignature && previousSignatures.has(currentSignature)) {
-                        errors.push(`${dayName}: el patrón estructural coincide con un día de la semana anterior.`);
-                    }
-                });
-            }
-
-            return { valid: errors.length === 0, errors };
+        function saveWeekToHistory() {
+            if(!currentMenu) return;
+            previousWeekMenu = currentMenu;
+            localStorage.setItem('gastro_previousWeek', JSON.stringify(currentMenu));
+            alert("Semana guardada en la memoria inter-semanal.");
         }
 
+        // RENDER MENÚ HIG Apple
         function renderGeneratorView() {
             const container = document.getElementById('generatedMenuContainer');
             container.innerHTML = '';
+            if (!currentMenu) return;
 
-            if (!currentMenu || !currentMenu.days || Object.keys(currentMenu.days).length === 0) {
-                container.innerHTML = `
-                    <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 text-center space-y-3">
-                        <div class="w-12 h-12 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 rounded-full flex items-center justify-center mx-auto text-xl font-bold">📋</div>
-                        <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Menú no generado todavía</h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 max-w-xs mx-auto">Pulsa el botón superior para calcular la planificación automática de Lunes a Viernes.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            const daysToRender = selectedGeneratorDay === 'Todos' ? daysList : [selectedGeneratorDay];
-
-            daysToRender.forEach(dayName => {
-                const slots = currentMenu.days[dayName] || [];
-                const dayCard = document.createElement('div');
-                dayCard.className = "bg-white/80 p-4 rounded-2xl space-y-4 transition-all";
-                const primeros = slots.slice(0, 3);
-                const segundos = slots.slice(3, 6);
-
-                dayCard.innerHTML = `
-                    <div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-800 pb-2">
-                        <div class="flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
-                            <h3 class="font-bold text-gray-800 dark:text-gray-100 text-base">${dayName}</h3>
-                        </div>
-                        <button onclick="regenerateSingleDay('${dayName}')" class="text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 shadow-sm">
-                            <span>🔄</span> Reorganizar Día
-                        </button>
-                    </div>
-                    <div>
-                        <h4 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">1. Primeros Platos</h4>
-                        <div class="space-y-2">${primeros.map((s, idx) => renderSlotCard(dayName, idx, s)).join('')}</div>
-                    </div>
-                    <div>
-                        <h4 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">2. Segundos Platos</h4>
-                        <div class="space-y-2">${segundos.map((s, idx) => renderSlotCard(dayName, idx+3, s)).join('')}</div>
-                    </div>
-                `;
-                container.appendChild(dayCard);
-            });
-        }
-
-        function renderSlotCard(dayName, index, slot) {
-            const isPrimero = slot.cat === 'Primero';
-            let dishName = slot.dish ? slot.dish.nombre : "Sin asignar";
-            const warningBadge = slot.warning ? `<span class="text-[10px] bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-300 px-1.5 py-0.5 rounded font-bold ml-2">${slot.warning}</span>` : '';
-            const stockBadge = slot.isPreparedStock ? `<span class="text-[10px] bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded font-bold ml-2">Stock Elaborado</span>` : '';
-            const precookedBadge = (slot.dish && slot.dish.precocinado) ? `<span class="text-[10px] bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300 px-1.5 py-0.5 rounded font-bold ml-2">Precocinado</span>` : '';
-
-            return `
-                <div class="gastro-slot flex items-center justify-between p-3">
-                    <div class="flex items-center gap-2 flex-1">
-                        <div>
-                            <div class="text-[10px] font-bold text-gray-500 uppercase">${slot.slotLabel}</div>
-                            <div class="text-sm font-semibold text-gray-800 dark:text-gray-100 leading-tight">${dishName} ${warningBadge} ${stockBadge} ${precookedBadge}</div>
-                        </div>
-                    </div>
-                    <button onclick="openSwapModal('${dayName}', ${index}, '${slot.cat}', '${isPrimero ? (slot.dish?.subcategoria_primero || '') : ''}', '${!isPrimero ? (slot.dish?.proteina_segundo || '') : ''}')" class="gastro-slot-action flex items-center justify-center">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                    </button>
-                </div>
-            `;
-        }
-
-        // --- EXPORTAR MENÚ EN FORMATO TXT LIMPIO ---
-        function downloadWeeklyMenuTxt() {
-            if (!currentMenu || !currentMenu.days) {
-                alert("No hay ningún menú generado para exportar.");
-                return;
-            }
-            let text = "";
-            daysList.forEach(dayName => {
-                text += `--- ${dayName.toUpperCase()} ---\n\n`;
-                text += `PRIMEROS\n`;
-                const slots = currentMenu.days[dayName] || [];
-                const primeros = slots.slice(0, 3);
-                const segundos = slots.slice(3, 6);
+            Object.entries(currentMenu).forEach(([day, data]) => {
+                let html = `
+                <div class="glass-card p-4 space-y-3 mb-4">
+                    <h3 class="font-bold text-lg text-indigo-700 dark:text-indigo-400 mb-2 border-b border-indigo-100 dark:border-indigo-900 pb-2">${day}</h3>
+                    
+                    <div class="space-y-2">
+                        <div class="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Primeros Platos</div>`;
                 
-                primeros.forEach(s => {
-                    const name = s.dish && s.dish.nombre ? s.dish.nombre : "Sin asignar";
-                    text += `${name}\n`;
+                data.primeros.forEach(p => {
+                    html += `
+                        <div class="gastro-slot flex items-center p-3">
+                            <div>
+                                <p class="text-xs font-bold text-gray-800 dark:text-gray-200">${p.nombre}</p>
+                                <p class="text-[10px] text-gray-500">${p.subcategoria}</p>
+                            </div>
+                        </div>`;
                 });
-                text += `\nSEGUNDOS\n`;
-                segundos.forEach(s => {
-                    const name = s.dish && s.dish.nombre ? s.dish.nombre : "Sin asignar";
-                    text += `${name}\n`;
+
+                html += `</div><div class="space-y-2 mt-4">
+                         <div class="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Segundos Platos</div>`;
+
+                const sgLabels = ['2º Carne (Opción 1)', '2º Carne (Opción 2)', '2º Pescado'];
+                data.segundos.forEach((p, idx) => {
+                    html += `
+                        <div class="gastro-slot flex items-center p-3">
+                            <div>
+                                <p class="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold uppercase mb-0.5">${sgLabels[idx]}</p>
+                                <p class="text-xs font-bold text-gray-800 dark:text-gray-200">${p.nombre}</p>
+                                <p class="text-[10px] text-gray-500">${(p.tipoAnimal || p.especiePescado)} · ${p.tecnicaCocina}</p>
+                            </div>
+                        </div>`;
                 });
-                text += `\n`;
+
+                html += `</div></div>`;
+                container.innerHTML += html;
             });
-            
-            const blob = new Blob([text.trim()], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `menu_semanal_${new Date().toISOString().slice(0,10)}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        // --- LISTA DE COMPRA CON REDONDEO ESTRICTO HACIA ARRIBA ---
-        function renderShoppingListUI() {
-            if (!currentMenu || !currentMenu.days) {
-                document.getElementById('shoppingListBreakdown').innerHTML = '<p class="text-center text-gray-500 text-xs py-4">Genera un menú semanal para calcular la lista de la compra.</p>';
-                document.getElementById('shoppingRacionesBadge').innerText = `${settings.comensales} Raciones`;
-                return;
-            }
-
-            const totalRacionesPorComida = getTotalRaciones();
-            document.getElementById('shoppingRacionesBadge').innerText = `${totalRacionesPorComida} Raciones (base)`;
-
-            const aggregated = {};
-
-            daysList.forEach(dayName => {
-                const slots = currentMenu.days[dayName] || [];
-                slots.forEach(slot => {
-                    if (slot.dish && slot.dish.ingredientes) {
-                        slot.dish.ingredientes.forEach(ing => {
-                            let qtyInGramsOrMl = 0;
-                            let baseUnit = 'kg';
-                            const unit = (ing.unidad || 'kg').toLowerCase();
-                            const rawQty = ing.cantidad || 0;
-                            const totalForMeal = rawQty * totalRacionesPorComida;
-
-                            if (unit === 'kg') {
-                                qtyInGramsOrMl = totalForMeal * 1000;
-                                baseUnit = 'kg';
-                            } else if (unit === 'g') {
-                                qtyInGramsOrMl = totalForMeal;
-                                baseUnit = 'kg';
-                            } else if (unit === 'l') {
-                                qtyInGramsOrMl = totalForMeal * 1000;
-                                baseUnit = 'L';
-                            } else if (unit === 'ml') {
-                                qtyInGramsOrMl = totalForMeal;
-                                baseUnit = 'L';
-                            } else {
-                                qtyInGramsOrMl = totalForMeal * 1000;
-                                baseUnit = 'kg';
-                            }
-
-                            const key = ing.nombre.toLowerCase().trim();
-                            if (!aggregated[key]) {
-                                aggregated[key] = {
-                                    nombre: ing.nombre,
-                                    totalBaseQty: 0,
-                                    cat: ing.categoria_proveedor || 'Secos',
-                                    baseUnit: baseUnit
-                                };
-                            }
-                            aggregated[key].totalBaseQty += qtyInGramsOrMl;
-                        });
-                    }
-                });
-            });
-
-            const groupedByCategory = {};
-            proveedorCategorias.forEach(cat => groupedByCategory[cat] = []);
-
-            Object.values(aggregated).forEach(item => {
-                let finalVal = 0;
-                let displayUnit = item.baseUnit;
-                if (item.baseUnit === 'kg') {
-                    finalVal = Math.ceil(item.totalBaseQty / 1000);
-                    displayUnit = 'kg';
-                } else {
-                    finalVal = Math.ceil(item.totalBaseQty / 1000);
-                    displayUnit = 'L';
-                }
-                if (groupedByCategory[item.cat]) {
-                    groupedByCategory[item.cat].push({ nombre: item.nombre, cantidad: finalVal, unidad: displayUnit });
-                }
-            });
-
-            const container = document.getElementById('shoppingListBreakdown');
-            container.innerHTML = '';
-
-            let hasItems = false;
-            proveedorCategorias.forEach(cat => {
-                const items = groupedByCategory[cat];
-                if (items && items.length > 0) {
-                    hasItems = true;
-                    const section = document.createElement('div');
-                    section.className = "bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-2";
-                    section.innerHTML = `
-                        <h4 class="font-bold text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-800 pb-1">${cat}</h4>
-                        <ul class="space-y-1.5">
-                            ${items.map(i => `<li class="flex justify-between text-xs text-gray-800 dark:text-gray-200"><span>${i.nombre}</span><span class="font-bold">${i.cantidad}${i.unidad}</span></li>`).join('')}
-                        </ul>
-                    `;
-                    container.appendChild(section);
-                }
-            });
-
-            if (!hasItems) {
-                container.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">No hay ingredientes necesarios en el menú actual.</p>';
-            }
-        }
-
-        function downloadShoppingListTxt() {
-            if (!currentMenu || !currentMenu.days) {
-                alert("Genera un menú semanal primero.");
-                return;
-            }
-            const totalRacionesPorComida = getTotalRaciones();
-            const aggregated = {};
-
-            daysList.forEach(dayName => {
-                const slots = currentMenu.days[dayName] || [];
-                slots.forEach(slot => {
-                    if (slot.dish && slot.dish.ingredientes) {
-                        slot.dish.ingredientes.forEach(ing => {
-                            let qtyInGramsOrMl = 0;
-                            let baseUnit = 'kg';
-                            const unit = (ing.unidad || 'kg').toLowerCase();
-                            const rawQty = ing.cantidad || 0;
-                            const totalForMeal = rawQty * totalRacionesPorComida;
-
-                            if (unit === 'kg') { qtyInGramsOrMl = totalForMeal * 1000; baseUnit = 'kg'; }
-                            else if (unit === 'g') { qtyInGramsOrMl = totalForMeal; baseUnit = 'kg'; }
-                            else if (unit === 'l') { qtyInGramsOrMl = totalForMeal * 1000; baseUnit = 'L'; }
-                            else if (unit === 'ml') { qtyInGramsOrMl = totalForMeal; baseUnit = 'L'; }
-                            else { qtyInGramsOrMl = totalForMeal * 1000; baseUnit = 'kg'; }
-
-                            const key = ing.nombre.toLowerCase().trim();
-                            if (!aggregated[key]) {
-                                aggregated[key] = { nombre: ing.nombre, totalBaseQty: 0, cat: ing.categoria_proveedor || 'Secos', baseUnit: baseUnit };
-                            }
-                            aggregated[key].totalBaseQty += qtyInGramsOrMl;
-                        });
-                    }
-                });
-            });
-
-            const groupedByCategory = {};
-            proveedorCategorias.forEach(cat => groupedByCategory[cat] = []);
-
-            Object.values(aggregated).forEach(item => {
-                const finalVal = Math.ceil(item.totalBaseQty / 1000);
-                const displayUnit = item.baseUnit;
-                if (groupedByCategory[item.cat]) {
-                    groupedByCategory[item.cat].push({ nombre: item.nombre, cantidad: finalVal, unidad: displayUnit });
-                }
-            });
-
-            let text = `LISTA DE COMPRA - ${totalRacionesPorComida} RACIONES\n\n`;
-            proveedorCategorias.forEach(cat => {
-                const items = groupedByCategory[cat];
-                if (items && items.length > 0) {
-                    text += `=== ${cat.toUpperCase()} ===\n`;
-                    items.forEach(i => {
-                        text += `- ${i.nombre}: ${i.cantidad} ${i.unidad}\n`;
-                    });
-                    text += `\n`;
-                }
-            });
-
-            const blob = new Blob([text.trim()], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `lista_compra_${new Date().toISOString().slice(0,10)}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        // --- 7. MODAL DE CAMBIO DE PLATO ---
-        function openSwapModal(dayName, slotIndex, cat, subcat, protein) {
-            swapTarget = { dayName, slotIndex, cat, subcat, protein };
-            document.getElementById('modalSwapTitle').innerText = `Cambiar Plato (${dayName})`;
-            document.getElementById('modalSwapSubtitle').innerText = `Filtrado para ${cat}`;
-            document.getElementById('modalSearchInput').value = '';
-            renderModalDishList();
-            document.getElementById('modalChangeDish').classList.remove('hidden');
-        }
-
-        function closeSwapModal() {
-            document.getElementById('modalChangeDish').classList.add('hidden');
-            swapTarget = null;
-        }
-
-        function renderModalDishList() {
-            if (!swapTarget) return;
-            const container = document.getElementById('modalDishList');
-            const searchVal = document.getElementById('modalSearchInput').value.toLowerCase();
-            container.innerHTML = '';
-
-            const alternatives = dishes.filter(d => {
-                if (d.categoria !== swapTarget.cat) return false;
-                if (swapTarget.cat === 'Primero' && swapTarget.subcat && d.subcategoria_primero !== swapTarget.subcat) return false;
-                if (swapTarget.cat === 'Segundo' && swapTarget.protein && d.proteina_segundo !== swapTarget.protein) return false;
-                if (searchVal && !String(d.nombre || '').toLowerCase().includes(searchVal)) return false;
-                return true;
-            });
-
-            if (alternatives.length === 0) {
-                container.innerHTML = '<p class="text-center text-gray-400 text-xs py-4">No hay alternativas disponibles.</p>';
-                return;
-            }
-
-            alternatives.forEach(d => {
-                const card = document.createElement('div');
-                card.className = "bg-white/80 p-3.5 rounded-2xl border border-slate-200/60 flex justify-between items-center cursor-pointer hover:bg-slate-50 transition-all";
-                card.innerHTML = `
-                    <div>
-                        <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs mb-1">${d.nombre}</h4>
-                        <div class="flex gap-1.5">
-                            <span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">${d.categoria}</span>
-                            ${d.precocinado ? '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300">Precocinado</span>' : ''}
-                        </div>
-                    </div>
-                    <button onclick="confirmSwap('${d.id}')" class="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Seleccionar</button>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function confirmSwap(dishId) {
-            if (!swapTarget || !currentMenu || !currentMenu.days) return;
-            const newDish = dishes.find(d => d.id === dishId);
-            if (!newDish) return;
-
-            currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].dish = newDish;
-            currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].warning = "⚠️ Intercambio manual";
-            currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].isPreparedStock = false;
-
-            saveAll();
-            renderGeneratorView();
-            closeSwapModal();
-        }
-
-        // --- 8. HISTÓRICO Y BACKUP ---
-        function saveMenuToHistory() {
-            if (!currentMenu || !currentMenu.days) {
-                alert("No hay menú activo para guardar.");
-                return;
-            }
-            const record = {
-                id: Date.now().toString(),
-                date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-                menu: JSON.parse(JSON.stringify(currentMenu))
-            };
-            historyMenus.unshift(record);
-            if (historyMenus.length > 10) historyMenus.pop();
-            saveAll();
-            renderHistorySection();
-            alert("Menú guardado en el histórico correctamente.");
-        }
-
-        function renderHistorySection() {
-            const container = document.getElementById('historyListContainer');
-            if (!container) return;
-            container.innerHTML = '';
-
-            if (historyMenus.length === 0) {
-                container.innerHTML = '<p class="text-center text-gray-400 dark:text-gray-500 text-xs py-2">No hay menús guardados en el histórico.</p>';
-                return;
-            }
-
-            historyMenus.forEach(item => {
-                const row = document.createElement('div');
-                row.className = "bg-white/80 p-3.5 rounded-2xl flex justify-between items-center transition-all";
-                row.innerHTML = `
-                    <div>
-                        <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs">Menú del ${item.date}</h4>
-                        <span class="text-[10px] text-gray-500">Planificación semanal completa</span>
-                    </div>
-                    <div class="flex gap-1.5">
-                        <button onclick="loadHistoryMenu('${item.id}')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-xs font-bold">Cargar</button>
-                        <button onclick="deleteHistoryMenu('${item.id}')" class="bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 px-2.5 py-1 rounded-lg text-xs font-bold">×</button>
-                    </div>
-                `;
-                container.appendChild(row);
-            });
-        }
-
-        function loadHistoryMenu(id) {
-            const item = historyMenus.find(h => h.id === id);
-            if (item) {
-                currentMenu = JSON.parse(JSON.stringify(item.menu));
-                saveAll();
-                renderGeneratorView();
-                document.querySelector('.nav-btn[data-target="view-generator"]').click();
-                switchGeneratorSubTab('menu');
-            }
-        }
-
-        function deleteHistoryMenu(id) {
-            historyMenus = historyMenus.filter(h => h.id !== id);
-            saveAll();
-            renderHistorySection();
-        }
-
-        function exportData() {
-            const data = { dishes, settings, rawStock, preparedStock, currentMenu, previousWeekMenu, historyMenus };
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `cheftrack_backup_${new Date().toISOString().slice(0,10)}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        function importData(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                try {
-                    const data = JSON.parse(evt.target.result);
-
-                    if (Array.isArray(data.dishes)) {
-                        dishes = data.dishes.map(normalizeDishData);
-                    }
-                    if (data.settings && typeof data.settings === 'object') {
-                        settings = { ...defaultSettings, ...data.settings };
-                    }
-                    if (Array.isArray(data.rawStock)) rawStock = data.rawStock;
-                    if (Array.isArray(data.preparedStock)) preparedStock = data.preparedStock;
-                    if (Object.prototype.hasOwnProperty.call(data, 'currentMenu')) currentMenu = data.currentMenu;
-                    if (Object.prototype.hasOwnProperty.call(data, 'previousWeekMenu')) previousWeekMenu = data.previousWeekMenu;
-                    if (Array.isArray(data.historyMenus)) historyMenus = data.historyMenus;
-
-                    saveAll();
-                    applyDarkMode();
-                    updateFormVisibility();
-                    renderDishes();
-                    renderStockView();
-                    renderGeneratorView();
-                    renderHistorySection();
-                    renderMigrationUI();
-                    alert("Datos importados correctamente.");
-                } catch(err) {
-                    alert("Error al importar el archivo JSON.");
-                } finally {
-                    e.target.value = '';
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        function wipeData() {
-            if (confirm("¿Estás completamente seguro de borrar todos los datos y restaurar valores iniciales?")) {
-                localStorage.clear();
-                location.reload();
-            }
         }
 
         window.onload = init;
-    
     </script>
 </body>
 </html>
