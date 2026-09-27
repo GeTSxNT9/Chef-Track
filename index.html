@@ -51,9 +51,9 @@
 
             <!-- Filtros Nivel 1 -->
             <div class="flex gap-2 mb-3">
-                <button class="filter-lvl1 active bg-indigo-600 text-white px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="all">Todos</button>
-                <button class="filter-lvl1 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="Primero">Primeros</button>
-                <button class="filter-lvl1 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="Segundo">Segundos</button>
+                <button class="filter-lvl1 active bg-indigo-600 text-white px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="all">TODOS</button>
+                <button class="filter-lvl1 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="Primero">PRIMEROS</button>
+                <button class="filter-lvl1 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="Segundo">SEGUNDOS</button>
             </div>
 
             <!-- Filtros Nivel 2 (Primeros) -->
@@ -145,7 +145,7 @@
                 </div>
 
                 <div class="flex items-center justify-between bg-indigo-50 dark:bg-indigo-950/50 p-3 rounded-lg border border-indigo-100 dark:border-indigo-900 mt-2">
-                    <label for="dishPrecooked" class="text-sm font-bold text-indigo-900 dark:text-indigo-300">¿Es plato precocinado / externo?</label>
+                    <label for="dishPrecooked" class="text-sm font-bold text-indigo-900 dark:text-indigo-300">¿Es un plato precocinado?</label>
                     <input type="checkbox" id="dishPrecooked" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500">
                 </div>
 
@@ -159,7 +159,7 @@
 
                 <div class="pt-4 flex gap-2">
                     <button type="button" id="btnCancel" class="hidden flex-1 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 py-3 rounded-lg font-bold text-sm shadow-sm">Cancelar</button>
-                    <button type="submit" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold text-sm shadow-md">Guardar Plato</button>
+                    <button type="submit" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold text-sm shadow-md">GUARDAR</button>
                 </div>
             </form>
         </main>
@@ -196,7 +196,7 @@
                 </div>
                 <form id="rawStockForm" class="bg-gray-50 dark:bg-gray-800/60 p-3 rounded-lg border border-gray-200 dark:border-gray-700 space-y-3 mb-4">
                     <div>
-                        <input type="text" id="rawName" placeholder="Nombre ingrediente..." required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+                        <input type="text" id="rawName" placeholder="Ingrediente" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <input type="text" inputmode="decimal" id="rawQty" placeholder="Cantidad" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
@@ -217,7 +217,7 @@
                             <option value="Congelados">Congelados</option>
                         </select>
                         <select id="rawConserv" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-                            <option value="Refrigerado/Fresco (Prioridad Alta)">Refrigerado/Fresco</option>
+                            <option value="Refrigerado / Fresco (Prioridad Alta)">Refrigerado/Fresco</option>
                             <option value="Congelado (Prioridad Baja)">Congelado</option>
                         </select>
                     </div>
@@ -233,7 +233,7 @@
                 </div>
                 <form id="prepStockForm" class="bg-gray-50 dark:bg-gray-800/60 p-3 rounded-lg border border-gray-200 dark:border-gray-700 space-y-3 mb-4">
                     <div>
-                        <input type="text" id="prepName" placeholder="Nombre plato..." required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+                        <input type="text" id="prepName" placeholder="Nombre" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <input type="text" inputmode="numeric" id="prepRaciones" placeholder="Raciones disponibles" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
