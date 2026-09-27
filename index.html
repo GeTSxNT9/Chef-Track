@@ -236,7 +236,15 @@
                         <input type="text" id="prepName" placeholder="Nombre" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <input type="text" inputmode="numeric" id="prepRaciones" placeholder="Raciones disponibles" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+                        <input type="text" inputmode="decimal" id="prepCantidad" placeholder="Cantidad total" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+                        <select id="prepUnidad" class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+                            <option value="kg">kg</option>
+                            <option value="g">g</option>
+                            <option value="L">L</option>
+                            <option value="ml">ml</option>
+                        </select>
+                    </div>
+                    <div>
                         <select id="prepAsignacion" class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                             <option value="Sin asignar">Sin asignar</option>
                             <option value="Lunes - Primero">Lunes - Primero</option>
@@ -701,9 +709,9 @@
             const row = document.createElement('div');
             row.className = 'ingredient-row flex gap-2 items-center';
             row.innerHTML = `
-                <input type="text" placeholder="Ingrediente..." value="${nombre}" required class="flex-2 w-full p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                <input type="text" inputmode="decimal" placeholder="Cant." value="${cantidad !== '' && cantidad !== undefined ? cantidad : ''}" required class="w-32 min-w-[8rem] flex-shrink-0 p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                <select class="flex-1 p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                <input type="text" placeholder="Ingrediente..." value="${nombre}" required class="flex-[3] min-w-0 w-full p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                <input type="text" inputmode="decimal" placeholder="Cant." value="${cantidad !== '' && cantidad !== undefined ? cantidad : ''}" required class="w-16 min-w-[4rem] flex-[0_0_4rem] p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                <select class="w-14 min-w-[3.5rem] flex-[0_0_3.5rem] p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                     <option value="kg" ${unidad==='kg'?'selected':''}>kg</option>
                     <option value="g" ${unidad==='g'?'selected':''}>g</option>
                     <option value="L" ${unidad==='L'?'selected':''}>L</option>
@@ -913,12 +921,51 @@
             renderRawStock();
         }
 
+        function getPrepUnitDimension(unit) {
+            return ['kg', 'g'].includes(unit) ? 'weight' : (['L', 'ml'].includes(unit) ? 'volume' : null);
+        }
+
+        function normalizePrepQuantity(quantity, unit) {
+            const value = Number(quantity) || 0;
+            if (unit === 'kg' || unit === 'L') return value * 1000;
+            return value;
+        }
+
+        function getDishPerServingQuantity(dishName, preparedUnit) {
+            const dish = dishes.find(d => d.nombre.toLowerCase() === String(dishName || '').toLowerCase());
+            if (!dish || !Array.isArray(dish.ingredientes) || dish.ingredientes.length === 0) return null;
+
+            const dimension = getPrepUnitDimension(preparedUnit);
+            if (!dimension) return null;
+
+            let total = 0;
+            let found = false;
+            for (const ing of dish.ingredientes) {
+                if (getPrepUnitDimension(ing.unidad) !== dimension) continue;
+                found = true;
+                total += normalizePrepQuantity(ing.cantidad, ing.unidad);
+            }
+            return found && total > 0 ? total : null;
+        }
+
+        function getPreparedServings(item) {
+            if (item.cantidadTotal !== undefined && item.unidad) {
+                const perServing = getDishPerServingQuantity(item.nombre, item.unidad);
+                return perServing !== null
+                    ? Math.floor(normalizePrepQuantity(item.cantidadTotal, item.unidad) / perServing)
+                    : null;
+            }
+            return Number.isFinite(Number(item.raciones)) ? Number(item.raciones) : null;
+        }
+
         function handleAddPrepStock(e) {
             e.preventDefault();
+            const cantStr = document.getElementById('prepCantidad').value.toString().replace(',', '.');
             const item = {
                 id: Date.now().toString(),
                 nombre: document.getElementById('prepName').value,
-                raciones: parseInt(document.getElementById('prepRaciones').value) || 0,
+                cantidadTotal: parseFloat(cantStr) || 0,
+                unidad: document.getElementById('prepUnidad').value,
                 asignacion: document.getElementById('prepAsignacion').value
             };
             preparedStock.unshift(item);
@@ -938,6 +985,9 @@
             preparedStock.forEach(item => {
                 const isAssigned = item.asignacion && item.asignacion !== "Sin asignar";
                 const badgeColor = isAssigned ? "bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800" : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700";
+                const calculatedServings = getPreparedServings(item);
+                const quantityLabel = item.cantidadTotal !== undefined ? `${item.cantidadTotal} ${item.unidad}` : `${item.raciones} rac.`;
+                const servingsLabel = calculatedServings !== null ? `≈ ${calculatedServings} raciones` : (item.cantidadTotal !== undefined ? 'Raciones: se calculan con la receta' : '');
 
                 const card = document.createElement('div');
                 card.className = "bg-white dark:bg-gray-900 p-3 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm flex justify-between items-center transition-colors";
@@ -945,14 +995,15 @@
                     <div class="pr-2">
                         <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs mb-1">${item.nombre}</h4>
                         <div class="flex items-center gap-1.5 flex-wrap">
-                            <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded">${item.raciones} rac.</span>
+                            <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded">${quantityLabel}</span>
+                            ${servingsLabel ? `<span class="text-[10px] text-gray-500 dark:text-gray-400">${servingsLabel}</span>` : ''}
                             <span class="text-[9px] px-1.5 py-0.5 rounded font-semibold border ${badgeColor}">${item.asignacion || "Sin asignar"}</span>
                         </div>
                     </div>
                     <div class="flex items-center gap-1">
-                        <button onclick="changePrepQty('${item.id}', -10)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">-10</button>
-                        <button onclick="changePrepQty('${item.id}', 10)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">+10</button>
-                        <button onclick="deletePrep('${item.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                        <button onclick="changePrepQty('${item.id}', -1)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">-</button>
+                        <button onclick="changePrepQty('${item.id}', 1)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">+</button>
+                        <button onclick="deletePrep('${item.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                     </div>
                 `;
                 container.appendChild(card);
@@ -962,7 +1013,11 @@
         function changePrepQty(id, delta) {
             const item = preparedStock.find(p => p.id === id);
             if (item) {
-                item.raciones = Math.max(0, item.raciones + delta);
+                if (item.cantidadTotal !== undefined) {
+                    item.cantidadTotal = Math.max(0, +(Number(item.cantidadTotal) + delta).toFixed(2));
+                } else {
+                    item.raciones = Math.max(0, Number(item.raciones) + (delta * 10));
+                }
                 saveAll();
                 renderPreparedStock();
             }
