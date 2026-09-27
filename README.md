@@ -25,9 +25,9 @@
 
 * **Solo-Operator Optimized**: Built specifically for single-chef operations executing an entire 6-dish daily menu, drastically eliminating decision fatigue and planning friction.
 * **Apple HIG-Inspired UI**: Clean, glassmorphic aesthetic with crystal-clear typography and high-ergonomics touch controls tailored for fast-paced kitchen environments.
-* **Strict 3x3 Daily Structure**:
+* **Fixed 3x3 Daily Layout**:
   * **3 Starters**: `1st Vegetable` + `1st Spoon/Soup` + `1st Fork/Carbs`.
-  * **3 Mains**: `2nd Meat (Option 1)` + `2nd Meat (Option 2)` + `2nd Fish (Mandatory)`.
+  * **3 Mains**: `2nd Meat (Option 1)` + `2nd Meat (Option 2)` + `2nd Fish`.
 * **Advanced Heuristic Engine**: Enforces strict intra-day texture compatibility, zero weekly vegetable duplication, species rotation, and technique caps.
 * **Inter-Week Memory System**: Stores historical menus to alter weekly structures dynamically, preventing copy-paste template fatigue.
 * **2-Tier Fallback System**: Progressive rule relaxation if the user's recipe collection is limited, strictly preserving weekly dish ID uniqueness and daily meat variety.
@@ -44,7 +44,7 @@
 | **1st Course** | **Fork / Carbs** | `pasta_corta_larga` \| `pasta_rellena_horno` \| `arroz` \| `otros_hidratos` |
 | **2nd Course** | **Meat Option 1** | Animal A + (`tecnica_guiso` \| `tecnica_seco_asado` \| `tecnica_frito_rebozado`) |
 | **2nd Course** | **Meat Option 2** | **Animal B (Different)** + Complementary Technique |
-| **2nd Course** | **Fish (Mandatory)**| `pescado` (**Mandatory daily** with explicit species tracking) |
+| **2nd Course** | **Fish** | `pescado` (Explicit species tracking required) |
 
 ---
 
@@ -57,7 +57,7 @@
 
 ### 2. Inter-Day & Weekly Constraints (Monday to Friday)
 * **Zero Weekly Vegetable Repetition**: Strict veto on repeating the main vegetable ingredient in the `1st Vegetable` slot across the entire 5-day week (e.g., Green Beans on Monday vetoes Green Beans for the rest of the week).
-* **Fish Rotation**: Daily fish is mandatory, but **repeating the exact same species on consecutive days is forbidden**.
+* **Fish Rotation**: Repeating the exact same fish species on consecutive days is forbidden (e.g., *Hake* Tuesday ➔ *Cod* Wednesday).
 * **Meat Caps & Techniques**: Maximum **2 consecutive days** featuring the same animal species. Stewed meats (`tecnica_guiso`) are strictly capped at **2–3 per week**, and fried foods (`tecnica_frito_rebozado`) at **max 2 per week**.
 * **Legumes & Cream Soups**: Forbidden on consecutive days (`cuchara_legumbres` & `verdura_crema`).
 
