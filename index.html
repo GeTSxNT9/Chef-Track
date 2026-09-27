@@ -842,6 +842,11 @@
             renderPreparedStock();
         }
 
+        function getTotalRaciones() {
+            const base = Math.max(0, Number(settings.comensales) || 0);
+            return settings.margenActivo ? Math.ceil(base * 1.3) : base;
+        }
+
         function updateCalculatedRaciones(shouldSave = true) {
             const base = parseInt(document.getElementById('inputComensales').value) || 0;
             const margen = document.getElementById('checkMargen').checked;
@@ -849,7 +854,7 @@
             settings.margenActivo = margen;
             if (shouldSave) saveAll();
 
-            const total = margen ? Math.round(base * 1.3) : base;
+            const total = getTotalRaciones();
             const infoText = margen ? `${base} base + 30% margen de seguridad` : `Sin margen de seguridad aplicado`;
             document.getElementById('totalRacionesDisplay').innerText = `${total} raciones`;
             document.getElementById('totalRacionesSubtext').innerText = infoText;
@@ -922,12 +927,14 @@
         }
 
         function getPrepUnitDimension(unit) {
-            return ['kg', 'g'].includes(unit) ? 'weight' : (['L', 'ml'].includes(unit) ? 'volume' : null);
+            const normalizedUnit = String(unit || '').trim().toLowerCase();
+            return ['kg', 'g'].includes(normalizedUnit) ? 'weight' : (['l', 'ml'].includes(normalizedUnit) ? 'volume' : null);
         }
 
         function normalizePrepQuantity(quantity, unit) {
             const value = Number(quantity) || 0;
-            if (unit === 'kg' || unit === 'L') return value * 1000;
+            const normalizedUnit = String(unit || '').trim().toLowerCase();
+            if (normalizedUnit === 'kg' || normalizedUnit === 'l') return value * 1000;
             return value;
         }
 
@@ -1194,7 +1201,13 @@
 
         function usesFreshStock(dish) {
             if (!dish.ingredientes || !Array.isArray(dish.ingredientes)) return false;
-            const freshNames = rawStock.filter(r => (r.conservacion.includes("Fresco") || r.conservacion.includes("Refrigerado")) && r.cantidad > 0).map(r => r.nombre.toLowerCase());
+            const freshNames = rawStock
+                .filter(r => {
+                    const conservacion = String(r.conservacion || '');
+                    return (conservacion.includes("Fresco") || conservacion.includes("Refrigerado")) && Number(r.cantidad) > 0;
+                })
+                .map(r => String(r.nombre || '').toLowerCase())
+                .filter(Boolean);
             return dish.ingredientes.some(ing => {
                 const ingName = ing.nombre.toLowerCase();
                 return freshNames.some(raw => ingName.includes(raw) || raw.includes(ingName));
@@ -1340,7 +1353,7 @@
                 return;
             }
 
-            const totalRacionesPorComida = settings.margenActivo ? Math.round(settings.comensales * 1.3) : settings.comensales;
+            const totalRacionesPorComida = getTotalRaciones();
             document.getElementById('shoppingRacionesBadge').innerText = `${totalRacionesPorComida} Raciones (base)`;
 
             const aggregated = {};
@@ -1436,7 +1449,7 @@
                 alert("Genera un menú semanal primero.");
                 return;
             }
-            const totalRacionesPorComida = settings.margenActivo ? Math.round(settings.comensales * 1.3) : settings.comensales;
+            const totalRacionesPorComida = getTotalRaciones();
             const aggregated = {};
 
             daysList.forEach(dayName => {
@@ -1523,7 +1536,9 @@
 
             const alternatives = dishes.filter(d => {
                 if (d.categoria !== swapTarget.cat) return false;
-                if (searchVal && !d.nombre.toLowerCase().includes(searchVal)) return false;
+                if (swapTarget.cat === 'Primero' && swapTarget.subcat && d.subcategoria_primero !== swapTarget.subcat) return false;
+                if (swapTarget.cat === 'Segundo' && swapTarget.protein && d.proteina_segundo !== swapTarget.protein) return false;
+                if (searchVal && !String(d.nombre || '').toLowerCase().includes(searchVal)) return false;
                 return true;
             });
 
@@ -1641,21 +1656,39 @@
         function importData(e) {
             const file = e.target.files[0];
             if (!file) return;
+
             const reader = new FileReader();
             reader.onload = function(evt) {
                 try {
                     const data = JSON.parse(evt.target.result);
-                    if (data.dishes) dishes = data.dishes;
-                    if (data.settings) settings = data.settings;
-                    if (data.rawStock) rawStock = data.rawStock;
-                    if (data.preparedStock) preparedStock = data.preparedStock;
-                    if (data.currentMenu) currentMenu = data.currentMenu;
-                    if (data.historyMenus) historyMenus = data.historyMenus;
+
+                    if (Array.isArray(data.dishes)) {
+                        dishes = data.dishes.map(d => ({
+                            ...d,
+                            demanda: d.demanda || "Media",
+                            precocinado: !!d.precocinado
+                        }));
+                    }
+                    if (data.settings && typeof data.settings === 'object') {
+                        settings = { ...seedSettings, ...data.settings };
+                    }
+                    if (Array.isArray(data.rawStock)) rawStock = data.rawStock;
+                    if (Array.isArray(data.preparedStock)) preparedStock = data.preparedStock;
+                    if (Object.prototype.hasOwnProperty.call(data, 'currentMenu')) currentMenu = data.currentMenu;
+                    if (Array.isArray(data.historyMenus)) historyMenus = data.historyMenus;
+
                     saveAll();
-                    init();
+                    applyDarkMode();
+                    updateFormVisibility();
+                    renderDishes();
+                    renderStockView();
+                    renderGeneratorView();
+                    renderHistorySection();
                     alert("Datos importados correctamente.");
                 } catch(err) {
                     alert("Error al importar el archivo JSON.");
+                } finally {
+                    e.target.value = '';
                 }
             };
             reader.readAsText(file);
