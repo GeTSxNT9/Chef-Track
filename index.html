@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="ChefTrack">
+    <meta name="apple-mobile-web-app-title" content="GastroOS">
     <meta name="theme-color" content="#4f46e5">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='50'>👨‍🍳</text></svg>">
-    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22ChefTrack%22%2C%22short_name%22%3A%22ChefTrack%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%234f46e5%22%2C%22theme_color%22%3A%22%234f46e5%22%7D">
-    <title>ChefTrack - Gestión de Menús, Stock y Compras</title>
+    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22GastroOS%22%2C%22short_name%22%3A%22GastroOS%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%234f46e5%22%2C%22theme_color%22%3A%22%234f46e5%22%7D">
+    <title>GastroOS - Gestión de Menús, Stock y Compras</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -33,7 +33,7 @@
         <div class="w-8"></div>
         <div class="flex items-center gap-2">
             <svg class="w-6 h-6 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-            <h1 class="text-lg font-bold tracking-wide">ChefTrack</h1>
+            <h1 class="text-lg font-bold tracking-wide">GastroOS</h1>
         </div>
         <button id="themeToggleBtn" onclick="toggleDarkMode()" class="w-9 h-9 flex items-center justify-center rounded-lg bg-indigo-700 dark:bg-indigo-900 text-white text-base shadow-sm hover:bg-indigo-800 transition-colors" title="Cambiar tema">
             🌙
@@ -98,20 +98,20 @@
                     <div id="subcatPrimeroContainer" class="hidden">
                         <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Subcategoría técnica</label>
                         <select id="dishSubcategory" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                            <option value="">Seleccionar subcategoría...</option>
+                            <option value="">Seleccionar...</option>
                             <optgroup label="CUCHARA">
                                 <option value="cuchara_legumbres">Legumbres</option>
                                 <option value="cuchara_guisos">Guisos</option>
                                 <option value="cuchara_sopas_cremas">Sopas / caldos</option>
                             </optgroup>
                             <optgroup label="VERDURA">
-                                <option value="verdura_crema">Crema</option>
-                                <option value="verdura_entera">Verdura entera</option>
+                                <option value="verdura_crema">Cremas</option>
+                                <option value="verdura_entera">Verduras enteras</option>
                             </optgroup>
                             <optgroup label="TENEDOR">
-                                <option value="pasta_corta_larga">Pasta</option>
-                                <option value="pasta_rellena_horno">Pasta rellena</option>
-                                <option value="arroz">Arroz</option>
+                                <option value="pasta_corta_larga">Pastas</option>
+                                <option value="pasta_rellena_horno">Pastas rellenas</option>
+                                <option value="arroz">Arroces</option>
                                 <option value="otros_hidratos">Otros hidratos</option>
                             </optgroup>
                         </select>
@@ -162,8 +162,9 @@
                     <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Técnica de cocina</label>
                     <select id="dishTechnique" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                         <option value="">Seleccionar técnica...</option>
-                        <option value="tecnica_guiso">Guiso / estofado</option>
-                        <option value="tecnica_seco">Asado / brasa</option>
+                        <option value="tecnica_guiso">Guiso / En salsa</option>
+                        <option value="tecnica_seco_asado">Plancha / Asado / Brasa</option>
+                        <option value="tecnica_frito_rebozado">Frito / Rebozado / Empanado</option>
                     </select>
                 </div>
 
@@ -228,7 +229,7 @@
                 </div>
                 <form id="rawStockForm" class="bg-gray-50 dark:bg-gray-800/60 p-3 rounded-lg border border-gray-200 dark:border-gray-700 space-y-3 mb-4">
                     <div>
-                        <input type="text" id="rawName" placeholder="Ingrediente" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+                        <input type="text" id="rawName" placeholder="Nombre" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <input type="text" inputmode="decimal" id="rawQty" placeholder="Cantidad" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
@@ -268,7 +269,7 @@
                         <input type="text" id="prepName" placeholder="Nombre" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <input type="text" inputmode="decimal" id="prepCantidad" placeholder="Cantidad total" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+                        <input type="text" inputmode="decimal" id="prepCantidad" placeholder="Cantidad" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                         <select id="prepUnidad" class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
                             <option value="kg">kg</option>
                             <option value="g">g</option>
@@ -367,8 +368,8 @@
             <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-3">
                 <div class="flex justify-between items-center">
                     <div>
-                        <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Etiquetado rápido del recetario</h3>
-                        <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">Completa las recetas antiguas sin subcategoría técnica sin borrarlas ni recrearlas.</p>
+                        <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Etiquetado rápido</h3>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">Completa las recetas sin subcategoría técnica.</p>
                     </div>
                     <span id="migrationPendingBadge" class="text-[10px] font-black bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 px-2 py-1 rounded-full">0 pendientes</span>
                 </div>
@@ -531,8 +532,13 @@
         }
 
         function normalizeTechnique(value) {
-            const v = String(value || "").toLowerCase();
-            return v.includes("guis") || v.includes("salsa") || v.includes("estof") ? "tecnica_guiso" : "tecnica_seco";
+            const raw = String(value || "").trim();
+            const v = raw.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            if (raw === "tecnica_guiso" || v.includes("guis") || v.includes("salsa") || v.includes("estof")) return "tecnica_guiso";
+            if (raw === "tecnica_frito_rebozado" || v.includes("frit") || v.includes("reboz") || v.includes("empan") || v.includes("milanes") || v.includes("san jacobo") || v.includes("croquet")) return "tecnica_frito_rebozado";
+            if (raw === "tecnica_seco_asado" || v.includes("seco") || v.includes("asado") || v.includes("brasa") || v.includes("parrilla") || v.includes("plancha")) return "tecnica_seco_asado";
+            if (raw === "tecnica_seco") return "tecnica_seco";
+            return raw;
         }
 
         function normalizeFishSpecies(value) {
@@ -544,7 +550,7 @@
         function hasCompleteTechnicalTags(d) {
             if (!d || !d.categoria) return false;
             if (d.categoria === "Primero") return !!d.subtipo_primero;
-            if (d.proteina_segundo === "Carne") return MEAT_ANIMALS.includes(d.animal_carne) && ["tecnica_guiso", "tecnica_seco"].includes(d.tecnica_cocina);
+            if (d.proteina_segundo === "Carne") return MEAT_ANIMALS.includes(d.animal_carne) && ["tecnica_guiso", "tecnica_seco_asado", "tecnica_frito_rebozado"].includes(d.tecnica_cocina);
             if (d.proteina_segundo === "Pescado") return !!d.especie_pescado;
             return false;
         }
@@ -563,8 +569,20 @@
         let swapTarget = null;
 
         // --- 2. INICIALIZACIÓN ---
+        function migrateStorageNamespace() {
+            const keys = ["dishes", "settings", "rawStock", "preparedStock", "currentMenu", "historyMenus"];
+            keys.forEach(key => {
+                const gastroKey = `GastroOS_${key}`;
+                const legacyKey = `chefTrack_${key}`;
+                if (localStorage.getItem(gastroKey) === null && localStorage.getItem(legacyKey) !== null) {
+                    localStorage.setItem(gastroKey, localStorage.getItem(legacyKey));
+                }
+            });
+        }
+
         function init() {
             registerServiceWorker();
+            migrateStorageNamespace();
 
             const storedDishes = localStorage.getItem('chefTrack_dishes');
             dishes = storedDishes ? JSON.parse(storedDishes) : [];
@@ -1013,7 +1031,7 @@
             const pending = getMigrationCandidates();
             if (badge) badge.innerText = `${pending.length} pendientes`;
             if (!pending.length) {
-                container.innerHTML = '<div class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold p-2 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg">✅ Todo el recetario tiene las etiquetas técnicas necesarias.</div>';
+                container.innerHTML = '<div class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold p-2 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg">✅ Todo el recetario está correctamente etiquetado.</div>';
                 return;
             }
 
@@ -1040,8 +1058,9 @@
                                 </select>
                                 <select id="mig-tech-${escapeHtml(d.id)}" class="p-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">
                                     <option value="">Técnica...</option>
-                                    <option value="tecnica_guiso" ${d.tecnica_cocina==="tecnica_guiso"?'selected':''}>Guiso</option>
-                                    <option value="tecnica_seco" ${d.tecnica_cocina==="tecnica_seco"?'selected':''}>Seco / directo</option>
+                                    <option value="tecnica_guiso" ${d.tecnica_cocina==="tecnica_guiso"?'selected':''}>Guiso / En salsa</option>
+                                    <option value="tecnica_seco_asado" ${(d.tecnica_cocina==="tecnica_seco_asado" || d.tecnica_cocina==="tecnica_seco")?'selected':''}>Plancha / Asado / Brasa</option>
+                                    <option value="tecnica_frito_rebozado" ${d.tecnica_cocina==="tecnica_frito_rebozado"?'selected':''}>Frito / Rebozado / Empanado</option>
                                 </select>
                             </div>` : ''}
                         ${fish ? `
@@ -1345,6 +1364,11 @@
             return !!dishAnimal && chosenAnimals.includes(dishAnimal);
         }
 
+        function countWeeklyTechnique(menuDays, technique) {
+            return daysList.reduce((total, dayName) => total + (menuDays[dayName] || [])
+                .filter(s => s.cat === "Segundo" && s.dish?.tecnica_cocina === technique).length, 0);
+        }
+
         function isStructuralMatch(dish, spec) {
             if (!dish || dish.categoria !== spec.cat) return false;
             if (spec.cat === "Primero") {
@@ -1380,6 +1404,13 @@
 
             // Estas dos restricciones son intocables en todos los niveles.
             if (conflictsWithSecondSpecies(dish.animal_carne, chosenAnimals)) return true;
+
+            // Nunca dos fritos/rebozados en el mismo día.
+            if (dish.tecnica_cocina === "tecnica_frito_rebozado" && chosenTechniques.includes("tecnica_frito_rebozado")) return true;
+
+            // Máximo semanal de 2: solo se relaja en nivel 2, como último recurso.
+            if (relaxationLevel < 2 && dish.tecnica_cocina === "tecnica_frito_rebozado" &&
+                countWeeklyTechnique(menuDays, "tecnica_frito_rebozado") >= 2) return true;
 
             // Nivel 2 relaja únicamente el máximo de 2 días consecutivos de animal.
             if (relaxationLevel < 2 && animalHasThreeDayStreak(menuDays, dayIndex, dish.animal_carne)) return true;
@@ -1443,7 +1474,7 @@
         }
 
         function generateWeeklyMenu() {
-            const newMenu = { generatedAt: new Date().toISOString(), days: {}, engineVersion: "menu-rules-v2" };
+            const newMenu = { generatedAt: new Date().toISOString(), days: {}, engineVersion: "menu-rules-v3-gastroos-techniques" };
             const usedDishIdsThisWeek = new Set();
             const prepMap = getPreparedMap();
 
@@ -1643,6 +1674,7 @@
                 if (meats.length !== 2) errors.push(`${dayName}: deben existir 2 carnes.`);
                 if (meats[0]?.animal_carne && meats[0].animal_carne === meats[1]?.animal_carne) errors.push(`${dayName}: las dos carnes usan el mismo animal.`);
                 if (meats.filter(m => m?.tecnica_cocina === "tecnica_guiso").length > 1) errors.push(`${dayName}: hay dos carnes guisadas.`);
+                if (meats.filter(m => m?.tecnica_cocina === "tecnica_frito_rebozado").length > 1) errors.push(`${dayName}: hay dos fritos/rebozados.`);
                 if (slots[5]?.dish?.proteina_segundo !== "Pescado") errors.push(`${dayName}: falta el pescado obligatorio.`);
                 if (!slots[5]?.dish?.especie_pescado) errors.push(`${dayName}: el pescado no tiene especie exacta.`);
 
@@ -1678,6 +1710,12 @@
                     });
                 }
             });
+
+            const weeklyFriedCount = daysList.reduce((total, dayName) => total + (menu.days[dayName] || [])
+                .filter(s => s.cat === "Segundo" && s.dish?.tecnica_cocina === "tecnica_frito_rebozado").length, 0);
+            if (weeklyFriedCount > 2) {
+                errors.push(`Semana: hay ${weeklyFriedCount} fritos/rebozados; el máximo es 2.`);
+            }
 
             return { valid: errors.length === 0, errors };
         }
