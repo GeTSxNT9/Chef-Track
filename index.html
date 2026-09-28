@@ -398,10 +398,10 @@
             <h1 class="text-lg font-bold tracking-wide">GastroOS</h1>
         </div>
         <button id="themeToggleBtn" onclick="toggleDarkMode()" class="w-9 h-9 flex items-center justify-center rounded-full transition-colors duration-200 hover:bg-gray-200 dark:hover:bg-gray-700" title="Cambiar tema">
-    <svg id="theme-toggle-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-contrast transition-transform duration-300 ease-in-out dark:rotate-180">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 18a6 6 0 0 0 0-12v12z" fill="currentColor"/>
-    </svg>
+            <svg id="theme-toggle-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-contrast transition-transform duration-300 ease-in-out dark:rotate-180">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 18a6 6 0 0 0 0-12v12z" fill="currentColor"/>
+            </svg>
         </button>
     </header>
 
@@ -1016,13 +1016,10 @@
         }
 
         function applyDarkMode() {
-            const btn = document.getElementById('themeToggleBtn');
             if (settings.darkMode) {
                 document.documentElement.classList.add('dark');
-                if (btn) btn.innerText = '☀️';
             } else {
                 document.documentElement.classList.remove('dark');
-                if (btn) btn.innerText = '🌙';
             }
         }
 
@@ -1656,7 +1653,7 @@
                     <div class="flex items-center gap-1">
                         <button onclick="changePrepQty('${item.id}', -1)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">-</button>
                         <button onclick="changePrepQty('${item.id}', 1)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">+</button>
-                        <button onclick="deletePrep('${item.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                        <button onclick="deletePrep('${item.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                     </div>
                 `;
                 container.appendChild(card);
@@ -1876,7 +1873,7 @@
 
             // No se copia el mismo plato en la misma posición de la semana anterior.
             // La variedad de verduras entre semanas no es un veto: la regla de unicidad
-            // de verdura es estrictamente intraseñana y así se evita bloquear bases de datos pequeñas.
+            // de verdura es strictly intraseñana y así se evita bloquear bases de datos pequeñas.
             return false;
         }
 
