@@ -398,7 +398,7 @@
             <h1 class="text-lg font-bold tracking-wide">GastroOS</h1>
         </div>
         <button id="themeToggleBtn" onclick="toggleDarkMode()" class="w-9 h-9 flex items-center justify-center rounded-full transition-all" title="Cambiar tema">
-            🌙
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-contrast"><circle cx="12" cy="12" r="10"/><path d="M12 18a6 6 0 0 0 0-12v12z" fill="currentColor"/></svg>
         </button>
     </header>
 
@@ -434,129 +434,6 @@
             </div>
 
             <div id="dishesList" class="space-y-3"></div>
-        </main>
-
-        <!-- VISTA 2: AÑADIR / EDITAR PLATO -->
-        <main id="view-form" class="p-4 hidden">
-            <h2 id="form-title" class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Añadir Nuevo Plato</h2>
-            <form id="dishForm" class="space-y-4 bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
-                <input type="hidden" id="dishId">
-                
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Nombre</label>
-                    <input type="text" id="dishName" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-900 focus:ring-2 focus:ring-indigo-500">
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Categoría</label>
-                        <select id="dishCategory" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                            <option value="">Seleccionar...</option>
-                            <option value="Primero">Primero</option>
-                            <option value="Segundo">Segundo</option>
-                        </select>
-                    </div>
-                    
-                    <div id="subcatPrimeroContainer" class="hidden">
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Subcategoría técnica</label>
-                        <select id="dishSubcategory" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                            <option value="">Seleccionar...</option>
-                            <optgroup label="CUCHARA">
-                                <option value="cuchara_legumbres">Legumbres</option>
-                                <option value="cuchara_guisos">Guisos</option>
-                                <option value="cuchara_sopas_cremas">Sopas / caldos</option>
-                            </optgroup>
-                            <optgroup label="VERDURA">
-                                <option value="verdura_crema">Cremas</option>
-                                <option value="verdura_entera">Verduras enteras</option>
-                            </optgroup>
-                            <optgroup label="TENEDOR">
-                                <option value="pasta_corta_larga">Pastas</option>
-                                <option value="pasta_rellena_horno">Pastas rellenas</option>
-                                <option value="arroz">Arroces</option>
-                                <option value="otros_hidratos">Otros hidratos</option>
-                            </optgroup>
-                        </select>
-                    </div>
-
-                    <div id="protSegundoContainer" class="hidden">
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Proteína</label>
-                        <select id="dishProtein" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                            <option value="Carne">Carne</option>
-                            <option value="Pescado">Pescado</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div id="speciesContainer" class="hidden">
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Tipo de animal</label>
-                    <select id="dishSpecies" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                        <option value="">Seleccionar animal...</option>
-                        <option value="carne_pollo">Pollo</option>
-                        <option value="carne_pavo">Pavo</option>
-                        <option value="carne_cerdo">Cerdo</option>
-                        <option value="carne_ternera">Ternera</option>
-                        <option value="carne_conejo">Conejo</option>
-                        <option value="carne_cordero">Cordero</option>
-                    </select>
-                </div>
-
-                <div id="fishSpeciesContainer" class="hidden">
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Especie / tipo exacto de pescado</label>
-                    <select id="dishFishSpecies" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                        <option value="">Seleccionar especie...</option>
-                        <option value="merluza">Merluza</option>
-                        <option value="salmon">Salmón</option>
-                        <option value="bacalao">Bacalao</option>
-                        <option value="dorada">Dorada</option>
-                        <option value="lubina">Lubina</option>
-                        <option value="atun">Atún</option>
-                        <option value="calamares">Calamares</option>
-                        <option value="sepia">Sepia</option>
-                        <option value="sardina">Sardina</option>
-                        <option value="caballa">Caballa</option>
-                        <option value="otro">Otro (especificar)</option>
-                    </select>
-                    <input id="dishFishSpeciesCustom" type="text" placeholder="Especie exacta..." class="hidden mt-2 w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                </div>
-
-                <div id="techniqueContainer" class="hidden">
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Técnica de cocina</label>
-                    <select id="dishTechnique" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                        <option value="">Seleccionar técnica...</option>
-                        <option value="tecnica_guiso">Guiso / En salsa</option>
-                        <option value="tecnica_seco_asado">Plancha / Asado / Brasa</option>
-                        <option value="tecnica_frito_rebozado">Frito / Rebozado / Empanado</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Aceptación/Demanda</label>
-                    <select id="dishDemand" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                        <option value="Alta">🟢 Alta</option>
-                        <option value="Media" selected>🟡 Media</option>
-                        <option value="Baja">🔴 Baja</option>
-                    </select>
-                </div>
-
-                <div class="flex items-center justify-between bg-indigo-50 dark:bg-indigo-950/50 p-3 rounded-lg border border-indigo-100 dark:border-indigo-900 mt-2">
-                    <label for="dishPrecooked" class="text-sm font-bold text-indigo-900 dark:text-indigo-300">¿Es un plato precocinado?</label>
-                    <input type="checkbox" id="dishPrecooked" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500">
-                </div>
-
-                <div class="border-t border-gray-200 dark:border-gray-800 pt-4 mt-4">
-                    <div class="flex justify-between items-center mb-2">
-                        <label class="block text-sm font-semibold text-gray-800 dark:text-gray-200">Ingredientes (por 1 ración)</label>
-                        <button type="button" id="addIngredientBtn" class="text-indigo-600 dark:text-indigo-400 font-bold text-xs bg-indigo-50 dark:bg-indigo-950 px-2 py-1 rounded">+ Añadir</button>
-                    </div>
-                    <div id="ingredientsContainer" class="space-y-2"></div>
-                </div>
-
-                <div class="pt-4 flex gap-2">
-                    <button type="button" id="btnCancel" class="hidden flex-1 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 py-3 rounded-lg font-bold text-sm shadow-sm">Cancelar</button>
-                    <button type="submit" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold text-sm shadow-md">GUARDAR</button>
-                </div>
-            </form>
         </main>
 
         <!-- VISTA 3: STOCK Y PREVISIÓN -->
@@ -727,19 +604,6 @@
                 </div>
                 <div id="historyListContainer" class="space-y-2"></div>
             </section>
-            <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-3">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Etiquetado rápido</h3>
-                        <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">Completa las recetas sin subcategoría técnica.</p>
-                    </div>
-                    <span id="migrationPendingBadge" class="text-[10px] font-black bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 px-2 py-1 rounded-full">0 pendientes</span>
-                </div>
-                <div id="migrationList" class="space-y-2"></div>
-            </section>
-
-
-
             <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-4">
                 <div>
                     <h3 class="font-bold text-gray-700 dark:text-gray-300 text-sm mb-2">Copia de Seguridad Integral</h3>
@@ -789,11 +653,7 @@
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
             <span class="text-[9px] font-semibold">RECETARIO</span>
         </button>
-        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-form">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-            <span class="text-[9px] font-semibold">AÑADIR</span>
-        </button>
-        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-stock">
+<button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-stock">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
             <span class="text-[9px] font-semibold">STOCK/PREV.</span>
         </button>
@@ -807,6 +667,7 @@
         </button>
     </nav>
 
+    <script src="recipes.js"></script>
     <script>
 
         // --- 1. DATOS Y MAPAS DE ESTADO ---
@@ -850,6 +711,17 @@
 
         function normalizeDishData(d) {
             const dish = { ...d };
+            const firstSubtypeMap = { "Legumbres": "cuchara_legumbres", "Guisos": "cuchara_guisos", "Sopas / caldos": "cuchara_sopas_cremas", "Cremas": "verdura_crema", "Verduras enteras": "verdura_entera", "Pastas": "pasta_corta_larga", "Pastas rellenas": "pasta_rellena_horno", "Arroces": "arroz", "Otros hidratos": "otros_hidratos" };
+            const meatMap = { Pollo: "carne_pollo", Pavo: "carne_pavo", Cerdo: "carne_cerdo", Ternera: "carne_ternera", Conejo: "carne_conejo", Cordero: "carne_cordero" };
+            const fishMap = { Merluza: "merluza", Salmón: "salmon", Bacalao: "bacalao", Dorada: "dorada", Lubina: "lubina", Atún: "atun", Calamares: "calamares", Sepia: "sepia", Sardina: "sardina", Caballa: "caballa" };
+            const techniqueMap = { "Guiso / En salsa": "tecnica_guiso", "Plancha / Asado / Brasa": "tecnica_seco_asado", "Frito / Rebozado / Empanado": "tecnica_frito_rebozado" };
+            if (!dish.subtipo_primero && dish.subcategoria && firstSubtypeMap[dish.subcategoria]) dish.subtipo_primero = firstSubtypeMap[dish.subcategoria];
+            if (!dish.subcategoria_primero && dish.subtipo_primero) dish.subcategoria_primero = firstParentFromTechnical(dish.subtipo_primero);
+            if (!dish.proteina_segundo && dish.proteina) dish.proteina_segundo = dish.proteina;
+            if (!dish.animal_carne && dish.tipoAnimal) dish.animal_carne = meatMap[dish.tipoAnimal] || dish.tipoAnimal;
+            if (!dish.especie_pescado && dish.especiePescado) dish.especie_pescado = fishMap[dish.especiePescado] || dish.especiePescado;
+            if (!dish.tecnica_cocina && dish.tecnicaCocina) dish.tecnica_cocina = techniqueMap[dish.tecnicaCocina] || dish.tecnicaCocina;
+            if (dish.precocinado === undefined && dish.esPrecocinado !== undefined) dish.precocinado = !!dish.esPrecocinado;
             dish.demanda = dish.demanda || "Media";
             dish.precocinado = !!dish.precocinado;
             dish.subcategoria_primero = dish.subcategoria_primero || "";
@@ -948,9 +820,7 @@
             registerServiceWorker();
             migrateStorageNamespace();
 
-            const storedDishes = localStorage.getItem('chefTrack_dishes');
-            dishes = storedDishes ? JSON.parse(storedDishes) : [];
-            dishes = dishes.map(normalizeDishData);
+            dishes = DEFAULT_RECIPES.map(normalizeDishData);
 
             const storedSettings = localStorage.getItem('chefTrack_settings');
             settings = storedSettings ? JSON.parse(storedSettings) : { ...defaultSettings };
@@ -971,12 +841,10 @@
 
             saveAll();
             setupEventListeners();
-            updateFormVisibility(); 
             renderDishes();
             renderStockView();
             renderGeneratorView();
             renderHistorySection();
-            renderMigrationUI();
         }
 
         function registerServiceWorker() {
@@ -1016,10 +884,10 @@
             const btn = document.getElementById('themeToggleBtn');
             if (settings.darkMode) {
                 document.documentElement.classList.add('dark');
-                if (btn) btn.innerText = '☀️';
+                if (btn) btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-contrast"><circle cx="12" cy="12" r="10"/><path d="M12 18a6 6 0 0 0 0-12v12z" fill="currentColor"/></svg>';
             } else {
                 document.documentElement.classList.remove('dark');
-                if (btn) btn.innerText = '🌙';
+                if (btn) btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-contrast"><circle cx="12" cy="12" r="10"/><path d="M12 18a6 6 0 0 0 0-12v12z" fill="currentColor"/></svg>';
             }
         }
 
@@ -1035,7 +903,6 @@
                     });
                     e.currentTarget.classList.remove('text-gray-400', 'dark:text-gray-500');
                     e.currentTarget.classList.add('text-indigo-600', 'dark:text-indigo-400', 'active');
-                    if (targetId === 'view-form' && !document.getElementById('dishId').value) resetForm();
                 });
             });
 
@@ -1078,15 +945,6 @@
             });
 
             document.getElementById('searchInput').addEventListener('input', renderDishes);
-            document.getElementById('dishCategory').addEventListener('change', updateFormVisibility);
-            document.getElementById('dishProtein').addEventListener('change', updateFormVisibility);
-            document.getElementById('dishFishSpecies').addEventListener('change', updateFormVisibility);
-            document.getElementById('addIngredientBtn').addEventListener('click', () => addIngredientRow());
-            document.getElementById('dishForm').addEventListener('submit', handleFormSubmit);
-            document.getElementById('btnCancel').addEventListener('click', () => {
-                resetForm();
-                document.querySelector('.nav-btn[data-target="view-banco"]').click();
-            });
 
             document.getElementById('inputComensales').addEventListener('input', updateCalculatedRaciones);
             document.getElementById('checkMargen').addEventListener('change', updateCalculatedRaciones);
@@ -1119,28 +977,8 @@
             document.getElementById('btnWipeData').addEventListener('click', wipeData);
         }
 
-        function updateFormVisibility() {
-            const cat = document.getElementById('dishCategory').value;
-            const prot = document.getElementById('dishProtein').value;
-            const fish = document.getElementById('dishFishSpecies')?.value || "";
-            const isPrimero = cat === 'Primero';
-            const isSegundo = cat === 'Segundo';
-            const isCarne = isSegundo && prot === 'Carne';
-            const isPescado = isSegundo && prot === 'Pescado';
-
-            document.getElementById('subcatPrimeroContainer').classList.toggle('hidden', !isPrimero);
-            document.getElementById('protSegundoContainer').classList.toggle('hidden', !isSegundo);
-            document.getElementById('speciesContainer').classList.toggle('hidden', !isCarne);
-            document.getElementById('fishSpeciesContainer').classList.toggle('hidden', !isPescado);
-            document.getElementById('techniqueContainer').classList.toggle('hidden', !(isSegundo && (isCarne || isPescado)));
-            if (document.getElementById('fishSpeciesCustom')) {
-                document.getElementById('fishSpeciesCustom').classList.toggle('hidden', !(isPescado && fish === "otro"));
-                document.getElementById('fishSpeciesCustom').required = isPescado && fish === "otro";
-            }
-        }
-
         function switchView(viewId) {
-            ['view-banco', 'view-form', 'view-stock', 'view-generator', 'view-settings'].forEach(id => {
+            ['view-banco', 'view-stock', 'view-generator', 'view-settings'].forEach(id => {
                 const el = document.getElementById(id);
                 if (id === viewId) { el.classList.remove('hidden'); el.classList.add('block'); }
                 else { el.classList.remove('block'); el.classList.add('hidden'); }
@@ -1226,9 +1064,6 @@
                             ${missingBadge}${precookedBadge}
                         </div>
                     </div>
-                    <div class="absolute top-3 right-3 flex flex-col gap-2">
-                        <button onclick="editDish('${d.id}')" class="text-blue-500 bg-blue-50 dark:bg-blue-950 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
-                        <button onclick="deleteDish('${d.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                     </div>`;
                 list.appendChild(card);
             });
@@ -1239,243 +1074,6 @@
         }
 
 
-        function addIngredientRow(nombre = '', cantidad = '', unidad = 'kg', categoria = 'Secos') {
-            const container = document.getElementById('ingredientsContainer');
-            const row = document.createElement('div');
-            row.className = 'ingredient-row flex gap-2 items-center';
-            row.innerHTML = `
-                <input type="text" placeholder="Ingrediente..." value="${nombre}" required class="flex-[3] min-w-0 w-full p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                <input type="text" inputmode="decimal" placeholder="Cant." value="${cantidad !== '' && cantidad !== undefined ? cantidad : ''}" required class="w-16 min-w-[4rem] flex-[0_0_4rem] p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                <select class="w-14 min-w-[3.5rem] flex-[0_0_3.5rem] p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                    <option value="kg" ${unidad==='kg'?'selected':''}>kg</option>
-                    <option value="g" ${unidad==='g'?'selected':''}>g</option>
-                    <option value="L" ${unidad==='L'?'selected':''}>L</option>
-                    <option value="ml" ${unidad==='ml'?'selected':''}>ml</option>
-                </select>
-                <select class="flex-2 p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                    ${proveedorCategorias.map(c => `<option value="${c}" ${categoria===c?'selected':''}>${c}</option>`).join('')}
-                </select>
-                <button type="button" class="text-red-500 font-bold px-1" onclick="this.parentElement.remove()">×</button>
-            `;
-            container.appendChild(row);
-        }
-
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            const id = document.getElementById('dishId').value || Date.now().toString();
-            const cat = document.getElementById('dishCategory').value;
-            const prot = document.getElementById('dishProtein').value;
-            const isPrimero = cat === "Primero";
-            const isCarne = cat === "Segundo" && prot === "Carne";
-            const isPescado = cat === "Segundo" && prot === "Pescado";
-
-            let fishSpecies = "";
-            if (isPescado) {
-                const selected = document.getElementById('dishFishSpecies').value;
-                fishSpecies = selected === "otro"
-                    ? document.getElementById('dishFishSpeciesCustom').value.trim().toLowerCase()
-                    : selected;
-                if (!fishSpecies) {
-                    alert("El pescado debe tener registrada la especie/tipo exacto.");
-                    return;
-                }
-            }
-
-            const subtype = isPrimero ? document.getElementById('dishSubcategory').value : "";
-            if (isPrimero && !subtype) {
-                alert("Selecciona la subcategoría técnica del primero.");
-                return;
-            }
-            if (isCarne && !document.getElementById('dishSpecies').value) {
-                alert("Selecciona el tipo de animal de la carne.");
-                return;
-            }
-            if ((isCarne || isPescado) && !document.getElementById('dishTechnique').value) {
-                alert("Selecciona la técnica de cocina.");
-                return;
-            }
-
-            const newDish = {
-                id,
-                nombre: document.getElementById('dishName').value.trim(),
-                categoria: cat,
-                subcategoria_primero: isPrimero ? firstParentFromTechnical(subtype) : "",
-                subtipo_primero: subtype,
-                proteina_segundo: cat === "Segundo" ? prot : "",
-                animal_carne: isCarne ? document.getElementById('dishSpecies').value : "",
-                especie_pescado: isPescado ? fishSpecies : "",
-                // Se conservan aliases para compatibilidad con menús/histórico anteriores.
-                especie_animal: isCarne ? document.getElementById('dishSpecies').value : (isPescado ? "Pescado" : ""),
-                tecnica_cocina: (isCarne || isPescado) ? document.getElementById('dishTechnique').value : "",
-                tecnica: (isCarne || isPescado) ? document.getElementById('dishTechnique').value : "",
-                precocinado: document.getElementById('dishPrecooked').checked,
-                demanda: document.getElementById('dishDemand').value,
-                ingredientes: []
-            };
-
-            document.querySelectorAll('.ingredient-row').forEach(row => {
-                const inputs = row.querySelectorAll('input, select');
-                if (inputs[0].value.trim()) {
-                    newDish.ingredientes.push({
-                        nombre: inputs[0].value.trim(),
-                        cantidad: parseFloat(inputs[1].value.toString().replace(',', '.')) || 0,
-                        unidad: inputs[2].value,
-                        categoria_proveedor: inputs[3].value
-                    });
-                }
-            });
-
-            const idx = dishes.findIndex(d => d.id === id);
-            if (idx >= 0) dishes[idx] = normalizeDishData(newDish);
-            else dishes.unshift(normalizeDishData(newDish));
-
-            saveAll();
-            resetForm();
-            document.querySelector('.nav-btn[data-target="view-banco"]').click();
-            renderDishes();
-            renderMigrationUI();
-        }
-
-        function editDish(id) {
-            const d = normalizeDishData(dishes.find(x => x.id === id));
-            if (!d) return;
-
-            document.getElementById('form-title').innerText = "Editar Plato";
-            document.getElementById('btnCancel').classList.remove('hidden');
-            document.getElementById('dishId').value = d.id;
-            document.getElementById('dishName').value = d.nombre || "";
-            document.getElementById('dishCategory').value = d.categoria || "";
-
-            if (d.categoria === 'Primero') {
-                document.getElementById('dishSubcategory').value = d.subtipo_primero || "";
-            } else if (d.categoria === 'Segundo') {
-                document.getElementById('dishProtein').value = d.proteina_segundo || "Carne";
-                document.getElementById('dishSpecies').value = d.animal_carne || "";
-                const fish = d.especie_pescado || "";
-                const known = FISH_SPECIES.includes(fish);
-                document.getElementById('dishFishSpecies').value = known ? fish : (fish ? "otro" : "");
-                document.getElementById('dishFishSpeciesCustom').value = known ? "" : fish;
-                document.getElementById('dishTechnique').value = d.tecnica_cocina || "";
-            }
-
-            document.getElementById('dishPrecooked').checked = !!d.precocinado;
-            document.getElementById('dishDemand').value = d.demanda || "Media";
-            updateFormVisibility();
-
-            const container = document.getElementById('ingredientsContainer');
-            container.innerHTML = '';
-            (d.ingredientes || []).forEach(ing => addIngredientRow(ing.nombre, ing.cantidad, ing.unidad, ing.categoria_proveedor));
-            document.querySelector('.nav-btn[data-target="view-form"]').click();
-        }
-
-        function deleteDish(id) {
-            if (confirm("¿Seguro que quieres borrar este plato?")) {
-                dishes = dishes.filter(d => d.id !== id);
-                saveAll();
-                renderDishes();
-            }
-        }
-
-        function resetForm() {
-            document.getElementById('dishForm').reset();
-            document.getElementById('dishId').value = '';
-            document.getElementById('form-title').innerText = "AÑADIR PLATO";
-            document.getElementById('btnCancel').classList.add('hidden');
-            document.getElementById('ingredientsContainer').innerHTML = '';
-            document.getElementById('dishPrecooked').checked = false;
-            document.getElementById('dishFishSpeciesCustom').value = '';
-            updateFormVisibility();
-        }
-
-
-        function getMigrationCandidates() {
-            return dishes.map(normalizeDishData).filter(d => !hasCompleteTechnicalTags(d));
-        }
-
-        function renderMigrationUI() {
-            const container = document.getElementById("migrationList");
-            const badge = document.getElementById("migrationPendingBadge");
-            if (!container) return;
-            const pending = getMigrationCandidates();
-            if (badge) badge.innerText = `${pending.length} pendientes`;
-            if (!pending.length) {
-                container.innerHTML = '<div class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold p-2 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg">✅ Todo el recetario está correctamente etiquetado.</div>';
-                return;
-            }
-
-            container.innerHTML = pending.map(d => {
-                const first = d.categoria === "Primero";
-                const meat = d.categoria === "Segundo" && d.proteina_segundo === "Carne";
-                const fish = d.categoria === "Segundo" && d.proteina_segundo === "Pescado";
-                return `
-                    <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800/50" data-migration-id="${escapeHtml(d.id)}">
-                        <div class="mb-2">
-                            <div class="font-bold text-xs text-gray-800 dark:text-gray-100">${escapeHtml(d.nombre)}</div>
-                            <div class="text-[10px] text-gray-500 dark:text-gray-400">${escapeHtml(d.categoria)}${d.proteina_segundo ? ` · ${escapeHtml(d.proteina_segundo)}` : ''}</div>
-                        </div>
-                        ${first ? `
-                            <select id="mig-sub-${escapeHtml(d.id)}" class="w-full p-2 mb-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">
-                                <option value="">Subcategoría técnica...</option>
-                                ${Object.entries(FIRST_LABELS).map(([value,label]) => `<option value="${value}" ${d.subtipo_primero===value?'selected':''}>${label}</option>`).join("")}
-                            </select>` : ''}
-                        ${meat ? `
-                            <div class="grid grid-cols-2 gap-2 mb-2">
-                                <select id="mig-animal-${escapeHtml(d.id)}" class="p-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">
-                                    <option value="">Animal...</option>
-                                    ${MEAT_ANIMALS.map(a => `<option value="${a}" ${d.animal_carne===a?'selected':''}>${MEAT_LABELS[a]}</option>`).join("")}
-                                </select>
-                                <select id="mig-tech-${escapeHtml(d.id)}" class="p-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">
-                                    <option value="">Técnica...</option>
-                                    <option value="tecnica_guiso" ${d.tecnica_cocina==="tecnica_guiso"?'selected':''}>Guiso / En salsa</option>
-                                    <option value="tecnica_seco_asado" ${(d.tecnica_cocina==="tecnica_seco_asado" || d.tecnica_cocina==="tecnica_seco")?'selected':''}>Plancha / Asado / Brasa</option>
-                                    <option value="tecnica_frito_rebozado" ${d.tecnica_cocina==="tecnica_frito_rebozado"?'selected':''}>Frito / Rebozado / Empanado</option>
-                                </select>
-                            </div>` : ''}
-                        ${fish ? `
-                            <select id="mig-fish-${escapeHtml(d.id)}" class="w-full p-2 mb-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">
-                                <option value="">Especie exacta...</option>
-                                ${FISH_SPECIES.map(a => `<option value="${a}" ${d.especie_pescado===a?'selected':''}>${FISH_LABELS[a]}</option>`).join("")}
-                                <option value="otro" ${d.especie_pescado && !FISH_SPECIES.includes(d.especie_pescado) ? 'selected':''}>Otra</option>
-                            </select>
-                            <input id="mig-fish-custom-${escapeHtml(d.id)}" value="${escapeHtml(d.especie_pescado && !FISH_SPECIES.includes(d.especie_pescado) ? d.especie_pescado : '')}" placeholder="Si es otra, escribe la especie exacta" class="w-full p-2 mb-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">` : ''}
-                        <button onclick="saveMigrationTag('${escapeHtml(d.id)}')" class="w-full bg-indigo-600 text-white py-2 rounded-lg text-xs font-bold">Guardar etiqueta</button>
-                    </div>`;
-            }).join("");
-        }
-
-        function saveMigrationTag(id) {
-            const d = dishes.find(x => x.id === id);
-            if (!d) return;
-            const nd = normalizeDishData(d);
-
-            if (nd.categoria === "Primero") {
-                const subtype = document.getElementById(`mig-sub-${id}`)?.value || "";
-                if (!subtype) return alert("Selecciona una subcategoría.");
-                nd.subtipo_primero = subtype;
-                nd.subcategoria_primero = firstParentFromTechnical(subtype);
-            } else if (nd.proteina_segundo === "Carne") {
-                const animal = document.getElementById(`mig-animal-${id}`)?.value || "";
-                const technique = document.getElementById(`mig-tech-${id}`)?.value || "";
-                if (!animal || !technique) return alert("Selecciona animal y técnica.");
-                nd.animal_carne = animal;
-                nd.especie_animal = animal;
-                nd.tecnica_cocina = technique;
-                nd.tecnica = technique;
-            } else if (nd.proteina_segundo === "Pescado") {
-                const selected = document.getElementById(`mig-fish-${id}`)?.value || "";
-                const custom = document.getElementById(`mig-fish-custom-${id}`)?.value.trim().toLowerCase() || "";
-                const species = selected === "otro" ? custom : selected;
-                if (!species) return alert("Registra la especie exacta.");
-                nd.especie_pescado = species;
-                nd.especie_animal = "Pescado";
-            }
-
-            const index = dishes.findIndex(x => x.id === id);
-            dishes[index] = normalizeDishData(nd);
-            saveAll();
-            renderDishes();
-            renderMigrationUI();
-        }
         // --- 5. STOCK Y PREVISIÓN ---
         function renderStockView() {
             document.getElementById('inputComensales').value = settings.comensales;
@@ -2837,13 +2435,11 @@
 
                     saveAll();
                     applyDarkMode();
-                    updateFormVisibility();
                     renderDishes();
                     renderStockView();
                     renderGeneratorView();
                     renderHistorySection();
-                    renderMigrationUI();
-                    alert("Datos importados correctamente.");
+                            alert("Datos importados correctamente.");
                 } catch(err) {
                     alert("Error al importar el archivo JSON.");
                 } finally {
