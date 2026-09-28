@@ -649,19 +649,19 @@
 
     <!-- NAVEGACIÓN INFERIOR -->
     <nav class="flex-shrink-0 flex justify-around items-center fixed bottom-0 left-0 right-0 z-50">
-        <button class="nav-btn active flex flex-col items-center justify-center w-full h-full text-indigo-600 dark:text-indigo-400" data-target="view-banco">
+        <button type="button" onclick="switchTab('recetario')" class="nav-btn active flex flex-col items-center justify-center w-full h-full text-indigo-600 dark:text-indigo-400" data-target="view-banco" data-tab="recetario">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
             <span class="text-[9px] font-semibold">RECETARIO</span>
         </button>
-<button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-stock">
+<button type="button" onclick="switchTab('stock')" class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-stock" data-tab="stock">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
             <span class="text-[9px] font-semibold">STOCK/PREV.</span>
         </button>
-        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-generator">
+        <button type="button" onclick="switchTab('generar')" class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-generator" data-tab="generar">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
             <span class="text-[9px] font-semibold">GENERAR</span>
         </button>
-        <button class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-settings">
+        <button type="button" onclick="switchTab('ajustes')" class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 dark:text-gray-500" data-target="view-settings" data-tab="ajustes">
             <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             <span class="text-[9px] font-semibold">AJUSTES</span>
         </button>
@@ -841,6 +841,7 @@
 
             saveAll();
             setupEventListeners();
+            switchTab('generar');
             renderDishes();
             renderStockView();
             renderGeneratorView();
@@ -892,10 +893,12 @@
         }
 
         // --- 3. EVENTOS Y VISTAS ---
+        function bindEvent(id, eventName, handler) {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener(eventName, handler);
+        }
+
         function setupEventListeners() {
-            setupBottomNavigation();
-
-
             document.querySelectorAll('.filter-lvl1').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     document.querySelectorAll('.filter-lvl1').forEach(b => {
@@ -906,14 +909,15 @@
                     e.currentTarget.classList.add('bg-indigo-600', 'text-white', 'border-transparent', 'active');
                     activeFilterLevel1 = e.currentTarget.getAttribute('data-filter');
                     activeFilterLevel2 = 'all';
-                    
-                    document.getElementById('filters-primeros').classList.add('hidden');
-                    document.getElementById('filters-segundos').classList.add('hidden');
-                    if (activeFilterLevel1 === 'Primero') {
-                        document.getElementById('filters-primeros').classList.remove('hidden');
+                    const primeros = document.getElementById('filters-primeros');
+                    const segundos = document.getElementById('filters-segundos');
+                    if (primeros) primeros.classList.add('hidden');
+                    if (segundos) segundos.classList.add('hidden');
+                    if (activeFilterLevel1 === 'Primero' && primeros) {
+                        primeros.classList.remove('hidden');
                         resetLevel2UI('#filters-primeros');
-                    } else if (activeFilterLevel1 === 'Segundo') {
-                        document.getElementById('filters-segundos').classList.remove('hidden');
+                    } else if (activeFilterLevel1 === 'Segundo' && segundos) {
+                        segundos.classList.remove('hidden');
                         resetLevel2UI('#filters-segundos');
                     }
                     renderDishes();
@@ -923,6 +927,7 @@
             document.querySelectorAll('.filter-lvl2').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const parentContainer = e.currentTarget.parentElement;
+                    if (!parentContainer) return;
                     parentContainer.querySelectorAll('.filter-lvl2').forEach(b => {
                         b.classList.remove('bg-indigo-100', 'dark:bg-indigo-950', 'text-indigo-700', 'dark:text-indigo-300', 'border-indigo-200', 'dark:border-indigo-800', 'font-bold', 'active');
                         b.classList.add('bg-white', 'dark:bg-gray-900', 'text-gray-600', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-700', 'font-semibold');
@@ -934,19 +939,17 @@
                 });
             });
 
-            document.getElementById('searchInput').addEventListener('input', renderDishes);
-
-            document.getElementById('inputComensales').addEventListener('input', updateCalculatedRaciones);
-            document.getElementById('checkMargen').addEventListener('change', updateCalculatedRaciones);
-            document.getElementById('rawStockForm').addEventListener('submit', handleAddRawStock);
-            document.getElementById('prepStockForm').addEventListener('submit', handleAddPrepStock);
-
-            document.getElementById('btnSubTabMenu').addEventListener('click', () => switchGeneratorSubTab('menu'));
-            document.getElementById('btnSubTabShopping').addEventListener('click', () => switchGeneratorSubTab('shopping'));
-            document.getElementById('btnGenerateMenu').addEventListener('click', generateWeeklyMenu);
-            document.getElementById('btnSaveToHistory').addEventListener('click', saveMenuToHistory);
-            document.getElementById('btnDownloadMenuTxt').addEventListener('click', downloadWeeklyMenuTxt);
-            document.getElementById('btnDownloadShoppingTxt').addEventListener('click', downloadShoppingListTxt);
+            bindEvent('searchInput', 'input', renderDishes);
+            bindEvent('inputComensales', 'input', updateCalculatedRaciones);
+            bindEvent('checkMargen', 'change', updateCalculatedRaciones);
+            bindEvent('rawStockForm', 'submit', handleAddRawStock);
+            bindEvent('prepStockForm', 'submit', handleAddPrepStock);
+            bindEvent('btnSubTabMenu', 'click', () => switchGeneratorSubTab('menu'));
+            bindEvent('btnSubTabShopping', 'click', () => switchGeneratorSubTab('shopping'));
+            bindEvent('btnGenerateMenu', 'click', generateWeeklyMenu);
+            bindEvent('btnSaveToHistory', 'click', saveMenuToHistory);
+            bindEvent('btnDownloadMenuTxt', 'click', downloadWeeklyMenuTxt);
+            bindEvent('btnDownloadShoppingTxt', 'click', downloadShoppingListTxt);
 
             document.querySelectorAll('.generator-day-tab').forEach(tab => {
                 tab.addEventListener('click', (e) => {
@@ -961,50 +964,50 @@
                 });
             });
 
-            document.getElementById('modalSearchInput').addEventListener('input', renderModalDishList);
-            document.getElementById('btnExport').addEventListener('click', exportData);
-            document.getElementById('fileImport').addEventListener('change', importData);
-            document.getElementById('btnWipeData').addEventListener('click', wipeData);
+            bindEvent('modalSearchInput', 'input', renderModalDishList);
+            bindEvent('btnExport', 'click', exportData);
+            bindEvent('fileImport', 'change', importData);
+            bindEvent('btnWipeData', 'click', wipeData);
         }
 
         // --- NAVEGACIÓN PRINCIPAL ---
-        function setupBottomNavigation() {
-            const buttons = document.querySelectorAll('.nav-btn[data-target]');
-            if (!buttons.length) return;
+        function switchTab(tabName) {
+            const tabToView = {
+                recetario: 'view-banco',
+                stock: 'view-stock',
+                generar: 'view-generator',
+                ajustes: 'view-settings'
+            };
+            const viewId = tabToView[tabName];
+            if (!viewId) return;
 
-            buttons.forEach(btn => {
-                // Evita acumular listeners si la inicialización se ejecuta más de una vez.
-                btn.onclick = function() {
-                    const targetId = this.getAttribute('data-target');
-                    if (!targetId) return;
-                    switchView(targetId);
-                    setActiveNavButton(this);
-                };
+            ['view-banco', 'view-stock', 'view-generator', 'view-settings'].forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    section.classList.toggle('hidden', id !== viewId);
+                    section.classList.toggle('block', id === viewId);
+                }
+            });
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                const active = btn.getAttribute('data-tab') === tabName;
+                btn.classList.toggle('active', active);
+                btn.classList.toggle('text-indigo-600', active);
+                btn.classList.toggle('dark:text-indigo-400', active);
+                btn.classList.toggle('text-gray-400', !active);
+                btn.classList.toggle('dark:text-gray-500', !active);
             });
         }
 
-        function setActiveNavButton(activeButton) {
-            document.querySelectorAll('.nav-btn[data-target]').forEach(btn => {
-                const isActive = btn === activeButton;
-                btn.classList.toggle('active', isActive);
-                btn.classList.toggle('text-indigo-600', isActive);
-                btn.classList.toggle('dark:text-indigo-400', isActive);
-                btn.classList.toggle('text-gray-400', !isActive);
-                btn.classList.toggle('dark:text-gray-500', !isActive);
-            });
-        }
-
+        // Compatibilidad interna: llamadas antiguas por ID siguen funcionando.
         function switchView(viewId) {
-            const validViews = ['view-banco', 'view-stock', 'view-generator', 'view-settings'];
-            if (!validViews.includes(viewId)) return;
-
-            validViews.forEach(id => {
-                const view = document.getElementById(id);
-                if (!view) return;
-                const isTarget = id === viewId;
-                view.classList.toggle('hidden', !isTarget);
-                view.classList.toggle('block', isTarget);
-            });
+            const map = {
+                'view-banco': 'recetario',
+                'view-stock': 'stock',
+                'view-generator': 'generar',
+                'view-settings': 'ajustes'
+            };
+            if (map[viewId]) switchTab(map[viewId]);
         }
 
         function switchGeneratorSubTab(tab) {
@@ -2410,7 +2413,7 @@
                 currentMenu = JSON.parse(JSON.stringify(item.menu));
                 saveAll();
                 renderGeneratorView();
-                document.querySelector('.nav-btn[data-target="view-generator"]').click();
+                switchTab('generar');
                 switchGeneratorSubTab('menu');
             }
         }
