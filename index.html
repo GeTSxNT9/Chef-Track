@@ -675,67 +675,22 @@
             </div>
 
             <div id="subtab-menu-content" class="space-y-4">
-                <!-- TARJETA MOTOR DE PLANIFICACIÓN CORREGIDA -->
-
-                <div class="p-6 rounded-3xl bg-slate-100 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/60 shadow-sm text-center transition-colors duration-200">
-
-                  
-
-                  <h2 class="text-xl font-bold text-slate-800 dark:text-white mb-2">
-
-                    Motor de Planificación
-
-                  </h2>
-
-                  
-
-                  <p class="text-sm text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-
-                    Aplica reglas, control de especies, aprovechamiento de stock y proporciones por demanda.
-
-                  </p>
-
-                
-
-                  <!-- Botón Generar Menú -->
-
-                  <button id="btnGenerateMenu" class="w-full py-3.5 px-6 rounded-full bg-slate-900 dark:bg-slate-950 hover:bg-slate-800 text-white font-semibold shadow-md active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-2 mb-4">
-
-                    <span>🎲</span>
-
-                    <span>GENERAR MENÚ</span>
-
-                  </button>
-
-                
-
-                  <!-- Botones de Acción Secundaria -->
-
-                  <div class="grid grid-cols-2 gap-3">
-
-                    <button id="btnSaveToHistory" class="py-2.5 px-4 rounded-2xl bg-white dark:bg-slate-700/70 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-xs font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center gap-1.5 shadow-sm">
-
-                      <span>💾</span>
-
-                      <span>Guardar Historial</span>
-
-                    </button>
-
-                    
-
-                    <button id="btnDownloadMenuTxt" class="py-2.5 px-4 rounded-2xl bg-white dark:bg-slate-700/70 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-xs font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center gap-1.5 shadow-sm">
-
-                      <span>📋</span>
-
-                      <span>Exportar (.txt)</span>
-
-                    </button>
-
-                  </div>
-
-                
-
-                </div>
+                <div class="bg-indigo-900 dark:bg-indigo-950 text-white p-4 rounded-xl shadow-lg border border-indigo-800 dark:border-indigo-900 text-center">
+                    <h2 class="text-lg font-bold mb-1">Motor de Planificación</h2>
+                    <p class="text-[11px] text-indigo-200 mb-3">Aplica reglas, control de especies, aprovechamiento de stock y proporciones por demanda.</p>
+                    <div class="flex flex-col gap-2">
+                        <button id="btnGenerateMenu" class="w-full bg-amber-400 hover:bg-amber-500 text-indigo-950 font-black py-3 px-4 rounded-xl text-sm shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
+                            <span class="text-base">🎲</span> GENERAR MENÚ
+                        </button>
+                        <div class="flex gap-2">
+                            <button id="btnSaveToHistory" class="flex-1 bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-2 px-3 rounded-lg text-xs flex items-center justify-center gap-1 border border-indigo-600 shadow-sm">
+                                <span>💾</span> Guardar Historial
+                            </button>
+                            <button id="btnDownloadMenuTxt" class="flex-1 bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-2 px-3 rounded-lg text-xs flex items-center justify-center gap-1 border border-indigo-600 shadow-sm">
+                                <span>📋</span> Exportar (.txt)
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1" id="dayTabsContainer">
