@@ -825,7 +825,7 @@
             return 2;
         };
 
-        const defaultSettings = { comensales: 100, margenActivo: true, darkMode: false };
+        const defaultSettings = { comensales: 100, margenActivo: false, darkMode: false };
         const proveedorCategorias = ["Carne", "Pescado", "Lácteos", "Verduras y frutas", "Secos", "Congelados"];
         const daysList = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
         const FIRST_SUBCATEGORIES = {
@@ -1479,19 +1479,18 @@
 
         function getTotalRaciones() {
             const base = Math.max(0, Number(settings.comensales) || 0);
-            return Math.ceil(base * 1.3);
+            return settings.margenActivo ? Math.ceil(base * 1.3) : base;
         }
 
         function updateCalculatedRaciones(shouldSave = true) {
             const base = parseInt(document.getElementById('inputComensales').value) || 0;
-            const margen = true;
+            const margen = document.getElementById('checkMargen').checked;
             settings.comensales = base;
-            settings.margenActivo = true;
-            document.getElementById('checkMargen').checked = true;
+            settings.margenActivo = margen;
             if (shouldSave) saveAll();
 
             const total = getTotalRaciones();
-            const infoText = `${base} base + 30% margen de seguridad`;
+            const infoText = margen ? `${base} base + 30% margen de seguridad` : `${base} raciones base`;
             document.getElementById('totalRacionesDisplay').innerText = `${total} raciones`;
             document.getElementById('totalRacionesSubtext').innerText = infoText;
         }
