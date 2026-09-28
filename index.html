@@ -936,21 +936,8 @@
         let swapTarget = null;
 
         // --- 2. INICIALIZACIÓN ---
-        function migrateStorageNamespace() {
-            const keys = ["dishes", "settings", "rawStock", "preparedStock", "currentMenu", "previousWeekMenu", "historyMenus"];
-            keys.forEach(key => {
-                const gastroKey = `GastroOS_${key}`;
-                const legacyKey = `chefTrack_${key}`;
-                if (localStorage.getItem(gastroKey) === null && localStorage.getItem(legacyKey) !== null) {
-                    localStorage.setItem(gastroKey, localStorage.getItem(legacyKey));
-                }
-            });
-        }
-
         function init() {
             registerServiceWorker();
-            migrateStorageNamespace();
-
             const storedDishes = localStorage.getItem('chefTrack_dishes');
             dishes = storedDishes ? JSON.parse(storedDishes) : [];
             dishes = dishes.map(normalizeDishData);
@@ -967,7 +954,7 @@
             preparedStock = storedPrep ? JSON.parse(storedPrep) : [];
             const storedMenu = localStorage.getItem('chefTrack_currentMenu');
             currentMenu = storedMenu ? JSON.parse(storedMenu) : null;
-            const storedPreviousWeek = localStorage.getItem('chefTrack_previousWeekMenu');
+            const storedPreviousWeek = localStorage.getItem('previousWeekMenu') || localStorage.getItem('chefTrack_previousWeekMenu');
             previousWeekMenu = storedPreviousWeek ? JSON.parse(storedPreviousWeek) : null;
             const storedHistory = localStorage.getItem('chefTrack_historyMenus');
             historyMenus = storedHistory ? JSON.parse(storedHistory) : [];
@@ -1005,8 +992,13 @@
             localStorage.setItem('chefTrack_historyMenus', JSON.stringify(historyMenus));
             if (currentMenu) localStorage.setItem('chefTrack_currentMenu', JSON.stringify(currentMenu));
             else localStorage.removeItem('chefTrack_currentMenu');
-            if (previousWeekMenu) localStorage.setItem('chefTrack_previousWeekMenu', JSON.stringify(previousWeekMenu));
-            else localStorage.removeItem('chefTrack_previousWeekMenu');
+            if (previousWeekMenu) {
+                localStorage.setItem('previousWeekMenu', JSON.stringify(previousWeekMenu));
+                localStorage.setItem('chefTrack_previousWeekMenu', JSON.stringify(previousWeekMenu));
+            } else {
+                localStorage.removeItem('previousWeekMenu');
+                localStorage.removeItem('chefTrack_previousWeekMenu');
+            }
         }
 
         function toggleDarkMode() {
@@ -1487,18 +1479,19 @@
 
         function getTotalRaciones() {
             const base = Math.max(0, Number(settings.comensales) || 0);
-            return settings.margenActivo ? Math.ceil(base * 1.3) : base;
+            return Math.ceil(base * 1.3);
         }
 
         function updateCalculatedRaciones(shouldSave = true) {
             const base = parseInt(document.getElementById('inputComensales').value) || 0;
-            const margen = document.getElementById('checkMargen').checked;
+            const margen = true;
             settings.comensales = base;
-            settings.margenActivo = margen;
+            settings.margenActivo = true;
+            document.getElementById('checkMargen').checked = true;
             if (shouldSave) saveAll();
 
             const total = getTotalRaciones();
-            const infoText = margen ? `${base} base + 30% margen de seguridad` : `Sin margen de seguridad aplicado`;
+            const infoText = `${base} base + 30% margen de seguridad`;
             document.getElementById('totalRacionesDisplay').innerText = `${total} raciones`;
             document.getElementById('totalRacionesSubtext').innerText = infoText;
         }
@@ -1689,7 +1682,6 @@
             starch: "1º Tenedor / Hidratos"
         };
         const MEAT_TECHNIQUES = ["tecnica_guiso", "tecnica_seco_asado", "tecnica_frito_rebozado"];
-        const SOUP_SUBTYPES = ["cuchara_sopas_cremas"];
         const LIQUID_FIRST_SUBTYPES = new Set(["verdura_crema", "cuchara_sopas_cremas"]);
         const VEGETABLE_ALIASES = {
             "judias verdes": "judias verdes", "judia verde": "judias verdes",
@@ -1714,13 +1706,7 @@
                 .filter(Boolean);
         }
 
-        function getPreviousDays(menuDays, dayIndex, count = 3) {
-            const result = [];
-            for (let i = Math.max(0, dayIndex - count); i < dayIndex; i++) {
-                result.push(menuDays?.[daysList[i]] || []);
-            }
-            return result;
-        }
+
 
         function previousDayHasSubtype(menuDays, dayIndex, subtype) {
             return getDayDishList(menuDays, dayIndex - 1, "Primero").some(d => d.subtipo_primero === subtype);
@@ -1728,6 +1714,16 @@
 
         function previousDayFishSpecies(menuDays, dayIndex) {
             return getDayDishList(menuDays, dayIndex - 1, "Segundo", "Pescado")[0]?.especie_pescado || "";
+        }
+
+        function getWeeklyFishSpecies(menuDays, exceptDayIndex = -1) {
+            const used = new Set();
+            daysList.forEach((dayName, index) => {
+                if (index === exceptDayIndex) return;
+                const species = getDayDishList(menuDays, index, "Segundo", "Pescado")[0]?.especie_pescado;
+                if (species) used.add(String(species).toLowerCase());
+            });
+            return used;
         }
 
         function animalAppearedOnDay(menuDays, dayIndex, animal) {
@@ -1891,11 +1887,11 @@
 
             // Reglas heredadas del motor, conservadas como restricciones duras.
             const subtype = dish.subtipo_primero;
-            if (subtype === "cuchara_legumbres" && previousDayHasSubtype(menuDays, dayIndex, subtype)) return true;
-            if (["pasta_corta_larga", "pasta_rellena_horno", "arroz"].includes(subtype) &&
+            if (["cuchara_legumbres", "cuchara_guisos", "cuchara_sopas_cremas", "verdura_crema", "verdura_entera", "arroz", "otros_hidratos"].includes(subtype) &&
                 previousDayHasSubtype(menuDays, dayIndex, subtype)) return true;
-            if (subtype === "verdura_crema" && previousDayHasSubtype(menuDays, dayIndex, subtype)) return true;
-            if (subtype === "verdura_entera" && getConsecutiveSubtypeStreak(menuDays, dayIndex, "verdura_entera") >= 3) return true;
+            // Pasta normal y pasta rellena pueden alternarse en días consecutivos.
+            if (subtype === "pasta_corta_larga" && previousDayHasSubtype(menuDays, dayIndex, "pasta_corta_larga")) return true;
+            if (subtype === "pasta_rellena_horno" && previousDayHasSubtype(menuDays, dayIndex, "pasta_rellena_horno")) return true;
 
             // Anti-plantilla inter-semanal: no repetir platos/verduras en la misma estructura.
             return violatesPreviousWeekTemplate(dish, spec, slotIndex, previousMenu, chosenFirsts);
@@ -1905,8 +1901,10 @@
             if (spec.cat !== "Segundo") return false;
 
             if (spec.protein === "Pescado") {
-                // Regla heredada: evitar la misma especie dos días consecutivos.
-                if (previousDayFishSpecies(menuDays, dayIndex) === dish.especie_pescado) return true;
+                // Regla absoluta: una especie de pescado solo puede aparecer una vez en toda la semana.
+                const species = String(dish?.especie_pescado || "").toLowerCase();
+                if (!species) return true;
+                if (getWeeklyFishSpecies(menuDays, dayIndex).has(species)) return true;
                 return false;
             }
 
@@ -2022,33 +2020,9 @@
             };
         }
 
-        function pickDishForSlotWithParent(dayName, spec, parent, usedDishIdsThisWeek, menuDays, dayIndex, chosenAnimals, chosenTechniques, options = {}) {
-            const mergedSpec = { ...spec, cat: "Primero", allowedParents: [parent] };
-            return pickDishForSlot(
-                dayName,
-                mergedSpec,
-                usedDishIdsThisWeek,
-                menuDays,
-                dayIndex,
-                chosenAnimals,
-                chosenTechniques,
-                options
-            );
-        }
 
-        function violatesDayFirstRuleByParent(dish, parent, menuDays, dayIndex, relaxationLevel, chosenFirsts = [], usedVegetableKeys = new Set(), previousMenu = null, slotIndex = 0) {
-            return violatesDayFirstRule(
-                dish,
-                { cat: "Primero", allowedParents: [parent] },
-                menuDays,
-                dayIndex,
-                relaxationLevel,
-                chosenFirsts,
-                usedVegetableKeys,
-                previousMenu,
-                slotIndex
-            );
-        }
+
+
 
         function getPreparedMap() {
             const prepMap = {};
@@ -2082,9 +2056,7 @@
             });
         }
 
-        function getDayFirsts(daySlots) {
-            return (daySlots || []).slice(0, 3).map(s => s.dish).filter(d => d && d.id !== "none");
-        }
+
 
         function generateDayMenu(dayName, dayIndex, menuDays, usedDishIdsThisWeek, prepMap, options = {}) {
             const slotSpecs = [
@@ -2181,16 +2153,24 @@
             return `${d.getFullYear()}-W${String(week).padStart(2, "0")}`;
         }
 
+        function getPreviousWeekKey(currentWeekKey) {
+            const match = String(currentWeekKey || "").match(/^(\d{4})-W(\d{2})$/);
+            if (!match) return "";
+            const d = new Date(Number(match[1]), 0, 4);
+            d.setDate(d.getDate() - ((d.getDay() || 7) - 1) + (Number(match[2]) - 1) * 7 - 7);
+            return getISOWeekKey(d);
+        }
+
         function getPreviousWeekCandidateMenu() {
-            if (previousWeekMenu?.days) return previousWeekMenu;
             const currentWeek = getISOWeekKey(new Date());
+            if (previousWeekMenu?.days && previousWeekMenu.weekKey === getPreviousWeekKey(currentWeek)) return previousWeekMenu;
             const current = currentMenu?.generatedAt ? currentMenu : null;
-            if (current?.days && getISOWeekKey(new Date(current.generatedAt)) !== currentWeek) {
+            if (current?.days && getISOWeekKey(new Date(current.generatedAt)) === getPreviousWeekKey(currentWeek)) {
                 return current;
             }
             const historyCandidate = [...(historyMenus || [])]
                 .map(item => item?.menu)
-                .filter(menu => menu?.generatedAt && getISOWeekKey(new Date(menu.generatedAt)) !== currentWeek)
+                .filter(menu => menu?.generatedAt && getISOWeekKey(new Date(menu.generatedAt)) === getPreviousWeekKey(currentWeek))
                 .sort((a, b) => new Date(b.generatedAt) - new Date(a.generatedAt))[0];
             return historyCandidate || null;
         }
@@ -2201,7 +2181,8 @@
             const newMenu = {
                 generatedAt: new Date().toISOString(),
                 days: {},
-                engineVersion: ENGINE_VERSION
+                engineVersion: ENGINE_VERSION,
+                weekKey: getISOWeekKey(new Date())
             };
             const usedDishIdsThisWeek = new Set();
             const prepMap = getPreparedMap();
@@ -2224,11 +2205,11 @@
                 const currentDate = new Date(currentMenu.generatedAt);
                 const currentWeek = getISOWeekKey(new Date());
                 if (!Number.isNaN(currentDate.getTime()) && getISOWeekKey(currentDate) !== currentWeek) {
-                    previousWeekMenu = JSON.parse(JSON.stringify(currentMenu));
+                    previousWeekMenu = JSON.parse(JSON.stringify({ ...currentMenu, weekKey: getISOWeekKey(currentDate) }));
                 }
             }
             if (!previousWeekMenu?.days && previousForAntiTemplate?.days) {
-                previousWeekMenu = JSON.parse(JSON.stringify(previousForAntiTemplate));
+                previousWeekMenu = JSON.parse(JSON.stringify({ ...previousForAntiTemplate, weekKey: getISOWeekKey(new Date(previousForAntiTemplate.generatedAt)) }));
             }
 
             currentMenu = newMenu;
@@ -2290,6 +2271,7 @@
             const vegetableKeys = new Set();
             let weeklyGuisos = 0;
             let weeklyFritos = 0;
+            const fishSpecies = new Set();
 
             days.forEach((dayName, dayIndex) => {
                 const slots = menu.days[dayName] || [];
@@ -2344,14 +2326,14 @@
                 const fish = slots[5]?.dish;
                 if (fish?.proteina_segundo !== "Pescado") errors.push(`${dayName}: falta el pescado obligatorio.`);
                 if (fish && !fish.especie_pescado) errors.push(`${dayName}: el pescado no tiene especie exacta.`);
+                if (fish?.especie_pescado) {
+                    const fishKey = String(fish.especie_pescado).toLowerCase();
+                    if (fishSpecies.has(fishKey)) errors.push(`${dayName}: la especie de pescado se repite en la semana.`);
+                    fishSpecies.add(fishKey);
+                }
 
                 if (dayIndex > 0) {
                     const prev = menu.days[days[dayIndex - 1]] || [];
-                    const prevFish = prev[5]?.dish?.especie_pescado;
-                    if (prevFish && fish?.especie_pescado && prevFish === fish.especie_pescado) {
-                        errors.push(`${dayName}: pescado repetido respecto al día anterior.`);
-                    }
-
                     const prevFirsts = prev.slice(0, 3).map(s => s.dish).filter(Boolean);
                     if (slots[1]?.dish?.subtipo_primero === "cuchara_legumbres" &&
                         prevFirsts.some(d => d.subtipo_primero === "cuchara_legumbres")) {
@@ -2388,6 +2370,9 @@
             if (weeklyGuisos > 3) errors.push(`Semana: hay ${weeklyGuisos} guisos; el máximo es 3.`);
 
             if (previousWeekMenu?.days && menu?.generatedAt) {
+                const previousSerialized = JSON.stringify(daysList.map(day => (previousWeekMenu.days[day] || []).map(slot => slot?.dish?.id || "none")));
+                const currentSerialized = JSON.stringify(daysList.map(day => (menu.days[day] || []).map(slot => slot?.dish?.id || "none")));
+                if (previousSerialized === currentSerialized) errors.push('Semana: el menú completo coincide exactamente con la semana anterior.');
                 const previousSignatures = getPreviousWeekPatternSignatures(previousWeekMenu);
                 daysList.forEach(dayName => {
                     const currentSignature = dayPatternSignature(menu.days[dayName] || []);
@@ -2470,32 +2455,33 @@
         }
 
         // --- EXPORTAR MENÚ EN FORMATO TXT LIMPIO ---
+        function getWeekDatesForMenu() {
+            const base = new Date();
+            base.setHours(0, 0, 0, 0);
+            const day = base.getDay() || 7;
+            base.setDate(base.getDate() - day + 1);
+            return daysList.map((_, index) => {
+                const d = new Date(base);
+                d.setDate(base.getDate() + index);
+                return d;
+            });
+        }
+
         function downloadWeeklyMenuTxt() {
             if (!currentMenu || !currentMenu.days) {
                 alert("No hay ningún menú generado para exportar.");
                 return;
             }
-            let text = "";
-            daysList.forEach(dayName => {
-                text += `--- ${dayName.toUpperCase()} ---\n\n`;
-                text += `PRIMEROS\n`;
+            const dates = getWeekDatesForMenu();
+            const blocks = daysList.map((dayName, index) => {
                 const slots = currentMenu.days[dayName] || [];
-                const primeros = slots.slice(0, 3);
-                const segundos = slots.slice(3, 6);
-                
-                primeros.forEach(s => {
-                    const name = s.dish && s.dish.nombre ? s.dish.nombre : "Sin asignar";
-                    text += `${name}\n`;
-                });
-                text += `\nSEGUNDOS\n`;
-                segundos.forEach(s => {
-                    const name = s.dish && s.dish.nombre ? s.dish.nombre : "Sin asignar";
-                    text += `${name}\n`;
-                });
-                text += `\n`;
+                const primeros = slots.slice(0, 3).map(s => s.dish?.nombre || "Sin asignar");
+                const segundos = slots.slice(3, 6).map(s => s.dish?.nombre || "Sin asignar");
+                const dateLabel = dates[index].toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                return `${dateLabel} / ${dayName.toUpperCase()}\n\nPrimeros:\n\n${primeros.join('\n')}\n\nSegundos:\n\n${segundos.join('\n')}`;
             });
-            
-            const blob = new Blob([text.trim()], { type: 'text/plain;charset=utf-8' });
+            const text = blocks.join('\n\n');
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -2507,102 +2493,86 @@
         }
 
         // --- LISTA DE COMPRA CON REDONDEO ESTRICTO HACIA ARRIBA ---
-        function renderShoppingListUI() {
-            if (!currentMenu || !currentMenu.days) {
-                document.getElementById('shoppingListBreakdown').innerHTML = '<p class="text-center text-gray-500 text-xs py-4">Genera un menú semanal para calcular la lista de la compra.</p>';
-                document.getElementById('shoppingRacionesBadge').innerText = `${settings.comensales} Raciones`;
-                return;
+        function createStockLedger() {
+            return rawStock.map(stock => {
+                const unit = String(stock?.unidad || '').toLowerCase();
+                const dimension = ['kg', 'g'].includes(unit) ? 'weight' : (['l', 'ml'].includes(unit) ? 'volume' : null);
+                const baseQty = dimension ? ((unit === 'kg' || unit === 'l') ? Number(stock.cantidad) * 1000 : Number(stock.cantidad)) : 0;
+                return { stock, key: normalizeFoodKey(stock?.nombre), category: String(stock?.categoria_proveedor || ''), dimension, remaining: Math.max(0, baseQty) };
+            });
+        }
+
+        function deductFromStockLedger(ledger, ingredientName, requiredQtyBase, unit, category) {
+            const name = normalizeFoodKey(ingredientName);
+            if (!name || requiredQtyBase <= 0) return 0;
+            const dimension = ['kg', 'g'].includes(String(unit).toLowerCase()) ? 'weight' : 'volume';
+            let remaining = requiredQtyBase;
+            for (const entry of ledger) {
+                if (remaining <= 0) break;
+                if (!entry.key || entry.remaining <= 0 || entry.dimension !== dimension || entry.category !== category) continue;
+                if (!(entry.key === name || entry.key.includes(name) || name.includes(entry.key))) continue;
+                const used = Math.min(remaining, entry.remaining);
+                entry.remaining -= used;
+                remaining -= used;
             }
+            return requiredQtyBase - remaining;
+        }
 
+        function buildShoppingData() {
             const totalRacionesPorComida = getTotalRaciones();
-            document.getElementById('shoppingRacionesBadge').innerText = `${totalRacionesPorComida} Raciones (base)`;
-
             const aggregated = {};
-
+            const stockLedger = createStockLedger();
             daysList.forEach(dayName => {
                 const slots = currentMenu.days[dayName] || [];
                 slots.forEach(slot => {
-                    if (slot.dish && slot.dish.ingredientes) {
-                        slot.dish.ingredientes.forEach(ing => {
-                            let qtyInGramsOrMl = 0;
-                            let baseUnit = 'kg';
-                            const unit = (ing.unidad || 'kg').toLowerCase();
-                            const rawQty = ing.cantidad || 0;
-                            const totalForMeal = rawQty * totalRacionesPorComida;
-
-                            if (unit === 'kg') {
-                                qtyInGramsOrMl = totalForMeal * 1000;
-                                baseUnit = 'kg';
-                            } else if (unit === 'g') {
-                                qtyInGramsOrMl = totalForMeal;
-                                baseUnit = 'kg';
-                            } else if (unit === 'l') {
-                                qtyInGramsOrMl = totalForMeal * 1000;
-                                baseUnit = 'L';
-                            } else if (unit === 'ml') {
-                                qtyInGramsOrMl = totalForMeal;
-                                baseUnit = 'L';
-                            } else {
-                                qtyInGramsOrMl = totalForMeal * 1000;
-                                baseUnit = 'kg';
-                            }
-
-                            const key = ing.nombre.toLowerCase().trim();
-                            if (!aggregated[key]) {
-                                aggregated[key] = {
-                                    nombre: ing.nombre,
-                                    totalBaseQty: 0,
-                                    cat: ing.categoria_proveedor || 'Secos',
-                                    baseUnit: baseUnit
-                                };
-                            }
-                            aggregated[key].totalBaseQty += qtyInGramsOrMl;
-                        });
-                    }
+                    if (slot.isPreparedStock) return;
+                    (slot.dish?.ingredientes || []).forEach(ing => {
+                        const unit = String(ing.unidad || 'kg').toLowerCase();
+                        const rawQty = Number(ing.cantidad) || 0;
+                        const totalForMeal = rawQty * totalRacionesPorComida;
+                        const isWeight = ['kg', 'g'].includes(unit);
+                        const isVolume = ['l', 'ml'].includes(unit);
+                        if (!isWeight && !isVolume) return;
+                        const baseQty = totalForMeal * ((unit === 'kg' || unit === 'l') ? 1000 : 1);
+                        const category = proveedorCategorias.includes(ing.categoria_proveedor) ? ing.categoria_proveedor : 'Secos';
+                        const stockUsed = deductFromStockLedger(stockLedger, ing.nombre, baseQty, unit, category);
+                        const netQty = Math.max(0, baseQty - stockUsed);
+                        const key = normalizeFoodKey(ing.nombre);
+                        if (!aggregated[key]) aggregated[key] = { nombre: ing.nombre, totalBaseQty: 0, cat: category, baseUnit: isWeight ? 'kg' : 'L' };
+                        aggregated[key].totalBaseQty += netQty;
+                    });
                 });
             });
-
             const groupedByCategory = {};
             proveedorCategorias.forEach(cat => groupedByCategory[cat] = []);
-
             Object.values(aggregated).forEach(item => {
-                let finalVal = 0;
-                let displayUnit = item.baseUnit;
-                if (item.baseUnit === 'kg') {
-                    finalVal = Math.ceil(item.totalBaseQty / 1000);
-                    displayUnit = 'kg';
-                } else {
-                    finalVal = Math.ceil(item.totalBaseQty / 1000);
-                    displayUnit = 'L';
-                }
-                if (groupedByCategory[item.cat]) {
-                    groupedByCategory[item.cat].push({ nombre: item.nombre, cantidad: finalVal, unidad: displayUnit });
-                }
+                if (item.totalBaseQty <= 0) return;
+                groupedByCategory[item.cat].push({ nombre: item.nombre, cantidad: Math.ceil(item.totalBaseQty / 1000), unidad: item.baseUnit });
             });
+            return { totalRacionesPorComida, groupedByCategory };
+        }
 
+        function renderShoppingListUI() {
             const container = document.getElementById('shoppingListBreakdown');
+            if (!currentMenu || !currentMenu.days) {
+                container.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">Genera un menú semanal para calcular la lista de la compra.</p>';
+                document.getElementById('shoppingRacionesBadge').innerText = `${getTotalRaciones()} Raciones`;
+                return;
+            }
+            const { totalRacionesPorComida, groupedByCategory } = buildShoppingData();
+            document.getElementById('shoppingRacionesBadge').innerText = `${totalRacionesPorComida} Raciones`;
             container.innerHTML = '';
-
             let hasItems = false;
             proveedorCategorias.forEach(cat => {
                 const items = groupedByCategory[cat];
-                if (items && items.length > 0) {
-                    hasItems = true;
-                    const section = document.createElement('div');
-                    section.className = "bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-2";
-                    section.innerHTML = `
-                        <h4 class="font-bold text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-800 pb-1">${cat}</h4>
-                        <ul class="space-y-1.5">
-                            ${items.map(i => `<li class="flex justify-between text-xs text-gray-800 dark:text-gray-200"><span>${i.nombre}</span><span class="font-bold">${i.cantidad}${i.unidad}</span></li>`).join('')}
-                        </ul>
-                    `;
-                    container.appendChild(section);
-                }
+                if (!items.length) return;
+                hasItems = true;
+                const section = document.createElement('div');
+                section.className = "bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-2";
+                section.innerHTML = `<h4 class="font-bold text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-800 pb-1">${cat}</h4><ul class="space-y-1.5">${items.map(i => `<li class="flex justify-between text-xs text-gray-800 dark:text-gray-200"><span>${i.nombre}</span><span class="font-bold">${i.cantidad}${i.unidad}</span></li>`).join('')}</ul>`;
+                container.appendChild(section);
             });
-
-            if (!hasItems) {
-                container.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">No hay ingredientes necesarios en el menú actual.</p>';
-            }
+            if (!hasItems) container.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">No hay ingredientes necesarios en el menú actual.</p>';
         }
 
         function downloadShoppingListTxt() {
@@ -2610,59 +2580,15 @@
                 alert("Genera un menú semanal primero.");
                 return;
             }
-            const totalRacionesPorComida = getTotalRaciones();
-            const aggregated = {};
-
-            daysList.forEach(dayName => {
-                const slots = currentMenu.days[dayName] || [];
-                slots.forEach(slot => {
-                    if (slot.dish && slot.dish.ingredientes) {
-                        slot.dish.ingredientes.forEach(ing => {
-                            let qtyInGramsOrMl = 0;
-                            let baseUnit = 'kg';
-                            const unit = (ing.unidad || 'kg').toLowerCase();
-                            const rawQty = ing.cantidad || 0;
-                            const totalForMeal = rawQty * totalRacionesPorComida;
-
-                            if (unit === 'kg') { qtyInGramsOrMl = totalForMeal * 1000; baseUnit = 'kg'; }
-                            else if (unit === 'g') { qtyInGramsOrMl = totalForMeal; baseUnit = 'kg'; }
-                            else if (unit === 'l') { qtyInGramsOrMl = totalForMeal * 1000; baseUnit = 'L'; }
-                            else if (unit === 'ml') { qtyInGramsOrMl = totalForMeal; baseUnit = 'L'; }
-                            else { qtyInGramsOrMl = totalForMeal * 1000; baseUnit = 'kg'; }
-
-                            const key = ing.nombre.toLowerCase().trim();
-                            if (!aggregated[key]) {
-                                aggregated[key] = { nombre: ing.nombre, totalBaseQty: 0, cat: ing.categoria_proveedor || 'Secos', baseUnit: baseUnit };
-                            }
-                            aggregated[key].totalBaseQty += qtyInGramsOrMl;
-                        });
-                    }
-                });
-            });
-
-            const groupedByCategory = {};
-            proveedorCategorias.forEach(cat => groupedByCategory[cat] = []);
-
-            Object.values(aggregated).forEach(item => {
-                const finalVal = Math.ceil(item.totalBaseQty / 1000);
-                const displayUnit = item.baseUnit;
-                if (groupedByCategory[item.cat]) {
-                    groupedByCategory[item.cat].push({ nombre: item.nombre, cantidad: finalVal, unidad: displayUnit });
-                }
-            });
-
-            let text = `LISTA DE COMPRA - ${totalRacionesPorComida} RACIONES\n\n`;
+            const { totalRacionesPorComida, groupedByCategory } = buildShoppingData();
+            let text = '';
             proveedorCategorias.forEach(cat => {
                 const items = groupedByCategory[cat];
-                if (items && items.length > 0) {
-                    text += `=== ${cat.toUpperCase()} ===\n`;
-                    items.forEach(i => {
-                        text += `- ${i.nombre}: ${i.cantidad} ${i.unidad}\n`;
-                    });
-                    text += `\n`;
-                }
+                if (!items.length) return;
+                text += `${cat.toUpperCase()}\n\n`;
+                items.forEach(i => { text += `${i.nombre}: ${i.cantidad} ${i.unidad}\n`; });
+                text += '\n';
             });
-
             const blob = new Blob([text.trim()], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
