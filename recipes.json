@@ -144,8 +144,12 @@
     "nombre": "Crema de coliflor al curry",
     "categoria": "Primero",
     "subcategoria_primero": "Verdura",
+    "subtipo_primero": "verdura_crema",
     "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
     "especie_animal": "",
+    "tecnica_cocina": "",
     "tecnica": "",
     "precocinado": false,
     "demanda": "Media",
@@ -168,11 +172,7 @@
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
       }
-    ],
-    "subtipo_primero": "",
-    "animal_carne": "",
-    "especie_pescado": "",
-    "tecnica_cocina": ""
+    ]
   },
   {
     "id": "1790482284859",
