@@ -563,7 +563,7 @@
 
                 <div class="pt-4 flex gap-2">
                     <button type="button" id="btnCancel" class="hidden flex-1 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 py-3 rounded-lg font-bold text-sm shadow-sm">Cancelar</button>
-                    <button type="submit" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold text-sm shadow-md">GUARDAR</button>
+                    <button type="submit" id="btnSaveDish" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold text-sm shadow-md">GUARDAR</button>
                 </div>
             </form>
         </main>
@@ -736,6 +736,38 @@
                 </div>
                 <div id="historyListContainer" class="space-y-2"></div>
             </section>
+            <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-4">
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-gray-800 dark:text-gray-100" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.69-3.88-1.54-3.88-1.54-.53-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.47.11-3.06 0 0 .96-.31 3.15 1.18A10.9 10.9 0 0 1 12 6.84c.97 0 1.94.13 2.85.38 2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.77.11 3.06.73.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.67.41.36.78 1.08.78 2.18 0 1.58-.01 2.85-.01 3.24 0 .31.21.67.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"></path></svg>
+                    <div>
+                        <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Conexión con GitHub</h3>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">Configura el repositorio donde se actualizará automáticamente el recetario al añadir nuevas recetas.</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Token de acceso personal de GitHub</label>
+                        <input type="password" id="githubToken" autocomplete="off" placeholder="ghp_... / github_pat_..." class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-900 focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Usuario / Propietario del repositorio</label>
+                        <input type="text" id="githubOwner" autocomplete="off" placeholder="usuario" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-900 focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Nombre del repositorio</label>
+                        <input type="text" id="githubRepo" autocomplete="off" placeholder="GastroOS" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-900 focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Ruta del archivo del recetario</label>
+                        <input type="text" id="githubPath" autocomplete="off" placeholder="recipes.json" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-900 focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <button type="button" id="btnSaveGithubSettings" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold text-sm shadow-md">
+                        Guardar conexión con GitHub
+                    </button>
+                    <p id="githubSettingsStatus" class="text-[11px] text-gray-500 dark:text-gray-400"></p>
+                </div>
+            </section>
+
             <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-3">
                 <div class="flex justify-between items-center">
                     <div>
@@ -952,6 +984,7 @@
             settings = storedSettings ? JSON.parse(storedSettings) : { ...defaultSettings };
             if (settings.darkMode === undefined) settings.darkMode = false;
 
+            loadGitHubSettings();
             applyDarkMode();
 
             const storedRaw = localStorage.getItem('chefTrack_rawStock');
@@ -1115,6 +1148,7 @@
             document.getElementById('btnExport').addEventListener('click', exportData);
             document.getElementById('fileImport').addEventListener('change', importData);
             document.getElementById('btnWipeData').addEventListener('click', wipeData);
+            document.getElementById('btnSaveGithubSettings').addEventListener('click', saveGitHubSettings);
         }
 
         function updateFormVisibility() {
@@ -1258,9 +1292,276 @@
             container.appendChild(row);
         }
 
-        function handleFormSubmit(e) {
+        function loadGitHubSettings() {
+            try {
+                const stored = localStorage.getItem('chefTrack_githubSettings');
+                const github = stored ? JSON.parse(stored) : {};
+                const token = document.getElementById('githubToken');
+                const owner = document.getElementById('githubOwner');
+                const repo = document.getElementById('githubRepo');
+                const path = document.getElementById('githubPath');
+                if (token) token.value = github.token || "";
+                if (owner) owner.value = github.owner || "";
+                if (repo) repo.value = github.repo || "";
+                if (path) path.value = github.path || "";
+                updateGitHubSettingsStatus(github);
+            } catch (error) {
+                console.warn("No se pudieron cargar las credenciales de GitHub.", error);
+            }
+        }
+
+        function getGitHubSettings() {
+            try {
+                const stored = localStorage.getItem('chefTrack_githubSettings');
+                return stored ? JSON.parse(stored) : {};
+            } catch (error) {
+                return {};
+            }
+        }
+
+        function updateGitHubSettingsStatus(github) {
+            const status = document.getElementById('githubSettingsStatus');
+            if (!status) return;
+            if (github?.token && github?.owner && github?.repo && github?.path) {
+                status.textContent = "✓ Conexión de GitHub configurada.";
+                status.className = "text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold";
+            } else {
+                status.textContent = "Configura los cuatro campos para activar la sincronización remota de recetas.";
+                status.className = "text-[11px] text-gray-500 dark:text-gray-400";
+            }
+        }
+
+        function saveGitHubSettings() {
+            const github = {
+                token: document.getElementById('githubToken').value.trim(),
+                owner: document.getElementById('githubOwner').value.trim(),
+                repo: document.getElementById('githubRepo').value.trim(),
+                path: document.getElementById('githubPath').value.trim().replace(/^\/+/, "")
+            };
+
+            if (!github.token || !github.owner || !github.repo || !github.path) {
+                alert("Completa el Token, el propietario, el repositorio y la ruta del archivo antes de guardar.");
+                return;
+            }
+
+            localStorage.setItem('chefTrack_githubSettings', JSON.stringify(github));
+            updateGitHubSettingsStatus(github);
+            alert("Configuración de GitHub guardada correctamente.");
+        }
+
+        function setDishSaveState(isSaving) {
+            const button = document.getElementById('btnSaveDish');
+            if (!button) return;
+            button.disabled = isSaving;
+            button.setAttribute('aria-busy', isSaving ? 'true' : 'false');
+            button.classList.toggle('opacity-60', isSaving);
+            button.classList.toggle('cursor-not-allowed', isSaving);
+            button.textContent = isSaving ? "Guardando en GitHub..." : "GUARDAR";
+        }
+
+        function base64ToUtf8(base64) {
+            const binary = atob(String(base64 || "").replace(/\s/g, ""));
+            const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
+            return new TextDecoder('utf-8').decode(bytes);
+        }
+
+        function utf8ToBase64(value) {
+            const bytes = new TextEncoder().encode(String(value));
+            let binary = "";
+            const chunkSize = 0x8000;
+            for (let i = 0; i < bytes.length; i += chunkSize) {
+                binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+            }
+            return btoa(binary);
+        }
+
+        function findMatchingArrayEnd(text, startIndex) {
+            let depth = 0;
+            let quote = null;
+            let escaped = false;
+            for (let i = startIndex; i < text.length; i++) {
+                const ch = text[i];
+                if (quote) {
+                    if (escaped) {
+                        escaped = false;
+                    } else if (ch === "\\") {
+                        escaped = true;
+                    } else if (ch === quote) {
+                        quote = null;
+                    }
+                    continue;
+                }
+                if (ch === '"' || ch === "'") {
+                    quote = ch;
+                    continue;
+                }
+                if (ch === '[') depth++;
+                if (ch === ']') {
+                    depth--;
+                    if (depth === 0) return i;
+                }
+            }
+            return -1;
+        }
+
+        function parseGitHubRecipeFile(content, path) {
+            const trimmed = content.trim();
+            try {
+                const parsed = JSON.parse(trimmed);
+                if (Array.isArray(parsed)) {
+                    return { recipes: parsed, format: 'json-array' };
+                }
+                if (parsed && Array.isArray(parsed.dishes)) {
+                    return { recipes: parsed.dishes, format: 'json-dishes', wrapper: parsed };
+                }
+                if (parsed && Array.isArray(parsed.recipes)) {
+                    return { recipes: parsed.recipes, format: 'json-recipes', wrapper: parsed };
+                }
+                throw new Error("El JSON del recetario no contiene un listado de recetas válido.");
+            } catch (jsonError) {
+                if (!/\.js$/i.test(path)) throw new Error("El archivo del recetario no contiene un JSON válido.");
+
+                const markers = [
+                    /(?:const|let|var)\s+dishes\s*=\s*/i,
+                    /(?:const|let|var)\s+recipes\s*=\s*/i,
+                    /export\s+(?:const|let|var)\s+dishes\s*=\s*/i,
+                    /export\s+(?:const|let|var)\s+recipes\s*=\s*/i,
+                    /export\s+default\s*/i
+                ];
+                let markerMatch = null;
+                for (const marker of markers) {
+                    const match = marker.exec(content);
+                    if (match && (!markerMatch || match.index < markerMatch.index)) markerMatch = match;
+                }
+                if (!markerMatch) throw new Error("No se encontró un listado de recetas reconocible dentro del archivo .js.");
+
+                const arrayStart = content.indexOf('[', markerMatch.index + markerMatch[0].length);
+                if (arrayStart < 0) throw new Error("No se encontró el listado de recetas dentro del archivo .js.");
+                const arrayEnd = findMatchingArrayEnd(content, arrayStart);
+                if (arrayEnd < 0) throw new Error("El listado de recetas del archivo .js no está correctamente cerrado.");
+                const arrayText = content.slice(arrayStart, arrayEnd + 1);
+                let recipes;
+                try {
+                    recipes = JSON.parse(arrayText);
+                } catch (parseError) {
+                    throw new Error("El listado del archivo .js no está en un formato JSON compatible.");
+                }
+                if (!Array.isArray(recipes)) throw new Error("El listado del recetario no es un array válido.");
+                return { recipes, format: 'js-array', arrayStart, arrayEnd, originalContent: content };
+            }
+        }
+
+        function buildGitHubRecipeFile(parsedFile, newDish) {
+            const updatedRecipes = [...parsedFile.recipes, newDish];
+            if (parsedFile.format === 'json-array') {
+                return JSON.stringify(updatedRecipes, null, 2) + "\n";
+            }
+            if (parsedFile.format === 'json-dishes' || parsedFile.format === 'json-recipes') {
+                const wrapper = JSON.parse(JSON.stringify(parsedFile.wrapper));
+                if (parsedFile.format === 'json-dishes') wrapper.dishes = updatedRecipes;
+                else wrapper.recipes = updatedRecipes;
+                return JSON.stringify(wrapper, null, 2) + "\n";
+            }
+            if (parsedFile.format === 'js-array') {
+                const replacement = JSON.stringify(updatedRecipes, null, 2);
+                return parsedFile.originalContent.slice(0, parsedFile.arrayStart) + replacement + parsedFile.originalContent.slice(parsedFile.arrayEnd + 1);
+            }
+            throw new Error("Formato de recetario no compatible.");
+        }
+
+        async function syncDishToGitHub(dish, isNewDish) {
+            const github = getGitHubSettings();
+            if (!github.token || !github.owner || !github.repo || !github.path) {
+                alert("Configura primero la conexión con GitHub desde Ajustes.");
+                document.querySelector('.nav-btn[data-target="view-settings"]')?.click();
+                return false;
+            }
+
+            setDishSaveState(true);
+            try {
+                const apiUrl = `https://api.github.com/repos/${encodeURIComponent(github.owner)}/${encodeURIComponent(github.repo)}/contents/${github.path.split('/').map(encodeURIComponent).join('/')}`;
+                const headers = {
+                    "Accept": "application/vnd.github+json",
+                    "Authorization": `Bearer ${github.token}`,
+                    "X-GitHub-Api-Version": "2022-11-28"
+                };
+
+                const getResponse = await fetch(apiUrl, { method: 'GET', headers });
+                let getData = {};
+                try { getData = await getResponse.json(); } catch (_) {}
+                const normalizedDish = normalizeDishData(dish);
+                let parsedFile;
+                let fileSha = null;
+                let creatingFile = false;
+
+                if (getResponse.status === 404 && isNewDish) {
+                    // Primera receta: si el archivo todavía no existe, lo creamos automáticamente.
+                    parsedFile = { type: 'array', recipes: [] };
+                    creatingFile = true;
+                } else {
+                    if (!getResponse.ok) {
+                        const reason = getData.message || `GitHub respondió con HTTP ${getResponse.status}.`;
+                        throw new Error(`No se pudo leer el recetario: ${reason}`);
+                    }
+                    if (!getData.sha || typeof getData.content !== 'string') {
+                        throw new Error("GitHub no devolvió el SHA o el contenido del archivo del recetario.");
+                    }
+
+                    fileSha = getData.sha;
+                    const currentContent = base64ToUtf8(getData.content);
+                    parsedFile = parseGitHubRecipeFile(currentContent, github.path);
+                }
+
+                let updatedRecipes;
+
+                if (isNewDish) {
+                    updatedRecipes = [...parsedFile.recipes, normalizedDish];
+                } else {
+                    const existingIndex = parsedFile.recipes.findIndex(recipe => String(recipe?.id ?? '') === String(normalizedDish.id));
+                    if (existingIndex < 0) {
+                        throw new Error("No se encontró en GitHub la receta que estás editando. No se ha realizado ningún cambio para evitar duplicados.");
+                    }
+                    updatedRecipes = parsedFile.recipes.map((recipe, index) => index === existingIndex ? normalizedDish : recipe);
+                }
+
+                const updatedFile = { ...parsedFile, recipes: updatedRecipes };
+                const updatedContent = buildGitHubRecipeFile(updatedFile, null);
+
+                const putPayload = {
+                    message: creatingFile ? "Creado recetario y añadida primera receta desde GastroOS" : (isNewDish ? "Añadida nueva receta desde GastroOS" : "Actualizada receta desde GastroOS"),
+                    content: utf8ToBase64(updatedContent)
+                };
+                if (fileSha) putPayload.sha = fileSha;
+
+                const putResponse = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: { ...headers, "Content-Type": "application/json" },
+                    body: JSON.stringify(putPayload)
+                });
+
+                let putData = {};
+                try { putData = await putResponse.json(); } catch (_) {}
+                if (!putResponse.ok || ![200, 201].includes(putResponse.status)) {
+                    const reason = putData.message || `GitHub respondió con HTTP ${putResponse.status}.`;
+                    throw new Error(`No se pudo actualizar el recetario: ${reason}`);
+                }
+
+                return true;
+            } catch (error) {
+                console.error("Error de sincronización con GitHub:", error);
+                const message = error?.message || "Error desconocido al conectar con GitHub.";
+                alert(`No se pudo ${isNewDish ? "guardar" : "actualizar"} la receta en GitHub.\n\nMotivo: ${message}`);
+                return false;
+            } finally {
+                setDishSaveState(false);
+            }
+        }
+
+        async function handleFormSubmit(e) {
             e.preventDefault();
-            const id = document.getElementById('dishId').value || Date.now().toString();
+            const existingId = document.getElementById('dishId').value.trim();
+            const id = existingId || Date.now().toString();
+            const isNewDish = !existingId;
             const cat = document.getElementById('dishCategory').value;
             const prot = document.getElementById('dishProtein').value;
             const isPrimero = cat === "Primero";
@@ -1323,18 +1624,27 @@
                 }
             });
 
+            const normalizedDish = normalizeDishData(newDish);
+
+            // Las recetas nuevas y las editadas se sincronizan primero con GitHub.
+            // Solo después de un commit correcto se modifica el recetario local, evitando
+            // que un fallo remoto deje estados distintos entre la app y el repositorio.
+            const synced = await syncDishToGitHub(normalizedDish, isNewDish);
+            if (!synced) return;
+
             const idx = dishes.findIndex(d => d.id === id);
-            if (idx >= 0) dishes[idx] = normalizeDishData(newDish);
-            else dishes.unshift(normalizeDishData(newDish));
+            if (idx >= 0) dishes[idx] = normalizedDish;
+            else dishes.unshift(normalizedDish);
 
             saveAll();
             resetForm();
             document.querySelector('.nav-btn[data-target="view-banco"]').click();
             renderDishes();
             renderMigrationUI();
+            alert(isNewDish ? "Receta guardada con éxito en GitHub" : "Receta actualizada con éxito en GitHub");
         }
 
-        function editDish(id) {
+                function editDish(id) {
             const d = normalizeDishData(dishes.find(x => x.id === id));
             if (!d) return;
 
@@ -1366,12 +1676,97 @@
             document.querySelector('.nav-btn[data-target="view-form"]').click();
         }
 
-        function deleteDish(id) {
-            if (confirm("¿Seguro que quieres borrar este plato?")) {
-                dishes = dishes.filter(d => d.id !== id);
-                saveAll();
-                renderDishes();
+        async function syncDeleteDishToGitHub(id) {
+            const github = getGitHubSettings();
+            if (!github.token || !github.owner || !github.repo || !github.path) {
+                alert("Configura primero la conexión con GitHub desde Ajustes.");
+                document.querySelector('.nav-btn[data-target="view-settings"]')?.click();
+                return false;
             }
+
+            const githubButton = document.getElementById('btnSaveDish');
+            const originalButtonText = githubButton ? githubButton.textContent : '';
+            if (githubButton) {
+                githubButton.disabled = true;
+                githubButton.setAttribute('aria-busy', 'true');
+                githubButton.classList.add('opacity-60', 'cursor-not-allowed');
+                githubButton.textContent = "Eliminando en GitHub...";
+            }
+
+            try {
+                const apiUrl = `https://api.github.com/repos/${encodeURIComponent(github.owner)}/${encodeURIComponent(github.repo)}/contents/${github.path.split('/').map(encodeURIComponent).join('/')}`;
+                const headers = {
+                    "Accept": "application/vnd.github+json",
+                    "Authorization": `Bearer ${github.token}`,
+                    "X-GitHub-Api-Version": "2022-11-28"
+                };
+
+                const getResponse = await fetch(apiUrl, { method: 'GET', headers });
+                let getData = {};
+                try { getData = await getResponse.json(); } catch (_) {}
+                if (!getResponse.ok) {
+                    const reason = getData.message || `GitHub respondió con HTTP ${getResponse.status}.`;
+                    throw new Error(`No se pudo leer el recetario: ${reason}`);
+                }
+                if (!getData.sha || typeof getData.content !== 'string') {
+                    throw new Error("GitHub no devolvió el SHA o el contenido del archivo del recetario.");
+                }
+
+                const currentContent = base64ToUtf8(getData.content);
+                const parsedFile = parseGitHubRecipeFile(currentContent, github.path);
+                const existingIndex = parsedFile.recipes.findIndex(recipe => String(recipe?.id ?? '') === String(id));
+                if (existingIndex < 0) {
+                    throw new Error("No se encontró en GitHub la receta que quieres eliminar. No se ha realizado ningún cambio.");
+                }
+
+                const updatedRecipes = parsedFile.recipes.filter((recipe, index) => index !== existingIndex);
+                const updatedFile = { ...parsedFile, recipes: updatedRecipes };
+                const updatedContent = buildGitHubRecipeFile(updatedFile, null);
+
+                const putResponse = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: { ...headers, "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        message: "Eliminada receta desde GastroOS",
+                        content: utf8ToBase64(updatedContent),
+                        sha: getData.sha
+                    })
+                });
+
+                let putData = {};
+                try { putData = await putResponse.json(); } catch (_) {}
+                if (!putResponse.ok || ![200, 201].includes(putResponse.status)) {
+                    const reason = putData.message || `GitHub respondió con HTTP ${putResponse.status}.`;
+                    throw new Error(`No se pudo actualizar el recetario: ${reason}`);
+                }
+
+                return true;
+            } catch (error) {
+                console.error("Error de sincronización de eliminación con GitHub:", error);
+                const message = error?.message || "Error desconocido al conectar con GitHub.";
+                alert(`No se pudo eliminar la receta en GitHub.\n\nMotivo: ${message}`);
+                return false;
+            } finally {
+                if (githubButton) {
+                    githubButton.disabled = false;
+                    githubButton.setAttribute('aria-busy', 'false');
+                    githubButton.classList.remove('opacity-60', 'cursor-not-allowed');
+                    githubButton.textContent = originalButtonText || "GUARDAR";
+                }
+            }
+        }
+
+        async function deleteDish(id) {
+            if (!confirm("¿Seguro que quieres borrar este plato?\n\nLa eliminación también se sincronizará con GitHub.")) return;
+
+            const synced = await syncDeleteDishToGitHub(id);
+            if (!synced) return;
+
+            dishes = dishes.filter(d => d.id !== id);
+            saveAll();
+            renderDishes();
+            renderMigrationUI();
+            alert("Receta eliminada con éxito de GitHub");
         }
 
         function resetForm() {
