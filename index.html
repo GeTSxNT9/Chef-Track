@@ -471,18 +471,18 @@
                         <select id="dishSubcategory" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                             <option value="">Seleccionar...</option>
                             <optgroup label="CUCHARA">
-                                <option value="cuchara_legumbres">Legumbres</option>
-                                <option value="cuchara_guisos">Guisos</option>
-                                <option value="cuchara_sopas_cremas">Sopas o caldos</option>
+                                <option value="legumbres">Legumbres</option>
+                                <option value="guisos">Guisos</option>
+                                <option value="sopas_o_caldos">Sopas o caldos</option>
                             </optgroup>
                             <optgroup label="VERDURA">
-                                <option value="verdura_crema">Cremas</option>
-                                <option value="verdura_entera">Verduras enteras</option>
+                                <option value="cremas">Cremas</option>
+                                <option value="verduras_enteras">Verduras enteras</option>
                             </optgroup>
                             <optgroup label="TENEDOR">
-                                <option value="pasta_corta_larga">Pastas</option>
-                                <option value="pasta_rellena_horno">Pastas rellenas</option>
-                                <option value="arroz">Arroces</option>
+                                <option value="pastas">Pastas</option>
+                                <option value="pastas_rellenas">Pastas rellenas</option>
+                                <option value="arroces">Arroces</option>
                                 <option value="otros_hidratos">Otros hidratos</option>
                             </optgroup>
                         </select>
@@ -747,7 +747,7 @@
                 <div class="space-y-3">
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Token de acceso personal de GitHub</label>
-                        <input type="password" id="githubToken" autocomplete="off" placeholder="ghp_... / github_pat_..." class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-900 focus:ring-2 focus:ring-indigo-500">
+                        <input type="password" id="githubToken" autocomplete="new-password" placeholder="Introduce un token nuevo o déjalo vacío para conservar el guardado" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-900 focus:ring-2 focus:ring-indigo-500">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Usuario / Propietario del repositorio</label>
@@ -764,7 +764,15 @@
                     <button type="button" id="btnSaveGithubSettings" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold text-sm shadow-md">
                         Guardar conexión con GitHub
                     </button>
+                    <button type="button" id="btnRefreshGitHub" class="w-full border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/40 py-2.5 rounded-lg font-bold text-sm">
+                        ↻ Actualizar recetas desde GitHub
+                    </button>
                     <p id="githubSettingsStatus" class="text-[11px] text-gray-500 dark:text-gray-400"></p>
+                    <div id="githubSyncPanel" class="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/60 p-3">
+                        <p class="text-[11px] font-bold text-gray-700 dark:text-gray-200 mb-1">Estado de sincronización</p>
+                        <p id="githubSyncStatus" aria-live="polite" class="text-xs text-gray-600 dark:text-gray-300">Todavía no se ha comprobado la sincronización.</p>
+                    </div>
+                    <p class="text-[10px] leading-relaxed text-amber-700 dark:text-amber-300">Seguridad: esta versión HTML guarda el token en el almacenamiento local de este navegador. Usa un token de acceso personal de granularidad fina, limitado a este repositorio y con permiso de lectura y escritura de Contents. No compartas este archivo con el token incluido ni uses un token con acceso a otros repositorios.</p>
                 </div>
             </section>
 
@@ -788,6 +796,9 @@
                         <button id="btnExport" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                             Exportar Todo (JSON)
+                        </button>
+                        <button id="btnExportRecipes" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2">
+                            📚 Exportar solo el recetario (JSON)
                         </button>
                         <label class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2 cursor-pointer text-center">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
@@ -866,10 +877,25 @@
         const defaultSettings = { comensales: 100, margenActivo: false, darkMode: false };
         const proveedorCategorias = ["Carne", "Pescado", "Lácteos", "Verduras y frutas", "Secos", "Congelados"];
         const daysList = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
+        // IDs antiguos conservados solo para migrar recetas existentes.
+        const LEGACY_FIRST_SUBTYPE_MAP = {
+            cuchara_legumbres: "legumbres",
+            cuchara_guisos: "guisos",
+            cuchara_sopas_cremas: "sopas_o_caldos",
+            verdura_crema: "cremas",
+            verdura_entera: "verduras_enteras",
+            pasta_corta_larga: "pastas",
+            pasta_rellena_horno: "pastas_rellenas",
+            arroz: "arroces",
+            pasta_rellena: "pastas_rellenas",
+            pasta: "pastas",
+            sopas_cremas: "sopas_o_caldos"
+        };
+
         const FIRST_SUBCATEGORIES = {
-            cuchara: ["cuchara_legumbres", "cuchara_guisos", "cuchara_sopas_cremas"],
-            verdura: ["verdura_crema", "verdura_entera"],
-            tenedor: ["pasta_corta_larga", "pasta_rellena_horno", "arroz", "otros_hidratos"]
+            cuchara: ["legumbres", "guisos", "sopas_o_caldos"],
+            verdura: ["cremas", "verduras_enteras"],
+            tenedor: ["pastas", "pastas_rellenas", "arroces", "otros_hidratos"]
         };
         const MEAT_ANIMALS = ["carne_pollo", "carne_pavo", "carne_cerdo", "carne_ternera", "carne_conejo", "carne_cordero"];
         const FISH_SPECIES = ["merluza", "salmon", "bacalao", "dorada", "lubina", "atun", "calamares", "sepia", "sardina", "caballa"];
@@ -883,10 +909,10 @@
             carne_ternera: "Ternera", carne_conejo: "Conejo", carne_cordero: "Cordero"
         };
         const FIRST_LABELS = {
-            cuchara_legumbres: "Cuchara · Legumbres", cuchara_guisos: "Cuchara · Guisos",
-            cuchara_sopas_cremas: "Cuchara · Sopas o caldos", verdura_crema: "Verdura · Crema",
-            verdura_entera: "Verdura · Entera", pasta_corta_larga: "Pasta",
-            pasta_rellena_horno: "Pasta rellena", arroz: "Arroz", otros_hidratos: "Otros hidratos"
+            legumbres: "Cuchara · Legumbres", guisos: "Cuchara · Guisos",
+            sopas_o_caldos: "Cuchara · Sopas o caldos", cremas: "Verdura · Crema",
+            verduras_enteras: "Verdura · Entera", pastas: "Pasta",
+            pastas_rellenas: "Pasta rellena", arroces: "Arroz", otros_hidratos: "Otros hidratos"
         };
 
         function normalizeDishData(d) {
@@ -895,6 +921,9 @@
             dish.precocinado = !!dish.precocinado;
             dish.subcategoria_primero = dish.subcategoria_primero || "";
             dish.subtipo_primero = dish.subtipo_primero || "";
+            if (dish.subtipo_primero && LEGACY_FIRST_SUBTYPE_MAP[dish.subtipo_primero]) {
+                dish.subtipo_primero = LEGACY_FIRST_SUBTYPE_MAP[dish.subtipo_primero];
+            }
             dish.proteina_segundo = dish.proteina_segundo || "";
             dish.animal_carne = dish.animal_carne || "";
             dish.especie_pescado = dish.especie_pescado || "";
@@ -967,6 +996,7 @@
         let currentMenu = null;
         let previousWeekMenu = null;
         let historyMenus = [];
+        let githubLastLoadIssue = "";
 
         let activeFilterLevel1 = 'all';
         let activeFilterLevel2 = 'all';
@@ -1153,6 +1183,8 @@
             document.getElementById('fileImport').addEventListener('change', importData);
             document.getElementById('btnWipeData').addEventListener('click', wipeData);
             document.getElementById('btnSaveGithubSettings').addEventListener('click', saveGitHubSettings);
+            document.getElementById('btnRefreshGitHub').addEventListener('click', refreshDishesFromGitHub);
+            document.getElementById('btnExportRecipes').addEventListener('click', exportRecipesOnly);
         }
 
         function updateFormVisibility() {
@@ -1241,9 +1273,6 @@
                 const tagType = d.categoria === 'Primero'
                     ? (FIRST_LABELS[d.subtipo_primero] || d.subcategoria_primero || "Sin subcategoría")
                     : d.proteina_segundo;
-                const technical = d.categoria === "Primero"
-                    ? d.subtipo_primero
-                    : (d.proteina_segundo === "Carne" ? `${MEAT_LABELS[d.animal_carne] || "Sin animal"} · ${d.tecnica_cocina || "Sin técnica"}` : `Pescado · ${FISH_LABELS[d.especie_pescado] || d.especie_pescado || "Sin especie"}`);
                 const demObj = demandMap[d.demanda || "Media"];
                 const missing = !hasCompleteTechnicalTags(d);
                 const missingBadge = missing ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 border border-orange-200 dark:border-orange-800">⚠️ Etiquetado pendiente</span>' : '';
@@ -1257,7 +1286,6 @@
                         <div class="flex flex-wrap gap-1.5 mt-2 items-center">
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">${d.categoria}</span>
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-300">${escapeHtml(tagType)}</span>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">${escapeHtml(technical)}</span>
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${demObj.class}">${demObj.text}</span>
                             ${missingBadge}${precookedBadge}
                         </div>
@@ -1304,7 +1332,8 @@
                 const owner = document.getElementById('githubOwner');
                 const repo = document.getElementById('githubRepo');
                 const path = document.getElementById('githubPath');
-                if (token) token.value = github.token || "";
+                // No volvemos a mostrar el token guardado en el campo; se conserva si se deja vacío al guardar.
+                if (token) token.value = "";
                 if (owner) owner.value = github.owner || "";
                 if (repo) repo.value = github.repo || "";
                 if (path) path.value = github.path || "";
@@ -1325,7 +1354,13 @@
 
         async function loadDishesFromGitHub() {
             const github = getGitHubSettings();
-            if (!github.token || !github.owner || !github.repo || !github.path) return false;
+            githubLastLoadIssue = "";
+            if (!github.token || !github.owner || !github.repo || !github.path) {
+                githubLastLoadIssue = "not-configured";
+                renderGitHubSyncStatus(github);
+                return false;
+            }
+            setGitHubSyncStatus("Leyendo recetario desde GitHub…", 'loading');
 
             try {
                 const apiUrl = `https://api.github.com/repos/${encodeURIComponent(github.owner)}/${encodeURIComponent(github.repo)}/contents/${github.path.split('/').map(encodeURIComponent).join('/')}`;
@@ -1340,9 +1375,15 @@
                 try { data = await response.json(); } catch (_) {}
 
                 if (!response.ok) {
+                    const reason = data.message || `HTTP ${response.status}`;
                     if (response.status !== 404) {
-                        console.warn("No se pudo cargar el recetario desde GitHub:", data.message || `HTTP ${response.status}`);
+                        console.warn("No se pudo cargar el recetario desde GitHub:", reason);
+                        setGitHubSyncStatus(`GitHub no permitió cargar las recetas (${reason}). Se conserva la copia local.`, 'error');
+                    } else {
+                        githubLastLoadIssue = "missing-file";
+                        setGitHubSyncStatus("No se encontró el archivo del recetario en GitHub. Comprueba la ruta o crea el archivo guardando/importando recetas.", 'warning');
                     }
+                    if (response.status !== 404) githubLastLoadIssue = "error";
                     return false;
                 }
 
@@ -1355,11 +1396,43 @@
                 const parsedFile = parseGitHubRecipeFile(content, github.path);
 
                 // La copia remota pasa a ser la copia de trabajo de este navegador.
+                // Al cargar, también migramos los antiguos identificadores técnicos
+                // para que el archivo compartido quede alineado con los textos visibles.
+                const originalSerialized = JSON.stringify(parsedFile.recipes);
                 dishes = parsedFile.recipes.map(normalizeDishData);
+                const normalizedSerialized = JSON.stringify(dishes);
+
+                if (originalSerialized !== normalizedSerialized) {
+                    try {
+                        const updatedContent = buildGitHubRecipeFile(parsedFile, null, dishes);
+                        const putPayload = {
+                            message: "Actualizados identificadores de categorías desde GastroOS",
+                            content: utf8ToBase64(updatedContent),
+                            sha: data.sha
+                        };
+                        const putResponse = await fetch(apiUrl, {
+                            method: 'PUT',
+                            headers: { ...headers, "Content-Type": "application/json" },
+                            body: JSON.stringify(putPayload)
+                        });
+                        if (!putResponse.ok) {
+                            console.warn("Las recetas se cargaron, pero no se pudo guardar en GitHub la migración de identificadores.");
+                        }
+                    } catch (migrationError) {
+                        console.warn("Las recetas se cargaron, pero falló la migración remota de identificadores:", migrationError);
+                    }
+                }
+
                 localStorage.setItem('chefTrack_dishes', JSON.stringify(dishes));
+                githubLastLoadIssue = "success";
+                localStorage.removeItem('chefTrack_githubFileMissing');
+                localStorage.setItem('chefTrack_githubLastSync', new Date().toISOString());
+                setGitHubSyncStatus(`Recetario cargado desde GitHub · ${dishes.length} recetas.`, 'success');
                 return true;
             } catch (error) {
+                githubLastLoadIssue = "error";
                 console.warn("No se pudo cargar el recetario desde GitHub. Se mantiene la copia local.", error);
+                setGitHubSyncStatus("No se pudo leer GitHub. Se mantiene la última copia local disponible.", 'error');
                 return false;
             }
         }
@@ -1368,30 +1441,116 @@
             const status = document.getElementById('githubSettingsStatus');
             if (!status) return;
             if (github?.token && github?.owner && github?.repo && github?.path) {
-                status.textContent = "✓ Conexión de GitHub configurada.";
+                status.textContent = "✓ Conexión configurada. Al guardar, GastroOS comprobará GitHub y cargará el recetario.";
                 status.className = "text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold";
             } else {
                 status.textContent = "Configura los cuatro campos para activar la sincronización remota de recetas.";
                 status.className = "text-[11px] text-gray-500 dark:text-gray-400";
             }
+            renderGitHubSyncStatus(github);
         }
 
-        function saveGitHubSettings() {
+        function renderGitHubSyncStatus(github = getGitHubSettings()) {
+            const status = document.getElementById('githubSyncStatus');
+            if (!status) return;
+            const configured = !!(github?.token && github?.owner && github?.repo && github?.path);
+            if (!configured) {
+                status.textContent = "GitHub no está configurado en este navegador. Las recetas locales seguirán disponibles.";
+                status.className = "text-xs text-gray-600 dark:text-gray-300";
+                return;
+            }
+            const last = localStorage.getItem('chefTrack_githubLastSync');
+            const lastText = last ? new Date(last).toLocaleString('es-ES') : "sin sincronización confirmada todavía";
+            status.textContent = `Conexión configurada · Última sincronización correcta: ${lastText}. Recetas en esta copia: ${dishes.length}.`;
+            status.className = "text-xs text-gray-600 dark:text-gray-300";
+        }
+
+        function setGitHubSyncStatus(message, kind = 'info') {
+            const status = document.getElementById('githubSyncStatus');
+            if (!status) return;
+            status.textContent = message;
+            const classes = {
+                info: "text-xs text-gray-600 dark:text-gray-300",
+                loading: "text-xs text-indigo-600 dark:text-indigo-300 font-semibold",
+                success: "text-xs text-emerald-600 dark:text-emerald-300 font-semibold",
+                warning: "text-xs text-amber-700 dark:text-amber-300 font-semibold",
+                error: "text-xs text-red-600 dark:text-red-300 font-semibold"
+            };
+            status.className = classes[kind] || classes.info;
+        }
+
+        function markGitHubSyncSuccess(message = "Sincronización completada.") {
+            const now = new Date().toISOString();
+            localStorage.setItem('chefTrack_githubLastSync', now);
+            setGitHubSyncStatus(`${message} ${new Date(now).toLocaleString('es-ES')} · ${dishes.length} recetas.`, 'success');
+        }
+
+        async function saveGitHubSettings() {
+            const existing = getGitHubSettings();
+            const tokenInput = document.getElementById('githubToken');
             const github = {
-                token: document.getElementById('githubToken').value.trim(),
+                token: tokenInput.value.trim() || existing.token || "",
                 owner: document.getElementById('githubOwner').value.trim(),
                 repo: document.getElementById('githubRepo').value.trim(),
                 path: document.getElementById('githubPath').value.trim().replace(/^\/+/, "")
             };
 
             if (!github.token || !github.owner || !github.repo || !github.path) {
-                alert("Completa el Token, el propietario, el repositorio y la ruta del archivo antes de guardar.");
+                alert("Completa el propietario, el repositorio y la ruta, e introduce un token si aún no hay uno guardado.");
                 return;
             }
 
+            const repositoryChanged = existing.owner !== github.owner || existing.repo !== github.repo || existing.path !== github.path;
+            if (repositoryChanged) localStorage.removeItem('chefTrack_githubLastSync');
             localStorage.setItem('chefTrack_githubSettings', JSON.stringify(github));
+            tokenInput.value = "";
             updateGitHubSettingsStatus(github);
-            alert("Configuración de GitHub guardada correctamente.");
+            setGitHubSyncStatus("Comprobando conexión y cargando recetas desde GitHub…", 'loading');
+            const loaded = await loadDishesFromGitHub();
+            if (loaded) {
+                saveAll();
+                renderDishes();
+                renderMigrationUI();
+                renderStockView();
+                renderGeneratorView();
+                renderHistorySection();
+                markGitHubSyncSuccess("Conexión comprobada y recetario actualizado desde GitHub.");
+                alert("Conexión con GitHub comprobada y recetas cargadas correctamente.");
+            } else if (githubLastLoadIssue === "missing-file") {
+                setGitHubSyncStatus("Conexión guardada. Aún no existe el archivo del recetario; se creará al guardar la primera receta o importar un JSON.", 'warning');
+                alert("La configuración se ha guardado, pero todavía no existe el archivo del recetario en esa ruta. GastroOS lo creará automáticamente al guardar la primera receta o importar un JSON.");
+            } else {
+                setGitHubSyncStatus("No se pudo confirmar la lectura de GitHub. Se conserva la copia local; revisa token, permisos, ruta y conexión.", 'error');
+                alert("La configuración se ha guardado, pero no se pudo cargar el recetario desde GitHub. Revisa el token, los permisos y la ruta del archivo.");
+            }
+        }
+
+        async function refreshDishesFromGitHub() {
+            const github = getGitHubSettings();
+            if (!github.token || !github.owner || !github.repo || !github.path) {
+                setGitHubSyncStatus("Configura primero la conexión con GitHub.", 'warning');
+                alert("Configura primero la conexión con GitHub.");
+                return;
+            }
+            setGitHubSyncStatus("Actualizando recetas desde GitHub…", 'loading');
+            const loaded = await loadDishesFromGitHub();
+            if (!loaded) {
+                if (githubLastLoadIssue === "missing-file") {
+                    setGitHubSyncStatus("El archivo de recetas todavía no existe en la ruta configurada. Se creará al guardar o importar recetas.", 'warning');
+                    alert("El archivo de recetas todavía no existe en GitHub. Se creará al guardar la primera receta o importar un JSON.");
+                } else {
+                    setGitHubSyncStatus("No se pudo actualizar. Se mantiene la última copia local disponible.", 'error');
+                    alert("No se pudo actualizar desde GitHub. Se mantiene la copia local.");
+                }
+                return;
+            }
+            saveAll();
+            renderDishes();
+            renderMigrationUI();
+            renderStockView();
+            renderGeneratorView();
+            renderHistorySection();
+            markGitHubSyncSuccess("Recetario actualizado desde GitHub.");
         }
 
         function setDishSaveState(isSaving) {
@@ -1496,10 +1655,12 @@
             }
         }
 
-        function buildGitHubRecipeFile(parsedFile, newDish = null) {
-            const updatedRecipes = newDish === null
-                ? [...parsedFile.recipes]
-                : [...parsedFile.recipes, newDish];
+        function buildGitHubRecipeFile(parsedFile, newDish = null, recipesOverride = null) {
+            const updatedRecipes = Array.isArray(recipesOverride)
+                ? [...recipesOverride]
+                : (newDish === null
+                    ? [...parsedFile.recipes]
+                    : [...parsedFile.recipes, newDish]);
             if (parsedFile.format === 'json-array') {
                 return JSON.stringify(updatedRecipes, null, 2) + "\n";
             }
@@ -1593,8 +1754,10 @@
                     throw new Error(`No se pudo actualizar el recetario: ${reason}`);
                 }
 
+                markGitHubSyncSuccess(isNewDish ? "Receta añadida en GitHub." : "Receta actualizada en GitHub.");
                 return true;
             } catch (error) {
+                setGitHubSyncStatus("No se pudo guardar el cambio en GitHub.", 'error');
                 console.error("Error de sincronización con GitHub:", error);
                 const message = error?.message || "Error desconocido al conectar con GitHub.";
                 alert(`No se pudo ${isNewDish ? "guardar" : "actualizar"} la receta en GitHub.\n\nMotivo: ${message}`);
@@ -1668,8 +1831,10 @@
                     throw new Error(`No se pudo actualizar el recetario: ${reason}`);
                 }
 
+                markGitHubSyncSuccess("Recetas importadas y sincronizadas con GitHub.");
                 return { success: true, skipped: false };
             } catch (error) {
+                setGitHubSyncStatus("No se pudo sincronizar la importación con GitHub.", 'error');
                 console.error("Error de sincronización de importación con GitHub:", error);
                 return {
                     success: false,
@@ -1862,8 +2027,10 @@
                     throw new Error(`No se pudo actualizar el recetario: ${reason}`);
                 }
 
+                markGitHubSyncSuccess("Receta eliminada de GitHub.");
                 return true;
             } catch (error) {
+                setGitHubSyncStatus("No se pudo eliminar la receta de GitHub.", 'error');
                 console.error("Error de sincronización de eliminación con GitHub:", error);
                 const message = error?.message || "Error desconocido al conectar con GitHub.";
                 alert(`No se pudo eliminar la receta en GitHub.\n\nMotivo: ${message}`);
@@ -1958,8 +2125,8 @@
             }).join("");
         }
 
-        function saveMigrationTag(id) {
-            const d = dishes.find(x => x.id === id);
+        async function saveMigrationTag(id) {
+            const d = dishes.find(x => String(x.id) === String(id));
             if (!d) return;
             const nd = normalizeDishData(d);
 
@@ -1985,11 +2152,26 @@
                 nd.especie_animal = "Pescado";
             }
 
-            const index = dishes.findIndex(x => x.id === id);
+            const index = dishes.findIndex(x => String(x.id) === String(id));
+            if (index < 0) return;
+
+            const github = getGitHubSettings();
+            const githubConfigured = !!(github.token && github.owner && github.repo && github.path);
+            if (githubConfigured) {
+                setGitHubSyncStatus(`Guardando etiquetas de “${nd.nombre}” en GitHub…`, 'loading');
+                const synced = await syncDishToGitHub(nd, false);
+                if (!synced) {
+                    setGitHubSyncStatus("No se guardó la etiqueta localmente porque GitHub no confirmó el cambio.", 'error');
+                    return;
+                }
+            }
+
             dishes[index] = normalizeDishData(nd);
             saveAll();
             renderDishes();
             renderMigrationUI();
+            if (githubConfigured) markGitHubSyncSuccess(`Etiqueta de “${nd.nombre}” sincronizada.`);
+            else setGitHubSyncStatus("Etiqueta guardada solo en este navegador. Configura GitHub para compartirla con otros dispositivos.", 'warning');
         }
         // --- 5. STOCK Y PREVISIÓN ---
         function renderStockView() {
@@ -2204,7 +2386,7 @@
             starch: "1º Tenedor / Hidratos"
         };
         const MEAT_TECHNIQUES = ["tecnica_guiso", "tecnica_seco_asado", "tecnica_frito_rebozado"];
-        const LIQUID_FIRST_SUBTYPES = new Set(["verdura_crema", "cuchara_sopas_cremas"]);
+        const LIQUID_FIRST_SUBTYPES = new Set(["cremas", "sopas_o_caldos"]);
         const VEGETABLE_ALIASES = {
             "judias verdes": "judias verdes", "judia verde": "judias verdes",
             "habichuela": "judias verdes", "habichuelas": "judias verdes",
@@ -2409,11 +2591,11 @@
 
             // Reglas heredadas del motor, conservadas como restricciones duras.
             const subtype = dish.subtipo_primero;
-            if (["cuchara_legumbres", "cuchara_guisos", "cuchara_sopas_cremas", "verdura_crema", "verdura_entera", "arroz", "otros_hidratos"].includes(subtype) &&
+            if (["legumbres", "guisos", "sopas_o_caldos", "cremas", "verduras_enteras", "arroces", "otros_hidratos"].includes(subtype) &&
                 previousDayHasSubtype(menuDays, dayIndex, subtype)) return true;
             // Pasta normal y pasta rellena pueden alternarse en días consecutivos.
-            if (subtype === "pasta_corta_larga" && previousDayHasSubtype(menuDays, dayIndex, "pasta_corta_larga")) return true;
-            if (subtype === "pasta_rellena_horno" && previousDayHasSubtype(menuDays, dayIndex, "pasta_rellena_horno")) return true;
+            if (subtype === "pastas" && previousDayHasSubtype(menuDays, dayIndex, "pastas")) return true;
+            if (subtype === "pastas_rellenas" && previousDayHasSubtype(menuDays, dayIndex, "pastas_rellenas")) return true;
 
             // Anti-plantilla inter-semanal: no repetir platos/verduras en la misma estructura.
             return violatesPreviousWeekTemplate(dish, spec, slotIndex, previousMenu, chosenFirsts);
@@ -2857,19 +3039,19 @@
                 if (dayIndex > 0) {
                     const prev = menu.days[days[dayIndex - 1]] || [];
                     const prevFirsts = prev.slice(0, 3).map(s => s.dish).filter(Boolean);
-                    if (slots[1]?.dish?.subtipo_primero === "cuchara_legumbres" &&
-                        prevFirsts.some(d => d.subtipo_primero === "cuchara_legumbres")) {
+                    if (slots[1]?.dish?.subtipo_primero === "legumbres" &&
+                        prevFirsts.some(d => d.subtipo_primero === "legumbres")) {
                         errors.push(`${dayName}: legumbres en días consecutivos.`);
                     }
 
                     const currentHydrate = slots[2]?.dish?.subtipo_primero;
-                    if (["pasta_corta_larga", "pasta_rellena_horno", "arroz"].includes(currentHydrate) &&
+                    if (["pastas", "pastas_rellenas", "arroces"].includes(currentHydrate) &&
                         prevFirsts.some(d => d.subtipo_primero === currentHydrate)) {
                         errors.push(`${dayName}: hidrato/pasta repetido en días consecutivos.`);
                     }
 
-                    if (slots[0]?.dish?.subtipo_primero === "verdura_crema" &&
-                        prevFirsts.some(d => d.subtipo_primero === "verdura_crema")) {
+                    if (slots[0]?.dish?.subtipo_primero === "cremas" &&
+                        prevFirsts.some(d => d.subtipo_primero === "cremas")) {
                         errors.push(`${dayName}: crema de verdura en días consecutivos.`);
                     }
                 }
@@ -3262,6 +3444,24 @@
             URL.revokeObjectURL(url);
         }
 
+        function exportRecipesOnly() {
+            const data = {
+                app: "GastroOS",
+                type: "recipes-only",
+                exportedAt: new Date().toISOString(),
+                dishes: dishes.map(normalizeDishData)
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `gastroos_recetas_${new Date().toISOString().slice(0,10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
+
         async function importData(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -3270,18 +3470,21 @@
             reader.onload = async function(evt) {
                 try {
                     const data = JSON.parse(evt.target.result);
+                    const importedDishes = Array.isArray(data)
+                        ? data
+                        : (Array.isArray(data.dishes) ? data.dishes : (Array.isArray(data.recipes) ? data.recipes : null));
 
-                    if (Array.isArray(data.dishes)) {
-                        dishes = data.dishes.map(normalizeDishData);
+                    if (importedDishes) {
+                        dishes = importedDishes.map(normalizeDishData);
                     }
-                    if (data.settings && typeof data.settings === 'object') {
+                    if (!Array.isArray(data) && data.settings && typeof data.settings === 'object') {
                         settings = { ...defaultSettings, ...data.settings };
                     }
-                    if (Array.isArray(data.rawStock)) rawStock = data.rawStock;
-                    if (Array.isArray(data.preparedStock)) preparedStock = data.preparedStock;
-                    if (Object.prototype.hasOwnProperty.call(data, 'currentMenu')) currentMenu = data.currentMenu;
-                    if (Object.prototype.hasOwnProperty.call(data, 'previousWeekMenu')) previousWeekMenu = data.previousWeekMenu;
-                    if (Array.isArray(data.historyMenus)) historyMenus = data.historyMenus;
+                    if (!Array.isArray(data) && Array.isArray(data.rawStock)) rawStock = data.rawStock;
+                    if (!Array.isArray(data) && Array.isArray(data.preparedStock)) preparedStock = data.preparedStock;
+                    if (!Array.isArray(data) && Object.prototype.hasOwnProperty.call(data, 'currentMenu')) currentMenu = data.currentMenu;
+                    if (!Array.isArray(data) && Object.prototype.hasOwnProperty.call(data, 'previousWeekMenu')) previousWeekMenu = data.previousWeekMenu;
+                    if (!Array.isArray(data) && Array.isArray(data.historyMenus)) historyMenus = data.historyMenus;
 
                     saveAll();
                     applyDarkMode();
@@ -3292,15 +3495,18 @@
                     renderHistorySection();
                     renderMigrationUI();
 
-                    // La importación se mantiene local aunque GitHub no esté configurado o falle.
-                    // Si hay conexión configurada, todo el listado importado se sincroniza en un único commit.
-                    if (Array.isArray(data.dishes)) {
+                    // Se aceptan tanto copias integrales como el recetario exportado por separado
+                    // (array de recetas o objeto {dishes}/{recipes}). Si hay GitHub configurado,
+                    // el listado importado se sincroniza en un único commit.
+                    if (importedDishes) {
                         const syncResult = await syncImportedDishesToGitHub(dishes);
                         if (syncResult.success) {
                             alert("Datos importados correctamente y recetas sincronizadas con GitHub.");
                         } else if (syncResult.skipped) {
+                            setGitHubSyncStatus("Importación guardada localmente. GitHub no está configurado en este navegador.", 'warning');
                             alert("Datos importados correctamente. La conexión con GitHub no está configurada, así que no se han sincronizado las recetas.");
                         } else {
+                            setGitHubSyncStatus("La importación está guardada localmente, pero no se pudo sincronizar con GitHub.", 'error');
                             alert(`Datos importados correctamente en GastroOS, pero no se pudieron sincronizar con GitHub.\n\nMotivo: ${syncResult.message}`);
                         }
                     } else {
@@ -3308,7 +3514,7 @@
                     }
                 } catch(err) {
                     console.error("Error al importar el archivo JSON:", err);
-                    alert("Error al importar el archivo JSON.");
+                    alert("Error al importar el archivo JSON. Comprueba que el archivo contiene un JSON válido de GastroOS o un listado de recetas.");
                 } finally {
                     e.target.value = '';
                 }
@@ -3317,8 +3523,10 @@
         }
 
         function wipeData() {
-            if (confirm("¿Estás completamente seguro de borrar todos los datos y restaurar valores iniciales?")) {
+            if (confirm("¿Estás completamente seguro de borrar los datos locales y restaurar valores iniciales? La conexión con GitHub se conservará para poder volver a cargar el recetario.")) {
+                const githubSettings = localStorage.getItem('chefTrack_githubSettings');
                 localStorage.clear();
+                if (githubSettings) localStorage.setItem('chefTrack_githubSettings', githubSettings);
                 location.reload();
             }
         }
