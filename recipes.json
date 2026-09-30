@@ -1,0 +1,632 @@
+[
+  {
+    "id": "1790482453607",
+    "nombre": "Crema de champiñones y puerro",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Champiñones",
+        "cantidad": 180,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Puerro",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790482414614",
+    "nombre": "Crema de champiñones y patata",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Champiñones",
+        "cantidad": 180,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790482385205",
+    "nombre": "Crema de espinacas y calabacín",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Espinacas",
+        "cantidad": 130,
+        "unidad": "g",
+        "categoria_proveedor": "Congelados"
+      },
+      {
+        "nombre": "Calabacín",
+        "cantidad": 130,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 60,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790482349869",
+    "nombre": "Crema de espinacas y patata",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Espinacas",
+        "cantidad": 150,
+        "unidad": "g",
+        "categoria_proveedor": "Congelados"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 90,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790482313196",
+    "nombre": "Crema de coliflor al curry",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Coliflor",
+        "cantidad": 220,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 60,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790482284859",
+    "nombre": "Crema de coliflor y puerro",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Coliflor",
+        "cantidad": 180,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Puerro",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790482258186",
+    "nombre": "Crema de coliflor y patata",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Coliflor",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790482231034",
+    "nombre": "Crema de brócoli y patata",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Brócoli",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790482185513",
+    "nombre": "Crema de verduras variadas",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Calabacín",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Puerro",
+        "cantidad": 60,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 60,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790482135568",
+    "nombre": "Crema de puerro y zanahoria",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Puerro",
+        "cantidad": 150,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 150,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 50,
+        "unidad": "kg",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790482099239",
+    "nombre": "Crema de puerro y calabacín",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Puerro",
+        "cantidad": 150,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Calabacín",
+        "cantidad": 150,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790482070262",
+    "nombre": "Crema de puerro y patata",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Puerro",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790481996693",
+    "nombre": "Crema de zanahoria al curry",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 250,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 60,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790481959412",
+    "nombre": "Crema de zanahoria y puerro",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 180,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Puerro",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790481931875",
+    "nombre": "Crema de zanahoria y calabacín",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 150,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Calabacín",
+        "cantidad": 150,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790481897866",
+    "nombre": "Crema de zanahoria y patata",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790481849153",
+    "nombre": "Crema de calabacín y puerro",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Calabacín",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Puerro",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  },
+  {
+    "id": "1790481808489",
+    "nombre": "Crema de calabacín con patata",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "proteina_segundo": "",
+    "especie_animal": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "ingredientes": [
+      {
+        "nombre": "Calabacín",
+        "cantidad": 220,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ],
+    "subtipo_primero": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "tecnica_cocina": ""
+  }
+]
