@@ -1,84 +1,85 @@
-<div align="center">
+# 📖 GastroOS
 
-  # GastroOS
-  **The intelligent weekly menu planning engine for high-volume kitchens (150–200 daily diners)**
-
-  [![PWA Ready](https://img.shields.io/badge/PWA-Ready-007AFF?style=for-the-badge&logo=pwa&logoColor=white)](https://getsxnt9.github.io/GastroOS/)
-  [![UI Design](https://img.shields.io/badge/Design-Apple_HIG-000000?style=for-the-badge&logo=apple&logoColor=white)](#tech-stack)
-  [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
-
-  <br />
-
-  [**Live Demo**](https://getsxnt9.github.io/GastroOS/) &nbsp;•&nbsp; [**Architecture & Rules**](#algorithm-logic--rules) &nbsp;•&nbsp; [**Key Features**](#key-features)
-
-</div>
+> **Web Operating System for Recipe Management, Menu Planning, and Stock Control.**  
+> *Unified PWA single-file architecture application with remote synchronization via GitHub API.*
 
 ---
 
-## Project Vision
-
-**GastroOS** is a high-performance Progressive Web App (PWA) engineered by a solo chef responsible for single-handedly preparing 6 distinct dishes daily for 150–200 diners. Unlike traditional static recipe managers, **GastroOS** acts as an operational decision engine—automating weekly menu creation (Monday through Friday) while guaranteeing strict nutritional balance, culinary logic, texture compatibility, and zero-repetition rules with no administrative overhead.
-
----
-
-## Key Features
-
-* **Solo-Operator Optimized**: Built specifically for single-chef operations executing an entire 6-dish daily menu, drastically eliminating decision fatigue and planning friction.
-* **Apple HIG-Inspired UI**: Clean, glassmorphic aesthetic with crystal-clear typography and high-ergonomics touch controls tailored for fast-paced kitchen environments.
-* **Fixed 3x3 Daily Layout**:
-  * **3 Starters**: `1st Vegetable` + `1st Spoon/Soup` + `1st Fork/Carbs`.
-  * **3 Mains**: `2nd Meat (Option 1)` + `2nd Meat (Option 2)` + `2nd Fish`.
-* **Advanced Heuristic Engine**: Enforces strict intra-day texture compatibility, zero weekly vegetable duplication, species rotation, and technique caps.
-* **Inter-Week Memory System**: Stores historical menus to alter weekly structures dynamically, preventing copy-paste template fatigue.
-* **2-Tier Fallback System**: Progressive rule relaxation if the user's recipe collection is limited, strictly preserving weekly dish ID uniqueness and daily meat variety.
-* **Zero Server / 100% Offline**: Privacy-first. Runs entirely in client storage (`localStorage` / `IndexedDB`) with zero external API dependencies.
+[![Architecture](https://img.shields.io/badge/Architecture-Single--File%20SPA-000000?style=for-the-badge&logo=apple&logoColor=white)](#)
+[![Storage](https://img.shields.io/badge/Storage-localStorage%20%2B%20GitHub%20API-24292e?style=for-the-badge&logo=github&logoColor=white)](#)
+[![Design](https://img.shields.io/badge/Design-Apple%20Minimalist-000000?style=for-the-badge&logo=tailwindcss&logoColor=white)](#)
 
 ---
 
-## Daily Menu Matrix (3x3)
+## 📸 Overview
 
-| Slot | Category | Subcategories |
-| :--- | :--- | :--- |
-| **1st Course** | **Vegetables** | `verdura_entera` (Whole/Sautéed) \| `verdura_crema` (Cream/Purée) |
-| **1st Course** | **Spoon / Stews** | `cuchara_legumbres` (Legumes) \| `cuchara_guisos` (Stews) \| `cuchara_sopas_caldos` (Soups/Broths) |
-| **1st Course** | **Fork / Carbs** | `pasta_corta_larga` \| `pasta_rellena_horno` \| `arroz` \| `otros_hidratos` |
-| **2nd Course** | **Meat Option 1** | Animal A + (`tecnica_guiso` \| `tecnica_seco_asado` \| `tecnica_frito_rebozado`) |
-| **2nd Course** | **Meat Option 2** | **Animal B (Different)** + Complementary Technique |
-| **2nd Course** | **Fish** | `pescado` (Explicit species tracking required) |
+**GastroOS** is a web application (*Single Page Application*) natively developed in **HTML5, CSS, and JavaScript**, packaged in a single-file architecture. It is designed for catering, institutional, and restaurant environments requiring agile weekly menu planning, stock control, and nutritional balance without the complexity or dependency of heavy external servers.
 
 ---
 
-## Algorithm Logic & Rules
+## 🛠️ Technical Architecture & Modules
 
-### 1. Intra-Day Constraints (Same Day)
-* **Protein Diversity in Mains**: Prohibited to serve the same animal species across both meat mains on the same day (e.g., *Pork + Pork* is forbidden). Meat derivatives in starters (e.g., ham in vegetables) do not block animal selection for mains.
-* **Liquid Texture Incompatibility**: Prohibited to pair two liquid/puréed starters on the same day (`verdura_crema` and `cuchara_sopas_caldos` cannot co-exist in the same daily menu).
-* **Technique Balance**: Prohibited to offer two stewed meats or two fried options on the same day.
+### 1. 📗 Master Recipe Book
+Recipes are managed as JSON object data structures with complete classification metadata:
+* **Internal Identifiers (`id`):** Independent of the visual layer to prevent reference errors.
+* **Structural Classification:** Dish definition (First / Second Course), category, technical subcategory, and tags.
+* **Operational Properties:** Demand level, weighted ingredients, and associated quantities.
 
-### 2. Inter-Day & Weekly Constraints (Monday to Friday)
-* **Zero Weekly Vegetable Repetition**: Strict veto on repeating the main vegetable ingredient in the `1st Vegetable` slot across the entire 5-day week (e.g., Green Beans on Monday vetoes Green Beans for the rest of the week).
-* **Fish Rotation**: Repeating the exact same fish species on consecutive days is forbidden (e.g., *Hake* Tuesday ➔ *Cod* Wednesday).
-* **Meat Caps & Techniques**: Maximum **2 consecutive days** featuring the same animal species. Stewed meats (`tecnica_guiso`) are strictly capped at **2–3 per week**, and fried foods (`tecnica_frito_rebozado`) at **max 2 per week**.
-* **Legumes & Cream Soups**: Forbidden on consecutive days (`cuchara_legumbres` & `verdura_crema`).
+### 2. 🔄 Remote Synchronization (GitHub API REST)
+GastroOS uses GitHub as its centralized, persistent database:
+* **Hybrid Structure:** 
+  * `GitHub Repository` ➔ **Master Data Source** (`recipes.json`).
+  * `localStorage` ➔ **High-Performance Browser Cache & Local Storage**.
+* **CRUD Operations:** Two-way synchronization via HTTP `GET` (read/download) and `PUT` (write/commit) requests with header authentication.
+* **Multi-Device Access:** Allows working with the same recipe book in a centralized manner across different devices or browsers.
 
-### 3. Inter-Week Memory (Anti-Template System)
-* **Historical Memory**: Persists the previous week's generated menu (`previousWeekMenu`) in local storage. When generating a new week, the engine alters the menu layout and subcategory sequence to prevent pattern repetition.
+### 3. 🎲 Intelligent Planning Engine
+The analytical generator evaluates the active recipe book, storage inventory, and demand forecasts to generate balanced weekly menu proposals:
+* **Daily Balance:** Distribution of 3 first courses (1 Vegetable, 1 Spoon dish, 1 Fork dish) and 3 second courses (1 Fish, 2 Meats).
+* **Nutritional Variety Control:** Algorithm ensuring zero repetition of fish species or vegetable families within the same week, strict limits on fried foods, and rotation of animal protein types.
+* **Utilization & Rotation:** Priority integration of raw materials in stock and pre-cooked inventory items.
+* **Replacement Matrix:** Allows dynamic manual substitutions per dish.
+
+### 4. 📦 Stock & Forecast Management
+* **Categorized Inventory:** Classification and organization of raw materials and prepared dishes.
+* **Proportion Calculation:** Safety margin applied over diner forecasts for automatic production portion adjustments.
+* **Order Generator:** Consolidation of required ingredients grouped into 6 logistical categories: *Meat, Fish, Dairy, Fruits & Vegetables, Dry Goods, and Frozen*.
+
+### 5. 💾 Data Persistence & Portability
+* **Environment Isolation:** GitHub connection credentials are stored independently of local database data to allow local storage clearing without losing the configured connection.
+* **Backup & JSON Exchange:** Import and export module for `.json` files to create manual backups or execute quick migrations between environments.
+
+### 6. 📱 Interface and UX (SPA)
+* **Single-File Architecture:** The entire application (structure, styles, and reactivity) is contained within a single executable file in any modern browser without prior compilation.
+* **Responsive Design:** Smooth adaptation for mobile devices, tablets, and desktop displays.
+* **Adaptive Dark Mode:** Integrated aesthetic contrast switcher.
 
 ---
 
-## Tech Stack
+## 🔐 Security & Permissions
 
-* **Core**: HTML5, Modern JavaScript (ES6+ Modules), PWA Service Workers
-* **UI & Styling**: Tailwind CSS (Apple Human Interface Guidelines)
-* **Icons**: Lucide Icons / Heroicons
-* **Storage**: Web Storage API (`localStorage` / `IndexedDB`)
-* **Hosting**: GitHub Pages
+To enable remote sync:
+1. Uses a **Fine-grained Personal Access Token (PAT)** from GitHub.
+2. Required permissions are strictly limited to the scope of the repository where the recipe book resides (`Contents: Read & Write`).
+3. The token is stored locally and non-transferably in the user's browser `localStorage`.
 
 ---
 
-## Getting Started
+## 📋 Data Flow Summary
 
-1. **Clone the repository**:
-   ```bash
-   git clone [https://github.com/GeTsSxNT9/GastroOS.git](https://github.com/GeTsSxNT9/GastroOS.git)
-   cd GastroOS
+```text
+  ┌─────────────────────────────────────────────────────────┐
+  │                       GastroOS                          │
+  │                     (Browser / SPA)                     │
+  └────────────┬───────────────────────────────▲────────────┘
+               │                               │
+    [PUT] Save Recipe                 [GET] Load Recipe Book
+               │                               │
+               ▼                               │
+  ┌────────────────────────────────────────────┴────────────┐
+  │                    GitHub REST API                      │
+  │                 (Repository / master)                   │
+  └────────────────────────────┬────────────────────────────┘
+                               │
+                               ▼
+                       [ recipes.json ]
