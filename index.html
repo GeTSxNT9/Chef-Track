@@ -548,7 +548,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Aceptación/Demanda</label>
+                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Demanda</label>
                     <select id="dishDemand" required class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                         <option value="Alta">🟢 Alta</option>
                         <option value="Media" selected>🟡 Media</option>
@@ -725,7 +725,7 @@
                         <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">CÁLCULO CATEGORIZADO POR PROVEEDORES</h3>
                         <span class="text-[10px] font-bold bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 px-2 py-0.5 rounded-full" id="shoppingRacionesBadge">130 Raciones</span>
                     </div>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 leading-snug">Cantidades agrupadas en categorías unificadas.</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 leading-snug">Cantidades agrupadas en categorías.</p>
                     <button id="btnDownloadShoppingTxt" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-3 rounded-lg text-xs flex items-center justify-center gap-2 shadow-sm">
                         <span>📄</span> Descargar Lista (.txt)
                     </button>
@@ -758,7 +758,7 @@
                         <input type="password" id="githubToken" autocomplete="new-password" placeholder="Introduce un token nuevo o déjalo vacío para conservar el guardado" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-900 focus:ring-2 focus:ring-indigo-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Usuario / Propietario del repositorio</label>
+                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Usuario del repositorio</label>
                         <input type="text" id="githubOwner" autocomplete="off" placeholder="usuario" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-900 focus:ring-2 focus:ring-indigo-500">
                     </div>
                     <div>
@@ -773,7 +773,7 @@
                         Guardar conexión con GitHub
                     </button>
                     <button type="button" id="btnRefreshGitHub" class="w-full border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/40 py-2.5 rounded-lg font-bold text-sm">
-                        ↻ Actualizar recetas desde GitHub
+                        Actualizar recetas desde GitHub ↻
                     </button>
                     <p id="githubSettingsStatus" class="text-[11px] text-gray-500 dark:text-gray-400"></p>
                     <div id="githubSyncPanel" class="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/60 p-3">
@@ -829,7 +829,7 @@
         <div class="bg-white dark:bg-gray-900 w-full max-w-lg rounded-t-2xl sm:rounded-2xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl animate-fade-in border border-gray-200 dark:border-gray-800">
             <div class="p-4 bg-indigo-600 dark:bg-indigo-950 text-white flex justify-between items-center">
                 <div>
-                    <h3 class="font-bold text-sm" id="modalSwapTitle">Cambiar Plato</h3>
+                    <h3 class="font-bold text-sm" id="modalSwapTitle">Cambiar…</h3>
                     <p class="text-[11px] text-indigo-200" id="modalSwapSubtitle">Selecciona una alternativa</p>
                 </div>
                 <button onclick="closeSwapModal()" class="text-white hover:bg-indigo-700 p-1 rounded-lg">
@@ -1254,7 +1254,7 @@
             });
 
             if (!filtered.length) {
-                list.innerHTML = '<p class="text-center text-gray-500 dark:text-gray-400 mt-10 text-sm">No se encontraron platos.</p>';
+                list.innerHTML = '<p class="text-center text-gray-500 dark:text-gray-400 mt-10 text-sm">No hay resultados.</p>';
                 return;
             }
 
@@ -1265,7 +1265,7 @@
                     : d.proteina_segundo;
                 const demObj = demandMap[d.demanda || "Media"];
                 const missing = !hasCompleteTechnicalTags(d);
-                const missingBadge = missing ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 border border-orange-200 dark:border-orange-800">⚠️ Etiquetado pendiente</span>' : '';
+                const missingBadge = missing ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 border border-orange-200 dark:border-orange-800">Etiquetado pendiente ⚠️</span>' : '';
                 const precookedBadge = d.precocinado ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-800">Precocinado</span>' : '';
 
                 const card = document.createElement('div');
@@ -1431,7 +1431,7 @@
             const status = document.getElementById('githubSettingsStatus');
             if (!status) return;
             if (github?.token && github?.owner && github?.repo && github?.path) {
-                status.textContent = "✓ Conexión configurada. Al guardar, GastroOS comprobará GitHub y cargará el recetario.";
+                status.textContent = "Conexión configurada ✓. Al guardar, GastroOS comprobará GitHub y cargará el recetario.";
                 status.className = "text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold";
             } else {
                 status.textContent = "Configura los cuatro campos para activar la sincronización remota de recetas.";
@@ -1852,7 +1852,7 @@
                     ? document.getElementById('dishFishSpeciesCustom').value.trim().toLowerCase()
                     : selected;
                 if (!fishSpecies) {
-                    alert("El pescado debe tener registrada la especie/tipo exacto.");
+                    alert("El pescado debe tener registrada la especie exacta.");
                     return;
                 }
             }
@@ -2071,7 +2071,7 @@
             const pending = getMigrationCandidates();
             if (badge) badge.innerText = `${pending.length} pendientes`;
             if (!pending.length) {
-                container.innerHTML = '<div class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold p-2 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg">✅ Todo el recetario está correctamente etiquetado.</div>';
+                container.innerHTML = '<div class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold p-2 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg">Todo el recetario está correctamente etiquetado ✓.</div>';
                 return;
             }
 
@@ -3297,7 +3297,7 @@
         // --- 7. MODAL DE CAMBIO DE PLATO ---
         function openSwapModal(dayName, slotIndex, cat, subcat, protein) {
             swapTarget = { dayName, slotIndex, cat, subcat, protein };
-            document.getElementById('modalSwapTitle').innerText = `Cambiar Plato (${dayName})`;
+            document.getElementById('modalSwapTitle').innerText = `Cambiar… (${dayName})`;
             document.getElementById('modalSwapSubtitle').innerText = `Filtrado para ${cat}`;
             document.getElementById('modalSearchInput').value = '';
             renderModalDishList();
@@ -3351,7 +3351,7 @@
             if (!newDish) return;
 
             currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].dish = newDish;
-            currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].warning = "⚠️ Intercambio manual";
+            currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].warning = "Intercambio manual ⚠️";
             currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].isPreparedStock = false;
 
             saveAll();
