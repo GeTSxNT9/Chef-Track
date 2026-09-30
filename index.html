@@ -307,6 +307,11 @@
         }
 
         /* Floating edit/delete actions */
+        #dishesList .absolute {
+            top: 50% !important;
+            right: 12px !important;
+            transform: translateY(-50%);
+        }
         #dishesList .absolute button {
             width: 32px !important;
             height: 32px !important;
@@ -330,12 +335,14 @@
         /* Bottom navigation: translucent floating native feel */
         body > nav,
         nav.fixed {
-            height: 72px !important;
+            height: 80px !important;
+            box-sizing: border-box !important;
             background: rgba(255,255,255,.76) !important;
             border-top: 1px solid rgba(15,23,42,.075) !important;
             box-shadow: 0 -8px 25px rgba(15,23,42,.035) !important;
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
+            padding-top: 7px !important;
             padding-bottom: max(env(safe-area-inset-bottom), 4px) !important;
         }
         html.dark body > nav,
@@ -344,6 +351,7 @@
             border-top-color: rgba(255,255,255,.08) !important;
         }
         .nav-btn {
+            height: calc(100% - 7px) !important;
             color: #94a3b8 !important;
             transition: color .18s ease, transform .18s ease !important;
         }
@@ -877,21 +885,6 @@
         const defaultSettings = { comensales: 100, margenActivo: false, darkMode: false };
         const proveedorCategorias = ["Carne", "Pescado", "Lácteos", "Verduras y frutas", "Secos", "Congelados"];
         const daysList = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
-        // IDs antiguos conservados solo para migrar recetas existentes.
-        const LEGACY_FIRST_SUBTYPE_MAP = {
-            cuchara_legumbres: "legumbres",
-            cuchara_guisos: "guisos",
-            cuchara_sopas_cremas: "sopas_o_caldos",
-            verdura_crema: "cremas",
-            verdura_entera: "verduras_enteras",
-            pasta_corta_larga: "pastas",
-            pasta_rellena_horno: "pastas_rellenas",
-            arroz: "arroces",
-            pasta_rellena: "pastas_rellenas",
-            pasta: "pastas",
-            sopas_cremas: "sopas_o_caldos"
-        };
-
         const FIRST_SUBCATEGORIES = {
             cuchara: ["legumbres", "guisos", "sopas_o_caldos"],
             verdura: ["cremas", "verduras_enteras"],
@@ -921,9 +914,6 @@
             dish.precocinado = !!dish.precocinado;
             dish.subcategoria_primero = dish.subcategoria_primero || "";
             dish.subtipo_primero = dish.subtipo_primero || "";
-            if (dish.subtipo_primero && LEGACY_FIRST_SUBTYPE_MAP[dish.subtipo_primero]) {
-                dish.subtipo_primero = LEGACY_FIRST_SUBTYPE_MAP[dish.subtipo_primero];
-            }
             dish.proteina_segundo = dish.proteina_segundo || "";
             dish.animal_carne = dish.animal_carne || "";
             dish.especie_pescado = dish.especie_pescado || "";
