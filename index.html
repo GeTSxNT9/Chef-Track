@@ -473,7 +473,7 @@
                             <optgroup label="CUCHARA">
                                 <option value="cuchara_legumbres">Legumbres</option>
                                 <option value="cuchara_guisos">Guisos</option>
-                                <option value="cuchara_sopas_cremas">Sopas & caldos</option>
+                                <option value="cuchara_sopas_cremas">Sopas o caldos</option>
                             </optgroup>
                             <optgroup label="VERDURA">
                                 <option value="verdura_crema">Cremas</option>
@@ -732,7 +732,7 @@
             <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
                 <div class="flex items-center gap-2 mb-3">
                     <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Histórico de Menús</h3>
+                    <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Historial de Menús</h3>
                 </div>
                 <div id="historyListContainer" class="space-y-2"></div>
             </section>
@@ -741,7 +741,7 @@
                     <svg class="w-5 h-5 text-gray-800 dark:text-gray-100" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.69-3.88-1.54-3.88-1.54-.53-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.47.11-3.06 0 0 .96-.31 3.15 1.18A10.9 10.9 0 0 1 12 6.84c.97 0 1.94.13 2.85.38 2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.77.11 3.06.73.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.67.41.36.78 1.08.78 2.18 0 1.58-.01 2.85-.01 3.24 0 .31.21.67.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"></path></svg>
                     <div>
                         <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Conexión con GitHub</h3>
-                        <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">Configura el repositorio donde se actualizará automáticamente el recetario al añadir nuevas recetas.</p>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">Configura el repositorio donde se actualizará automáticamente el recetario.</p>
                     </div>
                 </div>
                 <div class="space-y-3">
@@ -772,7 +772,7 @@
                 <div class="flex justify-between items-center">
                     <div>
                         <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm">Etiquetado rápido</h3>
-                        <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">Completa las recetas sin subcategoría técnica.</p>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">Completa las recetas con etiquetas pendientes.</p>
                     </div>
                     <span id="migrationPendingBadge" class="text-[10px] font-black bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 px-2 py-1 rounded-full">0 pendientes</span>
                 </div>
@@ -1930,7 +1930,7 @@
                         </div>
                         ${first ? `
                             <select id="mig-sub-${escapeHtml(d.id)}" class="w-full p-2 mb-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">
-                                <option value="">Subcategoría técnica...</option>
+                                <option value="">Selecionar...</option>
                                 ${Object.entries(FIRST_LABELS).map(([value,label]) => `<option value="${value}" ${d.subtipo_primero===value?'selected':''}>${label}</option>`).join("")}
                             </select>` : ''}
                         ${meat ? `
@@ -3211,7 +3211,7 @@
             container.innerHTML = '';
 
             if (historyMenus.length === 0) {
-                container.innerHTML = '<p class="text-center text-gray-400 dark:text-gray-500 text-xs py-2">No hay menús guardados en el histórico.</p>';
+                container.innerHTML = '<p class="text-center text-gray-400 dark:text-gray-500 text-xs py-2">No hay menús guardados.</p>';
                 return;
             }
 
