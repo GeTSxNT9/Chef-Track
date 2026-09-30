@@ -401,6 +401,13 @@
             #generatedMenuContainer > div { margin: 0 !important; }
         }
     </style>
+
+<style id="gastroos-i18n-style">
+#gastroosLanguageToggle{display:flex;align-items:center;gap:6px;margin-top:10px;padding:8px 10px;border:1px solid var(--g-border,#e5e7eb);border-radius:12px;background:var(--g-card,#fff);width:max-content}
+#gastroosLanguageToggle span{font-size:12px;font-weight:700;opacity:.7}
+#gastroosLanguageToggle button{border:0;border-radius:8px;padding:5px 9px;font-size:11px;font-weight:800;cursor:pointer;background:transparent;color:inherit}
+#gastroosLanguageToggle button.active{background:#4f46e5;color:#fff;opacity:1}
+</style>
 </head>
 <body class="h-screen flex flex-col font-sans overflow-hidden transition-colors">
 
@@ -3162,24 +3169,27 @@
         }
 
         function downloadWeeklyMenuTxt() {
+            const lang = window.GastroOSLanguage?.get?.() || 'es';
+            const tr = value => window.GastroOSLanguage?.translateText?.(value, lang) || value;
             if (!currentMenu || !currentMenu.days) {
-                alert("No hay ningún menú generado para exportar.");
+                alert(tr("No hay ningún menú generado para exportar."));
                 return;
             }
             const dates = getWeekDatesForMenu();
+            const locale = lang === 'en' ? 'en-GB' : 'es-ES';
             const blocks = daysList.map((dayName, index) => {
                 const slots = currentMenu.days[dayName] || [];
-                const primeros = slots.slice(0, 3).map(s => s.dish?.nombre || "Sin asignar");
-                const segundos = slots.slice(3, 6).map(s => s.dish?.nombre || "Sin asignar");
-                const dateLabel = dates[index].toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
-                return `${dateLabel} / ${dayName.toUpperCase()}\n\nPrimeros:\n\n${primeros.join('\n')}\n\nSegundos:\n\n${segundos.join('\n')}`;
+                const primeros = slots.slice(0, 3).map(s => s.dish?.nombre || tr("Sin asignar"));
+                const segundos = slots.slice(3, 6).map(s => s.dish?.nombre || tr("Sin asignar"));
+                const dateLabel = dates[index].toLocaleDateString(locale, { day: '2-digit', month: '2-digit', year: 'numeric' });
+                return `${dateLabel} / ${tr(dayName).toUpperCase()}\n\n${tr('Primeros:')}\n\n${primeros.join('\n')}\n\n${tr('Segundos:')}\n\n${segundos.join('\n')}`;
             });
             const text = blocks.join('\n\n');
             const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `menu_semanal_${new Date().toISOString().slice(0,10)}.txt`;
+            a.download = `${lang === 'en' ? 'weekly_menu' : 'menu_semanal'}_${new Date().toISOString().slice(0,10)}.txt`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -3270,16 +3280,18 @@
         }
 
         function downloadShoppingListTxt() {
+            const lang = window.GastroOSLanguage?.get?.() || 'es';
+            const tr = value => window.GastroOSLanguage?.translateText?.(value, lang) || value;
             if (!currentMenu || !currentMenu.days) {
-                alert("Genera un menú semanal primero.");
+                alert(tr("Genera un menú semanal primero."));
                 return;
             }
             const { totalRacionesPorComida, groupedByCategory } = buildShoppingData();
-            let text = '';
+            let text = `${tr('Lista de compra')}\n${tr('Raciones')}: ${totalRacionesPorComida}\n\n`;
             proveedorCategorias.forEach(cat => {
                 const items = groupedByCategory[cat];
                 if (!items.length) return;
-                text += `${cat.toUpperCase()}\n\n`;
+                text += `${tr(cat).toUpperCase()}\n\n`;
                 items.forEach(i => { text += `${i.nombre}: ${i.cantidad} ${i.unidad}\n`; });
                 text += '\n';
             });
@@ -3287,7 +3299,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `lista_compra_${new Date().toISOString().slice(0,10)}.txt`;
+            a.download = `${lang === 'en' ? 'shopping_list' : 'lista_compra'}_${new Date().toISOString().slice(0,10)}.txt`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -3524,5 +3536,78 @@
         window.onload = init;
     
     </script>
-</body>
+\n<script id="gastroos-i18n">
+(function(){
+  const I18N = {
+    "es": {
+      "GastroOS - Gestión de Menús, Stock y Compras":"GastroOS - Menu, Stock & Purchasing Management",
+      "CABECERA PRINCIPAL":"MAIN HEADER","CONTENEDOR PRINCIPAL DE VISTAS":"MAIN VIEW CONTAINER",
+      "VISTA 1: BANCO DE PLATOS":"VIEW 1: DISH LIBRARY","Filtros Nivel 1":"LEVEL 1 FILTERS","TODOS":"ALL","PRIMEROS":"FIRST COURSES","SEGUNDOS":"SECOND COURSES",
+      "Filtros Nivel 2 (Primeros)":"LEVEL 2 FILTERS (FIRST COURSES)","Filtros Nivel 2 (Segundos)":"LEVEL 2 FILTERS (SECOND COURSES)","Todas":"All",
+      "VISTA 2: AÑADIR / EDITAR PLATO":"VIEW 2: ADD / EDIT DISH","Añadir Nuevo Plato":"Add New Dish","Nombre":"Name","Categoría":"Category","Seleccionar...":"Select...",
+      "Primero":"First course","Segundo":"Second course","Subcategoría técnica":"Technical subcategory","Legumbres":"Legumes","Guisos":"Stews","Sopas o caldos":"Soups or broths","Cremas":"Cream soups / purées","Verduras enteras":"Whole vegetables","Pastas":"Pasta","Pastas rellenas":"Stuffed pasta","Arroces":"Rice","Otros hidratos":"Other carbohydrates",
+      "Proteína":"Protein","Tipo de animal":"Animal type","Pollo":"Chicken","Pavo":"Turkey","Cerdo":"Pork","Ternera":"Beef","Conejo":"Rabbit","Cordero":"Lamb",
+      "Especie":"Species","Merluza":"Hake","Salmón":"Salmon","Bacalao":"Cod","Dorada":"Gilthead seabream","Lubina":"Sea bass","Atún":"Tuna","Calamares":"Squid","Sepia":"Cuttlefish","Sardina":"Sardine","Caballa":"Mackerel","Otro (especificar)":"Other (specify)",
+      "Técnica de cocina":"Cooking technique","Guiso o en salsa":"Stewed or in sauce","Plancha, Asado o Brasa":"Grilled, roasted or barbecued","Frito, Rebozado o Empanado":"Fried, battered or breaded","Demanda":"Demand","🟢 Alta":"🟢 High","🟡 Media":"🟡 Medium","🔴 Baja":"🔴 Low",
+      "¿Es un plato precocinado?":"Is this a pre-cooked dish?","Ingredientes (por 1 ración)":"Ingredients (per 1 serving)","+ Añadir":"+ Add","Cancelar":"Cancel","GUARDAR":"SAVE",
+      "VISTA 3: STOCK Y PREVISIÓN":"VIEW 3: STOCK & FORECAST","PREVISIÓN DE COMENSALES":"DINER FORECAST","Comensales Estimados":"Estimated Diners","Margen Seguridad (+30%)":"Safety Margin (+30%)","130 raciones":"130 servings","100 base + 30% margen":"100 base + 30% margin",
+      "MATERIA PRIMA EN STOCK":"RAW MATERIAL STOCK","Carne":"Meat","Pescado":"Fish","Lácteos":"Dairy","Verduras y frutas":"Fruit & vegetables","Secos":"Dry goods","Congelados":"Frozen","Refrigerado o Fresco":"Chilled or Fresh","Congelado":"Frozen","+ Añadir Materia Prima":"+ Add Raw Material",
+      "PLATOS ELABORADOS":"PREPARED DISHES","Sin asignar":"Unassigned","Lunes":"Monday","Martes":"Tuesday","Miércoles":"Wednesday","Jueves":"Thursday","Viernes":"Friday","Todos":"All","+ Registrar Plato Elaborado":"+ Register Prepared Dish",
+      "VISTA 4: GENERAR MENÚ Y COMPRAS":"VIEW 4: GENERATE MENU & SHOPPING","📅 MENÚ SEMANAL":"📅 WEEKLY MENU","🛒 LISTA DE COMPRA":"🛒 SHOPPING LIST","Motor de Planificación":"Planning Engine",
+      "Aplica reglas, control de especies, aprovechamiento de stock y proporciones por demanda.":"Applies rules, species control, stock utilization and demand proportions.","🎲":"🎲","GENERAR MENÚ":"GENERATE MENU","💾":"💾","Guardar Historial":"Save History","📋":"📋","Exportar (.txt)":"Export (.txt)",
+      "CÁLCULO CATEGORIZADO POR PROVEEDORES":"CALCULATION GROUPED BY SUPPLIERS","130 Raciones":"130 Servings","Cantidades agrupadas en categorías.":"Quantities grouped by category.","📄":"📄","Descargar Lista (.txt)":"Download List (.txt)",
+      "VISTA 5: AJUSTES Y HISTÓRICO":"VIEW 5: SETTINGS & HISTORY","AJUSTES Y DATOS":"SETTINGS & DATA","Historial de Menús":"Menu History","Conexión con GitHub":"GitHub Connection",
+      "Configura el repositorio donde se actualizará automáticamente el recetario.":"Configure the repository where the recipe book will be updated automatically.","Token de acceso personal de GitHub":"GitHub Personal Access Token","Usuario del repositorio":"Repository User","Nombre del repositorio":"Repository Name","Ruta del archivo del recetario":"Recipe Book File Path","Guardar conexión con GitHub":"Save GitHub Connection","Actualizar recetas desde GitHub ↻":"Update recipes from GitHub ↻","Estado de sincronización":"Sync Status","Todavía no se ha comprobado la sincronización.":"Sync has not been checked yet.",
+      "Seguridad:":"Security:","Etiquetado rápido":"Quick Tagging","Completa las recetas con etiquetas pendientes.":"Complete recipes with pending tags.","0 pendientes":"0 pending","Copia de Seguridad Integral":"Full Backup","Exportar Todo (JSON)":"Export Everything (JSON)","📚 Exportar solo el recetario (JSON)":"📚 Export recipe book only (JSON)","Importar Datos (JSON)":"Import Data (JSON)","Borrar Datos y Restaurar":"Clear Data & Restore",
+      "MODAL CAMBIAR PLATO":"CHANGE DISH MODAL","Cambiar…":"Change…","Selecciona una alternativa":"Select an alternative","NAVEGACIÓN INFERIOR":"BOTTOM NAVIGATION","RECETARIO":"RECIPES","AÑADIR":"ADD","STOCK/PREV.":"STOCK/FORECAST","GENERAR":"GENERATE","AJUSTES":"SETTINGS",
+      "Buscar plato...":"Search...","Buscar…":"Search…","No hay resultados.":"No results.","Etiquetado pendiente ⚠️":"Tagging pending ⚠️","Intercambio manual ⚠️":"Manual swap ⚠️","Conexión configurada ✓. Al guardar, GastroOS comprobará GitHub y cargará el recetario.":"Connection configured ✓. When saved, GastroOS will check GitHub and load the recipe book.","Todo el recetario está correctamente etiquetado ✓.":"The entire recipe book is correctly tagged ✓.","El pescado debe tener registrada la especie exacta.":"Fish must have an exact species recorded.","Semana: hay ":"Week: there are "," fritos o rebozados; el máximo es 2.":" fried or battered dishes; the maximum is 2.","Cantidad":"Quantity","Raciones":"Servings","Lista de compra":"Shopping List","Primeros:":"First courses:","Segundos:":"Second courses:","Sin asignar":"Unassigned","Genera un menú semanal primero.":"Generate a weekly menu first.","No hay ningún menú generado para exportar.":"There is no generated menu to export.","Carne":"Meat","Pescado":"Fish","Lácteos":"Dairy","Verduras y frutas":"Vegetables & fruit","Secos":"Dry goods","Congelados":"Frozen", "kg":"kg","g":"g","L":"L","ml":"ml",
+      "Lunes - Primero":"Monday - First course","Lunes - Segundo":"Monday - Second course","Martes - Primero":"Tuesday - First course","Martes - Segundo":"Tuesday - Second course","Miércoles - Primero":"Wednesday - First course","Miércoles - Segundo":"Wednesday - Second course","Jueves - Primero":"Thursday - First course","Jueves - Segundo":"Thursday - Second course","Viernes - Primero":"Friday - First course","Viernes - Segundo":"Friday - Second course",
+      "No se pudieron cargar las credenciales de GitHub.":"GitHub credentials could not be loaded.","Leyendo recetario desde GitHub…":"Reading recipe book from GitHub…","No se pudo cargar el recetario desde GitHub:":"The recipe book could not be loaded from GitHub:","No se encontró el archivo del recetario en GitHub. Comprueba la ruta o crea el archivo guardando/importando recetas.":"The recipe book file was not found on GitHub. Check the path or create it by saving/importing recipes.","GitHub no devolvió contenido para el recetario.":"GitHub returned no recipe book content.",
+      "Las recetas se cargaron, pero no se pudo guardar en GitHub la migración de identificadores.":"Recipes loaded, but the identifier migration could not be saved to GitHub.","Las recetas se cargaron, pero falló la migración remota de identificadores:":"Recipes loaded, but the remote identifier migration failed:","No se pudo cargar el recetario desde GitHub. Se mantiene la copia local.":"The recipe book could not be loaded from GitHub. The local copy is retained.","No se pudo leer GitHub. Se mantiene la última copia local disponible.":"GitHub could not be read. The latest local copy is retained.",
+      "Comprobando conexión y cargando recetas desde GitHub…":"Checking connection and loading recipes from GitHub…","Conexión comprobada y recetario actualizado desde GitHub.":"Connection checked and recipe book updated from GitHub.","Conexión con GitHub comprobada y recetas cargadas correctamente.":"GitHub connection checked and recipes loaded successfully.","Configura los cuatro campos para activar la sincronización remota de recetas.":"Fill in all four fields to enable remote recipe synchronization.","GitHub no está configurado en este navegador. Las recetas locales seguirán disponibles.":"GitHub is not configured in this browser. Local recipes will remain available.",
+      "Conexión guardada. Aún no existe el archivo del recetario; se creará al guardar la primera receta o importar un JSON.":"Connection saved. The recipe book file does not exist yet; it will be created when the first recipe is saved or JSON is imported.","Configura primero la conexión con GitHub.":"Configure the GitHub connection first.","Actualizando recetas desde GitHub…":"Updating recipes from GitHub…","Recetario actualizado desde GitHub.":"Recipe book updated from GitHub.","Guardando en GitHub...":"Saving to GitHub...","Receta añadida en GitHub.":"Recipe added to GitHub.","Receta actualizada en GitHub.":"Recipe updated on GitHub.","No se pudo guardar el cambio en GitHub.":"The change could not be saved to GitHub.","Error de sincronización con GitHub:":"GitHub synchronization error:","Error desconocido al conectar con GitHub.":"Unknown error connecting to GitHub.","Receta eliminada de GitHub.":"Recipe deleted from GitHub.","No se pudo eliminar la receta de GitHub.":"The recipe could not be deleted from GitHub.","Eliminando en GitHub...":"Deleting from GitHub...","¿Seguro que quieres borrar este plato?\n\nLa eliminación también se sincronizará con GitHub.":"Are you sure you want to delete this dish?\n\nThe deletion will also be synchronized with GitHub.","Receta eliminada con éxito de GitHub":"Recipe deleted successfully from GitHub","Receta guardada con éxito en GitHub":"Recipe saved successfully to GitHub","Receta actualizada con éxito en GitHub":"Recipe updated successfully on GitHub",
+      "Recetas importadas y sincronizadas con GitHub.":"Recipes imported and synchronized with GitHub.","No se pudo sincronizar la importación con GitHub.":"The import could not be synchronized with GitHub.","Error de sincronización de importación con GitHub:":"Import synchronization error with GitHub:","Formato de recetario no compatible.":"Unsupported recipe book format.","El JSON del recetario no contiene un listado de recetas válido.":"The recipe book JSON does not contain a valid recipe list.","El archivo del recetario no contiene un JSON válido.":"The recipe book file does not contain valid JSON.","No se encontró un listado de recetas reconocible dentro del archivo .js.":"No recognizable recipe list was found in the .js file.","No se encontró el listado de recetas dentro del archivo .js.":"No recipe list was found in the .js file.","El listado de recetas del archivo .js no está correctamente cerrado.":"The recipe list in the .js file is not properly closed.","El listado del recetario no es un array válido.":"The recipe list is not a valid array."
+    },
+    "en": {}
+  };
+  // Build reverse dictionary automatically so switching back to Spanish is lossless for UI strings.
+  for(const [es,en] of Object.entries(I18N.es)){ if(en && !I18N.en[en]) I18N.en[en]=es; }
+  const exact = (value, lang) => I18N[lang][value] || value;
+  function translateValue(value, lang){
+    if(!value) return value;
+    let out=exact(value,lang);
+    if(out!==value) return out;
+    const entries=Object.entries(I18N[lang]).filter(([a,b])=>a && a!==b).sort((a,b)=>b[0].length-a[0].length);
+    for(const [from,to] of entries){ if(out.includes(from)) out=out.split(from).join(to); }
+    return out;
+  }
+  function shouldSkip(el){ return el && (el.closest && (el.closest('script,style,textarea') || el.dataset?.i18nSkip==='true')); }
+  function translateDOM(lang){
+    document.documentElement.lang=lang;
+    document.title=translateValue(document.title,lang);
+    document.querySelectorAll('input[placeholder],textarea[placeholder]').forEach(el=>{ const base=el.dataset.i18nOriginalPlaceholder || el.placeholder; el.dataset.i18nOriginalPlaceholder=base; el.placeholder=translateValue(base,lang); });
+    document.querySelectorAll('option').forEach(el=>{ const base=el.dataset.i18nOriginal || el.textContent; el.dataset.i18nOriginal=base; el.textContent=translateValue(base,lang); });
+    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT); let n;
+    while(n=walker.nextNode()){ if(shouldSkip(n.parentElement)) continue; const base=n.nodeValue; const tr=translateValue(base,lang); if(tr!==base) n.nodeValue=tr; }
+    document.querySelectorAll('#gastroosLanguageToggle button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
+  }
+  function setLanguage(lang){ localStorage.setItem('gastroos_language',lang); translateDOM(lang); }
+  function installToggle(){
+    const settings=document.getElementById('view-settings'); if(!settings || document.getElementById('gastroosLanguageToggle')) return;
+    const box=document.createElement('div'); box.id='gastroosLanguageToggle'; box.innerHTML='<span>Idioma / Language</span><button type="button" data-lang="es">ES</button><button type="button" data-lang="en">EN</button>';
+    const anchor=settings.querySelector('h2, h3, .text-xl, .text-lg') || settings.firstElementChild;
+    (anchor?.parentElement || settings).insertBefore(box, anchor?.nextSibling || settings.firstChild);
+    box.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>setLanguage(b.dataset.lang)));
+  }
+  const storedLang=localStorage.getItem('gastroos_language');
+  const browserLangs=Array.isArray(navigator.languages)&&navigator.languages.length ? navigator.languages : [navigator.language || 'es'];
+  const detectedLang=browserLangs.some(l=>String(l).toLowerCase().startsWith('en')) ? 'en' : 'es';
+  const lang=storedLang || detectedLang;
+  if(!storedLang) localStorage.setItem('gastroos_language',lang);
+  const observer=new MutationObserver(()=>{ if(window.__gastroosTranslating) return; const l=localStorage.getItem('gastroos_language')||'es'; if(l==='en'){ window.__gastroosTranslating=true; translateDOM(l); window.__gastroosTranslating=false; } });
+  function boot(){ installToggle(); translateDOM(lang); observer.observe(document.body,{childList:true,subtree:true}); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
+  window.GastroOSLanguage={set:setLanguage,translate:translateDOM,get:()=>localStorage.getItem('gastroos_language')||'es',translateText:(value,language)=>translateValue(value,language||localStorage.getItem('gastroos_language')||'es')};
+})();
+</script>\n</body>
 </html>
