@@ -1,1873 +1,1873 @@
 [
-{
-"id": "100001",
-"nombre": "Lentejas con chorizo",
-"categoria": "Primero",
-"subcategoria_primero": "legumbres",
-"subtipo_primero": "legumbres",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Alta",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Lentejas",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Chorizo",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Zanahoria",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100002",
-"nombre": "Lentejas con jamón",
-"categoria": "Primero",
-"subcategoria_primero": "legumbres",
-"subtipo_primero": "legumbres",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Lentejas",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Jamón",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Zanahoria",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100003",
-"nombre": "Garbanzos con espinacas",
-"categoria": "Primero",
-"subcategoria_primero": "legumbres",
-"subtipo_primero": "legumbres",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Garbanzos",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Espinacas",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100004",
-"nombre": "Garbanzos con bacalao",
-"categoria": "Primero",
-"subcategoria_primero": "legumbres",
-"subtipo_primero": "legumbres",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Alta",
-"alergenos": [
-"pescado"
-],
-"ingredientes": [
-{
-"nombre": "Garbanzos",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Bacalao",
-"cantidad": 80,
-"unidad": "g",
-"categoria_proveedor": "Pescado"
-},
-{
-"nombre": "Espinacas",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100005",
-"nombre": "Garbanzos con chorizo",
-"categoria": "Primero",
-"subcategoria_primero": "legumbres",
-"subtipo_primero": "legumbres",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Garbanzos",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Chorizo",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100006",
-"nombre": "Garbanzos con longaniza",
-"categoria": "Primero",
-"subcategoria_primero": "legumbres",
-"subtipo_primero": "legumbres",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Garbanzos",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Longaniza",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100007",
-"nombre": "Garbanzos con morcilla",
-"categoria": "Primero",
-"subcategoria_primero": "legumbres",
-"subtipo_primero": "legumbres",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Garbanzos",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Morcilla",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100008",
-"nombre": "Alubias blancas con chorizo",
-"categoria": "Primero",
-"subcategoria_primero": "legumbres",
-"subtipo_primero": "legumbres",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Alubias",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Chorizo",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100009",
-"nombre": "Alubias blancas con longaniza",
-"categoria": "Primero",
-"subcategoria_primero": "legumbres",
-"subtipo_primero": "legumbres",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Alubias",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Longaniza",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100010",
-"nombre": "Alubias blancas con morcilla",
-"categoria": "Primero",
-"subcategoria_primero": "legumbres",
-"subtipo_primero": "legumbres",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Alubias",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Morcilla",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100011",
-"nombre": "Alubias blancas con jamón",
-"categoria": "Primero",
-"subcategoria_primero": "legumbres",
-"subtipo_primero": "legumbres",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Alubias",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Jamón",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100012",
-"nombre": "Alubias pintas con chorizo",
-"categoria": "Primero",
-"subcategoria_primero": "legumbres",
-"subtipo_primero": "legumbres",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Alubias pintas",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Chorizo",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100013",
-"nombre": "Alubias pintas con longaniza",
-"categoria": "Primero",
-"subcategoria_primero": "legumbres",
-"subtipo_primero": "legumbres",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Alubias pintas",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Longaniza",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100014",
-"nombre": "Alubias pintas con morcilla",
-"categoria": "Primero",
-"subcategoria_primero": "legumbres",
-"subtipo_primero": "legumbres",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Alubias pintas",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Morcilla",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100015",
-"nombre": "Patatas a la riojana",
-"categoria": "Primero",
-"subcategoria_primero": "guisos",
-"subtipo_primero": "guisos",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Alta",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Patata",
-"cantidad": 250,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Chorizo",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Pimiento rojo",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100016",
-"nombre": "Rancho aragonés",
-"categoria": "Primero",
-"subcategoria_primero": "guisos",
-"subtipo_primero": "guisos",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Patata",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Costilla de cerdo",
-"cantidad": 80,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Longaniza",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100017",
-"nombre": "Marmitako de mejillones",
-"categoria": "Primero",
-"subcategoria_primero": "guisos",
-"subtipo_primero": "guisos",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [
-"moluscos"
-],
-"ingredientes": [
-{
-"nombre": "Patata",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Mejillones",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Pescado"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Pimiento verde",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100018",
-"nombre": "Sopa de fideos a la jardinera",
-"categoria": "Primero",
-"subcategoria_primero": "sopas_o_caldos",
-"subtipo_primero": "sopas_o_caldos",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [
-"gluten",
-"apio"
-],
-"ingredientes": [
-{
-"nombre": "Fideos",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Zanahoria",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Puerro",
-"cantidad": 20,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Apio",
-"cantidad": 20,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100019",
-"nombre": "Sopa de cebolla",
-"categoria": "Primero",
-"subcategoria_primero": "sopas_o_caldos",
-"subtipo_primero": "sopas_o_caldos",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [
-"gluten",
-"leche"
-],
-"ingredientes": [
-{
-"nombre": "Cebolla",
-"cantidad": 150,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Pan",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Queso",
-"cantidad": 20,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-}
-]
-},
-{
-"id": "100020",
-"nombre": "Sopa de marisco",
-"categoria": "Primero",
-"subcategoria_primero": "sopas_o_caldos",
-"subtipo_primero": "sopas_o_caldos",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Alta",
-"alergenos": [
-"gluten",
-"crustaceos",
-"moluscos"
-],
-"ingredientes": [
-{
-"nombre": "Fideos",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Gambas",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Pescado"
-},
-{
-"nombre": "Mejillones",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Pescado"
-},
-{
-"nombre": "Tomate frito",
-"cantidad": 20,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-}
-]
-},
-{
-"id": "100021",
-"nombre": "Sopa de ajo",
-"categoria": "Primero",
-"subcategoria_primero": "sopas_o_caldos",
-"subtipo_primero": "sopas_o_caldos",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [
-"gluten",
-"huevos"
-],
-"ingredientes": [
-{
-"nombre": "Pan",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Ajo",
-"cantidad": 15,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Huevo",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-},
-{
-"nombre": "Jamón",
-"cantidad": 20,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-}
-]
-},
-{
-"id": "100022",
-"nombre": "Crema de calabacín y patata",
-"categoria": "Primero",
-"subcategoria_primero": "cremas",
-"subtipo_primero": "cremas",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Alta",
-"alergenos": [
-"leche"
-],
-"ingredientes": [
-{
-"nombre": "Calabacín",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Patata",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Nata",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-}
-]
-},
-{
-"id": "100023",
-"nombre": "Crema de zanahoria y patata",
-"categoria": "Primero",
-"subcategoria_primero": "cremas",
-"subtipo_primero": "cremas",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [
-"leche"
-],
-"ingredientes": [
-{
-"nombre": "Zanahoria",
-"cantidad": 150,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Patata",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Puerro",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Nata",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-}
-]
-},
-{
-"id": "100024",
-"nombre": "Vichysoisse",
-"categoria": "Primero",
-"subcategoria_primero": "cremas",
-"subtipo_primero": "cremas",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [
-"leche"
-],
-"ingredientes": [
-{
-"nombre": "Puerro",
-"cantidad": 150,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Patata",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Nata",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-}
-]
-},
-{
-"id": "100025",
-"nombre": "Crema de verduras variadas",
-"categoria": "Primero",
-"subcategoria_primero": "cremas",
-"subtipo_primero": "cremas",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Alta",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Zanahoria",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Calabacín",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Judías verdes",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Patata",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100026",
-"nombre": "Crema de champiñones y patata",
-"categoria": "Primero",
-"subcategoria_primero": "cremas",
-"subtipo_primero": "cremas",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [
-"leche"
-],
-"ingredientes": [
-{
-"nombre": "Champiñones",
-"cantidad": 150,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Patata",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Nata",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-}
-]
-},
-{
-"id": "100027",
-"nombre": "Puré de patata",
-"categoria": "Primero",
-"subcategoria_primero": "cremas",
-"subtipo_primero": "cremas",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [
-"leche"
-],
-"ingredientes": [
-{
-"nombre": "Patata",
-"cantidad": 250,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Leche",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-},
-{
-"nombre": "Mantequilla",
-"cantidad": 15,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-}
-]
-},
-{
-"id": "100028",
-"nombre": "Menestra de verduras",
-"categoria": "Primero",
-"subcategoria_primero": "verduras_enteras",
-"subtipo_primero": "verduras_enteras",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Alta",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Alcachofas",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Guisantes",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Zanahoria",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Judías verdes",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Jamón",
-"cantidad": 20,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-}
-]
-},
-{
-"id": "100029",
-"nombre": "Judías verdes con patata",
-"categoria": "Primero",
-"subcategoria_primero": "verduras_enteras",
-"subtipo_primero": "verduras_enteras",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Alta",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Judías verdes",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Patata",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100030",
-"nombre": "Acelgas con patata",
-"categoria": "Primero",
-"subcategoria_primero": "verduras_enteras",
-"subtipo_primero": "verduras_enteras",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Acelgas",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Patata",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100031",
-"nombre": "Coliflor al ajillo",
-"categoria": "Primero",
-"subcategoria_primero": "verduras_enteras",
-"subtipo_primero": "verduras_enteras",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Coliflor",
-"cantidad": 250,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Ajo",
-"cantidad": 10,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100032",
-"nombre": "Brócoli al ajillo",
-"categoria": "Primero",
-"subcategoria_primero": "verduras_enteras",
-"subtipo_primero": "verduras_enteras",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Brócoli",
-"cantidad": 250,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Ajo",
-"cantidad": 10,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100033",
-"nombre": "Guisantes con patata",
-"categoria": "Primero",
-"subcategoria_primero": "verduras_enteras",
-"subtipo_primero": "verduras_enteras",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Guisantes",
-"cantidad": 150,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Patata",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Jamón",
-"cantidad": 20,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-}
-]
-},
-{
-"id": "100034",
-"nombre": "Espinacas con bechamel",
-"categoria": "Primero",
-"subcategoria_primero": "verduras_enteras",
-"subtipo_primero": "verduras_enteras",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [
-"gluten",
-"leche"
-],
-"ingredientes": [
-{
-"nombre": "Espinacas",
-"cantidad": 200,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Leche",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-},
-{
-"nombre": "Harina",
-"cantidad": 10,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Mantequilla",
-"cantidad": 10,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-}
-]
-},
-{
-"id": "100035",
-"nombre": "Pasta con tomate y chorizo",
-"categoria": "Primero",
-"subcategoria_primero": "pastas",
-"subtipo_primero": "pastas",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Alta",
-"alergenos": [
-"gluten"
-],
-"ingredientes": [
-{
-"nombre": "Pasta",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Tomate frito",
-"cantidad": 80,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Chorizo",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-}
-]
-},
-{
-"id": "100036",
-"nombre": "Pasta boloñesa",
-"categoria": "Primero",
-"subcategoria_primero": "pastas",
-"subtipo_primero": "pastas",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Alta",
-"alergenos": [
-"gluten"
-],
-"ingredientes": [
-{
-"nombre": "Pasta",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Carne picada",
-"cantidad": 80,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Tomate frito",
-"cantidad": 80,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100037",
-"nombre": "Pasta con tomate y atún",
-"categoria": "Primero",
-"subcategoria_primero": "pastas",
-"subtipo_primero": "pastas",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [
-"gluten",
-"pescado"
-],
-"ingredientes": [
-{
-"nombre": "Pasta",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Tomate frito",
-"cantidad": 80,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Atún",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Pescado"
-}
-]
-},
-{
-"id": "100038",
-"nombre": "Pasta con tomate y bacon",
-"categoria": "Primero",
-"subcategoria_primero": "pastas",
-"subtipo_primero": "pastas",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [
-"gluten"
-],
-"ingredientes": [
-{
-"nombre": "Pasta",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Tomate frito",
-"cantidad": 80,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Bacon",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-}
-]
-},
-{
-"id": "100039",
-"nombre": "Pasta con verduras al estilo asiático",
-"categoria": "Primero",
-"subcategoria_primero": "pastas",
-"subtipo_primero": "pastas",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [
-"gluten",
-"soja"
-],
-"ingredientes": [
-{
-"nombre": "Pasta",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Pimiento rojo",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Pimiento verde",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Zanahoria",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Salsa de soja",
-"cantidad": 20,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-}
-]
-},
-{
-"id": "100040",
-"nombre": "Pasta carbonara",
-"categoria": "Primero",
-"subcategoria_primero": "pastas",
-"subtipo_primero": "pastas",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Alta",
-"alergenos": [
-"gluten",
-"leche"
-],
-"ingredientes": [
-{
-"nombre": "Pasta",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Bacon",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Nata",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-},
-{
-"nombre": "Queso",
-"cantidad": 20,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-}
-]
-},
-{
-"id": "100041",
-"nombre": "Pasta con champiñones y nata",
-"categoria": "Primero",
-"subcategoria_primero": "pastas",
-"subtipo_primero": "pastas",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [
-"gluten",
-"leche"
-],
-"ingredientes": [
-{
-"nombre": "Pasta",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Champiñones",
-"cantidad": 80,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Nata",
-"cantidad": 60,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100042",
-"nombre": "Pasta cuatro quesos",
-"categoria": "Primero",
-"subcategoria_primero": "pastas",
-"subtipo_primero": "pastas",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [
-"gluten",
-"leche"
-],
-"ingredientes": [
-{
-"nombre": "Pasta",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Nata",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-},
-{
-"nombre": "Queso",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-}
-]
-},
-{
-"id": "100043",
-"nombre": "Arroz tres delicias",
-"categoria": "Primero",
-"subcategoria_primero": "arroces",
-"subtipo_primero": "arroces",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Alta",
-"alergenos": [
-"huevos"
-],
-"ingredientes": [
-{
-"nombre": "Arroz",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Jamón cocido",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Huevo",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-},
-{
-"nombre": "Guisantes",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-},
-{
-"id": "100044",
-"nombre": "Paella al horno",
-"categoria": "Primero",
-"subcategoria_primero": "arroces",
-"subtipo_primero": "arroces",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_seco_asado",
-"tecnica": "tecnica_seco_asado",
-"precocinado": false,
-"demanda": "Alta",
-"alergenos": [],
-"ingredientes": [
-{
-"nombre": "Arroz",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Pollo",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Costilla de cerdo",
-"cantidad": 50,
-"unidad": "g",
-"categoria_proveedor": "Carne"
-},
-{
-"nombre": "Judías verdes",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Tomate triturado",
-"cantidad": 20,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-}
-]
-},
-{
-"id": "100045",
-"nombre": "Arroz caldoso marinero",
-"categoria": "Primero",
-"subcategoria_primero": "arroces",
-"subtipo_primero": "arroces",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Alta",
-"alergenos": [
-"crustaceos",
-"moluscos",
-"pescado"
-],
-"ingredientes": [
-{
-"nombre": "Arroz",
-"cantidad": 80,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Calamares",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Pescado"
-},
-{
-"nombre": "Gambas",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Pescado"
-},
-{
-"nombre": "Mejillones",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Pescado"
-},
-{
-"nombre": "Tomate frito",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-}
-]
-},
-{
-"id": "100046",
-"nombre": "Arroz cremoso de champiñones",
-"categoria": "Primero",
-"subcategoria_primero": "arroces",
-"subtipo_primero": "arroces",
-"proteina_segundo": "",
-"animal_carne": "",
-"especie_pescado": "",
-"especie_animal": "",
-"tecnica_cocina": "tecnica_guiso",
-"tecnica": "tecnica_guiso",
-"precocinado": false,
-"demanda": "Media",
-"alergenos": [
-"leche"
-],
-"ingredientes": [
-{
-"nombre": "Arroz",
-"cantidad": 100,
-"unidad": "g",
-"categoria_proveedor": "Secos"
-},
-{
-"nombre": "Champiñones",
-"cantidad": 80,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-},
-{
-"nombre": "Nata",
-"cantidad": 40,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-},
-{
-"nombre": "Queso",
-"cantidad": 20,
-"unidad": "g",
-"categoria_proveedor": "Lácteos"
-},
-{
-"nombre": "Cebolla",
-"cantidad": 30,
-"unidad": "g",
-"categoria_proveedor": "Verduras y frutas"
-}
-]
-}
+  {
+    "id": "100001",
+    "nombre": "Lentejas con chorizo",
+    "categoria": "Primero",
+    "subcategoria_primero": "Cuchara",
+    "subtipo_primero": "legumbres",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "",
+    "tecnica": "",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Lentejas",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Chorizo",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100002",
+    "nombre": "Lentejas con jamón",
+    "categoria": "Primero",
+    "subcategoria_primero": "legumbres",
+    "subtipo_primero": "legumbres",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Lentejas",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Jamón",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100003",
+    "nombre": "Garbanzos con espinacas",
+    "categoria": "Primero",
+    "subcategoria_primero": "legumbres",
+    "subtipo_primero": "legumbres",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Garbanzos",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Espinacas",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100004",
+    "nombre": "Garbanzos con bacalao",
+    "categoria": "Primero",
+    "subcategoria_primero": "legumbres",
+    "subtipo_primero": "legumbres",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Alta",
+    "alergenos": [
+      "pescado"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Garbanzos",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Bacalao",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Espinacas",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100005",
+    "nombre": "Garbanzos con chorizo",
+    "categoria": "Primero",
+    "subcategoria_primero": "legumbres",
+    "subtipo_primero": "legumbres",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Garbanzos",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Chorizo",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100006",
+    "nombre": "Garbanzos con longaniza",
+    "categoria": "Primero",
+    "subcategoria_primero": "legumbres",
+    "subtipo_primero": "legumbres",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Garbanzos",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Longaniza",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100007",
+    "nombre": "Garbanzos con morcilla",
+    "categoria": "Primero",
+    "subcategoria_primero": "legumbres",
+    "subtipo_primero": "legumbres",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Garbanzos",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Morcilla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100008",
+    "nombre": "Alubias blancas con chorizo",
+    "categoria": "Primero",
+    "subcategoria_primero": "legumbres",
+    "subtipo_primero": "legumbres",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Alubias",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Chorizo",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100009",
+    "nombre": "Alubias blancas con longaniza",
+    "categoria": "Primero",
+    "subcategoria_primero": "legumbres",
+    "subtipo_primero": "legumbres",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Alubias",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Longaniza",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100010",
+    "nombre": "Alubias blancas con morcilla",
+    "categoria": "Primero",
+    "subcategoria_primero": "legumbres",
+    "subtipo_primero": "legumbres",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Alubias",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Morcilla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100011",
+    "nombre": "Alubias blancas con jamón",
+    "categoria": "Primero",
+    "subcategoria_primero": "legumbres",
+    "subtipo_primero": "legumbres",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Alubias",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Jamón",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100012",
+    "nombre": "Alubias pintas con chorizo",
+    "categoria": "Primero",
+    "subcategoria_primero": "legumbres",
+    "subtipo_primero": "legumbres",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Alubias pintas",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Chorizo",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100013",
+    "nombre": "Alubias pintas con longaniza",
+    "categoria": "Primero",
+    "subcategoria_primero": "legumbres",
+    "subtipo_primero": "legumbres",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Alubias pintas",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Longaniza",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100014",
+    "nombre": "Alubias pintas con morcilla",
+    "categoria": "Primero",
+    "subcategoria_primero": "legumbres",
+    "subtipo_primero": "legumbres",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Alubias pintas",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Morcilla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100015",
+    "nombre": "Patatas a la riojana",
+    "categoria": "Primero",
+    "subcategoria_primero": "guisos",
+    "subtipo_primero": "guisos",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Alta",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Patata",
+        "cantidad": 250,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Chorizo",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Pimiento rojo",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100016",
+    "nombre": "Rancho aragonés",
+    "categoria": "Primero",
+    "subcategoria_primero": "guisos",
+    "subtipo_primero": "guisos",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Patata",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Costilla de cerdo",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Longaniza",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100017",
+    "nombre": "Marmitako de mejillones",
+    "categoria": "Primero",
+    "subcategoria_primero": "guisos",
+    "subtipo_primero": "guisos",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "moluscos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Patata",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Mejillones",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimiento verde",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100018",
+    "nombre": "Sopa de fideos a la jardinera",
+    "categoria": "Primero",
+    "subcategoria_primero": "sopas_o_caldos",
+    "subtipo_primero": "sopas_o_caldos",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten",
+      "apio"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Fideos",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Puerro",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Apio",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100019",
+    "nombre": "Sopa de cebolla",
+    "categoria": "Primero",
+    "subcategoria_primero": "sopas_o_caldos",
+    "subtipo_primero": "sopas_o_caldos",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten",
+      "leche"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Cebolla",
+        "cantidad": 150,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pan",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Queso",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      }
+    ]
+  },
+  {
+    "id": "100020",
+    "nombre": "Sopa de marisco",
+    "categoria": "Primero",
+    "subcategoria_primero": "sopas_o_caldos",
+    "subtipo_primero": "sopas_o_caldos",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Alta",
+    "alergenos": [
+      "gluten",
+      "crustaceos",
+      "moluscos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Fideos",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Gambas",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Mejillones",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "100021",
+    "nombre": "Sopa de ajo",
+    "categoria": "Primero",
+    "subcategoria_primero": "sopas_o_caldos",
+    "subtipo_primero": "sopas_o_caldos",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten",
+      "huevos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Pan",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": 15,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Huevo",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Jamón",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      }
+    ]
+  },
+  {
+    "id": "100022",
+    "nombre": "Crema de calabacín y patata",
+    "categoria": "Primero",
+    "subcategoria_primero": "cremas",
+    "subtipo_primero": "cremas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Alta",
+    "alergenos": [
+      "leche"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Calabacín",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Nata",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      }
+    ]
+  },
+  {
+    "id": "100023",
+    "nombre": "Crema de zanahoria y patata",
+    "categoria": "Primero",
+    "subcategoria_primero": "cremas",
+    "subtipo_primero": "cremas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "leche"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 150,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Puerro",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Nata",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      }
+    ]
+  },
+  {
+    "id": "100024",
+    "nombre": "Vichysoisse",
+    "categoria": "Primero",
+    "subcategoria_primero": "cremas",
+    "subtipo_primero": "cremas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "leche"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Puerro",
+        "cantidad": 150,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Nata",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      }
+    ]
+  },
+  {
+    "id": "100025",
+    "nombre": "Crema de verduras variadas",
+    "categoria": "Primero",
+    "subcategoria_primero": "cremas",
+    "subtipo_primero": "cremas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Alta",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Calabacín",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Judías verdes",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100026",
+    "nombre": "Crema de champiñones y patata",
+    "categoria": "Primero",
+    "subcategoria_primero": "cremas",
+    "subtipo_primero": "cremas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "leche"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Champiñones",
+        "cantidad": 150,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Nata",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      }
+    ]
+  },
+  {
+    "id": "100027",
+    "nombre": "Puré de patata",
+    "categoria": "Primero",
+    "subcategoria_primero": "cremas",
+    "subtipo_primero": "cremas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "leche"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Patata",
+        "cantidad": 250,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Leche",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Mantequilla",
+        "cantidad": 15,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      }
+    ]
+  },
+  {
+    "id": "100028",
+    "nombre": "Menestra de verduras",
+    "categoria": "Primero",
+    "subcategoria_primero": "verduras_enteras",
+    "subtipo_primero": "verduras_enteras",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Alta",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Alcachofas",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Guisantes",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Judías verdes",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Jamón",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      }
+    ]
+  },
+  {
+    "id": "100029",
+    "nombre": "Judías verdes con patata",
+    "categoria": "Primero",
+    "subcategoria_primero": "verduras_enteras",
+    "subtipo_primero": "verduras_enteras",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Alta",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Judías verdes",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100030",
+    "nombre": "Acelgas con patata",
+    "categoria": "Primero",
+    "subcategoria_primero": "verduras_enteras",
+    "subtipo_primero": "verduras_enteras",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Acelgas",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100031",
+    "nombre": "Coliflor al ajillo",
+    "categoria": "Primero",
+    "subcategoria_primero": "verduras_enteras",
+    "subtipo_primero": "verduras_enteras",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Coliflor",
+        "cantidad": 250,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": 10,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100032",
+    "nombre": "Brócoli al ajillo",
+    "categoria": "Primero",
+    "subcategoria_primero": "verduras_enteras",
+    "subtipo_primero": "verduras_enteras",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Brócoli",
+        "cantidad": 250,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": 10,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100033",
+    "nombre": "Guisantes con patata",
+    "categoria": "Primero",
+    "subcategoria_primero": "verduras_enteras",
+    "subtipo_primero": "verduras_enteras",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Guisantes",
+        "cantidad": 150,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Patata",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Jamón",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      }
+    ]
+  },
+  {
+    "id": "100034",
+    "nombre": "Espinacas con bechamel",
+    "categoria": "Primero",
+    "subcategoria_primero": "verduras_enteras",
+    "subtipo_primero": "verduras_enteras",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten",
+      "leche"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Espinacas",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Leche",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Harina",
+        "cantidad": 10,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Mantequilla",
+        "cantidad": 10,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      }
+    ]
+  },
+  {
+    "id": "100035",
+    "nombre": "Pasta con tomate y chorizo",
+    "categoria": "Primero",
+    "subcategoria_primero": "pastas",
+    "subtipo_primero": "pastas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Alta",
+    "alergenos": [
+      "gluten"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Pasta",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Chorizo",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      }
+    ]
+  },
+  {
+    "id": "100036",
+    "nombre": "Pasta boloñesa",
+    "categoria": "Primero",
+    "subcategoria_primero": "pastas",
+    "subtipo_primero": "pastas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Alta",
+    "alergenos": [
+      "gluten"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Pasta",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Carne picada",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100037",
+    "nombre": "Pasta con tomate y atún",
+    "categoria": "Primero",
+    "subcategoria_primero": "pastas",
+    "subtipo_primero": "pastas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten",
+      "pescado"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Pasta",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Atún",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      }
+    ]
+  },
+  {
+    "id": "100038",
+    "nombre": "Pasta con tomate y bacon",
+    "categoria": "Primero",
+    "subcategoria_primero": "pastas",
+    "subtipo_primero": "pastas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Pasta",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Bacon",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      }
+    ]
+  },
+  {
+    "id": "100039",
+    "nombre": "Pasta con verduras al estilo asiático",
+    "categoria": "Primero",
+    "subcategoria_primero": "pastas",
+    "subtipo_primero": "pastas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten",
+      "soja"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Pasta",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Pimiento rojo",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimiento verde",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Salsa de soja",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "100040",
+    "nombre": "Pasta carbonara",
+    "categoria": "Primero",
+    "subcategoria_primero": "pastas",
+    "subtipo_primero": "pastas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Alta",
+    "alergenos": [
+      "gluten",
+      "leche"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Pasta",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Bacon",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Nata",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Queso",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      }
+    ]
+  },
+  {
+    "id": "100041",
+    "nombre": "Pasta con champiñones y nata",
+    "categoria": "Primero",
+    "subcategoria_primero": "pastas",
+    "subtipo_primero": "pastas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten",
+      "leche"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Pasta",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Champiñones",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Nata",
+        "cantidad": 60,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100042",
+    "nombre": "Pasta cuatro quesos",
+    "categoria": "Primero",
+    "subcategoria_primero": "pastas",
+    "subtipo_primero": "pastas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten",
+      "leche"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Pasta",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Nata",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Queso",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      }
+    ]
+  },
+  {
+    "id": "100043",
+    "nombre": "Arroz tres delicias",
+    "categoria": "Primero",
+    "subcategoria_primero": "arroces",
+    "subtipo_primero": "arroces",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Alta",
+    "alergenos": [
+      "huevos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Arroz",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Jamón cocido",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Huevo",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Guisantes",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "100044",
+    "nombre": "Paella al horno",
+    "categoria": "Primero",
+    "subcategoria_primero": "arroces",
+    "subtipo_primero": "arroces",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_seco_asado",
+    "tecnica": "tecnica_seco_asado",
+    "precocinado": false,
+    "demanda": "Alta",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Arroz",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Pollo",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Costilla de cerdo",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Judías verdes",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Tomate triturado",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "100045",
+    "nombre": "Arroz caldoso marinero",
+    "categoria": "Primero",
+    "subcategoria_primero": "arroces",
+    "subtipo_primero": "arroces",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Alta",
+    "alergenos": [
+      "crustaceos",
+      "moluscos",
+      "pescado"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Arroz",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Calamares",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Gambas",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Mejillones",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "100046",
+    "nombre": "Arroz cremoso de champiñones",
+    "categoria": "Primero",
+    "subcategoria_primero": "arroces",
+    "subtipo_primero": "arroces",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "leche"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Arroz",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Champiñones",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Nata",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Queso",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  }
 ]
