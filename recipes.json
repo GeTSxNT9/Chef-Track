@@ -123,16 +123,16 @@
     "id": "100004",
     "nombre": "Garbanzos con bacalao",
     "categoria": "Primero",
-    "subcategoria_primero": "legumbres",
+    "subcategoria_primero": "Cuchara",
     "subtipo_primero": "legumbres",
     "proteina_segundo": "",
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "",
+    "tecnica": "",
     "precocinado": false,
-    "demanda": "Alta",
+    "demanda": "Media",
     "alergenos": [
       "pescado"
     ],
@@ -153,7 +153,7 @@
         "nombre": "Espinacas",
         "cantidad": 50,
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Cebolla",
