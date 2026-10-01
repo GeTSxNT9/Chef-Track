@@ -25,6 +25,10 @@ Recipes are managed as JSON object data structures with complete classification 
 * **Structural Classification:** Dish definition (First / Second Course), category, technical subcategory, and tags.
 * **Operational Properties:** Demand level, weighted ingredients, and associated quantities.
 * **Allergen Profile:** Integrated registration of official allergen declarations configured via interactive checkboxes during recipe creation and editing.
+* **Individual Editing:** Complete editing of individual recipes while preserving their internal identifiers and associated data.
+* **Bulk Editing:** Multiple recipes can be selected and updated simultaneously, modifying a specific property while preserving all other recipe data.
+* **Bulk Selection:** Recipes can be selected individually or through the visible filtered recipe list.
+* **GitHub Synchronization:** Bulk recipe changes are synchronized with the configured GitHub repository.
 
 ### 2. 🔄 Remote Synchronization (GitHub API REST)
 GastroOS uses GitHub as its centralized, persistent database:
@@ -33,6 +37,7 @@ GastroOS uses GitHub as its centralized, persistent database:
   * `localStorage` ➔ **High-Performance Browser Cache & Local Storage**.
 * **CRUD Operations:** Two-way synchronization via HTTP `GET` (read/download) and `PUT` (write/commit) requests with header authentication.
 * **Multi-Device Access:** Allows working with the same recipe book in a centralized manner across different devices or browsers.
+* **Bulk Operations:** Multiple recipe changes can be consolidated into a single GitHub commit.
 
 ### 3. 🎲 Intelligent Planning Engine
 The analytical generator evaluates the active recipe book, storage inventory, and demand forecasts to generate balanced weekly menu proposals:
@@ -54,6 +59,7 @@ The analytical generator evaluates the active recipe book, storage inventory, an
 * **Single-File Architecture:** The entire application (structure, styles, and reactivity) is contained within a single executable file in any modern browser without prior compilation.
 * **Responsive Design:** Smooth adaptation for mobile devices, tablets, and desktop displays.
 * **Adaptive Dark Mode:** Integrated aesthetic contrast switcher.
+* **Recipe Management UX:** Individual and bulk recipe editing workflows are integrated directly into the Recipe Book interface.
 
 ---
 
