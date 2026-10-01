@@ -534,7 +534,7 @@
                         <option value="caballa">Caballa</option>
                         <option value="otro">Otro (especificar)</option>
                     </select>
-                    <input id="dishFishSpeciesCustom" type="text" placeholder="Especie exacta..." class="hidden mt-2 w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                    <input id="dishFishSpeciesCustom" type="text" placeholder="Seleccionar…" class="hidden mt-2 w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                 </div>
 
                 <div id="techniqueContainer" class="hidden">
@@ -1265,7 +1265,7 @@
                     : d.proteina_segundo;
                 const demObj = demandMap[d.demanda || "Media"];
                 const missing = !hasCompleteTechnicalTags(d);
-                const missingBadge = missing ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 border border-orange-200 dark:border-orange-800">Etiquetado pendiente ⚠️</span>' : '';
+                const missingBadge = missing ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 border border-orange-200 dark:border-orange-800">Etiquetado pendiente ☓</span>' : '';
                 const precookedBadge = d.precocinado ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-800">Precocinado</span>' : '';
 
                 const card = document.createElement('div');
@@ -1431,7 +1431,7 @@
             const status = document.getElementById('githubSettingsStatus');
             if (!status) return;
             if (github?.token && github?.owner && github?.repo && github?.path) {
-                status.textContent = "Conexión configurada ✓. Al guardar, GastroOS comprobará GitHub y cargará el recetario.";
+                status.textContent = "Conexión configurada ✓ Al guardar, GastroOS comprobará GitHub y cargará el recetario.";
                 status.className = "text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold";
             } else {
                 status.textContent = "Configura los cuatro campos para activar la sincronización remota de recetas.";
@@ -2071,7 +2071,7 @@
             const pending = getMigrationCandidates();
             if (badge) badge.innerText = `${pending.length} pendientes`;
             if (!pending.length) {
-                container.innerHTML = '<div class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold p-2 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg">Todo el recetario está correctamente etiquetado ✓.</div>';
+                container.innerHTML = '<div class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold p-2 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg">Todo el recetario está correctamente etiquetado ✓</div>';
                 return;
             }
 
@@ -2105,7 +2105,7 @@
                             </div>` : ''}
                         ${fish ? `
                             <select id="mig-fish-${escapeHtml(d.id)}" class="w-full p-2 mb-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">
-                                <option value="">Especie exacta...</option>
+                                <option value="">Seleccionar…</option>
                                 ${FISH_SPECIES.map(a => `<option value="${a}" ${d.especie_pescado===a?'selected':''}>${FISH_LABELS[a]}</option>`).join("")}
                                 <option value="otro" ${d.especie_pescado && !FISH_SPECIES.includes(d.especie_pescado) ? 'selected':''}>Otra</option>
                             </select>
@@ -3351,7 +3351,7 @@
             if (!newDish) return;
 
             currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].dish = newDish;
-            currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].warning = "Intercambio manual ⚠️";
+            currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].warning = "Intercambio manual ☓";
             currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].isPreparedStock = false;
 
             saveAll();
