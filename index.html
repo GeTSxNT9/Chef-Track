@@ -563,6 +563,20 @@
 
                 <div class="border-t border-gray-200 dark:border-gray-800 pt-4 mt-4">
                     <div class="flex justify-between items-center mb-2">
+                        <label class="block text-sm font-semibold text-gray-800 dark:text-gray-200">Alérgenos</label>
+                    </div>
+                    <div id="allergensContainer" class="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                        ${ALLERGEN_OPTIONS.map(([value, label]) => `
+                            <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 cursor-pointer">
+                                <input type="checkbox" name="dishAllergen" value="${value}" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
+                                <span>${label}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-200 dark:border-gray-800 pt-4 mt-4">
+                    <div class="flex justify-between items-center mb-2">
                         <label class="block text-sm font-semibold text-gray-800 dark:text-gray-200">Ingredientes (por 1 ración)</label>
                         <button type="button" id="addIngredientBtn" class="text-indigo-600 dark:text-indigo-400 font-bold text-xs bg-indigo-50 dark:bg-indigo-950 px-2 py-1 rounded">+ Añadir</button>
                     </div>
@@ -908,6 +922,24 @@
             pastas_rellenas: "Pasta rellena", arroces: "Arroz", otros_hidratos: "Otros hidratos"
         };
 
+        const ALLERGEN_OPTIONS = [
+            ["gluten", "Gluten"],
+            ["crustaceos", "Crustáceos"],
+            ["huevos", "Huevos"],
+            ["pescado", "Pescado"],
+            ["cacahuetes", "Cacahuetes"],
+            ["soja", "Soja"],
+            ["leche", "Leche"],
+            ["frutos_cascara", "Frutos de cáscara"],
+            ["apio", "Apio"],
+            ["mostaza", "Mostaza"],
+            ["sesamo", "Sésamo"],
+            ["sulfitos", "Sulfitos"],
+            ["altramuces", "Altramuces"],
+            ["moluscos", "Moluscos"]
+        ];
+        const ALLERGEN_LABELS = Object.fromEntries(ALLERGEN_OPTIONS);
+
         function normalizeDishData(d) {
             const dish = { ...d };
             dish.demanda = dish.demanda || "Media";
@@ -918,6 +950,7 @@
             dish.animal_carne = dish.animal_carne || "";
             dish.especie_pescado = dish.especie_pescado || "";
             dish.tecnica_cocina = dish.tecnica_cocina || "";
+            dish.alergenos = Array.isArray(dish.alergenos) ? [...new Set(dish.alergenos.map(String).filter(a => ALLERGEN_LABELS[a]))] : [];
 
             // Migración transparente del modelo anterior.
             const oldSub = dish.subcategoria_primero;
@@ -1886,6 +1919,7 @@
                 tecnica: (isCarne || isPescado) ? document.getElementById('dishTechnique').value : "",
                 precocinado: document.getElementById('dishPrecooked').checked,
                 demanda: document.getElementById('dishDemand').value,
+                alergenos: Array.from(document.querySelectorAll('input[name="dishAllergen"]:checked')).map(input => input.value),
                 ingredientes: []
             };
 
@@ -1945,6 +1979,9 @@
 
             document.getElementById('dishPrecooked').checked = !!d.precocinado;
             document.getElementById('dishDemand').value = d.demanda || "Media";
+            document.querySelectorAll('input[name="dishAllergen"]').forEach(input => {
+                input.checked = d.alergenos.includes(input.value);
+            });
             updateFormVisibility();
 
             const container = document.getElementById('ingredientsContainer');
@@ -2056,6 +2093,7 @@
             document.getElementById('ingredientsContainer').innerHTML = '';
             document.getElementById('dishPrecooked').checked = false;
             document.getElementById('dishFishSpeciesCustom').value = '';
+            document.querySelectorAll('input[name="dishAllergen"]').forEach(input => { input.checked = false; });
             updateFormVisibility();
         }
 
@@ -3132,6 +3170,12 @@
             const warningBadge = slot.warning ? `<span class="text-[10px] bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-300 px-1.5 py-0.5 rounded font-bold ml-2">${slot.warning}</span>` : '';
             const stockBadge = slot.isPreparedStock ? `<span class="text-[10px] bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded font-bold ml-2">Stock Elaborado</span>` : '';
             const precookedBadge = (slot.dish && slot.dish.precocinado) ? `<span class="text-[10px] bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300 px-1.5 py-0.5 rounded font-bold ml-2">Precocinado</span>` : '';
+            const allergenNames = slot.dish && Array.isArray(slot.dish.alergenos)
+                ? slot.dish.alergenos.map(a => ALLERGEN_LABELS[a]).filter(Boolean)
+                : [];
+            const allergenLine = allergenNames.length
+                ? `<div class="text-[9px] text-gray-500 dark:text-gray-400 mt-1 leading-tight">Alérgenos: ${allergenNames.map(escapeHtml).join(' · ')}</div>`
+                : '';
 
             return `
                 <div class="gastro-slot flex items-center justify-between p-3">
@@ -3139,6 +3183,7 @@
                         <div>
                             <div class="text-[10px] font-bold text-gray-500 uppercase">${slot.slotLabel}</div>
                             <div class="text-sm font-semibold text-gray-800 dark:text-gray-100 leading-tight">${dishName} ${warningBadge} ${stockBadge} ${precookedBadge}</div>
+                            ${allergenLine}
                         </div>
                     </div>
                     <button onclick="openSwapModal('${dayName}', ${index}, '${slot.cat}', '${isPrimero ? (slot.dish?.subcategoria_primero || '') : ''}', '${!isPrimero ? (slot.dish?.proteina_segundo || '') : ''}')" class="gastro-slot-action flex items-center justify-center">
