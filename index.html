@@ -1019,6 +1019,28 @@
         ];
         const ALLERGEN_LABELS = Object.fromEntries(ALLERGEN_OPTIONS);
 
+        function normalizeFirstParent(value) {
+            const raw = String(value || "").trim();
+            if (!raw) return "";
+            const v = raw.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+            // Valores canónicos que utiliza el filtro visible del Recetario.
+            if (v === "cuchara" || v.includes("cuchara")) return "Cuchara";
+            if (v === "verdura" || v.includes("verdura")) return "Verdura";
+            if (v === "tenedor" || v.includes("tenedor")) return "Tenedor";
+
+            // Identificadores técnicos nuevos/anteriores.
+            if (FIRST_SUBCATEGORIES.cuchara.includes(v)) return "Cuchara";
+            if (FIRST_SUBCATEGORIES.verdura.includes(v)) return "Verdura";
+            if (FIRST_SUBCATEGORIES.tenedor.includes(v)) return "Tenedor";
+
+            // También acepta etiquetas completas como "Verdura · Entera".
+            if (v.includes("crema") || v.includes("entera")) return "Verdura";
+            if (v.includes("pasta") || v.includes("arroz") || v.includes("hidrato")) return "Tenedor";
+            if (v.includes("legumbre") || v.includes("guiso") || v.includes("sopa") || v.includes("caldo")) return "Cuchara";
+            return "";
+        }
+
         function normalizeDishData(d) {
             const dish = { ...d };
             dish.demanda = dish.demanda || "Media";
@@ -1031,13 +1053,24 @@
             dish.tecnica_cocina = dish.tecnica_cocina || "";
             dish.alergenos = Array.isArray(dish.alergenos) ? [...new Set(dish.alergenos.map(String).filter(a => ALLERGEN_LABELS[a]))] : [];
 
-            // Migración transparente del modelo anterior.
-            const oldSub = dish.subcategoria_primero;
-            if (dish.categoria === "Primero" && !dish.subtipo_primero && FIRST_SUBCATEGORIES[oldSub?.toLowerCase?.()]) {
-                dish.subtipo_primero = "";
-            }
-            if (dish.categoria === "Primero" && !dish.subcategoria_primero && dish.subtipo_primero) {
-                dish.subcategoria_primero = firstParentFromTechnical(dish.subtipo_primero);
+            // Migración y normalización transparente de los formatos anteriores/importados.
+            if (dish.categoria === "Primero") {
+                const originalSub = dish.subcategoria_primero;
+                const technicalSub = String(dish.subtipo_primero || "").trim();
+
+                // Si llega un identificador técnico en cualquiera de los dos campos,
+                // conservamos el identificador técnico y calculamos su grupo visible.
+                if (!technicalSub && FIRST_LABELS[String(originalSub || "").toLowerCase()]) {
+                    dish.subtipo_primero = String(originalSub).toLowerCase();
+                }
+
+                const canonicalParent = normalizeFirstParent(dish.subcategoria_primero) || normalizeFirstParent(dish.subtipo_primero);
+                if (canonicalParent) dish.subcategoria_primero = canonicalParent;
+
+                if (dish.subtipo_primero && !FIRST_LABELS[dish.subtipo_primero]) {
+                    const technicalCandidate = String(dish.subtipo_primero).toLowerCase();
+                    if (FIRST_LABELS[technicalCandidate]) dish.subtipo_primero = technicalCandidate;
+                }
             }
             if (dish.categoria === "Segundo" && dish.proteina_segundo === "Carne") {
                 if (!dish.animal_carne) {
