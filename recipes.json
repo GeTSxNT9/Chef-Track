@@ -1134,23 +1134,23 @@
     "id": "100029",
     "nombre": "Judías verdes con patata",
     "categoria": "Primero",
-    "subcategoria_primero": "verduras_enteras",
+    "subcategoria_primero": "Verdura",
     "subtipo_primero": "verduras_enteras",
     "proteina_segundo": "",
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "",
+    "tecnica": "",
     "precocinado": false,
-    "demanda": "Alta",
+    "demanda": "Media",
     "alergenos": [],
     "ingredientes": [
       {
         "nombre": "Judías verdes",
         "cantidad": 200,
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Patata",
