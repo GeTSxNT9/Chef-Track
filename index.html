@@ -566,12 +566,62 @@
                         <label class="block text-sm font-semibold text-gray-800 dark:text-gray-200">Alérgenos</label>
                     </div>
                     <div id="allergensContainer" class="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                        ${ALLERGEN_OPTIONS.map(([value, label]) => `
-                            <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 cursor-pointer">
-                                <input type="checkbox" name="dishAllergen" value="${value}" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
-                                <span>${label}</span>
-                            </label>
-                        `).join('')}
+                        <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 cursor-pointer">
+                            <input type="checkbox" name="dishAllergen" value="gluten" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
+                            <span>Gluten</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 cursor-pointer">
+                            <input type="checkbox" name="dishAllergen" value="crustaceos" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
+                            <span>Crustáceos</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 cursor-pointer">
+                            <input type="checkbox" name="dishAllergen" value="huevos" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
+                            <span>Huevos</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 cursor-pointer">
+                            <input type="checkbox" name="dishAllergen" value="pescado" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
+                            <span>Pescado</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 cursor-pointer">
+                            <input type="checkbox" name="dishAllergen" value="cacahuetes" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
+                            <span>Cacahuetes</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 cursor-pointer">
+                            <input type="checkbox" name="dishAllergen" value="soja" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
+                            <span>Soja</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 cursor-pointer">
+                            <input type="checkbox" name="dishAllergen" value="leche" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
+                            <span>Leche</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 cursor-pointer">
+                            <input type="checkbox" name="dishAllergen" value="frutos_cascara" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
+                            <span>Frutos de cáscara</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 cursor-pointer">
+                            <input type="checkbox" name="dishAllergen" value="apio" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
+                            <span>Apio</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 cursor-pointer">
+                            <input type="checkbox" name="dishAllergen" value="mostaza" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
+                            <span>Mostaza</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 cursor-pointer">
+                            <input type="checkbox" name="dishAllergen" value="sesamo" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
+                            <span>Sésamo</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 cursor-pointer">
+                            <input type="checkbox" name="dishAllergen" value="sulfitos" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
+                            <span>Sulfitos</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 cursor-pointer">
+                            <input type="checkbox" name="dishAllergen" value="altramuces" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
+                            <span>Altramuces</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 cursor-pointer">
+                            <input type="checkbox" name="dishAllergen" value="moluscos" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500">
+                            <span>Moluscos</span>
+                        </label>
                     </div>
                 </div>
 
