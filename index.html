@@ -1224,6 +1224,7 @@
             document.getElementById('btnCancel').addEventListener('click', () => {
                 resetForm();
                 document.querySelector('.nav-btn[data-target="view-banco"]').click();
+                restoreRecipeListScroll();
             });
 
             document.getElementById('inputComensales').addEventListener('input', updateCalculatedRaciones);
@@ -1278,6 +1279,22 @@
                 document.getElementById('fishSpeciesCustom').classList.toggle('hidden', !(isPescado && fish === "otro"));
                 document.getElementById('fishSpeciesCustom').required = isPescado && fish === "otro";
             }
+        }
+
+        let recipeListScrollTop = null;
+
+        function restoreRecipeListScroll() {
+            if (recipeListScrollTop === null) return;
+            const scrollContainer = document.getElementById('main-container');
+            const savedScrollTop = recipeListScrollTop;
+            recipeListScrollTop = null;
+            if (!scrollContainer) return;
+            requestAnimationFrame(() => {
+                scrollContainer.scrollTop = savedScrollTop;
+                requestAnimationFrame(() => {
+                    scrollContainer.scrollTop = savedScrollTop;
+                });
+            });
         }
 
         function switchView(viewId) {
@@ -2002,12 +2019,16 @@
             document.querySelector('.nav-btn[data-target="view-banco"]').click();
             renderDishes();
             renderMigrationUI();
+            if (!isNewDish) restoreRecipeListScroll();
             alert(isNewDish ? "Receta guardada con éxito en GitHub" : "Receta actualizada con éxito en GitHub");
         }
 
-                function editDish(id) {
+        function editDish(id) {
             const d = normalizeDishData(dishes.find(x => x.id === id));
             if (!d) return;
+
+            const scrollContainer = document.getElementById('main-container');
+            recipeListScrollTop = scrollContainer ? scrollContainer.scrollTop : 0;
 
             document.getElementById('form-title').innerText = "Editar Plato";
             document.getElementById('btnCancel').classList.remove('hidden');
