@@ -748,7 +748,7 @@
     "tecnica_cocina": "tecnica_guiso",
     "tecnica": "tecnica_guiso",
     "precocinado": false,
-    "demanda": "Alta",
+    "demanda": "Media",
     "alergenos": [
       "gluten",
       "crustaceos",
@@ -839,7 +839,7 @@
     "tecnica_cocina": "tecnica_guiso",
     "tecnica": "tecnica_guiso",
     "precocinado": false,
-    "demanda": "Alta",
+    "demanda": "Media",
     "alergenos": [
       "leche"
     ],
@@ -965,7 +965,7 @@
     "tecnica_cocina": "tecnica_guiso",
     "tecnica": "tecnica_guiso",
     "precocinado": false,
-    "demanda": "Alta",
+    "demanda": "Media",
     "alergenos": [],
     "ingredientes": [
       {
@@ -1095,7 +1095,7 @@
     "tecnica_cocina": "tecnica_guiso",
     "tecnica": "tecnica_guiso",
     "precocinado": false,
-    "demanda": "Alta",
+    "demanda": "Media",
     "alergenos": [],
     "ingredientes": [
       {
@@ -1344,7 +1344,7 @@
     "tecnica_cocina": "tecnica_guiso",
     "tecnica": "tecnica_guiso",
     "precocinado": false,
-    "demanda": "Alta",
+    "demanda": "Media",
     "alergenos": [
       "gluten"
     ],
@@ -1382,7 +1382,7 @@
     "tecnica_cocina": "tecnica_guiso",
     "tecnica": "tecnica_guiso",
     "precocinado": false,
-    "demanda": "Alta",
+    "demanda": "Media",
     "alergenos": [
       "gluten"
     ],
@@ -1560,7 +1560,7 @@
     "tecnica_cocina": "",
     "tecnica": "",
     "precocinado": false,
-    "demanda": "Alta",
+    "demanda": "Media",
     "alergenos": [
       "gluten",
       "leche"
@@ -1689,7 +1689,7 @@
     "tecnica_cocina": "",
     "tecnica": "",
     "precocinado": false,
-    "demanda": "Alta",
+    "demanda": "Media",
     "alergenos": [
       "huevos"
     ],
@@ -1733,7 +1733,7 @@
     "tecnica_cocina": "",
     "tecnica": "",
     "precocinado": false,
-    "demanda": "Alta",
+    "demanda": "Media",
     "alergenos": [],
     "ingredientes": [
       {
@@ -1781,7 +1781,7 @@
     "tecnica_cocina": "",
     "tecnica": "",
     "precocinado": false,
-    "demanda": "Alta",
+    "demanda": "Media",
     "alergenos": [
       "crustaceos",
       "pescado",
