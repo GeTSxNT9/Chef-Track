@@ -24,6 +24,7 @@ Recipes are managed as JSON object data structures with complete classification 
 * **Internal Identifiers (`id`):** Independent of the visual layer to prevent reference errors.
 * **Structural Classification:** Dish definition (First / Second Course), category, technical subcategory, and tags.
 * **Operational Properties:** Demand level, weighted ingredients, and associated quantities.
+* **Allergen Profile:** Integrated registration of official allergen declarations configured via interactive checkboxes during recipe creation and editing.
 
 ### 2. 🔄 Remote Synchronization (GitHub API REST)
 GastroOS uses GitHub as its centralized, persistent database:
