@@ -527,16 +527,16 @@
     "id": "100015",
     "nombre": "Patatas a la riojana",
     "categoria": "Primero",
-    "subcategoria_primero": "guisos",
+    "subcategoria_primero": "Cuchara",
     "subtipo_primero": "guisos",
     "proteina_segundo": "",
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "",
+    "tecnica": "",
     "precocinado": false,
-    "demanda": "Alta",
+    "demanda": "Media",
     "alergenos": [],
     "ingredientes": [
       {
@@ -555,7 +555,7 @@
         "nombre": "Pimiento rojo",
         "cantidad": 30,
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Cebolla",
