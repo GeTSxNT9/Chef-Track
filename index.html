@@ -364,11 +364,26 @@
         .nav-btn span { font-size: 9px !important; letter-spacing: .035em; }
 
         /* Modal */
-        #modalChangeDish { background: rgba(15,23,42,.20) !important; backdrop-filter: blur(10px) !important; }
+        #modalChangeDish { background: rgba(15,23,42,.20) !important; backdrop-filter: blur(10px) !important; z-index: 60 !important; }
         #modalChangeDish > div {
             border-radius: 22px !important;
             overflow: hidden;
+            min-height: 0;
             animation: gastroModalIn .2s ease-out both;
+        }
+        #modalChangeDish #modalDishList {
+            min-height: 0 !important;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 1rem;
+        }
+        #modalChangeDish .modal-close-btn {
+            flex-shrink: 0;
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
         #modalChangeDish > div > div:first-child {
             background: rgba(255,255,255,.82) !important;
@@ -918,14 +933,14 @@
     </div>
 
     <!-- MODAL CAMBIAR PLATO -->
-    <div id="modalChangeDish" class="hidden fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm">
+    <div id="modalChangeDish" class="hidden fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm" onclick="if(event.target===this) closeSwapModal()">
         <div class="bg-white dark:bg-gray-900 w-full max-w-lg rounded-t-2xl sm:rounded-2xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl animate-fade-in border border-gray-200 dark:border-gray-800">
             <div class="p-4 bg-indigo-600 dark:bg-indigo-950 text-white flex justify-between items-center">
                 <div>
                     <h3 class="font-bold text-sm" id="modalSwapTitle">Cambiar…</h3>
                     <p class="text-[11px] text-indigo-200" id="modalSwapSubtitle">Selecciona una alternativa</p>
                 </div>
-                <button onclick="closeSwapModal()" class="text-white hover:bg-indigo-700 p-1 rounded-lg">
+                <button type="button" onclick="closeSwapModal()" aria-label="Cerrar" title="Cerrar" class="modal-close-btn text-white hover:bg-indigo-700 rounded-lg">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
