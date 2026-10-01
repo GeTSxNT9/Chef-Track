@@ -428,6 +428,35 @@
                 <input type="text" id="searchInput" placeholder="Buscar plato..." class="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
             </div>
 
+            <div class="flex items-center gap-2 mb-3">
+                <button type="button" id="btnBulkEdit" class="flex-1 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/40 px-3 py-2 rounded-lg text-xs font-bold">☑ Edición múltiple</button>
+                <span id="bulkSelectedCount" class="hidden text-[11px] font-semibold text-gray-500 dark:text-gray-400 whitespace-nowrap">0 seleccionadas</span>
+            </div>
+            <div id="bulkToolbar" class="hidden mb-4 p-3 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50/70 dark:bg-indigo-950/30">
+                <div class="flex items-center justify-between gap-2 mb-2">
+                    <button type="button" id="btnBulkSelectAll" class="text-[11px] font-bold text-indigo-700 dark:text-indigo-300">Seleccionar visibles</button>
+                    <button type="button" id="btnBulkClear" class="text-[11px] font-semibold text-gray-500 dark:text-gray-400">Limpiar</button>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="bulkField" class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+                        <option value="">Qué quieres cambiar…</option>
+                        <option value="categoria">Categoría</option>
+                        <option value="subcategoria_primero">Subcategoría</option>
+                        <option value="proteina_segundo">Proteína</option>
+                        <option value="animal_carne">Tipo de animal</option>
+                        <option value="especie_pescado">Especie de pescado</option>
+                        <option value="tecnica_cocina">Técnica de cocina</option>
+                        <option value="demanda">Demanda</option>
+                        <option value="precocinado">Precocinado</option>
+                    </select>
+                    <select id="bulkValue" disabled class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                        <option value="">Selecciona un valor…</option>
+                    </select>
+                </div>
+                <button type="button" id="btnApplyBulkEdit" class="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-lg font-bold text-xs">Aplicar a seleccionadas</button>
+                <button type="button" id="btnExitBulkEdit" class="w-full mt-2 text-[11px] font-semibold text-gray-500 dark:text-gray-400">Salir de edición múltiple</button>
+            </div>
+
             <!-- Filtros Nivel 1 -->
             <div class="flex gap-2 mb-3">
                 <button class="filter-lvl1 active bg-indigo-600 text-white px-3 py-2 rounded-lg text-sm font-semibold flex-1 shadow-sm transition-colors" data-filter="all">TODOS</button>
@@ -1075,6 +1104,8 @@
         let activeFilterLevel2 = 'all';
         let selectedGeneratorDay = 'Lunes';
         let swapTarget = null;
+        let bulkEditMode = false;
+        let bulkSelectedDishIds = new Set();
 
         // --- 2. INICIALIZACIÓN ---
         async function init() {
@@ -1215,6 +1246,15 @@
                 });
             });
 
+            document.getElementById('btnBulkEdit').addEventListener('click', () => toggleBulkEditMode(!bulkEditMode));
+            document.getElementById('btnExitBulkEdit').addEventListener('click', () => toggleBulkEditMode(false));
+            document.getElementById('btnBulkSelectAll').addEventListener('click', () => {
+                getVisibleFilteredDishes().forEach(d => bulkSelectedDishIds.add(String(d.id)));
+                renderDishes(); updateBulkSelectedCount();
+            });
+            document.getElementById('btnBulkClear').addEventListener('click', () => { bulkSelectedDishIds.clear(); renderDishes(); updateBulkSelectedCount(); });
+            document.getElementById('bulkField').addEventListener('change', e => { populateBulkValueOptions(e.target.value); });
+            document.getElementById('btnApplyBulkEdit').addEventListener('click', handleBulkEdit);
             document.getElementById('searchInput').addEventListener('input', renderDishes);
             document.getElementById('dishCategory').addEventListener('change', updateFormVisibility);
             document.getElementById('dishProtein').addEventListener('change', updateFormVisibility);
@@ -1370,8 +1410,10 @@
 
                 const card = document.createElement('div');
                 card.className = "bg-white/80 p-4 rounded-2xl relative transition-all";
+                const bulkCheckbox = bulkEditMode ? `<label class="absolute top-3 left-3 z-10 flex items-center"><input type="checkbox" class="bulk-dish-checkbox w-4 h-4 accent-indigo-600" data-id="${escapeHtml(d.id)}" ${bulkSelectedDishIds.has(String(d.id)) ? 'checked' : ''}></label>` : '';
                 card.innerHTML = `
-                    <div class="pr-12">
+                    ${bulkCheckbox}
+                    <div class="${bulkEditMode ? 'pl-7' : ''} pr-12">
                         <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm leading-tight mb-1.5">${escapeHtml(d.nombre)}</h3>
                         <div class="flex flex-wrap gap-1.5 mt-2 items-center">
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">${d.categoria}</span>
@@ -1387,6 +1429,160 @@
                 list.appendChild(card);
             });
         }
+
+        function toggleBulkEditMode(enabled) {
+            bulkEditMode = enabled;
+            if (!enabled) bulkSelectedDishIds.clear();
+            document.getElementById('bulkToolbar')?.classList.toggle('hidden', !enabled);
+            document.getElementById('bulkSelectedCount')?.classList.toggle('hidden', !enabled);
+            const btn = document.getElementById('btnBulkEdit');
+            if (btn) btn.textContent = enabled ? '☑ Edición múltiple activa' : '☑ Edición múltiple';
+            renderDishes();
+            updateBulkSelectedCount();
+        }
+
+        function getVisibleFilteredDishes() {
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            return dishes.filter(d => {
+                const nd = normalizeDishData(d);
+                if (searchVal && !String(nd.nombre || '').toLowerCase().includes(searchVal)) return false;
+                if (activeFilterLevel1 !== 'all' && nd.categoria !== activeFilterLevel1) return false;
+                if (activeFilterLevel2 !== 'all') {
+                    if (activeFilterLevel1 === 'Primero' && nd.subcategoria_primero !== activeFilterLevel2) return false;
+                    if (activeFilterLevel1 === 'Segundo' && nd.proteina_segundo !== activeFilterLevel2) return false;
+                }
+                return true;
+            });
+        }
+
+        function updateBulkSelectedCount() {
+            const count = document.getElementById('bulkSelectedCount');
+            if (count) count.textContent = `${bulkSelectedDishIds.size} seleccionadas`;
+        }
+
+        function populateBulkValueOptions(field) {
+            const select = document.getElementById('bulkValue');
+            if (!select) return;
+            const options = {
+                categoria: [['Primero','Primero'],['Segundo','Segundo']],
+                subcategoria_primero: [['legumbres','Legumbres'],['guisos','Guisos'],['sopas_o_caldos','Sopas o caldos'],['cremas','Cremas'],['verduras_enteras','Verduras enteras'],['pastas','Pastas'],['pastas_rellenas','Pastas rellenas'],['arroces','Arroces'],['otros_hidratos','Otros hidratos']],
+                proteina_segundo: [['Carne','Carne'],['Pescado','Pescado']],
+                animal_carne: [['carne_pollo','Pollo'],['carne_pavo','Pavo'],['carne_cerdo','Cerdo'],['carne_ternera','Ternera'],['carne_conejo','Conejo'],['carne_cordero','Cordero']],
+                especie_pescado: FISH_SPECIES.map(v => [v, FISH_LABELS[v] || v]).concat([['otro','Otra']]),
+                tecnica_cocina: [['tecnica_guiso','Guiso o en salsa'],['tecnica_seco_asado','Plancha, Asado o Brasa'],['tecnica_frito_rebozado','Frito, Rebozado o Empanado']],
+                demanda: [['Alta','🟢 Alta'],['Media','🟡 Media'],['Baja','🔴 Baja']],
+                precocinado: [['true','Sí'],['false','No']]
+            };
+            select.innerHTML = '<option value="">Selecciona un valor…</option>';
+            (options[field] || []).forEach(([value,label]) => {
+                const opt = document.createElement('option'); opt.value = value; opt.textContent = label; select.appendChild(opt);
+            });
+            select.disabled = !(options[field] && options[field].length);
+            select.classList.toggle('bg-gray-100', select.disabled);
+            select.classList.toggle('dark:bg-gray-800', select.disabled);
+        }
+
+        function applyBulkFieldToDish(dish, field, value) {
+            const d = normalizeDishData(dish);
+            if (field === 'categoria') {
+                d.categoria = value;
+                if (value === 'Primero') {
+                    d.subtipo_primero = d.subtipo_primero || 'legumbres';
+                    d.subcategoria_primero = FIRST_LABELS[d.subtipo_primero] || d.subcategoria_primero || 'Cuchara';
+                    d.proteina_segundo = '';
+                    d.animal_carne = '';
+                    d.especie_pescado = '';
+                    d.tecnica_cocina = '';
+                    d.tecnica = '';
+                } else {
+                    d.proteina_segundo = d.proteina_segundo || 'Carne';
+                    d.subtipo_primero = '';
+                    d.subcategoria_primero = '';
+                }
+            } else if (field === 'subcategoria_primero') {
+                d.categoria = 'Primero';
+                d.subtipo_primero = value;
+                d.subcategoria_primero = FIRST_LABELS[value] || ({legumbres:'Cuchara',guisos:'Cuchara',sopas_o_caldos:'Cuchara',cremas:'Verdura',verduras_enteras:'Verdura',pastas:'Tenedor',pastas_rellenas:'Tenedor',arroces:'Tenedor',otros_hidratos:'Tenedor'}[value] || '');
+            } else if (field === 'proteina_segundo') {
+                d.categoria = 'Segundo'; d.proteina_segundo = value;
+                if (value === 'Carne') d.especie_pescado = '';
+                if (value === 'Pescado') d.animal_carne = '';
+            } else if (field === 'animal_carne') {
+                d.categoria = 'Segundo'; d.proteina_segundo = 'Carne'; d.animal_carne = value; d.especie_animal = value; d.especie_pescado = '';
+            } else if (field === 'especie_pescado') {
+                d.categoria = 'Segundo'; d.proteina_segundo = 'Pescado'; d.especie_pescado = value === 'otro' ? '' : value; d.animal_carne = '';
+            } else if (field === 'tecnica_cocina') {
+                d.tecnica_cocina = value; d.tecnica = value;
+            } else if (field === 'demanda') {
+                d.demanda = value;
+            } else if (field === 'precocinado') {
+                d.precocinado = value === 'true';
+            }
+            return normalizeDishData(d);
+        }
+
+        async function syncBulkDishesToGitHub(updatedLocalDishes) {
+            const github = getGitHubSettings();
+            if (!github.token || !github.owner || !github.repo || !github.path) {
+                alert("Configura primero la conexión con GitHub desde Ajustes.");
+                document.querySelector('.nav-btn[data-target="view-settings"]')?.click();
+                return false;
+            }
+            setGitHubSyncStatus("Guardando cambios múltiples en GitHub…", 'loading');
+            try {
+                const apiUrl = `https://api.github.com/repos/${encodeURIComponent(github.owner)}/${encodeURIComponent(github.repo)}/contents/${github.path.split('/').map(encodeURIComponent).join('/')}`;
+                const headers = {"Accept":"application/vnd.github+json","Authorization":`Bearer ${github.token}`,"X-GitHub-Api-Version":"2022-11-28"};
+                const response = await fetch(apiUrl, {method:'GET', headers});
+                let data = {}; try { data = await response.json(); } catch (_) {}
+                if (!response.ok || typeof data.content !== 'string' || !data.sha) throw new Error(data.message || `GitHub respondió con HTTP ${response.status}.`);
+                const parsedFile = parseGitHubRecipeFile(base64ToUtf8(data.content), github.path);
+                const updates = new Map(updatedLocalDishes.map(d => [String(d.id), normalizeDishData(d)]));
+                const updatedRecipes = parsedFile.recipes.map(recipe => updates.has(String(recipe?.id ?? '')) ? updates.get(String(recipe.id)) : recipe);
+                if (updates.size !== updatedRecipes.filter(r => updates.has(String(r?.id ?? ''))).length) throw new Error('No se encontraron todas las recetas seleccionadas en GitHub.');
+                const updatedContent = buildGitHubRecipeFile({...parsedFile, recipes: updatedRecipes}, null);
+                const putResponse = await fetch(apiUrl, {method:'PUT', headers:{...headers,"Content-Type":"application/json"}, body:JSON.stringify({message:"Actualizadas varias recetas desde GastroOS",content:utf8ToBase64(updatedContent),sha:data.sha})});
+                let putData = {}; try { putData = await putResponse.json(); } catch (_) {}
+                if (!putResponse.ok || ![200,201].includes(putResponse.status)) throw new Error(putData.message || `GitHub respondió con HTTP ${putResponse.status}.`);
+                markGitHubSyncSuccess(`${updates.size} recetas actualizadas en GitHub.`);
+                return true;
+            } catch (error) {
+                setGitHubSyncStatus("No se pudieron guardar los cambios múltiples en GitHub.", 'error');
+                console.error("Error de sincronización múltiple con GitHub:", error);
+                alert(error?.message || "No se pudieron guardar los cambios en GitHub.");
+                return false;
+            }
+        }
+
+        async function handleBulkEdit() {
+            const field = document.getElementById('bulkField').value;
+            const value = document.getElementById('bulkValue').value;
+            if (!bulkSelectedDishIds.size) { alert('Selecciona al menos una receta.'); return; }
+            if (!field || value === '') { alert('Selecciona qué quieres cambiar y su valor.'); return; }
+            const selected = dishes.filter(d => bulkSelectedDishIds.has(String(d.id))).map(normalizeDishData);
+            const fieldLabel = document.querySelector(`#bulkField option[value="${field}"]`)?.textContent || field;
+            const valueLabel = document.querySelector('#bulkValue option:checked')?.textContent || value;
+            if (!confirm(`Vas a cambiar ${fieldLabel} → ${valueLabel} en ${selected.length} recetas. Los demás datos permanecerán sin cambios.\n\n¿Continuar?`)) return;
+            const updated = selected.map(d => applyBulkFieldToDish(d, field, value));
+            const synced = await syncBulkDishesToGitHub(updated);
+            if (!synced) return;
+            const updates = new Map(updated.map(d => [String(d.id), d]));
+            dishes = dishes.map(d => updates.get(String(d.id)) || d);
+            saveAll();
+            bulkSelectedDishIds.clear();
+            document.getElementById('bulkField').value = '';
+            document.getElementById('bulkValue').innerHTML = '<option value="">Selecciona un valor…</option>';
+            document.getElementById('bulkValue').disabled = true;
+            renderDishes(); renderMigrationUI(); updateBulkSelectedCount();
+            alert(`${updated.length} recetas actualizadas correctamente.`);
+        }
+
+        document.addEventListener('change', (event) => {
+            if (!event.target.classList.contains('bulk-dish-checkbox')) return;
+            const id = String(event.target.dataset.id);
+            if (event.target.checked) bulkSelectedDishIds.add(id);
+            else bulkSelectedDishIds.delete(id);
+            updateBulkSelectedCount();
+        });
 
         function escapeHtml(value) {
             return String(value ?? "").replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
