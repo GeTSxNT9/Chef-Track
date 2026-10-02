@@ -2826,7 +2826,7 @@
         // --- 6. MOTOR DE GENERACIÓN Y EXPORTACIÓN LIMPIA ---
         // --- 6. MOTOR DE MENÚ: REGLAS PROFESIONALES + FALLBACK DETERMINISTA ---
 
-        const ENGINE_VERSION = "menu-rules-v7-composition-and-guisos";
+        const ENGINE_VERSION = "menu-rules-v9-vegetable-variety";
         const FIRST_SLOT_LABELS = {
             vegetable: "1º Verdura",
             spoon: "1º Cuchara",
@@ -2838,7 +2838,7 @@
         const GUISO_DAYS = new Set([0, 2, 4]); // Lunes, Miércoles y Viernes
         const CONSECUTIVE_FIRST_SUBTYPES = new Set([
             "legumbres", "guisos", "sopas_o_caldos", "cremas",
-            "verduras_enteras", "arroces", "otros_hidratos",
+            "arroces", "otros_hidratos",
             "pastas", "pastas_rellenas"
         ]);
         const LIQUID_FIRST_SUBTYPES = new Set(["cremas", "sopas_o_caldos"]);
@@ -2923,6 +2923,39 @@
 
         function conflictsWithSecondSpecies(dishAnimal, chosenAnimals) {
             return !!dishAnimal && chosenAnimals.includes(dishAnimal);
+        }
+
+        // Protege los guisos de los días futuros. En concreto, cuando estamos
+        // generando jueves, no permitimos gastar el último animal que todavía
+        // puede servir para un guiso del viernes. Así la regla de "3 días" no
+        // termina dejando al viernes sin su guiso obligatorio.
+        function violatesFutureGuisoProtection(dish, dayIndex, menuDays, usedDishIdsThisWeek = new Set()) {
+            if (dayIndex !== 3 || !dish?.animal_carne) return false; // solo jueves -> viernes
+
+            const fridayGuisos = getUniqueNormalizedDishes()
+                .filter(candidate => candidate.categoria === "Segundo" &&
+                    candidate.proteina_segundo === "Carne" &&
+                    candidate.tecnica_cocina === "tecnica_guiso")
+                .filter(candidate => !usedDishIdsThisWeek.has(String(candidate.id)));
+
+            if (!fridayGuisos.length) return false;
+
+            // Un guiso del viernes sigue siendo viable si el animal del guiso
+            // no coincide a la vez con miércoles y con el animal que estamos
+            // considerando para jueves. Repetir miércoles + viernes sí está
+            // permitido; lo prohibido es formar la misma especie tres días seguidos.
+            const viableAnimals = new Set();
+            fridayGuisos.forEach(candidate => {
+                const animal = candidate.animal_carne;
+                if (!animal) return;
+                if (!(animalAppearedOnDay(menuDays, 2, animal) && animal === dish.animal_carne)) {
+                    viableAnimals.add(animal);
+                }
+            });
+
+            // Si el jueves consume el último animal viable, el viernes queda
+            // sin ningún guiso compatible con la regla de 3 días.
+            return viableAnimals.size === 1 && viableAnimals.has(dish.animal_carne);
         }
 
         function countWeeklyTechnique(menuDays, technique) {
@@ -3091,8 +3124,12 @@
             }
 
             // Regla general: una misma familia/subtipo de primero no puede aparecer
-            // en días consecutivos. Las pastas normales y las rellenas son familias
-            // distintas, por lo que pueden alternarse (pasta -> pasta rellena).
+            // en días consecutivos. Las verduras enteras NO entran en esta regla:
+            // todos los platos de verdura_entera comparten subtipo técnico, pero son
+            // verduras distintas y además la semana exige una verdura cada día.
+            // La variedad vegetal ya se controla por getPrimaryVegetableKey().
+            // Las pastas normales y las rellenas son familias distintas, por lo que
+            // pueden alternarse (pasta -> pasta rellena).
             const subtype = dish.subtipo_primero;
             if (CONSECUTIVE_FIRST_SUBTYPES.has(subtype) && previousDayHasSubtype(menuDays, dayIndex, subtype)) return true;
 
@@ -3217,7 +3254,8 @@
                     .filter(d => isStructuralMatch(d, spec))
                     .filter(d => !usedDishIdsThisWeek.has(String(d.id)))
                     .filter(d => !violatesDayFirstRule(d, spec, menuDays, dayIndex, chosenFirsts, usedVegetableKeys, previousMenu, slotIndex))
-                    .filter(d => !violatesDaySecondRule(d, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, chosenSecondFamilies));
+                    .filter(d => !violatesDaySecondRule(d, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, chosenSecondFamilies))
+                    .filter(d => !violatesFutureGuisoProtection(d, dayIndex, menuDays, usedDishIdsThisWeek));
 
                 // El segundo hueco de carne de L/M/V debe cerrar obligatoriamente
                 // el día con un guiso si el primer hueco no lo ha elegido ya.
@@ -3258,7 +3296,8 @@
                             .filter(d => !usedDishIdsThisWeek.has(String(d.id)))
                             .filter(d => d.tecnica_cocina === "tecnica_guiso")
                             .filter(d => !violatesDayFirstRule(d, spec, menuDays, dayIndex, chosenFirsts, usedVegetableKeys, previousMenu, slotIndex, true))
-                            .filter(d => !violatesDaySecondRule(d, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, chosenSecondFamilies));
+                            .filter(d => !violatesDaySecondRule(d, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, chosenSecondFamilies))
+                            .filter(d => !violatesFutureGuisoProtection(d, dayIndex, menuDays, usedDishIdsThisWeek));
                     }
 
                     if (guisoCandidates.length) candidates = guisoCandidates;
@@ -3356,7 +3395,8 @@
                         isStructuralMatch(candidate, spec) &&
                         !usedDishIdsThisWeek.has(String(candidate.id)) &&
                         !violatesDayFirstRule(candidate, spec, menuDays, dayIndex, chosenFirsts, usedVegetableKeys, previousMenu, index) &&
-                        !violatesDaySecondRule(candidate, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, chosenSecondFamilies)
+                        !violatesDaySecondRule(candidate, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, chosenSecondFamilies) &&
+                        !violatesFutureGuisoProtection(candidate, dayIndex, menuDays, usedDishIdsThisWeek)
                     ) {
                         lockedDish = candidate;
                     }
