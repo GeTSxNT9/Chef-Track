@@ -2826,7 +2826,7 @@
         // --- 6. MOTOR DE GENERACIÓN Y EXPORTACIÓN LIMPIA ---
         // --- 6. MOTOR DE MENÚ: REGLAS PROFESIONALES + FALLBACK DETERMINISTA ---
 
-        const ENGINE_VERSION = "menu-rules-v9-vegetable-variety";
+        const ENGINE_VERSION = "menu-rules-v10-constraint-retry";
         const FIRST_SLOT_LABELS = {
             vegetable: "1º Verdura",
             spoon: "1º Cuchara",
@@ -2863,7 +2863,7 @@
             "calabaza": "calabaza", "cebolla": "cebolla", "patata": "patata",
             "patatas": "patata", "alcachofa": "alcachofa", "alcachofas": "alcachofa",
             "guisante": "guisantes", "guisantes": "guisantes", "judion": "judias",
-            "judiones": "judias", "col": "col", "repollo": "col", "repollo": "col"
+            "judiones": "judias", "champiñon": "champiñones", "champiñones": "champiñones", "seta": "champiñones", "setas": "champiñones", "col": "col", "repollo": "col", "repollo": "col"
         };
 
         function getDayDishList(menuDays, dayIndex, cat, protein) {
@@ -2988,10 +2988,19 @@
             return match ? normalizeFoodKey(VEGETABLE_ALIASES[match]) : normalized;
         }
 
+        const VEGETABLE_DISH_OVERRIDES = {
+            "crema de verduras variadas": "verduras variadas",
+            "crema de champinones y patata": "champinones",
+            "menestra de verduras": "menestra",
+            "vichyssoise": "puerro"
+        };
+
         function getPrimaryVegetableKey(dish) {
             if (!dish || dish.categoria !== "Primero" || dish.subcategoria_primero !== "Verdura") return "";
 
             const dishName = normalizeFoodKey(dish.nombre);
+            const override = VEGETABLE_DISH_OVERRIDES[dishName];
+            if (override) return canonicalVegetable(override);
             const vegetableNames = Object.keys(VEGETABLE_ALIASES)
                 .map(normalizeFoodKey)
                 .filter(Boolean)
@@ -3090,7 +3099,7 @@
             const ids = new Set();
             daysList.forEach(dayName => {
                 const id = previousMenu?.days?.[dayName]?.[slotIndex]?.dish?.id;
-                if (id && id !== "none") ids.add(id);
+                if (id && id !== "none") ids.add(String(id));
             });
             return ids;
         }
@@ -3100,7 +3109,7 @@
 
             // Nunca copiar el mismo plato en la misma posición de la semana anterior.
             const previousIds = getPreviousWeekSlotDishIds(previousMenu, slotIndex);
-            if (dish?.id && previousIds.has(dish.id)) return true;
+            if (dish?.id && previousIds.has(String(dish.id))) return true;
 
             // No se copia el mismo plato en la misma posición de la semana anterior.
             // La variedad de verduras entre semanas no es un veto: la regla de unicidad
@@ -3477,13 +3486,14 @@
             // usuario haya guardado de forma explícita en el historial, incluso si
             // pertenece a la semana actual. Un menú generado pero no guardado no cuenta.
             return [...(historyMenus || [])]
-                .map(item => item?.menu)
-                .filter(menu => {
+                .filter(item => {
+                    const menu = item?.menu;
                     if (!menu?.days || !menu?.generatedAt) return false;
                     const menuDate = new Date(menu.generatedAt);
                     return !Number.isNaN(menuDate.getTime());
                 })
-                .sort((a, b) => new Date(b.generatedAt) - new Date(a.generatedAt))[0] || null;
+                .sort((a, b) => new Date(b.savedAt || b.menu?.generatedAt) - new Date(a.savedAt || a.menu?.generatedAt))
+                .map(item => item.menu)[0] || null;
         }
 
         function getPreviousWeekHistoryMenu() {
@@ -3506,9 +3516,7 @@
             return getLatestHistoryMenu();
         }
 
-        function generateWeeklyMenu() {
-            const previousCandidate = getPreviousWeekCandidateMenu();
-            const previousForAntiTemplate = previousCandidate?.days ? previousCandidate : null;
+        function buildWeeklyMenuCandidate(previousForAntiTemplate) {
             const newMenu = {
                 generatedAt: new Date().toISOString(),
                 days: {},
@@ -3529,23 +3537,43 @@
                     { previousMenu: previousForAntiTemplate, usedVegetableKeys }
                 );
             });
+            return newMenu;
+        }
 
-            // El menú recién generado queda solo como menú de trabajo.
-            // No se convierte en referencia histórica hasta que el usuario pulse
-            // explícitamente "Guardar Historial".
-            currentMenu = newMenu;
-            saveAll();
-            renderGeneratorView();
+        function generateWeeklyMenu() {
+            const previousCandidate = getPreviousWeekCandidateMenu();
+            const previousForAntiTemplate = previousCandidate?.days ? previousCandidate : null;
+            const MAX_GENERATION_ATTEMPTS = 80;
+            let bestMenu = null;
+            let bestValidation = null;
 
-            const validation = validateWeeklyMenu(currentMenu);
-            if (!validation.valid) {
-                alert(`Menú generado con incidencias: ${validation.errors.join(" | ")}`);
+            for (let attempt = 1; attempt <= MAX_GENERATION_ATTEMPTS; attempt++) {
+                const candidate = buildWeeklyMenuCandidate(previousForAntiTemplate);
+                const validation = validateWeeklyMenu(candidate);
+                if (!bestValidation || validation.errors.length < bestValidation.errors.length) {
+                    bestMenu = candidate;
+                    bestValidation = validation;
+                }
+                if (validation.valid) {
+                    currentMenu = candidate;
+                    saveAll();
+                    renderGeneratorView();
+                    return;
+                }
+            }
+
+            // No guardamos un menú inválido como si fuese correcto. Conservamos
+            // únicamente el mejor candidato para que el usuario pueda ver el
+            // diagnóstico y no se pierda el menú anterior válido.
+            if (bestMenu && bestValidation) {
+                alert(`No se ha podido construir una semana que cumpla todas las reglas después de ${MAX_GENERATION_ATTEMPTS} intentos.\n\nEl menú anterior se mantiene sin cambios.\n\nPrincipales incidencias detectadas: ${bestValidation.errors.slice(0, 5).join(" | ")}`);
             }
         }
 
         function regenerateSingleDay(dayName) {
-            if (!currentMenu?.days) return;
+            if (!currentMenu?.days || !daysList.includes(dayName)) return;
 
+            const originalMenu = JSON.parse(JSON.stringify(currentMenu));
             const usedDishIdsInOtherDays = new Set();
             daysList.forEach(d => {
                 if (d !== dayName) {
@@ -3563,23 +3591,43 @@
             const dayIndex = daysList.indexOf(dayName);
             const usedVegetableKeys = getWeeklyUsedVegetableKeys(rebuilt, dayName);
             const previousMenu = getLatestHistoryMenu();
+            const MAX_DAY_REGENERATION_ATTEMPTS = 80;
+            let bestDay = null;
+            let bestValidation = null;
 
-            currentMenu.days[dayName] = generateDayMenu(
-                dayName,
-                dayIndex,
-                rebuilt,
-                usedDishIdsInOtherDays,
-                getPreparedMap(),
-                { previousMenu, usedVegetableKeys }
-            );
+            for (let attempt = 1; attempt <= MAX_DAY_REGENERATION_ATTEMPTS; attempt++) {
+                const candidateDay = generateDayMenu(
+                    dayName,
+                    dayIndex,
+                    rebuilt,
+                    new Set(usedDishIdsInOtherDays),
+                    getPreparedMap(),
+                    { previousMenu, usedVegetableKeys: new Set(usedVegetableKeys) }
+                );
+                const testMenu = JSON.parse(JSON.stringify(originalMenu));
+                testMenu.days[dayName] = candidateDay;
+                const validation = validateWeeklyMenu(testMenu);
+                if (!bestValidation || validation.errors.length < bestValidation.errors.length) {
+                    bestDay = candidateDay;
+                    bestValidation = validation;
+                }
+                if (validation.valid) {
+                    currentMenu.days[dayName] = candidateDay;
+                    saveAll();
+                    renderGeneratorView();
+                    return;
+                }
+            }
 
-            saveAll();
-            renderGeneratorView();
+            alert(`No se ha podido regenerar ${dayName} manteniendo todas las reglas.\n\nEl día anterior se conserva sin cambios.\n\nPrincipales incidencias: ${bestValidation?.errors?.slice(0, 5).join(" | ") || "sin diagnóstico"}`);
         }
 
         function validateWeeklyMenu(menu) {
             const errors = [];
             const days = daysList.filter(day => menu?.days?.[day]);
+            if (days.length !== daysList.length) {
+                daysList.filter(day => !menu?.days?.[day]).forEach(day => errors.push(`${day}: falta el día completo.`));
+            }
             const expectedLabels = [
                 "1º Verdura",
                 "1º Cuchara",
@@ -4045,7 +4093,7 @@
 
         function confirmSwap(dishId) {
             if (!swapTarget || !currentMenu || !currentMenu.days) return;
-            const newDish = dishes.find(d => d.id === dishId);
+            const newDish = dishes.find(d => String(d.id) === String(dishId));
             if (!newDish) return;
 
             const testMenu = JSON.parse(JSON.stringify(currentMenu));
@@ -4074,6 +4122,7 @@
             const record = {
                 id: Date.now().toString(),
                 date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+                savedAt: new Date().toISOString(),
                 menu: JSON.parse(JSON.stringify(currentMenu))
             };
             historyMenus.unshift(record);
