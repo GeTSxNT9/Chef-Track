@@ -1068,6 +1068,18 @@
             return 2;
         };
 
+        // Porcentaje aproximado de las raciones previstas que se calcula para cada plato
+        // en función de su demanda: Alta 75%, Media 55%, Baja 35%.
+        const DEMAND_PORTION_FACTOR = {
+            Alta: 0.75,
+            Media: 0.55,
+            Baja: 0.35
+        };
+
+        function getDemandPortionFactor(demand) {
+            return DEMAND_PORTION_FACTOR[demand] ?? DEMAND_PORTION_FACTOR.Media;
+        }
+
         const defaultSettings = { comensales: 100, margenActivo: false, darkMode: false };
         const proveedorCategorias = ["Carne", "Pescado", "Lácteos", "Verduras y frutas", "Secos", "Congelados"];
         const daysList = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
@@ -3649,7 +3661,9 @@
                     (slot.dish?.ingredientes || []).forEach(ing => {
                         const unit = String(ing.unidad || 'kg').toLowerCase();
                         const rawQty = Number(ing.cantidad) || 0;
-                        const totalForMeal = rawQty * totalRacionesPorComida;
+                        const demandFactor = getDemandPortionFactor(slot.dish?.demanda || 'Media');
+                        const estimatedDishRations = totalRacionesPorComida * demandFactor;
+                        const totalForMeal = rawQty * estimatedDishRations;
                         const isWeight = ['kg', 'g'].includes(unit);
                         const isVolume = ['l', 'ml'].includes(unit);
                         if (!isWeight && !isVolume) return;
