@@ -1869,5 +1869,29 @@
         "categoria_proveedor": "Verduras y frutas"
       }
     ]
+  },
+  {
+    "id": "1790909079125",
+    "nombre": "Alitas de pollo",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "carne_pollo",
+    "especie_pescado": "",
+    "especie_animal": "carne_pollo",
+    "tecnica_cocina": "tecnica_seco_asado",
+    "tecnica": "tecnica_seco_asado",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Alitas de pollo",
+        "cantidad": 250,
+        "unidad": "g",
+        "categoria_proveedor": "Congelados"
+      }
+    ]
   }
 ]
