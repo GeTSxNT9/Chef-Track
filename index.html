@@ -1101,7 +1101,7 @@
             ["pescado", "Pescado"],
             ["cacahuetes", "Cacahuetes"],
             ["soja", "Soja"],
-            ["leche", "Leche"],
+            ["lacteo", "Lácteo"],
             ["frutos_cascara", "Frutos de cáscara"],
             ["apio", "Apio"],
             ["mostaza", "Mostaza"],
@@ -1144,7 +1144,9 @@
             dish.animal_carne = dish.animal_carne || "";
             dish.especie_pescado = dish.especie_pescado || "";
             dish.tecnica_cocina = dish.tecnica_cocina || "";
-            dish.alergenos = Array.isArray(dish.alergenos) ? [...new Set(dish.alergenos.map(String).filter(a => ALLERGEN_LABELS[a]))] : [];
+            dish.alergenos = Array.isArray(dish.alergenos)
+                ? [...new Set(dish.alergenos.map(a => String(a).trim().toLowerCase() === "leche" ? "lacteo" : String(a).trim()).filter(a => ALLERGEN_LABELS[a]))]
+                : [];
 
             // Migración y normalización transparente de los formatos anteriores/importados.
             if (dish.categoria === "Primero") {
@@ -1815,7 +1817,7 @@
                     try {
                         const updatedContent = buildGitHubRecipeFile(parsedFile, null, dishes);
                         const putPayload = {
-                            message: "Actualizados identificadores de categorías desde GastroOS",
+                            message: "Actualizados datos y etiquetas del recetario desde GastroOS",
                             content: utf8ToBase64(updatedContent),
                             sha: data.sha
                         };
@@ -2788,7 +2790,7 @@
         // --- 6. MOTOR DE GENERACIÓN Y EXPORTACIÓN LIMPIA ---
         // --- 6. MOTOR DE MENÚ: REGLAS PROFESIONALES + FALLBACK DETERMINISTA ---
 
-        const ENGINE_VERSION = "menu-rules-v4-professional";
+        const ENGINE_VERSION = "menu-rules-v5-professional";
         const FIRST_SLOT_LABELS = {
             vegetable: "1º Verdura",
             spoon: "1º Cuchara",
@@ -2857,6 +2859,14 @@
                 else break;
             }
             return streak;
+        }
+
+        function getWeeklyFirstSubtypeCount(menuDays, subtype, exceptDayIndex = -1) {
+            return daysList.reduce((total, dayName, index) => {
+                if (index === exceptDayIndex) return total;
+                return total + getDayDishList(menuDays, index, "Primero")
+                    .filter(d => d?.subtipo_primero === subtype).length;
+            }, 0);
         }
 
         function conflictsWithSecondSpecies(dishAnimal, chosenAnimals) {
@@ -2991,6 +3001,9 @@
 
             // Reglas intocables: nunca dos primeros líquidos/triturados en el mismo día.
             if (hasLiquidFirstConflict(dish, chosenFirsts)) return true;
+
+            // Máximo 2 días de crema de verdura por semana.
+            if (dish.subtipo_primero === "cremas" && getWeeklyFirstSubtypeCount(menuDays, "cremas", dayIndex) >= 2) return true;
 
             // Regla intocable: una verdura principal solo puede aparecer una vez de lunes a viernes.
             if (spec.allowedParents?.includes("Verdura")) {
@@ -3480,6 +3493,8 @@
             });
 
             if (weeklyFritos > 2) errors.push(`Semana: hay ${weeklyFritos} fritos/rebozados; el máximo es 2.`);
+            const weeklyCreams = getWeeklyFirstSubtypeCount(menu.days, "cremas");
+            if (weeklyCreams > 2) errors.push(`Semana: hay ${weeklyCreams} días de crema; el máximo es 2.`);
             if (weeklyGuisos > 3) errors.push(`Semana: hay ${weeklyGuisos} guisos; el máximo es 3.`);
 
             if (previousWeekMenu?.days && menu?.generatedAt) {
@@ -3741,10 +3756,14 @@
             const searchVal = document.getElementById('modalSearchInput').value.toLowerCase();
             container.innerHTML = '';
 
+            const swapDayIndex = daysList.indexOf(swapTarget.dayName);
+            const weeklyCreamCountExcludingTargetDay = getWeeklyFirstSubtypeCount(currentMenu?.days || {}, "cremas", swapDayIndex);
+
             const alternatives = dishes.filter(d => {
                 if (d.categoria !== swapTarget.cat) return false;
                 if (swapTarget.cat === 'Primero' && swapTarget.subcat && d.subcategoria_primero !== swapTarget.subcat) return false;
                 if (swapTarget.cat === 'Segundo' && swapTarget.protein && d.proteina_segundo !== swapTarget.protein) return false;
+                if (d.subtipo_primero === "cremas" && weeklyCreamCountExcludingTargetDay >= 2) return false;
                 if (searchVal && !String(d.nombre || '').toLowerCase().includes(searchVal)) return false;
                 return true;
             });
@@ -3775,6 +3794,13 @@
             if (!swapTarget || !currentMenu || !currentMenu.days) return;
             const newDish = dishes.find(d => d.id === dishId);
             if (!newDish) return;
+
+            const swapDayIndex = daysList.indexOf(swapTarget.dayName);
+            if (newDish.subtipo_primero === "cremas" &&
+                getWeeklyFirstSubtypeCount(currentMenu.days, "cremas", swapDayIndex) >= 2) {
+                alert("No puede haber más de 2 días de crema en la semana.");
+                return;
+            }
 
             currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].dish = newDish;
             currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].warning = "Intercambio manual ☓";
