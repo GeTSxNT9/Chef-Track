@@ -2363,8 +2363,8 @@
     "precocinado": false,
     "demanda": "Alta",
     "alergenos": [
-      "frutos_cascara",
       "gluten",
+      "frutos_cascara",
       "sulfitos"
     ],
     "ingredientes": [
@@ -2388,19 +2388,19 @@
       },
       {
         "nombre": "Ajo",
-        "cantidad": "",
+        "cantidad": 0,
         "unidad": "",
         "categoria_proveedor": "Verduras y frutas"
       },
       {
         "nombre": "Caldo de carne",
-        "cantidad": "",
+        "cantidad": 0,
         "unidad": "",
         "categoria_proveedor": "Secos"
       },
       {
         "nombre": "Vino blanco",
-        "cantidad": "",
+        "cantidad": 0,
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
