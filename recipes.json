@@ -1917,5 +1917,29 @@
         "categoria_proveedor": "Congelados"
       }
     ]
+  },
+  {
+    "id": "1790909304768",
+    "nombre": "Hamburguesas",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "carne_ternera",
+    "especie_pescado": "",
+    "especie_animal": "carne_ternera",
+    "tecnica_cocina": "tecnica_seco_asado",
+    "tecnica": "tecnica_seco_asado",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Hamburguesa",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      }
+    ]
   }
 ]
