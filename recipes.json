@@ -9,8 +9,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -38,6 +38,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -51,8 +63,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -80,6 +92,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -93,8 +117,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -116,6 +140,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -129,8 +165,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -160,6 +196,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -173,8 +221,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -196,6 +244,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -209,8 +269,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -232,6 +292,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -245,8 +317,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -268,6 +340,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -281,8 +365,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -304,6 +388,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -317,8 +413,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -340,6 +436,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -353,8 +461,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -376,6 +484,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -389,8 +509,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -412,6 +532,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -425,8 +557,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -448,6 +580,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -461,8 +605,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -484,6 +628,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -497,8 +653,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -520,6 +676,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -533,8 +701,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -562,6 +730,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -575,8 +755,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -604,6 +784,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -617,8 +809,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -648,6 +840,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Congelados"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -661,13 +865,13 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
-      "gluten",
-      "apio"
+      "apio",
+      "gluten"
     ],
     "ingredientes": [
       {
@@ -693,6 +897,12 @@
         "cantidad": 20,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Caldo de pollo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -706,8 +916,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -732,6 +942,12 @@
         "cantidad": 20,
         "unidad": "g",
         "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Caldo de carne",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -745,13 +961,13 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
-      "gluten",
       "crustaceos",
+      "gluten",
       "moluscos"
     ],
     "ingredientes": [
@@ -791,8 +1007,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -823,6 +1039,12 @@
         "cantidad": 20,
         "unidad": "g",
         "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -836,8 +1058,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -880,8 +1102,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -916,7 +1138,7 @@
   },
   {
     "id": "100024",
-    "nombre": "Vichysoisse",
+    "nombre": "Vichyssoise",
     "categoria": "Primero",
     "subcategoria_primero": "Verdura",
     "subtipo_primero": "cremas",
@@ -924,8 +1146,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -962,8 +1184,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -1010,8 +1232,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1054,8 +1276,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1092,8 +1314,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -1140,8 +1362,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -1170,8 +1392,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -1200,8 +1422,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -1230,8 +1452,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -1260,8 +1482,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -1296,8 +1518,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1341,8 +1563,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1366,6 +1588,12 @@
         "cantidad": 40,
         "unidad": "g",
         "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Orégano",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -1379,8 +1607,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1410,6 +1638,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Orégano",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -1423,8 +1663,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1449,6 +1689,12 @@
         "cantidad": 50,
         "unidad": "g",
         "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Orégano",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -1462,8 +1708,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1487,6 +1733,12 @@
         "cantidad": 40,
         "unidad": "g",
         "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Orégano",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -1500,8 +1752,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1557,8 +1809,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1589,6 +1841,12 @@
         "cantidad": 20,
         "unidad": "g",
         "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -1602,8 +1860,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1634,6 +1892,12 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -1647,8 +1911,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1673,6 +1937,12 @@
         "cantidad": 40,
         "unidad": "g",
         "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -1686,8 +1956,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1730,8 +2000,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -1765,6 +2035,12 @@
         "cantidad": 20,
         "unidad": "g",
         "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -1778,14 +2054,14 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
       "crustaceos",
-      "pescado",
-      "moluscos"
+      "moluscos",
+      "pescado"
     ],
     "ingredientes": [
       {
@@ -1817,6 +2093,18 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -1830,8 +2118,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "",
-    "tecnica": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1867,6 +2155,12 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
@@ -1877,11 +2171,11 @@
     "subcategoria_primero": "",
     "subtipo_primero": "",
     "proteina_segundo": "Carne",
-    "animal_carne": "carne_pollo",
+    "animal_carne": "Pollo",
     "especie_pescado": "",
-    "especie_animal": "carne_pollo",
-    "tecnica_cocina": "tecnica_seco_asado",
-    "tecnica": "tecnica_seco_asado",
+    "especie_animal": "Pollo",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -1901,17 +2195,17 @@
     "subcategoria_primero": "",
     "subtipo_primero": "",
     "proteina_segundo": "Carne",
-    "animal_carne": "carne_pollo",
+    "animal_carne": "Pollo",
     "especie_pescado": "",
-    "especie_animal": "carne_pollo",
-    "tecnica_cocina": "tecnica_seco_asado",
-    "tecnica": "tecnica_seco_asado",
+    "especie_animal": "Pollo",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
     "precocinado": false,
     "demanda": "Alta",
     "alergenos": [],
     "ingredientes": [
       {
-        "nombre": "Cuarto trasero de pollo",
+        "nombre": "Cuartos traseros de pollo",
         "cantidad": 450,
         "unidad": "g",
         "categoria_proveedor": "Congelados"
@@ -1925,11 +2219,11 @@
     "subcategoria_primero": "",
     "subtipo_primero": "",
     "proteina_segundo": "Carne",
-    "animal_carne": "carne_ternera",
+    "animal_carne": "Ternera",
     "especie_pescado": "",
-    "especie_animal": "carne_ternera",
-    "tecnica_cocina": "tecnica_seco_asado",
-    "tecnica": "tecnica_seco_asado",
+    "especie_animal": "Ternera",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -1944,16 +2238,16 @@
   },
   {
     "id": "1790921245068",
-    "nombre": "Bacalao al Pil-Pil",
+    "nombre": "Bacalao al pil-pil",
     "categoria": "Segundo",
     "subcategoria_primero": "",
     "subtipo_primero": "",
     "proteina_segundo": "Pescado",
     "animal_carne": "",
-    "especie_pescado": "bacalao",
-    "especie_animal": "Pescado",
-    "tecnica_cocina": "tecnica_seco_asado",
-    "tecnica": "tecnica_seco_asado",
+    "especie_pescado": "Bacalao",
+    "especie_animal": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1965,27 +2259,33 @@
         "cantidad": 200,
         "unidad": "g",
         "categoria_proveedor": "Congelados"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
       }
     ]
   },
   {
     "id": "1790921314185",
-    "nombre": "Pinchos Morunos",
+    "nombre": "Pinchos morunos",
     "categoria": "Segundo",
     "subcategoria_primero": "",
     "subtipo_primero": "",
     "proteina_segundo": "Carne",
-    "animal_carne": "carne_cerdo",
+    "animal_carne": "Cerdo",
     "especie_pescado": "",
-    "especie_animal": "carne_cerdo",
-    "tecnica_cocina": "tecnica_seco_asado",
-    "tecnica": "tecnica_seco_asado",
+    "especie_animal": "Cerdo",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
     "ingredientes": [
       {
-        "nombre": "Pincho Moruno",
+        "nombre": "Pinchos morunos",
         "cantidad": 200,
         "unidad": "g",
         "categoria_proveedor": "Carne"
@@ -1999,11 +2299,11 @@
     "subcategoria_primero": "",
     "subtipo_primero": "",
     "proteina_segundo": "Carne",
-    "animal_carne": "carne_pollo",
+    "animal_carne": "Pollo",
     "especie_pescado": "",
-    "especie_animal": "carne_pollo",
-    "tecnica_cocina": "tecnica_seco_asado",
-    "tecnica": "tecnica_seco_asado",
+    "especie_animal": "Pollo",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -2024,10 +2324,10 @@
     "subtipo_primero": "",
     "proteina_segundo": "Pescado",
     "animal_carne": "",
-    "especie_pescado": "calamares",
-    "especie_animal": "Pescado",
-    "tecnica_cocina": "tecnica_seco_asado",
-    "tecnica": "tecnica_seco_asado",
+    "especie_pescado": "Calamares",
+    "especie_animal": "",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -2039,6 +2339,12 @@
         "cantidad": 200,
         "unidad": "g",
         "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
       }
     ]
   },
@@ -2049,16 +2355,16 @@
     "subcategoria_primero": "",
     "subtipo_primero": "",
     "proteina_segundo": "Carne",
-    "animal_carne": "carne_ternera",
+    "animal_carne": "Ternera",
     "especie_pescado": "",
-    "especie_animal": "carne_ternera",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "especie_animal": "Ternera",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
     "precocinado": false,
     "demanda": "Alta",
     "alergenos": [
-      "gluten",
       "frutos_cascara",
+      "gluten",
       "sulfitos"
     ],
     "ingredientes": [
@@ -2079,24 +2385,2219 @@
         "cantidad": 30,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Caldo de carne",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Vino blanco",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
   {
-    "id": "1790939785552",
-    "nombre": "Guiso de ternera con verduras",
+    "id": "1790940000001",
+    "nombre": "Fideuá de marisco",
+    "categoria": "Primero",
+    "subcategoria_primero": "Tenedor",
+    "subtipo_primero": "pastas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten",
+      "crustaceos",
+      "moluscos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Fideos",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Gambas",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Calamares",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Mejillones",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Caldo de pescado",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000002",
+    "nombre": "Canelones de atún gratinados",
+    "categoria": "Primero",
+    "subcategoria_primero": "Tenedor",
+    "subtipo_primero": "pastas_rellenas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten",
+      "pescado",
+      "lacteo"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Canelones",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Atún",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Bechamel",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Queso rallado",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000003",
+    "nombre": "Canelones de carne gratinados",
+    "categoria": "Primero",
+    "subcategoria_primero": "Tenedor",
+    "subtipo_primero": "pastas_rellenas",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten",
+      "lacteo"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Canelones",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Carne picada",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Bechamel",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Queso rallado",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000004",
+    "nombre": "Migas aragonesas",
+    "categoria": "Primero",
+    "subcategoria_primero": "Tenedor",
+    "subtipo_primero": "otros_hidratos",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Pan",
+        "cantidad": 120,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Chorizo",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Bacon",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": 10,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000005",
+    "nombre": "Pimientos del piquillo rellenos de bacalao",
+    "categoria": "Primero",
+    "subcategoria_primero": "Verdura",
+    "subtipo_primero": "verduras_enteras",
+    "proteina_segundo": "",
+    "animal_carne": "",
+    "especie_pescado": "",
+    "especie_animal": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado",
+      "gluten",
+      "lacteo"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Pimientos del piquillo",
+        "cantidad": 120,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Bacalao",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Bechamel",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000006",
+    "nombre": "Guiso de lomo con verduras",
     "categoria": "Segundo",
     "subcategoria_primero": "",
     "subtipo_primero": "",
     "proteina_segundo": "Carne",
-    "animal_carne": "carne_ternera",
+    "animal_carne": "Cerdo",
     "especie_pescado": "",
-    "especie_animal": "carne_ternera",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "especie_animal": "Cerdo",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "sulfitos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Lomo de cerdo",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimiento rojo",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Vino blanco",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000007",
+    "nombre": "Longaniza asada",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Cerdo",
+    "especie_pescado": "",
+    "especie_animal": "Cerdo",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
-    "ingredientes": []
+    "ingredientes": [
+      {
+        "nombre": "Longaniza",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      }
+    ]
+  },
+  {
+    "id": "1790940000008",
+    "nombre": "Longaniza a la riojana",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Cerdo",
+    "especie_pescado": "",
+    "especie_animal": "Cerdo",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "sulfitos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Longaniza",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Pimiento rojo",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 60,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Vino tinto",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000009",
+    "nombre": "Cinta de lomo asada",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Cerdo",
+    "especie_pescado": "",
+    "especie_animal": "Cerdo",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Cinta de lomo de cerdo",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000010",
+    "nombre": "Cinta de lomo a la riojana",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Cerdo",
+    "especie_pescado": "",
+    "especie_animal": "Cerdo",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "sulfitos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Cinta de lomo de cerdo",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Pimiento rojo",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 60,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Vino tinto",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000011",
+    "nombre": "Cinta de lomo al roquefort",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Cerdo",
+    "especie_pescado": "",
+    "especie_animal": "Cerdo",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "lacteo"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Cinta de lomo de cerdo",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Queso roquefort",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Nata",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000012",
+    "nombre": "Chuletas de cerdo a la brasa",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Cerdo",
+    "especie_pescado": "",
+    "especie_animal": "Cerdo",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Chuletas de cerdo",
+        "cantidad": 250,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000013",
+    "nombre": "Costillas de cerdo asadas",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Cerdo",
+    "especie_pescado": "",
+    "especie_animal": "Cerdo",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Costillas de cerdo",
+        "cantidad": 300,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000014",
+    "nombre": "Lagarto de cerdo asado",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Cerdo",
+    "especie_pescado": "",
+    "especie_animal": "Cerdo",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Lagarto de cerdo",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000015",
+    "nombre": "Magro de cerdo con tomate",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Cerdo",
+    "especie_pescado": "",
+    "especie_animal": "Cerdo",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Magro de cerdo",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimiento verde",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000016",
+    "nombre": "San Jacobos",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Cerdo",
+    "especie_pescado": "",
+    "especie_animal": "Cerdo",
+    "tecnica_cocina": "Frito, Rebozado o Empanado",
+    "tecnica": "Frito, Rebozado o Empanado",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten",
+      "huevos",
+      "lacteo"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Jamón cocido",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Queso",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Huevo",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Pan rallado",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000017",
+    "nombre": "Filetes de pollo a la brasa",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Pollo",
+    "especie_pescado": "",
+    "especie_animal": "Pollo",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Pollo fileteado",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000018",
+    "nombre": "Filetes de pollo al roquefort",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Pollo",
+    "especie_pescado": "",
+    "especie_animal": "Pollo",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "lacteo"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Pollo fileteado",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Queso roquefort",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Nata",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000019",
+    "nombre": "Pechugas de pollo a la villaroy",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Pollo",
+    "especie_pescado": "",
+    "especie_animal": "Pollo",
+    "tecnica_cocina": "Frito, Rebozado o Empanado",
+    "tecnica": "Frito, Rebozado o Empanado",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten",
+      "huevos",
+      "lacteo"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Pechuga de pollo",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Bechamel",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Huevo",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Pan rallado",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000020",
+    "nombre": "Fingers de pollo",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Pollo",
+    "especie_pescado": "",
+    "especie_animal": "Pollo",
+    "tecnica_cocina": "Frito, Rebozado o Empanado",
+    "tecnica": "Frito, Rebozado o Empanado",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten",
+      "huevos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Pollo",
+        "cantidad": 180,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Huevo",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Pan rallado",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000021",
+    "nombre": "Jamoncitos de pollo guisados con cerveza",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Pollo",
+    "especie_pescado": "",
+    "especie_animal": "Pollo",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "gluten"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Jamoncitos de pollo",
+        "cantidad": 250,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cerveza",
+        "cantidad": 100,
+        "unidad": "ml",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000022",
+    "nombre": "Jamoncitos de pollo guisados con setas",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Pollo",
+    "especie_pescado": "",
+    "especie_animal": "Pollo",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "sulfitos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Jamoncitos de pollo",
+        "cantidad": 250,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Setas",
+        "cantidad": 100,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Vino blanco",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000023",
+    "nombre": "Jamoncitos de pollo guisados al chilindrón",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Pollo",
+    "especie_pescado": "",
+    "especie_animal": "Pollo",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "sulfitos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Jamoncitos de pollo",
+        "cantidad": 250,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Pimiento rojo",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimiento verde",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 60,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Vino blanco",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000024",
+    "nombre": "Guiso de pavo con verduras",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Pavo",
+    "especie_pescado": "",
+    "especie_animal": "Pavo",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "sulfitos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Pavo",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimiento rojo",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Guisantes",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Congelados"
+      },
+      {
+        "nombre": "Vino blanco",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000025",
+    "nombre": "Chuletas de pavo al ajillo",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Pavo",
+    "especie_pescado": "",
+    "especie_animal": "Pavo",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Chuletas de pavo",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000026",
+    "nombre": "Conejo asado al ajillo",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "Conejo",
+    "especie_pescado": "",
+    "especie_animal": "Conejo",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Conejo",
+        "cantidad": 250,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000027",
+    "nombre": "Merluza rebozada",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Merluza",
+    "especie_animal": "",
+    "tecnica_cocina": "Frito, Rebozado o Empanado",
+    "tecnica": "Frito, Rebozado o Empanado",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado",
+      "gluten",
+      "huevos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Merluza",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Harina",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Huevo",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000028",
+    "nombre": "Merluza a la meunière",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Merluza",
+    "especie_animal": "",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado",
+      "gluten",
+      "lacteo"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Merluza",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Harina",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Mantequilla",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Limón",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000029",
+    "nombre": "Merluza a la marinera",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Merluza",
+    "especie_animal": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado",
+      "sulfitos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Merluza",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Vino blanco",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000030",
+    "nombre": "Merluza en salsa verde",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Merluza",
+    "especie_animal": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado",
+      "gluten"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Merluza",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Caldo de pescado",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Harina",
+        "cantidad": 10,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000031",
+    "nombre": "Merluza al papillote con verduras",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Merluza",
+    "especie_animal": "",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Merluza",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Calabacín",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimiento rojo",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000032",
+    "nombre": "Merluza al ajillo",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Merluza",
+    "especie_animal": "",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Merluza",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000033",
+    "nombre": "Albóndigas de merluza en salsa verde",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Merluza",
+    "especie_animal": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado",
+      "gluten",
+      "huevos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Merluza",
+        "cantidad": 150,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Pan rallado",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Huevo",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Caldo de pescado",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Harina",
+        "cantidad": 10,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000034",
+    "nombre": "Albóndigas de merluza en salsa de tomate",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Merluza",
+    "especie_animal": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado",
+      "gluten",
+      "huevos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Merluza",
+        "cantidad": 150,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Pan rallado",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Huevo",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
+  },
+  {
+    "id": "1790940000035",
+    "nombre": "Trucha en salsa verde",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Trucha",
+    "especie_animal": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado",
+      "gluten"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Trucha",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Caldo de pescado",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Harina",
+        "cantidad": 10,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000036",
+    "nombre": "Trucha asada con jamón",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Trucha",
+    "especie_animal": "",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Trucha",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Jamón",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000037",
+    "nombre": "Trucha a la meunière",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Trucha",
+    "especie_animal": "",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado",
+      "gluten",
+      "lacteo"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Trucha",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Harina",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Mantequilla",
+        "cantidad": 20,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      },
+      {
+        "nombre": "Limón",
+        "cantidad": 30,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000038",
+    "nombre": "Trucha al papillote con verduras",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Trucha",
+    "especie_animal": "",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Trucha",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Calabacín",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimiento rojo",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000039",
+    "nombre": "Trucha a la brasa",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Trucha",
+    "especie_animal": "",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Trucha",
+        "cantidad": 250,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000040",
+    "nombre": "Calamares guisados a la americana",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Calamares",
+    "especie_animal": "",
+    "tecnica_cocina": "Guiso o en salsa",
+    "tecnica": "Guiso o en salsa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "moluscos",
+      "sulfitos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Calamares",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Tomate frito",
+        "cantidad": 80,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Vino blanco",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Pimentón dulce",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000041",
+    "nombre": "Calamares a la andaluza",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Calamares",
+    "especie_animal": "",
+    "tecnica_cocina": "Frito, Rebozado o Empanado",
+    "tecnica": "Frito, Rebozado o Empanado",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "moluscos",
+      "gluten"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Calamares",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Harina",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000042",
+    "nombre": "Rabas enharinadas",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Calamares",
+    "especie_animal": "",
+    "tecnica_cocina": "Frito, Rebozado o Empanado",
+    "tecnica": "Frito, Rebozado o Empanado",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "moluscos",
+      "gluten"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Rabas de calamar",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Harina",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000043",
+    "nombre": "Vaina de calamar a la brasa",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Calamares",
+    "especie_animal": "",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "moluscos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Vaina de calamar",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000044",
+    "nombre": "Caella al ajillo",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Caella",
+    "especie_animal": "",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Caella",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000045",
+    "nombre": "Panga al papillote con verduras",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Panga",
+    "especie_animal": "",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Panga",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Calabacín",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimiento rojo",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimienta negra",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000046",
+    "nombre": "Bacaladillas asadas al ajillo",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Bacaladilla",
+    "especie_animal": "",
+    "tecnica_cocina": "Plancha, Asado o Brasa",
+    "tecnica": "Plancha, Asado o Brasa",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Bacaladillas",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      }
+    ]
+  },
+  {
+    "id": "1790940000047",
+    "nombre": "Bacaladillas rebozadas",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "Bacaladilla",
+    "especie_animal": "",
+    "tecnica_cocina": "Frito, Rebozado o Empanado",
+    "tecnica": "Frito, Rebozado o Empanado",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "pescado",
+      "gluten",
+      "huevos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Bacaladillas",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      },
+      {
+        "nombre": "Harina",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Huevo",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Lácteos"
+      }
+    ]
   }
 ]
