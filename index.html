@@ -2826,7 +2826,7 @@
         // --- 6. MOTOR DE GENERACIÓN Y EXPORTACIÓN LIMPIA ---
         // --- 6. MOTOR DE MENÚ: REGLAS PROFESIONALES + FALLBACK DETERMINISTA ---
 
-        const ENGINE_VERSION = "menu-rules-v6-balanced-and-shopping";
+        const ENGINE_VERSION = "menu-rules-v7-composition-and-guisos";
         const FIRST_SLOT_LABELS = {
             vegetable: "1º Verdura",
             spoon: "1º Cuchara",
@@ -2842,6 +2842,16 @@
             "pastas", "pastas_rellenas"
         ]);
         const LIQUID_FIRST_SUBTYPES = new Set(["cremas", "sopas_o_caldos"]);
+        // Familias de presentación que no queremos duplicar dentro del mismo día,
+        // aunque una receta sea de carne y la otra de pescado.
+        const SECOND_PREPARATION_FAMILIES = [
+            ["albondigas", /\balbondigas\b/],
+            ["croquetas", /\bcroquetas\b/],
+            ["hamburguesas", /\bhamburgues(?:a|as)\b/],
+            ["brochetas", /\bbrochetas?\b/],
+            ["nuggets", /\bnuggets?\b/],
+            ["fingers", /\bfingers?\b/]
+        ];
         const VEGETABLE_ALIASES = {
             "judias verdes": "judias verdes", "judia verde": "judias verdes",
             "habichuela": "judias verdes", "habichuelas": "judias verdes",
@@ -2897,6 +2907,18 @@
                 return total + getDayDishList(menuDays, index, "Primero")
                     .filter(d => d?.subtipo_primero === subtype).length;
             }, 0);
+        }
+
+        function getSecondPreparationFamily(dish) {
+            const name = normalizeFoodKey(dish?.nombre || "");
+            if (!name) return "";
+            const match = SECOND_PREPARATION_FAMILIES.find(([, pattern]) => pattern.test(name));
+            return match ? match[0] : "";
+        }
+
+        function conflictsWithSecondPreparationFamily(dish, chosenSecondFamilies) {
+            const family = getSecondPreparationFamily(dish);
+            return !!family && chosenSecondFamilies.includes(family);
         }
 
         function conflictsWithSecondSpecies(dishAnimal, chosenAnimals) {
@@ -3078,7 +3100,7 @@
             return violatesPreviousWeekTemplate(dish, slotIndex, previousMenu);
         }
 
-        function violatesDaySecondRule(dish, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques) {
+        function violatesDaySecondRule(dish, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, chosenSecondFamilies = []) {
             if (spec.cat !== "Segundo") return false;
 
             if (spec.protein === "Pescado") {
@@ -3090,7 +3112,11 @@
             }
 
             // REGLA INTOMABLE: las dos carnes del mismo día nunca pueden compartir animal.
-            if (conflictsWithSecondSpecies(dish.animal_carne, chosenAnimals)) return true;
+            if (spec.protein === "Carne" && conflictsWithSecondSpecies(dish.animal_carne, chosenAnimals)) return true;
+
+            // Tampoco combinamos dos segundos con la misma forma de elaboración/presentación
+            // (por ejemplo, albóndigas de carne + albóndigas de merluza).
+            if (conflictsWithSecondPreparationFamily(dish, chosenSecondFamilies)) return true;
 
             // Máximo un frito/rebozado por día.
             if (dish.tecnica_cocina === "tecnica_frito_rebozado" &&
@@ -3183,6 +3209,7 @@
             const chosenFirsts = options.chosenFirsts || [];
             const usedVegetableKeys = options.usedVegetableKeys || new Set();
             const slotIndex = options.slotIndex ?? 0;
+            const chosenSecondFamilies = options.chosenSecondFamilies || [];
 
             // El fallback es estricto: ninguna regla de negocio se relaja. Los niveles se conservan
             // solo por compatibilidad con el formato existente de los slots y para evitar bucles infinitos.
@@ -3191,7 +3218,7 @@
                     .filter(d => isStructuralMatch(d, spec))
                     .filter(d => !usedDishIdsThisWeek.has(String(d.id)))
                     .filter(d => !violatesDayFirstRule(d, spec, menuDays, dayIndex, chosenFirsts, usedVegetableKeys, previousMenu, slotIndex))
-                    .filter(d => !violatesDaySecondRule(d, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques));
+                    .filter(d => !violatesDaySecondRule(d, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, chosenSecondFamilies));
 
                 // El segundo hueco de carne de L/M/V debe cerrar obligatoriamente
                 // el día con un guiso si el primer hueco no lo ha elegido ya.
@@ -3201,8 +3228,28 @@
                     candidates = candidates.filter(d => d.tecnica_cocina === "tecnica_guiso");
                 }
 
-                // La colocación de guisos ya queda determinada por GUISO_DAYS;
-                // no usamos un mínimo global como heurística de generación.
+                // Si el primer plato ya combina una crema con un plato de cuchara
+                // contundente (como Rancho), el tercer primero debe buscar un hidrato
+                // más apropiado. Priorizamos arroz y, si no existe, pasta/pasta rellena.
+                if (spec.cat === "Primero" && spec.allowedParents?.includes("Tenedor")) {
+                    const hasCream = chosenFirsts.some(d => d?.subtipo_primero === "cremas");
+                    const hasHeavySpoon = chosenFirsts.some(d => ["guisos", "legumbres"].includes(d?.subtipo_primero));
+                    if (hasCream && hasHeavySpoon) {
+                        const rice = candidates.filter(d => d.subtipo_primero === "arroces");
+                        const pasta = candidates.filter(d => ["pastas", "pastas_rellenas"].includes(d.subtipo_primero));
+                        if (rice.length) candidates = rice;
+                        else if (pasta.length) candidates = pasta;
+                    }
+                }
+
+                // En Lunes/Miércoles/Viernes el guiso no es solo una preferencia:
+                // si existe un guiso compatible, reservamos uno de los dos segundos
+                // de carne para él desde el primer hueco.
+                if (spec.cat === "Segundo" && spec.protein === "Carne" &&
+                    GUISO_DAYS.has(dayIndex) && !chosenTechniques.includes("tecnica_guiso")) {
+                    const guisoCandidates = candidates.filter(d => d.tecnica_cocina === "tecnica_guiso");
+                    if (guisoCandidates.length) candidates = guisoCandidates;
+                }
 
                 if (candidates.length) {
                     candidates.sort((a, b) =>
@@ -3277,6 +3324,7 @@
             const daySlots = [];
             const chosenAnimals = [];
             const chosenTechniques = [];
+            const chosenSecondFamilies = [];
             const chosenFirsts = [];
             const assignedPrimero = [...(prepMap[`${dayName}-Primero`] || [])];
             const assignedSegundo = [...(prepMap[`${dayName}-Segundo`] || [])];
@@ -3295,7 +3343,7 @@
                         isStructuralMatch(candidate, spec) &&
                         !usedDishIdsThisWeek.has(String(candidate.id)) &&
                         !violatesDayFirstRule(candidate, spec, menuDays, dayIndex, chosenFirsts, usedVegetableKeys, previousMenu, index) &&
-                        !violatesDaySecondRule(candidate, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques)
+                        !violatesDaySecondRule(candidate, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, chosenSecondFamilies)
                     ) {
                         lockedDish = candidate;
                     }
@@ -3314,6 +3362,7 @@
                             previousMenu,
                             chosenFirsts,
                             usedVegetableKeys,
+                            chosenSecondFamilies,
                             slotIndex: index
                         }
                     );
@@ -3325,6 +3374,10 @@
                     if (spec.cat === "Segundo" && spec.protein === "Carne") {
                         chosenAnimals.push(dish.animal_carne);
                         chosenTechniques.push(dish.tecnica_cocina);
+                    }
+                    if (spec.cat === "Segundo") {
+                        const family = getSecondPreparationFamily(dish);
+                        if (family) chosenSecondFamilies.push(family);
                     }
                     if (spec.cat === "Primero") chosenFirsts.push(dish);
                     if (spec.allowedParents?.includes("Verdura")) {
@@ -3518,6 +3571,10 @@
                 if (firsts.filter(d => LIQUID_FIRST_SUBTYPES.has(d?.subtipo_primero)).length > 1) {
                     errors.push(`${dayName}: no se pueden combinar crema de verduras y sopa/caldo en los primeros.`);
                 }
+                if (verdura?.subtipo_primero === "cremas" && ["guisos", "legumbres"].includes(cuchara?.subtipo_primero)) {
+                    const goodStarch = ["arroces", "pastas", "pastas_rellenas"].includes(tenedor?.subtipo_primero);
+                    if (!goodStarch) errors.push(`${dayName}: con crema + plato de cuchara, el 1º Tenedor debe ser un hidrato tipo arroz o pasta.`);
+                }
 
                 const vegetableKey = getPrimaryVegetableKey(verdura);
                 if (vegetableKey) {
@@ -3545,6 +3602,11 @@
                     const fishKey = String(fish.especie_pescado).toLowerCase();
                     if (fishSpecies.has(fishKey)) errors.push(`${dayName}: la especie de pescado se repite en la semana.`);
                     fishSpecies.add(fishKey);
+                }
+
+                const secondFamilies = slots.slice(3, 6).map(s => getSecondPreparationFamily(s.dish)).filter(Boolean);
+                if (new Set(secondFamilies).size !== secondFamilies.length) {
+                    errors.push(`${dayName}: no se puede repetir la misma forma de preparación en los segundos.`);
                 }
 
                 if (dayIndex > 0) {
