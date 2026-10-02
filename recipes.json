@@ -2656,52 +2656,28 @@
   {
     "id": "1790940000005",
     "nombre": "Pimientos del piquillo rellenos de bacalao",
-    "categoria": "Primero",
-    "subcategoria_primero": "Verdura",
-    "subtipo_primero": "verduras_enteras",
-    "proteina_segundo": "",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
     "animal_carne": "",
-    "especie_pescado": "",
-    "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
-    "precocinado": false,
+    "especie_pescado": "bacalao",
+    "especie_animal": "Pescado",
+    "tecnica_cocina": "tecnica_seco_asado",
+    "tecnica": "tecnica_seco_asado",
+    "precocinado": true,
     "demanda": "Media",
     "alergenos": [
-      "pescado",
       "gluten",
+      "pescado",
       "lacteo"
     ],
     "ingredientes": [
       {
-        "nombre": "Pimientos del piquillo",
-        "cantidad": 120,
+        "nombre": "Pimiento bacalao",
+        "cantidad": 200,
         "unidad": "g",
-        "categoria_proveedor": "Secos"
-      },
-      {
-        "nombre": "Bacalao",
-        "cantidad": 100,
-        "unidad": "g",
-        "categoria_proveedor": "Pescado"
-      },
-      {
-        "nombre": "Bechamel",
-        "cantidad": 80,
-        "unidad": "g",
-        "categoria_proveedor": "Lácteos"
-      },
-      {
-        "nombre": "Cebolla",
-        "cantidad": 30,
-        "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
-      },
-      {
-        "nombre": "Pimienta negra",
-        "cantidad": "",
-        "unidad": "",
-        "categoria_proveedor": "Secos"
+        "categoria_proveedor": "Congelados"
       }
     ]
   },
