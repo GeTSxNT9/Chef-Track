@@ -2015,5 +2015,31 @@
         "categoria_proveedor": "Carne"
       }
     ]
+  },
+  {
+    "id": "1790938832994",
+    "nombre": "Calamares al ajillo",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Pescado",
+    "animal_carne": "",
+    "especie_pescado": "calamares",
+    "especie_animal": "Pescado",
+    "tecnica_cocina": "tecnica_seco_asado",
+    "tecnica": "tecnica_seco_asado",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [
+      "moluscos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Calamares",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Pescado"
+      }
+    ]
   }
 ]
