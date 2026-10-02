@@ -1735,21 +1735,21 @@
         }
 
 
-        function addIngredientRow(nombre = '', cantidad = '', unidad = 'kg', categoria = 'Secos') {
+        function addIngredientRow(nombre = '', cantidad = '', unidad = 'g', categoria = 'Secos') {
             const container = document.getElementById('ingredientsContainer');
             const row = document.createElement('div');
             row.className = 'ingredient-row flex gap-2 items-center';
+            const legacyUnit = ['kg', 'L'].includes(String(unidad)) ? String(unidad) : '';
             row.dataset.originalUnidad = unidad ?? '';
             row.dataset.originalCategoria = categoria ?? '';
             row.dataset.unidadTouched = 'false';
             row.dataset.categoriaTouched = 'false';
             row.innerHTML = `
                 <input type="text" placeholder="Ingrediente..." value="${nombre}" required class="flex-[3] min-w-0 w-full p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                <input type="text" inputmode="decimal" placeholder="Cant." value="${cantidad !== '' && cantidad !== undefined ? cantidad : ''}" required class="w-16 min-w-[4rem] flex-[0_0_4rem] p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                <input type="text" inputmode="decimal" placeholder="Cant." value="${cantidad !== '' && cantidad !== undefined ? cantidad : ''}" class="w-16 min-w-[4rem] flex-[0_0_4rem] p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                 <select class="w-14 min-w-[3.5rem] flex-[0_0_3.5rem] p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                    <option value="kg" ${unidad==='kg'?'selected':''}>kg</option>
+                    ${legacyUnit ? `<option value="${legacyUnit}" selected>${legacyUnit}</option>` : ''}
                     <option value="g" ${unidad==='g'?'selected':''}>g</option>
-                    <option value="L" ${unidad==='L'?'selected':''}>L</option>
                     <option value="ml" ${unidad==='ml'?'selected':''}>ml</option>
                 </select>
                 <select class="flex-2 p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
@@ -3075,7 +3075,7 @@
             return false;
         }
 
-        function violatesDayFirstRule(dish, spec, menuDays, dayIndex, chosenFirsts = [], usedVegetableKeys = new Set(), previousMenu = null, slotIndex = 0) {
+        function violatesDayFirstRule(dish, spec, menuDays, dayIndex, chosenFirsts = [], usedVegetableKeys = new Set(), previousMenu = null, slotIndex = 0, ignorePreviousTemplate = false) {
             if (spec.cat !== "Primero") return false;
 
             // Reglas intocables: nunca dos primeros líquidos/triturados en el mismo día.
@@ -3097,7 +3097,7 @@
             if (CONSECUTIVE_FIRST_SUBTYPES.has(subtype) && previousDayHasSubtype(menuDays, dayIndex, subtype)) return true;
 
             // Anti-plantilla inter-semanal: no repetir platos/verduras en la misma estructura.
-            return violatesPreviousWeekTemplate(dish, slotIndex, previousMenu);
+            return !ignorePreviousTemplate && violatesPreviousWeekTemplate(dish, slotIndex, previousMenu);
         }
 
         function violatesDaySecondRule(dish, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, chosenSecondFamilies = []) {
@@ -3108,7 +3108,6 @@
                 const species = String(dish?.especie_pescado || "").toLowerCase();
                 if (!species) return true;
                 if (getWeeklyFishSpecies(menuDays, dayIndex).has(species)) return true;
-                return false;
             }
 
             // REGLA INTOMABLE: las dos carnes del mismo día nunca pueden compartir animal.
@@ -3247,7 +3246,21 @@
                 // de carne para él desde el primer hueco.
                 if (spec.cat === "Segundo" && spec.protein === "Carne" &&
                     GUISO_DAYS.has(dayIndex) && !chosenTechniques.includes("tecnica_guiso")) {
-                    const guisoCandidates = candidates.filter(d => d.tecnica_cocina === "tecnica_guiso");
+                    let guisoCandidates = candidates.filter(d => d.tecnica_cocina === "tecnica_guiso");
+
+                    // El guiso de L/M/V es una obligación, no una preferencia.
+                    // Si el anti-patrón semanal ha descartado todos los guisos,
+                    // recuperamos candidatos compatibles ignorando únicamente esa
+                    // preferencia inter-semanal; las demás reglas siguen siendo duras.
+                    if (!guisoCandidates.length) {
+                        guisoCandidates = getUniqueNormalizedDishes()
+                            .filter(d => isStructuralMatch(d, spec))
+                            .filter(d => !usedDishIdsThisWeek.has(String(d.id)))
+                            .filter(d => d.tecnica_cocina === "tecnica_guiso")
+                            .filter(d => !violatesDayFirstRule(d, spec, menuDays, dayIndex, chosenFirsts, usedVegetableKeys, previousMenu, slotIndex, true))
+                            .filter(d => !violatesDaySecondRule(d, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, chosenSecondFamilies));
+                    }
+
                     if (guisoCandidates.length) candidates = guisoCandidates;
                 }
 
