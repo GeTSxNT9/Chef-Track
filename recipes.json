@@ -4509,16 +4509,40 @@
     "alergenos": [],
     "ingredientes": [
       {
-        "nombre": "Ternera en tacos",
-        "cantidad": 200,
-        "unidad": "g",
-        "categoria_proveedor": "Carne"
-      },
-      {
         "nombre": "Zanahoria",
         "cantidad": 50,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Pimiento rojo",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Cebolla",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Guisantes",
+        "cantidad": 40,
+        "unidad": "g",
+        "categoria_proveedor": "Congelados"
+      },
+      {
+        "nombre": "Vino blanco",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Laurel",
+        "cantidad": "",
+        "unidad": "",
+        "categoria_proveedor": "Secos"
       }
     ]
   }
