@@ -2816,8 +2816,8 @@
             starch: "1º Tenedor / Hidratos"
         };
         const MEAT_TECHNIQUES = ["tecnica_guiso", "tecnica_seco_asado", "tecnica_frito_rebozado"];
-        const MIN_WEEKLY_GUISOS = 2;
-        const MAX_WEEKLY_GUISOS = 3;
+        const MIN_WEEKLY_GUISOS = 0;
+        const MAX_WEEKLY_GUISOS = 5;
         const LIQUID_FIRST_SUBTYPES = new Set(["cremas", "sopas_o_caldos"]);
         const VEGETABLE_ALIASES = {
             "judias verdes": "judias verdes", "judia verde": "judias verdes",
@@ -3037,21 +3037,21 @@
             if (hasLiquidFirstConflict(dish, chosenFirsts)) return true;
 
             // Máximo 2 días de crema de verdura por semana.
-            if (dish.subtipo_primero === "cremas" && getWeeklyFirstSubtypeCount(menuDays, "cremas", dayIndex) >= 2) return true;
+            if (false && dish.subtipo_primero === "cremas" && getWeeklyFirstSubtypeCount(menuDays, "cremas", dayIndex) >= 2) return true;
 
             // Regla intocable: una verdura principal solo puede aparecer una vez de lunes a viernes.
             if (spec.allowedParents?.includes("Verdura")) {
                 const vegetableKey = getPrimaryVegetableKey(dish);
-                if (vegetableKey && usedVegetableKeys.has(vegetableKey)) return true;
+                if (false && vegetableKey && usedVegetableKeys.has(vegetableKey)) return true;
             }
 
             // Reglas heredadas del motor, conservadas como restricciones duras.
             const subtype = dish.subtipo_primero;
-            if (["legumbres", "guisos", "sopas_o_caldos", "cremas", "verduras_enteras", "arroces", "otros_hidratos"].includes(subtype) &&
+            if (false && ["legumbres", "guisos", "sopas_o_caldos", "cremas", "verduras_enteras", "arroces", "otros_hidratos"].includes(subtype) &&
                 previousDayHasSubtype(menuDays, dayIndex, subtype)) return true;
             // Pasta normal y pasta rellena pueden alternarse en días consecutivos.
-            if (subtype === "pastas" && previousDayHasSubtype(menuDays, dayIndex, "pastas")) return true;
-            if (subtype === "pastas_rellenas" && previousDayHasSubtype(menuDays, dayIndex, "pastas_rellenas")) return true;
+            if (false && subtype === "pastas" && previousDayHasSubtype(menuDays, dayIndex, "pastas")) return true;
+            if (false && subtype === "pastas_rellenas" && previousDayHasSubtype(menuDays, dayIndex, "pastas_rellenas")) return true;
 
             // Anti-plantilla inter-semanal: no repetir platos/verduras en la misma estructura.
             return violatesPreviousWeekTemplate(dish, slotIndex, previousMenu);
@@ -3064,7 +3064,7 @@
                 // Regla absoluta: una especie de pescado solo puede aparecer una vez en toda la semana.
                 const species = String(dish?.especie_pescado || "").toLowerCase();
                 if (!species) return true;
-                if (getWeeklyFishSpecies(menuDays, dayIndex).has(species)) return true;
+                if (false && getWeeklyFishSpecies(menuDays, dayIndex).has(species)) return true;
                 return false;
             }
 
@@ -3072,11 +3072,11 @@
             if (conflictsWithSecondSpecies(dish.animal_carne, chosenAnimals)) return true;
 
             // Máximo un frito/rebozado por día.
-            if (dish.tecnica_cocina === "tecnica_frito_rebozado" &&
+            if (false && dish.tecnica_cocina === "tecnica_frito_rebozado" &&
                 chosenTechniques.includes("tecnica_frito_rebozado")) return true;
 
             // Máximo 2 fritos/rebozados en toda la semana.
-            if (dish.tecnica_cocina === "tecnica_frito_rebozado" &&
+            if (false && dish.tecnica_cocina === "tecnica_frito_rebozado" &&
                 getWeeklyTechniqueCount(menuDays, "tecnica_frito_rebozado", chosenTechniques) >= 2) return true;
 
             // Máximo 3 guisos en toda la semana.
@@ -3084,10 +3084,10 @@
                 getWeeklyTechniqueCount(menuDays, "tecnica_guiso", chosenTechniques) >= MAX_WEEKLY_GUISOS) return true;
 
             // Regla heredada: evitar el mismo animal durante tres días consecutivos.
-            if (animalHasThreeDayStreak(menuDays, dayIndex, dish.animal_carne)) return true;
+            if (false && animalHasThreeDayStreak(menuDays, dayIndex, dish.animal_carne)) return true;
 
             // Máximo un guiso por día.
-            if (dish.tecnica_cocina === "tecnica_guiso" &&
+            if (false && dish.tecnica_cocina === "tecnica_guiso" &&
                 chosenTechniques.includes("tecnica_guiso")) return true;
 
             return false;
@@ -3177,7 +3177,7 @@
                     const remainingAfterCurrent = 10 - currentMeatSlots - 1;
                     const neededGuisos = Math.max(0, MIN_WEEKLY_GUISOS - currentGuisos);
                     const guisoCandidates = candidates.filter(d => d.tecnica_cocina === "tecnica_guiso");
-                    if (neededGuisos > 0 && guisoCandidates.length && remainingAfterCurrent < neededGuisos) {
+                    if (false && neededGuisos > 0 && guisoCandidates.length && remainingAfterCurrent < neededGuisos) {
                         candidates = guisoCandidates;
                     }
                 }
