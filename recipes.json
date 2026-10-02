@@ -2389,19 +2389,13 @@
       {
         "nombre": "Ajo",
         "cantidad": 0,
-        "unidad": "",
+        "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
-      },
-      {
-        "nombre": "Caldo de carne",
-        "cantidad": 0,
-        "unidad": "",
-        "categoria_proveedor": "Secos"
       },
       {
         "nombre": "Vino blanco",
         "cantidad": 0,
-        "unidad": "",
+        "unidad": "ml",
         "categoria_proveedor": "Secos"
       }
     ]
