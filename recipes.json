@@ -2811,14 +2811,14 @@
       },
       {
         "nombre": "Vino tinto",
-        "cantidad": "",
-        "unidad": "",
+        "cantidad": 0,
+        "unidad": "ml",
         "categoria_proveedor": "Secos"
       },
       {
         "nombre": "Pimentón dulce",
-        "cantidad": "",
-        "unidad": "",
+        "cantidad": 0,
+        "unidad": "g",
         "categoria_proveedor": "Secos"
       }
     ]
