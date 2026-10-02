@@ -3559,34 +3559,22 @@
     "proteina_segundo": "Pescado",
     "animal_carne": "",
     "especie_pescado": "merluza",
-    "especie_animal": "",
+    "especie_animal": "Pescado",
     "tecnica_cocina": "tecnica_frito_rebozado",
     "tecnica": "tecnica_frito_rebozado",
-    "precocinado": false,
-    "demanda": "Media",
+    "precocinado": true,
+    "demanda": "Alta",
     "alergenos": [
-      "pescado",
       "gluten",
-      "huevos"
+      "huevos",
+      "pescado"
     ],
     "ingredientes": [
       {
-        "nombre": "Merluza",
-        "cantidad": 200,
+        "nombre": "Merluza rebozada",
+        "cantidad": 250,
         "unidad": "g",
-        "categoria_proveedor": "Pescado"
-      },
-      {
-        "nombre": "Harina",
-        "cantidad": 30,
-        "unidad": "g",
-        "categoria_proveedor": "Secos"
-      },
-      {
-        "nombre": "Huevo",
-        "cantidad": 50,
-        "unidad": "g",
-        "categoria_proveedor": "Lácteos"
+        "categoria_proveedor": "Congelados"
       }
     ]
   },
