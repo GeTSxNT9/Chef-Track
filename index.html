@@ -1080,6 +1080,11 @@
             return DEMAND_PORTION_FACTOR[demand] ?? DEMAND_PORTION_FACTOR.Media;
         }
 
+        // Factor global de ajuste de compra: permite calibrar las cantidades
+        // calculadas con la experiencia real de compra sin modificar las recetas.
+        // Se aplica solo a ingredientes con cantidad calculable.
+        const PURCHASE_ADJUSTMENT_FACTOR = 0.80;
+
         const defaultSettings = { comensales: 100, margenActivo: false, darkMode: false };
         const proveedorCategorias = ["Carne", "Pescado", "Lácteos", "Verduras y frutas", "Secos", "Congelados"];
         const daysList = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
@@ -1180,19 +1185,21 @@
                 }
             }
             if (dish.categoria === "Segundo" && dish.proteina_segundo === "Carne") {
-                if (!dish.animal_carne) {
-                    const oldAnimal = String(dish.especie_animal || "").toLowerCase();
-                    const animalMap = {pollo:"carne_pollo", pavo:"carne_pavo", cerdo:"carne_cerdo", ternera:"carne_ternera", conejo:"carne_conejo", cordero:"carne_cordero"};
-                    dish.animal_carne = animalMap[oldAnimal] || "";
-                }
-                if (!dish.tecnica_cocina && dish.tecnica) {
-                    dish.tecnica_cocina = normalizeTechnique(dish.tecnica);
-                }
+                const animalMap = {
+                    pollo: "carne_pollo", pavo: "carne_pavo", cerdo: "carne_cerdo",
+                    ternera: "carne_ternera", conejo: "carne_conejo", cordero: "carne_cordero"
+                };
+                const currentAnimal = String(dish.animal_carne || "").trim().toLowerCase();
+                const oldAnimal = String(dish.especie_animal || "").trim().toLowerCase();
+                if (animalMap[currentAnimal]) dish.animal_carne = animalMap[currentAnimal];
+                else if (!dish.animal_carne) dish.animal_carne = animalMap[oldAnimal] || "";
+
+                // Acepta tanto los identificadores técnicos como las etiquetas visibles
+                // que pueden venir de JSON importados.
+                dish.tecnica_cocina = normalizeTechnique(dish.tecnica_cocina || dish.tecnica);
             }
             if (dish.categoria === "Segundo" && dish.proteina_segundo === "Pescado") {
-                if (!dish.especie_pescado && dish.especie_animal && dish.especie_animal !== "Pescado") {
-                    dish.especie_pescado = normalizeFishSpecies(dish.especie_animal);
-                }
+                dish.especie_pescado = normalizeFishSpecies(dish.especie_pescado || dish.especie_animal);
             }
             if (!dish.tecnica && dish.tecnica_cocina) dish.tecnica = dish.tecnica_cocina;
             if (!dish.especie_animal && dish.animal_carne) dish.especie_animal = dish.animal_carne;
@@ -2802,13 +2809,15 @@
         // --- 6. MOTOR DE GENERACIÓN Y EXPORTACIÓN LIMPIA ---
         // --- 6. MOTOR DE MENÚ: REGLAS PROFESIONALES + FALLBACK DETERMINISTA ---
 
-        const ENGINE_VERSION = "menu-rules-v5-professional";
+        const ENGINE_VERSION = "menu-rules-v6-balanced-and-shopping";
         const FIRST_SLOT_LABELS = {
             vegetable: "1º Verdura",
             spoon: "1º Cuchara",
             starch: "1º Tenedor / Hidratos"
         };
         const MEAT_TECHNIQUES = ["tecnica_guiso", "tecnica_seco_asado", "tecnica_frito_rebozado"];
+        const MIN_WEEKLY_GUISOS = 2;
+        const MAX_WEEKLY_GUISOS = 3;
         const LIQUID_FIRST_SUBTYPES = new Set(["cremas", "sopas_o_caldos"]);
         const VEGETABLE_ALIASES = {
             "judias verdes": "judias verdes", "judia verde": "judias verdes",
@@ -2903,12 +2912,39 @@
 
         function getPrimaryVegetableKey(dish) {
             if (!dish || dish.categoria !== "Primero" || dish.subcategoria_primero !== "Verdura") return "";
+
+            const dishName = normalizeFoodKey(dish.nombre);
+            const vegetableNames = Object.keys(VEGETABLE_ALIASES)
+                .map(normalizeFoodKey)
+                .filter(Boolean)
+                .sort((a, b) => b.length - a.length);
+
+            // Primero intentamos identificar la verdura principal por el propio nombre
+            // del plato. Esto evita que ingredientes auxiliares como cebolla o puerro
+            // bloqueen todas las cremas/verduras que los utilizan como base.
+            const nameMatch = vegetableNames.find(name => {
+                const re = new RegExp(`(^|\\s)${name.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&")}(?=\\s|$)`, "i");
+                return re.test(dishName);
+            });
+            if (nameMatch) return canonicalVegetable(nameMatch);
+
             const ingredients = Array.isArray(dish.ingredientes) ? dish.ingredientes : [];
-            const vegetableIngredient = ingredients.find(ing =>
-                String(ing?.categoria_proveedor || "").toLowerCase().includes("verduras") ||
-                String(ing?.categoria_proveedor || "").toLowerCase().includes("frutas")
-            );
-            if (vegetableIngredient?.nombre) return canonicalVegetable(vegetableIngredient.nombre);
+            const vegetableIngredients = ingredients.filter(ing => {
+                const category = String(ing?.categoria_proveedor || "").toLowerCase();
+                return category.includes("verduras") || category.includes("frutas");
+            });
+
+            // Si el nombre no identifica una verdura concreta, usamos el ingrediente
+            // vegetal con mayor cantidad conocida, no simplemente el primero de la lista.
+            vegetableIngredients.sort((a, b) => {
+                const qa = Number(String(a?.cantidad ?? "").replace(",", "."));
+                const qb = Number(String(b?.cantidad ?? "").replace(",", "."));
+                return (Number.isFinite(qb) ? qb : -1) - (Number.isFinite(qa) ? qa : -1);
+            });
+            if (vegetableIngredients[0]?.nombre) {
+                return canonicalVegetable(vegetableIngredients[0].nombre);
+            }
+
             return canonicalVegetable(String(dish.nombre || "").split(/[,/()-]/)[0]);
         }
 
@@ -3045,7 +3081,7 @@
 
             // Máximo 3 guisos en toda la semana.
             if (dish.tecnica_cocina === "tecnica_guiso" &&
-                getWeeklyTechniqueCount(menuDays, "tecnica_guiso", chosenTechniques) >= 3) return true;
+                getWeeklyTechniqueCount(menuDays, "tecnica_guiso", chosenTechniques) >= MAX_WEEKLY_GUISOS) return true;
 
             // Regla heredada: evitar el mismo animal durante tres días consecutivos.
             if (animalHasThreeDayStreak(menuDays, dayIndex, dish.animal_carne)) return true;
@@ -3074,15 +3110,23 @@
             });
         }
 
-        function candidateScore(dish, spec, dayIndex, previousMenu = null, slotIndex = 0) {
+        function candidateScore(dish, spec, dayIndex, previousMenu = null, slotIndex = 0, menuDays = {}, chosenTechniques = []) {
             let score = getDemandWeight(dish.demanda) * 10;
             if (usesFreshStock(dish)) score += dayIndex < 2 ? 3 : 0;
             if (spec.cat === "Segundo" && spec.protein === "Pescado" && dayIndex === 0) score += 1;
 
-            // Favorece la alternancia de técnicas sin convertirla en una regla frágil.
             if (spec.cat === "Segundo" && spec.protein === "Carne") {
-                if (dish.tecnica_cocina === "tecnica_seco_asado") score += 2;
-                if (dish.tecnica_cocina === "tecnica_guiso") score += 1;
+                const currentGuisos = getWeeklyTechniqueCount(menuDays, "tecnica_guiso", chosenTechniques);
+                // Mientras no se hayan asegurado los 2 guisos semanales, los
+                // priorizamos claramente. Una vez cumplido el mínimo, volvemos
+                // a una selección equilibrada y nunca superamos el máximo.
+                if (dish.tecnica_cocina === "tecnica_guiso") {
+                    score += currentGuisos < MIN_WEEKLY_GUISOS ? 25 : 2;
+                } else if (currentGuisos < MIN_WEEKLY_GUISOS) {
+                    score -= 12;
+                } else if (dish.tecnica_cocina === "tecnica_seco_asado") {
+                    score += 1;
+                }
             }
 
             // Penaliza coincidencias con la semana anterior para reforzar el cambio de estructura.
@@ -3116,16 +3160,32 @@
             // El fallback es estricto: ninguna regla de negocio se relaja. Los niveles se conservan
             // solo por compatibilidad con el formato existente de los slots y para evitar bucles infinitos.
             {
-                const candidates = getUniqueNormalizedDishes()
+                let candidates = getUniqueNormalizedDishes()
                     .filter(d => isStructuralMatch(d, spec))
                     .filter(d => !usedDishIdsThisWeek.has(String(d.id)))
                     .filter(d => !violatesDayFirstRule(d, spec, menuDays, dayIndex, chosenFirsts, usedVegetableKeys, previousMenu, slotIndex))
                     .filter(d => !violatesDaySecondRule(d, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques));
 
+                // Si todavía no se ha alcanzado el mínimo semanal de guisos,
+                // intentamos reservar este hueco para un guiso cuando exista una
+                // alternativa compatible. Esto evita que el ranking termine
+                // seleccionando las 10 carnes como asadas/brasa.
+                if (spec.cat === "Segundo" && spec.protein === "Carne") {
+                    const currentGuisos = getWeeklyTechniqueCount(menuDays, "tecnica_guiso", chosenTechniques);
+                    const currentMeatSlots = daysList.reduce((total, dayName) =>
+                        total + (menuDays?.[dayName] || []).filter(s => s.cat === "Segundo" && s.dish?.proteina_segundo === "Carne").length, 0) + chosenTechniques.length;
+                    const remainingAfterCurrent = 10 - currentMeatSlots - 1;
+                    const neededGuisos = Math.max(0, MIN_WEEKLY_GUISOS - currentGuisos);
+                    const guisoCandidates = candidates.filter(d => d.tecnica_cocina === "tecnica_guiso");
+                    if (neededGuisos > 0 && guisoCandidates.length && remainingAfterCurrent < neededGuisos) {
+                        candidates = guisoCandidates;
+                    }
+                }
+
                 if (candidates.length) {
                     candidates.sort((a, b) =>
-                        candidateScore(b, spec, dayIndex, previousMenu, slotIndex) -
-                        candidateScore(a, spec, dayIndex, previousMenu, slotIndex)
+                        candidateScore(b, spec, dayIndex, previousMenu, slotIndex, menuDays, chosenTechniques) -
+                        candidateScore(a, spec, dayIndex, previousMenu, slotIndex, menuDays, chosenTechniques)
                     );
                     return {
                         dish: candidates[0],
@@ -3492,7 +3552,8 @@
             if (weeklyFritos > 2) errors.push(`Semana: hay ${weeklyFritos} fritos/rebozados; el máximo es 2.`);
             const weeklyCreams = getWeeklyFirstSubtypeCount(menu.days, "cremas");
             if (weeklyCreams > 2) errors.push(`Semana: hay ${weeklyCreams} días de crema; el máximo es 2.`);
-            if (weeklyGuisos > 3) errors.push(`Semana: hay ${weeklyGuisos} guisos; el máximo es 3.`);
+            if (weeklyGuisos < MIN_WEEKLY_GUISOS) errors.push(`Semana: hay ${weeklyGuisos} guisos; el mínimo es ${MIN_WEEKLY_GUISOS}.`);
+            if (weeklyGuisos > MAX_WEEKLY_GUISOS) errors.push(`Semana: hay ${weeklyGuisos} guisos; el máximo es ${MAX_WEEKLY_GUISOS}.`);
 
             if (previousWeekMenu?.days && menu?.generatedAt) {
                 const previousSerialized = JSON.stringify(daysList.map(day => (previousWeekMenu.days[day] || []).map(slot => slot?.dish?.id || "none")));
@@ -3659,29 +3720,67 @@
                 slots.forEach(slot => {
                     if (slot.isPreparedStock) return;
                     (slot.dish?.ingredientes || []).forEach(ing => {
-                        const unit = String(ing.unidad || 'kg').toLowerCase();
-                        const rawQty = Number(ing.cantidad) || 0;
-                        const demandFactor = getDemandPortionFactor(slot.dish?.demanda || 'Media');
-                        const estimatedDishRations = totalRacionesPorComida * demandFactor;
-                        const totalForMeal = rawQty * estimatedDishRations;
+                        const rawName = String(ing?.nombre || '').trim();
+                        if (!rawName) return;
+
+                        const unit = String(ing?.unidad || '').trim().toLowerCase();
+                        const rawQuantityText = String(ing?.cantidad ?? '').trim().replace(',', '.');
+                        const rawQty = Number(rawQuantityText);
                         const isWeight = ['kg', 'g'].includes(unit);
                         const isVolume = ['l', 'ml'].includes(unit);
-                        if (!isWeight && !isVolume) return;
+                        const hasCalculableQuantity = rawQuantityText !== '' && Number.isFinite(rawQty) && rawQty > 0 && (isWeight || isVolume);
+                        const category = proveedorCategorias.includes(ing?.categoria_proveedor) ? ing.categoria_proveedor : 'Secos';
+                        const key = normalizeFoodKey(rawName);
+                        if (!key) return;
+
+                        if (!aggregated[key]) {
+                            aggregated[key] = {
+                                nombre: rawName,
+                                totalBaseQty: 0,
+                                cat: category,
+                                baseUnit: isWeight ? 'kg' : (isVolume ? 'L' : ''),
+                                needsManualPurchase: false
+                            };
+                        }
+
+                        // Una cantidad vacía NO significa que el ingrediente deba desaparecer
+                        // de la lista: debe aparecer como "Por comprar" para recordar la compra.
+                        if (!hasCalculableQuantity) {
+                            aggregated[key].needsManualPurchase = true;
+                            if (!aggregated[key].baseUnit) aggregated[key].baseUnit = '';
+                            return;
+                        }
+
+                        const demandFactor = getDemandPortionFactor(slot.dish?.demanda || 'Media');
+                        const estimatedDishRations = totalRacionesPorComida * demandFactor;
+                        const totalForMeal = rawQty * estimatedDishRations * PURCHASE_ADJUSTMENT_FACTOR;
                         const baseQty = totalForMeal * ((unit === 'kg' || unit === 'l') ? 1000 : 1);
-                        const category = proveedorCategorias.includes(ing.categoria_proveedor) ? ing.categoria_proveedor : 'Secos';
-                        const stockUsed = deductFromStockLedger(stockLedger, ing.nombre, baseQty, unit, category);
+                        const stockUsed = deductFromStockLedger(stockLedger, rawName, baseQty, unit, category);
                         const netQty = Math.max(0, baseQty - stockUsed);
-                        const key = normalizeFoodKey(ing.nombre);
-                        if (!aggregated[key]) aggregated[key] = { nombre: ing.nombre, totalBaseQty: 0, cat: category, baseUnit: isWeight ? 'kg' : 'L' };
                         aggregated[key].totalBaseQty += netQty;
+                        aggregated[key].baseUnit = isWeight ? 'kg' : 'L';
                     });
                 });
             });
+
             const groupedByCategory = {};
             proveedorCategorias.forEach(cat => groupedByCategory[cat] = []);
             Object.values(aggregated).forEach(item => {
-                if (item.totalBaseQty <= 0) return;
-                groupedByCategory[item.cat].push({ nombre: item.nombre, cantidad: Math.ceil(item.totalBaseQty / 1000), unidad: item.baseUnit });
+                if (item.totalBaseQty <= 0 && !item.needsManualPurchase) return;
+                let cantidad = '';
+                let unidad = '';
+                if (item.totalBaseQty > 0) {
+                    cantidad = Math.ceil(item.totalBaseQty / 1000);
+                    unidad = item.baseUnit;
+                    if (item.needsManualPurchase) unidad = `${unidad} + revisar`;
+                } else {
+                    cantidad = 'Por comprar';
+                }
+                groupedByCategory[item.cat].push({
+                    nombre: item.nombre,
+                    cantidad,
+                    unidad
+                });
             });
             return { totalRacionesPorComida, groupedByCategory };
         }
