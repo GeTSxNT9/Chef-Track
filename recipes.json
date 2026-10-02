@@ -1967,5 +1967,29 @@
         "categoria_proveedor": "Congelados"
       }
     ]
+  },
+  {
+    "id": "1790921314185",
+    "nombre": "Pincho Moruno",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "carne_cerdo",
+    "especie_pescado": "",
+    "especie_animal": "carne_cerdo",
+    "tecnica_cocina": "tecnica_seco_asado",
+    "tecnica": "tecnica_seco_asado",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Pincho Moruno",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      }
+    ]
   }
 ]
