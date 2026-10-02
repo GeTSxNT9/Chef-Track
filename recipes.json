@@ -3835,22 +3835,22 @@
     "proteina_segundo": "Pescado",
     "animal_carne": "",
     "especie_pescado": "merluza",
-    "especie_animal": "",
+    "especie_animal": "Pescado",
     "tecnica_cocina": "tecnica_guiso",
     "tecnica": "tecnica_guiso",
-    "precocinado": false,
+    "precocinado": true,
     "demanda": "Media",
     "alergenos": [
-      "pescado",
       "gluten",
-      "huevos"
+      "huevos",
+      "pescado"
     ],
     "ingredientes": [
       {
-        "nombre": "Merluza",
+        "nombre": "Albóndigas de merluza",
         "cantidad": 150,
         "unidad": "g",
-        "categoria_proveedor": "Pescado"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Pan rallado",
@@ -3866,20 +3866,14 @@
       },
       {
         "nombre": "Ajo",
-        "cantidad": "",
-        "unidad": "",
+        "cantidad": 0,
+        "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
       },
       {
         "nombre": "Perejil",
-        "cantidad": "",
-        "unidad": "",
-        "categoria_proveedor": "Secos"
-      },
-      {
-        "nombre": "Caldo de pescado",
-        "cantidad": "",
-        "unidad": "",
+        "cantidad": 0,
+        "unidad": "g",
         "categoria_proveedor": "Secos"
       },
       {
