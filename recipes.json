@@ -2055,7 +2055,7 @@
     "tecnica_cocina": "tecnica_guiso",
     "tecnica": "tecnica_guiso",
     "precocinado": false,
-    "demanda": "Media",
+    "demanda": "Alta",
     "alergenos": [
       "gluten",
       "frutos_cascara",
