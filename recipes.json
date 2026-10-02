@@ -3109,8 +3109,8 @@
     "especie_animal": "carne_cerdo",
     "tecnica_cocina": "tecnica_frito_rebozado",
     "tecnica": "tecnica_frito_rebozado",
-    "precocinado": false,
-    "demanda": "Media",
+    "precocinado": true,
+    "demanda": "Alta",
     "alergenos": [
       "gluten",
       "huevos",
@@ -3118,28 +3118,10 @@
     ],
     "ingredientes": [
       {
-        "nombre": "Jamón cocido",
-        "cantidad": 80,
+        "nombre": "San Jacobo",
+        "cantidad": 250,
         "unidad": "g",
-        "categoria_proveedor": "Carne"
-      },
-      {
-        "nombre": "Queso",
-        "cantidad": 50,
-        "unidad": "g",
-        "categoria_proveedor": "Lácteos"
-      },
-      {
-        "nombre": "Huevo",
-        "cantidad": 50,
-        "unidad": "g",
-        "categoria_proveedor": "Lácteos"
-      },
-      {
-        "nombre": "Pan rallado",
-        "cantidad": 40,
-        "unidad": "g",
-        "categoria_proveedor": "Secos"
+        "categoria_proveedor": "Congelados"
       }
     ]
   },
