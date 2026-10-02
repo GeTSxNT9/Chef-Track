@@ -4599,5 +4599,35 @@
         "categoria_proveedor": "Lácteos"
       }
     ]
+  },
+  {
+    "id": "1790957918433",
+    "nombre": "Guiso de ternera con verduras",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "carne_ternera",
+    "especie_pescado": "",
+    "especie_animal": "carne_ternera",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": [
+      {
+        "nombre": "Ternera en tacos",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Carne"
+      },
+      {
+        "nombre": "Zanahoria",
+        "cantidad": 50,
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      }
+    ]
   }
 ]
