@@ -2176,7 +2176,7 @@
     "especie_animal": "carne_pollo",
     "tecnica_cocina": "tecnica_seco_asado",
     "tecnica": "tecnica_seco_asado",
-    "precocinado": false,
+    "precocinado": true,
     "demanda": "Media",
     "alergenos": [],
     "ingredientes": [
