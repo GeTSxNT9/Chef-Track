@@ -391,6 +391,80 @@
             border-bottom: 1px solid var(--g-border);
         }
         #modalChangeDish #modalSearchInput { min-height: 42px; }
+
+        /* Dark mode: generator and dish-swap modal */
+        html.dark #btnSaveToHistory,
+        html.dark #btnDownloadMenuTxt {
+            background: rgba(39,39,42,.92) !important;
+            color: #f5f5f7 !important;
+            border-color: rgba(255,255,255,.09) !important;
+        }
+        html.dark .gastro-slot {
+            background: rgba(39,39,42,.88) !important;
+            border-color: rgba(255,255,255,.09) !important;
+            color: var(--g-text) !important;
+        }
+        html.dark .gastro-slot:hover {
+            background: rgba(52,52,55,.94) !important;
+            box-shadow: 0 5px 18px rgba(0,0,0,.20);
+        }
+        html.dark .gastro-slot-action {
+            background: rgba(245,245,247,.96) !important;
+            border-color: rgba(255,255,255,.12) !important;
+            color: #334155 !important;
+        }
+
+        html.dark #modalChangeDish {
+            background: rgba(0,0,0,.56) !important;
+        }
+        html.dark #modalChangeDish > div {
+            background: rgba(28,28,30,.98) !important;
+            border-color: rgba(255,255,255,.10) !important;
+            color: #f5f5f7 !important;
+        }
+        html.dark #modalChangeDish > div > div:first-child {
+            background: rgba(28,28,30,.98) !important;
+            color: #f5f5f7 !important;
+            border-bottom-color: rgba(255,255,255,.09) !important;
+        }
+        html.dark #modalChangeDish .modal-close-btn {
+            color: #f5f5f7 !important;
+            background: rgba(255,255,255,.08) !important;
+        }
+        html.dark #modalChangeDish .modal-close-btn:hover {
+            background: rgba(255,255,255,.15) !important;
+        }
+        html.dark #modalChangeDish #modalSwapSubtitle {
+            color: #a9cfff !important;
+        }
+        html.dark #modalChangeDish > div > div:nth-child(2) {
+            background: rgba(39,39,42,.92) !important;
+            border-bottom-color: rgba(255,255,255,.08) !important;
+        }
+        html.dark #modalChangeDish #modalSearchInput {
+            background: rgba(39,39,42,.98) !important;
+            color: #f5f5f7 !important;
+            border-color: rgba(255,255,255,.10) !important;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,.03) !important;
+        }
+        html.dark #modalChangeDish #modalSearchInput::placeholder {
+            color: #a1a1aa !important;
+        }
+        html.dark #modalChangeDish #modalDishList {
+            background: rgba(18,18,20,.98) !important;
+        }
+        html.dark #modalChangeDish #modalDishList > div {
+            background: rgba(39,39,42,.96) !important;
+            border-color: rgba(255,255,255,.10) !important;
+            color: #f5f5f7 !important;
+        }
+        html.dark #modalChangeDish #modalDishList > div:hover {
+            background: rgba(52,52,55,.98) !important;
+        }
+        html.dark #modalChangeDish #modalDishList h4 {
+            color: #f5f5f7 !important;
+        }
+
         @keyframes gastroModalIn {
             from { opacity: 0; transform: translateY(8px) scale(.985); }
             to { opacity: 1; transform: translateY(0) scale(1); }
@@ -566,19 +640,18 @@
                     <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Especie</label>
                     <select id="dishFishSpecies" class="w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                         <option value="">Seleccionar...</option>
-                        <option value="merluza">Merluza</option>
-                        <option value="salmon">Salmón</option>
+                        <option value="trucha">Trucha</option>
+                        <option value="caella">Caella</option>
                         <option value="bacalao">Bacalao</option>
-                        <option value="dorada">Dorada</option>
-                        <option value="lubina">Lubina</option>
-                        <option value="atun">Atún</option>
+                        <option value="merluza">Merluza</option>
                         <option value="calamares">Calamares</option>
-                        <option value="sepia">Sepia</option>
-                        <option value="sardina">Sardina</option>
-                        <option value="caballa">Caballa</option>
-                        <option value="otro">Otro (especificar)</option>
+                        <option value="bacaladilla">Bacaladilla</option>
+                        <option value="panga">Panga</option>
+                        <option value="atun">Atún</option>
+                        <option value="perca">Perca</option>
+                        <option value="chicharro">Chicharro</option>
                     </select>
-                    <input id="dishFishSpeciesCustom" type="text" placeholder="Seleccionar…" class="hidden mt-2 w-full p-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+
                 </div>
 
                 <div id="techniqueContainer" class="hidden">
@@ -999,11 +1072,11 @@
             tenedor: ["pastas", "pastas_rellenas", "arroces", "otros_hidratos"]
         };
         const MEAT_ANIMALS = ["carne_pollo", "carne_pavo", "carne_cerdo", "carne_ternera", "carne_conejo", "carne_cordero"];
-        const FISH_SPECIES = ["merluza", "salmon", "bacalao", "dorada", "lubina", "atun", "calamares", "sepia", "sardina", "caballa"];
+        const FISH_SPECIES = ["trucha", "caella", "bacalao", "merluza", "calamares", "bacaladilla", "panga", "atun", "perca", "chicharro"];
         const FISH_LABELS = {
-            merluza: "Merluza", salmon: "Salmón", bacalao: "Bacalao", dorada: "Dorada",
-            lubina: "Lubina", atun: "Atún", calamares: "Calamares", sepia: "Sepia",
-            sardina: "Sardina", caballa: "Caballa"
+            trucha: "Trucha", caella: "Caella", bacalao: "Bacalao", merluza: "Merluza",
+            calamares: "Calamares", bacaladilla: "Bacaladilla", panga: "Panga", atun: "Atún",
+            perca: "Perca", chicharro: "Chicharro"
         };
         const MEAT_LABELS = {
             carne_pollo: "Pollo", carne_pavo: "Pavo", carne_cerdo: "Cerdo",
@@ -1363,10 +1436,7 @@
             document.getElementById('speciesContainer').classList.toggle('hidden', !isCarne);
             document.getElementById('fishSpeciesContainer').classList.toggle('hidden', !isPescado);
             document.getElementById('techniqueContainer').classList.toggle('hidden', !(isSegundo && (isCarne || isPescado)));
-            if (document.getElementById('fishSpeciesCustom')) {
-                document.getElementById('fishSpeciesCustom').classList.toggle('hidden', !(isPescado && fish === "otro"));
-                document.getElementById('fishSpeciesCustom').required = isPescado && fish === "otro";
-            }
+
         }
 
         let recipeListScrollTop = null;
@@ -1516,7 +1586,7 @@
                 subcategoria_primero: [['legumbres','Legumbres'],['guisos','Guisos'],['sopas_o_caldos','Sopas o caldos'],['cremas','Cremas'],['verduras_enteras','Verduras enteras'],['pastas','Pastas'],['pastas_rellenas','Pastas rellenas'],['arroces','Arroces'],['otros_hidratos','Otros hidratos']],
                 proteina_segundo: [['Carne','Carne'],['Pescado','Pescado']],
                 animal_carne: [['carne_pollo','Pollo'],['carne_pavo','Pavo'],['carne_cerdo','Cerdo'],['carne_ternera','Ternera'],['carne_conejo','Conejo'],['carne_cordero','Cordero']],
-                especie_pescado: FISH_SPECIES.map(v => [v, FISH_LABELS[v] || v]).concat([['otro','Otra']]),
+                especie_pescado: FISH_SPECIES.map(v => [v, FISH_LABELS[v] || v]),
                 tecnica_cocina: [['tecnica_guiso','Guiso o en salsa'],['tecnica_seco_asado','Plancha, Asado o Brasa'],['tecnica_frito_rebozado','Frito, Rebozado o Empanado']],
                 demanda: [['Alta','🟢 Alta'],['Media','🟡 Media'],['Baja','🔴 Baja']],
                 precocinado: [['true','Sí'],['false','No']]
@@ -2191,11 +2261,8 @@
 
             let fishSpecies = "";
             if (isPescado) {
-                const selected = document.getElementById('dishFishSpecies').value;
-                fishSpecies = selected === "otro"
-                    ? document.getElementById('dishFishSpeciesCustom').value.trim().toLowerCase()
-                    : selected;
-                if (!fishSpecies) {
+                fishSpecies = document.getElementById('dishFishSpecies').value;
+                if (!fishSpecies || !FISH_SPECIES.includes(fishSpecies)) {
                     alert("El pescado debe tener registrada la especie exacta.");
                     return;
                 }
@@ -2287,8 +2354,7 @@
                 document.getElementById('dishSpecies').value = d.animal_carne || "";
                 const fish = d.especie_pescado || "";
                 const known = FISH_SPECIES.includes(fish);
-                document.getElementById('dishFishSpecies').value = known ? fish : (fish ? "otro" : "");
-                document.getElementById('dishFishSpeciesCustom').value = known ? "" : fish;
+                document.getElementById('dishFishSpecies').value = known ? fish : "";
                 document.getElementById('dishTechnique').value = d.tecnica_cocina || "";
             }
 
@@ -2407,7 +2473,6 @@
             document.getElementById('btnCancel').classList.add('hidden');
             document.getElementById('ingredientsContainer').innerHTML = '';
             document.getElementById('dishPrecooked').checked = false;
-            document.getElementById('dishFishSpeciesCustom').value = '';
             document.querySelectorAll('input[name="dishAllergen"]').forEach(input => { input.checked = false; });
             updateFormVisibility();
         }
@@ -2460,9 +2525,7 @@
                             <select id="mig-fish-${escapeHtml(d.id)}" class="w-full p-2 mb-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">
                                 <option value="">Seleccionar…</option>
                                 ${FISH_SPECIES.map(a => `<option value="${a}" ${d.especie_pescado===a?'selected':''}>${FISH_LABELS[a]}</option>`).join("")}
-                                <option value="otro" ${d.especie_pescado && !FISH_SPECIES.includes(d.especie_pescado) ? 'selected':''}>Otra</option>
-                            </select>
-                            <input id="mig-fish-custom-${escapeHtml(d.id)}" value="${escapeHtml(d.especie_pescado && !FISH_SPECIES.includes(d.especie_pescado) ? d.especie_pescado : '')}" placeholder="Si es otra, escribe la especie exacta" class="w-full p-2 mb-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs">` : ''}
+                            </select>` : ''}
                         <button onclick="saveMigrationTag('${escapeHtml(d.id)}')" class="w-full bg-indigo-600 text-white py-2 rounded-lg text-xs font-bold">Guardar etiqueta</button>
                     </div>`;
             }).join("");
@@ -2487,10 +2550,8 @@
                 nd.tecnica_cocina = technique;
                 nd.tecnica = technique;
             } else if (nd.proteina_segundo === "Pescado") {
-                const selected = document.getElementById(`mig-fish-${id}`)?.value || "";
-                const custom = document.getElementById(`mig-fish-custom-${id}`)?.value.trim().toLowerCase() || "";
-                const species = selected === "otro" ? custom : selected;
-                if (!species) return alert("Registra la especie exacta.");
+                const species = document.getElementById(`mig-fish-${id}`)?.value || "";
+                if (!species || !FISH_SPECIES.includes(species)) return alert("Registra la especie exacta.");
                 nd.especie_pescado = species;
                 nd.especie_animal = "Pescado";
             }
