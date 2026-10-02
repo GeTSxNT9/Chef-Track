@@ -4373,7 +4373,7 @@
     "proteina_segundo": "Pescado",
     "animal_carne": "",
     "especie_pescado": "panga",
-    "especie_animal": "",
+    "especie_animal": "Pescado",
     "tecnica_cocina": "tecnica_seco_asado",
     "tecnica": "tecnica_seco_asado",
     "precocinado": false,
@@ -4384,7 +4384,7 @@
     "ingredientes": [
       {
         "nombre": "Panga",
-        "cantidad": 200,
+        "cantidad": 250,
         "unidad": "g",
         "categoria_proveedor": "Pescado"
       },
