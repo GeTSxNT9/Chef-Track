@@ -3229,8 +3229,8 @@
     "especie_animal": "carne_pollo",
     "tecnica_cocina": "tecnica_frito_rebozado",
     "tecnica": "tecnica_frito_rebozado",
-    "precocinado": false,
-    "demanda": "Media",
+    "precocinado": true,
+    "demanda": "Alta",
     "alergenos": [
       "gluten",
       "huevos",
@@ -3239,27 +3239,9 @@
     "ingredientes": [
       {
         "nombre": "Pechuga de pollo",
-        "cantidad": 200,
+        "cantidad": 250,
         "unidad": "g",
         "categoria_proveedor": "Carne"
-      },
-      {
-        "nombre": "Bechamel",
-        "cantidad": 80,
-        "unidad": "g",
-        "categoria_proveedor": "Lácteos"
-      },
-      {
-        "nombre": "Huevo",
-        "cantidad": 50,
-        "unidad": "g",
-        "categoria_proveedor": "Lácteos"
-      },
-      {
-        "nombre": "Pan rallado",
-        "cantidad": 40,
-        "unidad": "g",
-        "categoria_proveedor": "Secos"
       }
     ]
   },
