@@ -3275,7 +3275,7 @@
     "especie_animal": "carne_pollo",
     "tecnica_cocina": "tecnica_frito_rebozado",
     "tecnica": "tecnica_frito_rebozado",
-    "precocinado": false,
+    "precocinado": true,
     "demanda": "Media",
     "alergenos": [
       "gluten",
@@ -3284,27 +3284,9 @@
     "ingredientes": [
       {
         "nombre": "Pollo",
-        "cantidad": 180,
+        "cantidad": 200,
         "unidad": "g",
-        "categoria_proveedor": "Carne"
-      },
-      {
-        "nombre": "Huevo",
-        "cantidad": 50,
-        "unidad": "g",
-        "categoria_proveedor": "Lácteos"
-      },
-      {
-        "nombre": "Pan rallado",
-        "cantidad": 50,
-        "unidad": "g",
-        "categoria_proveedor": "Secos"
-      },
-      {
-        "nombre": "Pimienta negra",
-        "cantidad": "",
-        "unidad": "",
-        "categoria_proveedor": "Secos"
+        "categoria_proveedor": "Congelados"
       }
     ]
   },
