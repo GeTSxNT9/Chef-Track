@@ -1193,13 +1193,15 @@
                 const oldAnimal = String(dish.especie_animal || "").trim().toLowerCase();
                 if (animalMap[currentAnimal]) dish.animal_carne = animalMap[currentAnimal];
                 else if (!dish.animal_carne) dish.animal_carne = animalMap[oldAnimal] || "";
-
-                // Acepta tanto los identificadores técnicos como las etiquetas visibles
-                // que pueden venir de JSON importados.
-                dish.tecnica_cocina = normalizeTechnique(dish.tecnica_cocina || dish.tecnica);
             }
             if (dish.categoria === "Segundo" && dish.proteina_segundo === "Pescado") {
                 dish.especie_pescado = normalizeFishSpecies(dish.especie_pescado || dish.especie_animal);
+            }
+            if (dish.categoria === "Segundo" && (dish.proteina_segundo === "Carne" || dish.proteina_segundo === "Pescado")) {
+                // Las recetas antiguas/importadas pueden contener etiquetas visibles;
+                // el runtime trabaja siempre con la técnica canónica.
+                dish.tecnica_cocina = normalizeTechnique(dish.tecnica_cocina || dish.tecnica);
+                if (dish.tecnica_cocina) dish.tecnica = dish.tecnica_cocina;
             }
             if (!dish.tecnica && dish.tecnica_cocina) dish.tecnica = dish.tecnica_cocina;
             if (!dish.especie_animal && dish.animal_carne) dish.especie_animal = dish.animal_carne;
@@ -1737,6 +1739,10 @@
             const container = document.getElementById('ingredientsContainer');
             const row = document.createElement('div');
             row.className = 'ingredient-row flex gap-2 items-center';
+            row.dataset.originalUnidad = unidad ?? '';
+            row.dataset.originalCategoria = categoria ?? '';
+            row.dataset.unidadTouched = 'false';
+            row.dataset.categoriaTouched = 'false';
             row.innerHTML = `
                 <input type="text" placeholder="Ingrediente..." value="${nombre}" required class="flex-[3] min-w-0 w-full p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                 <input type="text" inputmode="decimal" placeholder="Cant." value="${cantidad !== '' && cantidad !== undefined ? cantidad : ''}" required class="w-16 min-w-[4rem] flex-[0_0_4rem] p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
@@ -1751,6 +1757,9 @@
                 </select>
                 <button type="button" class="text-red-500 font-bold px-1" onclick="this.parentElement.remove()">×</button>
             `;
+            const selects = row.querySelectorAll('select');
+            selects[0].addEventListener('change', () => { row.dataset.unidadTouched = 'true'; });
+            selects[1].addEventListener('change', () => { row.dataset.categoriaTouched = 'true'; });
             container.appendChild(row);
         }
 
@@ -2330,11 +2339,19 @@
             document.querySelectorAll('.ingredient-row').forEach(row => {
                 const inputs = row.querySelectorAll('input, select');
                 if (inputs[0].value.trim()) {
+                    const rawCantidad = inputs[1].value.toString().trim().replace(',', '.');
+                    const parsedCantidad = rawCantidad === '' ? '' : (Number.isFinite(parseFloat(rawCantidad)) ? parseFloat(rawCantidad) : '');
+                    const unidad = row.dataset.unidadTouched === 'true'
+                        ? inputs[2].value
+                        : (row.dataset.originalUnidad ?? inputs[2].value);
+                    const categoriaProveedor = row.dataset.categoriaTouched === 'true'
+                        ? inputs[3].value
+                        : (row.dataset.originalCategoria ?? inputs[3].value);
                     newDish.ingredientes.push({
                         nombre: inputs[0].value.trim(),
-                        cantidad: parseFloat(inputs[1].value.toString().replace(',', '.')) || 0,
-                        unidad: inputs[2].value,
-                        categoria_proveedor: inputs[3].value
+                        cantidad: parsedCantidad,
+                        unidad,
+                        categoria_proveedor: categoriaProveedor
                     });
                 }
             });
@@ -2816,8 +2833,8 @@
             starch: "1º Tenedor / Hidratos"
         };
         const MEAT_TECHNIQUES = ["tecnica_guiso", "tecnica_seco_asado", "tecnica_frito_rebozado"];
-        const MIN_WEEKLY_GUISOS = 0;
-        const MAX_WEEKLY_GUISOS = 5;
+        const MIN_WEEKLY_GUISOS = 2;
+        const MAX_WEEKLY_GUISOS = 3;
         const LIQUID_FIRST_SUBTYPES = new Set(["cremas", "sopas_o_caldos"]);
         const VEGETABLE_ALIASES = {
             "judias verdes": "judias verdes", "judia verde": "judias verdes",
@@ -3037,21 +3054,21 @@
             if (hasLiquidFirstConflict(dish, chosenFirsts)) return true;
 
             // Máximo 2 días de crema de verdura por semana.
-            if (false && dish.subtipo_primero === "cremas" && getWeeklyFirstSubtypeCount(menuDays, "cremas", dayIndex) >= 2) return true;
+            if (dish.subtipo_primero === "cremas" && getWeeklyFirstSubtypeCount(menuDays, "cremas", dayIndex) >= 2) return true;
 
             // Regla intocable: una verdura principal solo puede aparecer una vez de lunes a viernes.
             if (spec.allowedParents?.includes("Verdura")) {
                 const vegetableKey = getPrimaryVegetableKey(dish);
-                if (false && vegetableKey && usedVegetableKeys.has(vegetableKey)) return true;
+                if (vegetableKey && usedVegetableKeys.has(vegetableKey)) return true;
             }
 
             // Reglas heredadas del motor, conservadas como restricciones duras.
             const subtype = dish.subtipo_primero;
-            if (false && ["legumbres", "guisos", "sopas_o_caldos", "cremas", "verduras_enteras", "arroces", "otros_hidratos"].includes(subtype) &&
+            if (["legumbres", "guisos", "sopas_o_caldos", "cremas", "verduras_enteras", "arroces", "otros_hidratos"].includes(subtype) &&
                 previousDayHasSubtype(menuDays, dayIndex, subtype)) return true;
             // Pasta normal y pasta rellena pueden alternarse en días consecutivos.
-            if (false && subtype === "pastas" && previousDayHasSubtype(menuDays, dayIndex, "pastas")) return true;
-            if (false && subtype === "pastas_rellenas" && previousDayHasSubtype(menuDays, dayIndex, "pastas_rellenas")) return true;
+            if (subtype === "pastas" && previousDayHasSubtype(menuDays, dayIndex, "pastas")) return true;
+            if (subtype === "pastas_rellenas" && previousDayHasSubtype(menuDays, dayIndex, "pastas_rellenas")) return true;
 
             // Anti-plantilla inter-semanal: no repetir platos/verduras en la misma estructura.
             return violatesPreviousWeekTemplate(dish, slotIndex, previousMenu);
@@ -3064,7 +3081,7 @@
                 // Regla absoluta: una especie de pescado solo puede aparecer una vez en toda la semana.
                 const species = String(dish?.especie_pescado || "").toLowerCase();
                 if (!species) return true;
-                if (false && getWeeklyFishSpecies(menuDays, dayIndex).has(species)) return true;
+                if (getWeeklyFishSpecies(menuDays, dayIndex).has(species)) return true;
                 return false;
             }
 
@@ -3072,11 +3089,11 @@
             if (conflictsWithSecondSpecies(dish.animal_carne, chosenAnimals)) return true;
 
             // Máximo un frito/rebozado por día.
-            if (false && dish.tecnica_cocina === "tecnica_frito_rebozado" &&
+            if (dish.tecnica_cocina === "tecnica_frito_rebozado" &&
                 chosenTechniques.includes("tecnica_frito_rebozado")) return true;
 
             // Máximo 2 fritos/rebozados en toda la semana.
-            if (false && dish.tecnica_cocina === "tecnica_frito_rebozado" &&
+            if (dish.tecnica_cocina === "tecnica_frito_rebozado" &&
                 getWeeklyTechniqueCount(menuDays, "tecnica_frito_rebozado", chosenTechniques) >= 2) return true;
 
             // Máximo 3 guisos en toda la semana.
@@ -3084,10 +3101,10 @@
                 getWeeklyTechniqueCount(menuDays, "tecnica_guiso", chosenTechniques) >= MAX_WEEKLY_GUISOS) return true;
 
             // Regla heredada: evitar el mismo animal durante tres días consecutivos.
-            if (false && animalHasThreeDayStreak(menuDays, dayIndex, dish.animal_carne)) return true;
+            if (animalHasThreeDayStreak(menuDays, dayIndex, dish.animal_carne)) return true;
 
             // Máximo un guiso por día.
-            if (false && dish.tecnica_cocina === "tecnica_guiso" &&
+            if (dish.tecnica_cocina === "tecnica_guiso" &&
                 chosenTechniques.includes("tecnica_guiso")) return true;
 
             return false;
@@ -3177,7 +3194,7 @@
                     const remainingAfterCurrent = 10 - currentMeatSlots - 1;
                     const neededGuisos = Math.max(0, MIN_WEEKLY_GUISOS - currentGuisos);
                     const guisoCandidates = candidates.filter(d => d.tecnica_cocina === "tecnica_guiso");
-                    if (false && neededGuisos > 0 && guisoCandidates.length && remainingAfterCurrent < neededGuisos) {
+                    if (neededGuisos > 0 && guisoCandidates.length && remainingAfterCurrent < neededGuisos) {
                         candidates = guisoCandidates;
                     }
                 }
@@ -3344,18 +3361,38 @@
             return getISOWeekKey(d);
         }
 
-        function getPreviousWeekCandidateMenu() {
-            const currentWeek = getISOWeekKey(new Date());
-            if (previousWeekMenu?.days && previousWeekMenu.weekKey === getPreviousWeekKey(currentWeek)) return previousWeekMenu;
-            const current = currentMenu?.generatedAt ? currentMenu : null;
-            if (current?.days && getISOWeekKey(new Date(current.generatedAt)) === getPreviousWeekKey(currentWeek)) {
-                return current;
-            }
-            const historyCandidate = [...(historyMenus || [])]
+        function getLatestHistoryMenu() {
+            // La referencia de variación es exclusivamente el último menú que el
+            // usuario haya guardado de forma explícita en el historial, incluso si
+            // pertenece a la semana actual. Un menú generado pero no guardado no cuenta.
+            return [...(historyMenus || [])]
                 .map(item => item?.menu)
-                .filter(menu => menu?.generatedAt && getISOWeekKey(new Date(menu.generatedAt)) === getPreviousWeekKey(currentWeek))
-                .sort((a, b) => new Date(b.generatedAt) - new Date(a.generatedAt))[0];
-            return historyCandidate || null;
+                .filter(menu => {
+                    if (!menu?.days || !menu?.generatedAt) return false;
+                    const menuDate = new Date(menu.generatedAt);
+                    return !Number.isNaN(menuDate.getTime());
+                })
+                .sort((a, b) => new Date(b.generatedAt) - new Date(a.generatedAt))[0] || null;
+        }
+
+        function getPreviousWeekHistoryMenu() {
+            const currentWeek = getISOWeekKey(new Date());
+            const previousWeek = getPreviousWeekKey(currentWeek);
+            return [...(historyMenus || [])]
+                .map(item => item?.menu)
+                .filter(menu => {
+                    if (!menu?.days || !menu?.generatedAt) return false;
+                    const menuDate = new Date(menu.generatedAt);
+                    return !Number.isNaN(menuDate.getTime()) && getISOWeekKey(menuDate) === previousWeek;
+                })
+                .sort((a, b) => new Date(b.generatedAt) - new Date(a.generatedAt))[0] || null;
+        }
+
+        function getPreviousWeekCandidateMenu() {
+            // Solo los menús guardados explícitamente en el historial pueden actuar
+            // como referencia. Los menús generados durante pruebas y aún no guardados
+            // nunca contaminan la generación siguiente.
+            return getLatestHistoryMenu();
         }
 
         function generateWeeklyMenu() {
@@ -3382,19 +3419,9 @@
                 );
             });
 
-            // A previous current-week menu is not a previous-week template.
-            // Only promote an older weekly menu to persistent memory.
-            if (currentMenu?.generatedAt) {
-                const currentDate = new Date(currentMenu.generatedAt);
-                const currentWeek = getISOWeekKey(new Date());
-                if (!Number.isNaN(currentDate.getTime()) && getISOWeekKey(currentDate) !== currentWeek) {
-                    previousWeekMenu = JSON.parse(JSON.stringify({ ...currentMenu, weekKey: getISOWeekKey(currentDate) }));
-                }
-            }
-            if (!previousWeekMenu?.days && previousForAntiTemplate?.days) {
-                previousWeekMenu = JSON.parse(JSON.stringify({ ...previousForAntiTemplate, weekKey: getISOWeekKey(new Date(previousForAntiTemplate.generatedAt)) }));
-            }
-
+            // El menú recién generado queda solo como menú de trabajo.
+            // No se convierte en referencia histórica hasta que el usuario pulse
+            // explícitamente "Guardar Historial".
             currentMenu = newMenu;
             saveAll();
             renderGeneratorView();
@@ -3424,7 +3451,7 @@
 
             const dayIndex = daysList.indexOf(dayName);
             const usedVegetableKeys = getWeeklyUsedVegetableKeys(rebuilt, dayName);
-            const previousMenu = previousWeekMenu?.days ? previousWeekMenu : null;
+            const previousMenu = getLatestHistoryMenu();
 
             currentMenu.days[dayName] = generateDayMenu(
                 dayName,
@@ -3555,11 +3582,12 @@
             if (weeklyGuisos < MIN_WEEKLY_GUISOS) errors.push(`Semana: hay ${weeklyGuisos} guisos; el mínimo es ${MIN_WEEKLY_GUISOS}.`);
             if (weeklyGuisos > MAX_WEEKLY_GUISOS) errors.push(`Semana: hay ${weeklyGuisos} guisos; el máximo es ${MAX_WEEKLY_GUISOS}.`);
 
-            if (previousWeekMenu?.days && menu?.generatedAt) {
-                const previousSerialized = JSON.stringify(daysList.map(day => (previousWeekMenu.days[day] || []).map(slot => slot?.dish?.id || "none")));
+            const previousWeekHistoryMenu = getPreviousWeekHistoryMenu();
+            if (previousWeekHistoryMenu?.days && menu?.generatedAt) {
+                const previousSerialized = JSON.stringify(daysList.map(day => (previousWeekHistoryMenu.days[day] || []).map(slot => slot?.dish?.id || "none")));
                 const currentSerialized = JSON.stringify(daysList.map(day => (menu.days[day] || []).map(slot => slot?.dish?.id || "none")));
                 if (previousSerialized === currentSerialized) errors.push('Semana: el menú completo coincide exactamente con la semana anterior.');
-                const previousSignatures = getPreviousWeekPatternSignatures(previousWeekMenu);
+                const previousSignatures = getPreviousWeekPatternSignatures(previousWeekHistoryMenu);
                 daysList.forEach(dayName => {
                     const currentSignature = dayPatternSignature(menu.days[dayName] || []);
                     if (currentSignature && previousSignatures.has(currentSignature)) {
