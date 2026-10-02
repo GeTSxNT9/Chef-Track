@@ -1032,7 +1032,7 @@
         "nombre": "Huevo",
         "cantidad": 50,
         "unidad": "g",
-        "categoria_proveedor": ""
+        "categoria_proveedor": "Lácteos"
       },
       {
         "nombre": "Jamón",
@@ -1980,7 +1980,7 @@
         "nombre": "Huevo",
         "cantidad": 30,
         "unidad": "g",
-        "categoria_proveedor": ""
+        "categoria_proveedor": "Lácteos"
       },
       {
         "nombre": "Guisantes",
@@ -3163,7 +3163,7 @@
         "nombre": "Huevo",
         "cantidad": 50,
         "unidad": "g",
-        "categoria_proveedor": ""
+        "categoria_proveedor": "Lácteos"
       },
       {
         "nombre": "Pan rallado",
@@ -3283,7 +3283,7 @@
         "nombre": "Huevo",
         "cantidad": 50,
         "unidad": "g",
-        "categoria_proveedor": ""
+        "categoria_proveedor": "Lácteos"
       },
       {
         "nombre": "Pan rallado",
@@ -3322,7 +3322,7 @@
         "nombre": "Huevo",
         "cantidad": 50,
         "unidad": "g",
-        "categoria_proveedor": ""
+        "categoria_proveedor": "Lácteos"
       },
       {
         "nombre": "Pan rallado",
@@ -3670,7 +3670,7 @@
         "nombre": "Huevo",
         "cantidad": 50,
         "unidad": "g",
-        "categoria_proveedor": ""
+        "categoria_proveedor": "Lácteos"
       }
     ]
   },
@@ -3958,7 +3958,7 @@
         "nombre": "Huevo",
         "cantidad": 50,
         "unidad": "g",
-        "categoria_proveedor": ""
+        "categoria_proveedor": "Lácteos"
       },
       {
         "nombre": "Ajo",
@@ -4022,7 +4022,7 @@
         "nombre": "Huevo",
         "cantidad": 50,
         "unidad": "g",
-        "categoria_proveedor": ""
+        "categoria_proveedor": "Lácteos"
       },
       {
         "nombre": "Tomate frito",
@@ -4596,7 +4596,7 @@
         "nombre": "Huevo",
         "cantidad": 50,
         "unidad": "g",
-        "categoria_proveedor": ""
+        "categoria_proveedor": "Lácteos"
       }
     ]
   }
