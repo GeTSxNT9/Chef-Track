@@ -1145,7 +1145,7 @@
             dish.especie_pescado = dish.especie_pescado || "";
             dish.tecnica_cocina = dish.tecnica_cocina || "";
             dish.alergenos = Array.isArray(dish.alergenos)
-                ? [...new Set(dish.alergenos.map(a => String(a).trim().toLowerCase() === "leche" ? "lacteo" : String(a).trim()).filter(a => ALLERGEN_LABELS[a]))]
+                ? [...new Set(dish.alergenos.map(a => String(a).trim()).filter(a => ALLERGEN_LABELS[a]))]
                 : [];
 
             // Migración y normalización transparente de los formatos anteriores/importados.
@@ -1658,7 +1658,7 @@
                 const apiUrl = `https://api.github.com/repos/${encodeURIComponent(github.owner)}/${encodeURIComponent(github.repo)}/contents/${github.path.split('/').map(encodeURIComponent).join('/')}`;
                 const headers = {"Accept":"application/vnd.github+json","Authorization":`Bearer ${github.token}`,"X-GitHub-Api-Version":"2022-11-28"};
                 const response = await fetch(apiUrl, {method:'GET', headers});
-                let data = {}; try { data = await response.json(); } catch (_) {}
+                let data = {}; try { data = await response.json(); } catch {}
                 if (!response.ok || typeof data.content !== 'string' || !data.sha) throw new Error(data.message || `GitHub respondió con HTTP ${response.status}.`);
                 const parsedFile = parseGitHubRecipeFile(base64ToUtf8(data.content), github.path);
                 const updates = new Map(updatedLocalDishes.map(d => [String(d.id), normalizeDishData(d)]));
@@ -1666,7 +1666,7 @@
                 if (updates.size !== updatedRecipes.filter(r => updates.has(String(r?.id ?? ''))).length) throw new Error('No se encontraron todas las recetas seleccionadas en GitHub.');
                 const updatedContent = buildGitHubRecipeFile({...parsedFile, recipes: updatedRecipes}, null);
                 const putResponse = await fetch(apiUrl, {method:'PUT', headers:{...headers,"Content-Type":"application/json"}, body:JSON.stringify({message:"Actualizadas varias recetas desde GastroOS",content:utf8ToBase64(updatedContent),sha:data.sha})});
-                let putData = {}; try { putData = await putResponse.json(); } catch (_) {}
+                let putData = {}; try { putData = await putResponse.json(); } catch {}
                 if (!putResponse.ok || ![200,201].includes(putResponse.status)) throw new Error(putData.message || `GitHub respondió con HTTP ${putResponse.status}.`);
                 markGitHubSyncSuccess(`${updates.size} recetas actualizadas en GitHub.`);
                 return true;
@@ -1749,8 +1749,8 @@
                 if (repo) repo.value = github.repo || "";
                 if (path) path.value = github.path || "";
                 updateGitHubSettingsStatus(github);
-            } catch (error) {
-                console.warn("No se pudieron cargar las credenciales de GitHub.", error);
+            } catch {
+                console.warn("No se pudieron cargar las credenciales de GitHub.");
             }
         }
 
@@ -1783,7 +1783,7 @@
 
                 const response = await fetch(apiUrl, { method: 'GET', headers });
                 let data = {};
-                try { data = await response.json(); } catch (_) {}
+                try { data = await response.json(); } catch {}
 
                 if (!response.ok) {
                     const reason = data.message || `HTTP ${response.status}`;
@@ -2033,7 +2033,7 @@
                     return { recipes: parsed.recipes, format: 'json-recipes', wrapper: parsed };
                 }
                 throw new Error("El JSON del recetario no contiene un listado de recetas válido.");
-            } catch (jsonError) {
+            } catch {
                 if (!/\.js$/i.test(path)) throw new Error("El archivo del recetario no contiene un JSON válido.");
 
                 const markers = [
@@ -2058,7 +2058,7 @@
                 let recipes;
                 try {
                     recipes = JSON.parse(arrayText);
-                } catch (parseError) {
+                } catch {
                     throw new Error("El listado del archivo .js no está en un formato JSON compatible.");
                 }
                 if (!Array.isArray(recipes)) throw new Error("El listado del recetario no es un array válido.");
@@ -2107,7 +2107,7 @@
 
                 const getResponse = await fetch(apiUrl, { method: 'GET', headers });
                 let getData = {};
-                try { getData = await getResponse.json(); } catch (_) {}
+                try { getData = await getResponse.json(); } catch {}
                 const normalizedDish = normalizeDishData(dish);
                 let parsedFile;
                 let fileSha = null;
@@ -2159,7 +2159,7 @@
                 });
 
                 let putData = {};
-                try { putData = await putResponse.json(); } catch (_) {}
+                try { putData = await putResponse.json(); } catch {}
                 if (!putResponse.ok || ![200, 201].includes(putResponse.status)) {
                     const reason = putData.message || `GitHub respondió con HTTP ${putResponse.status}.`;
                     throw new Error(`No se pudo actualizar el recetario: ${reason}`);
@@ -2195,7 +2195,7 @@
                 const normalizedRecipes = importedDishes.map(normalizeDishData);
                 const getResponse = await fetch(apiUrl, { method: 'GET', headers });
                 let getData = {};
-                try { getData = await getResponse.json(); } catch (_) {}
+                try { getData = await getResponse.json(); } catch {}
 
                 let updatedContent;
                 let fileSha = null;
@@ -2236,7 +2236,7 @@
                 });
 
                 let putData = {};
-                try { putData = await putResponse.json(); } catch (_) {}
+                try { putData = await putResponse.json(); } catch {}
                 if (!putResponse.ok || ![200, 201].includes(putResponse.status)) {
                     const reason = putData.message || `GitHub respondió con HTTP ${putResponse.status}.`;
                     throw new Error(`No se pudo actualizar el recetario: ${reason}`);
@@ -2405,7 +2405,7 @@
 
                 const getResponse = await fetch(apiUrl, { method: 'GET', headers });
                 let getData = {};
-                try { getData = await getResponse.json(); } catch (_) {}
+                try { getData = await getResponse.json(); } catch {}
                 if (!getResponse.ok) {
                     const reason = getData.message || `GitHub respondió con HTTP ${getResponse.status}.`;
                     throw new Error(`No se pudo leer el recetario: ${reason}`);
@@ -2436,7 +2436,7 @@
                 });
 
                 let putData = {};
-                try { putData = await putResponse.json(); } catch (_) {}
+                try { putData = await putResponse.json(); } catch {}
                 if (!putResponse.ok || ![200, 201].includes(putResponse.status)) {
                     const reason = putData.message || `GitHub respondió con HTTP ${putResponse.status}.`;
                     throw new Error(`No se pudo actualizar el recetario: ${reason}`);
@@ -2827,10 +2827,6 @@
             return getDayDishList(menuDays, dayIndex - 1, "Primero").some(d => d.subtipo_primero === subtype);
         }
 
-        function previousDayFishSpecies(menuDays, dayIndex) {
-            return getDayDishList(menuDays, dayIndex - 1, "Segundo", "Pescado")[0]?.especie_pescado || "";
-        }
-
         function getWeeklyFishSpecies(menuDays, exceptDayIndex = -1) {
             const used = new Set();
             daysList.forEach((dayName, index) => {
@@ -2849,16 +2845,6 @@
             if (dayIndex < 2) return false;
             return animalAppearedOnDay(menuDays, dayIndex - 1, animal) &&
                    animalAppearedOnDay(menuDays, dayIndex - 2, animal);
-        }
-
-        function getConsecutiveSubtypeStreak(menuDays, dayIndex, subtype) {
-            let streak = 0;
-            for (let i = dayIndex - 1; i >= 0; i--) {
-                const dayDishes = getDayDishList(menuDays, i, "Primero");
-                if (dayDishes.some(d => d.subtipo_primero === subtype)) streak++;
-                else break;
-            }
-            return streak;
         }
 
         function getWeeklyFirstSubtypeCount(menuDays, subtype, exceptDayIndex = -1) {
@@ -2983,7 +2969,7 @@
             return ids;
         }
 
-        function violatesPreviousWeekTemplate(dish, spec, slotIndex, previousMenu, currentDaySlots) {
+        function violatesPreviousWeekTemplate(dish, slotIndex, previousMenu) {
             if (!previousMenu?.days) return false;
 
             // Nunca copiar el mismo plato en la misma posición de la semana anterior.
@@ -2996,7 +2982,7 @@
             return false;
         }
 
-        function violatesDayFirstRule(dish, spec, menuDays, dayIndex, relaxationLevel, chosenFirsts = [], usedVegetableKeys = new Set(), previousMenu = null, slotIndex = 0) {
+        function violatesDayFirstRule(dish, spec, menuDays, dayIndex, chosenFirsts = [], usedVegetableKeys = new Set(), previousMenu = null, slotIndex = 0) {
             if (spec.cat !== "Primero") return false;
 
             // Reglas intocables: nunca dos primeros líquidos/triturados en el mismo día.
@@ -3020,10 +3006,10 @@
             if (subtype === "pastas_rellenas" && previousDayHasSubtype(menuDays, dayIndex, "pastas_rellenas")) return true;
 
             // Anti-plantilla inter-semanal: no repetir platos/verduras en la misma estructura.
-            return violatesPreviousWeekTemplate(dish, spec, slotIndex, previousMenu, chosenFirsts);
+            return violatesPreviousWeekTemplate(dish, slotIndex, previousMenu);
         }
 
-        function violatesDaySecondRule(dish, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, relaxationLevel) {
+        function violatesDaySecondRule(dish, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques) {
             if (spec.cat !== "Segundo") return false;
 
             if (spec.protein === "Pescado") {
@@ -3076,7 +3062,7 @@
             });
         }
 
-        function candidateScore(dish, spec, menuDays, dayIndex, previousMenu = null, slotIndex = 0) {
+        function candidateScore(dish, spec, dayIndex, previousMenu = null, slotIndex = 0) {
             let score = getDemandWeight(dish.demanda) * 10;
             if (usesFreshStock(dish)) score += dayIndex < 2 ? 3 : 0;
             if (spec.cat === "Segundo" && spec.protein === "Pescado" && dayIndex === 0) score += 1;
@@ -3109,7 +3095,7 @@
                 });
         }
 
-        function pickDishForSlot(dayName, spec, usedDishIdsThisWeek, menuDays, dayIndex, chosenAnimals, chosenTechniques, options = {}) {
+        function pickDishForSlot(spec, usedDishIdsThisWeek, menuDays, dayIndex, chosenAnimals, chosenTechniques, options = {}) {
             const previousMenu = options.previousMenu || null;
             const chosenFirsts = options.chosenFirsts || [];
             const usedVegetableKeys = options.usedVegetableKeys || new Set();
@@ -3117,17 +3103,17 @@
 
             // El fallback es estricto: ninguna regla de negocio se relaja. Los niveles se conservan
             // solo por compatibilidad con el formato existente de los slots y para evitar bucles infinitos.
-            for (let relaxationLevel = 0; relaxationLevel <= 0; relaxationLevel++) {
+            {
                 const candidates = getUniqueNormalizedDishes()
                     .filter(d => isStructuralMatch(d, spec))
                     .filter(d => !usedDishIdsThisWeek.has(String(d.id)))
-                    .filter(d => !violatesDayFirstRule(d, spec, menuDays, dayIndex, relaxationLevel, chosenFirsts, usedVegetableKeys, previousMenu, slotIndex))
-                    .filter(d => !violatesDaySecondRule(d, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, relaxationLevel));
+                    .filter(d => !violatesDayFirstRule(d, spec, menuDays, dayIndex, chosenFirsts, usedVegetableKeys, previousMenu, slotIndex))
+                    .filter(d => !violatesDaySecondRule(d, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques));
 
                 if (candidates.length) {
                     candidates.sort((a, b) =>
-                        candidateScore(b, spec, menuDays, dayIndex, previousMenu, slotIndex) -
-                        candidateScore(a, spec, menuDays, dayIndex, previousMenu, slotIndex)
+                        candidateScore(b, spec, dayIndex, previousMenu, slotIndex) -
+                        candidateScore(a, spec, dayIndex, previousMenu, slotIndex)
                     );
                     return {
                         dish: candidates[0],
@@ -3214,8 +3200,8 @@
                     if (
                         isStructuralMatch(candidate, spec) &&
                         !usedDishIdsThisWeek.has(String(candidate.id)) &&
-                        !violatesDayFirstRule(candidate, spec, menuDays, dayIndex, 0, chosenFirsts, usedVegetableKeys, previousMenu, index) &&
-                        !violatesDaySecondRule(candidate, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, 0)
+                        !violatesDayFirstRule(candidate, spec, menuDays, dayIndex, chosenFirsts, usedVegetableKeys, previousMenu, index) &&
+                        !violatesDaySecondRule(candidate, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques)
                     ) {
                         lockedDish = candidate;
                     }
@@ -3224,7 +3210,6 @@
                 const result = lockedDish
                     ? { dish: lockedDish, relaxed: false, relaxationLevel: 0, warning: "" }
                     : pickDishForSlot(
-                        dayName,
                         spec,
                         usedDishIdsThisWeek,
                         menuDays,
@@ -3382,7 +3367,7 @@
             renderGeneratorView();
         }
 
-        function validateWeeklyMenu(menu, options = {}) {
+        function validateWeeklyMenu(menu) {
             const errors = [];
             const days = daysList.filter(day => menu?.days?.[day]);
             const expectedLabels = [
