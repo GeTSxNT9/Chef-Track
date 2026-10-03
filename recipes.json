@@ -4277,12 +4277,6 @@
         "cantidad": 200,
         "unidad": "g",
         "categoria_proveedor": "Pescado"
-      },
-      {
-        "nombre": "Harina",
-        "cantidad": "",
-        "unidad": "g",
-        "categoria_proveedor": "Secos"
       }
     ]
   },
