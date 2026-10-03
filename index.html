@@ -984,6 +984,29 @@
 
 
 
+            <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-3">
+                <div class="flex justify-between items-center gap-3">
+                    <div>
+                        <h3 class="font-bold text-gray-700 dark:text-gray-300 text-sm">Salud del recetario</h3>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">Diagnóstico rápido de recetas, etiquetas y cantidades.</p>
+                    </div>
+                    <button id="btnRunDiagnostics" type="button" class="border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/40 px-3 py-2 rounded-lg font-bold text-[11px]">Actualizar</button>
+                </div>
+                <div id="recipeDiagnostics" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
+                <div id="recipeDiagnosticsDetails" class="text-[11px] text-gray-500 dark:text-gray-400"></div>
+            </section>
+
+            <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-3">
+                <div class="flex justify-between items-center gap-3">
+                    <div>
+                        <h3 class="font-bold text-gray-700 dark:text-gray-300 text-sm">Historial de cambios del recetario</h3>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">Registro local de altas, ediciones, borrados e importaciones.</p>
+                    </div>
+                    <button id="btnClearRecipeHistory" type="button" class="text-red-600 dark:text-red-400 text-[10px] font-bold">Vaciar</button>
+                </div>
+                <div id="recipeChangeHistory" class="space-y-2 max-h-72 overflow-y-auto"></div>
+            </section>
+
             <section class="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-4">
                 <div>
                     <h3 class="font-bold text-gray-700 dark:text-gray-300 text-sm mb-2">Copia de Seguridad Integral</h3>
@@ -995,6 +1018,9 @@
                         <button id="btnExportRecipes" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2">
                             📚 Exportar solo el recetario (JSON)
                         </button>
+                        <button id="btnDownloadAutoBackup" type="button" class="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 py-2.5 rounded-lg font-bold text-xs">
+                            Descargar última copia automática
+                        </button>
                         <label class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2 cursor-pointer text-center">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
                             Importar Datos (JSON)
@@ -1002,6 +1028,7 @@
                         </label>
                     </div>
                 </div>
+                <div id="autoBackupStatus" class="text-[10px] text-gray-500 dark:text-gray-400"></div>
                 <div class="border-t border-gray-200 dark:border-gray-800 pt-4 mt-4">
                     <button id="btnWipeData" class="w-full bg-red-100 dark:bg-red-950/50 text-red-600 dark:text-red-400 hover:bg-red-200 py-3 rounded-lg font-bold text-sm shadow-sm">
                         Borrar Datos y Restaurar
@@ -1009,6 +1036,24 @@
                 </div>
             </section>
         </main>
+    </div>
+
+    <!-- MODAL PREVISUALIZACIÓN DE IMPORTACIÓN -->
+    <div id="modalImportPreview" class="hidden fixed inset-0 bg-black/60 z-[70] flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm">
+        <div class="bg-white dark:bg-gray-900 w-full max-w-lg rounded-t-2xl sm:rounded-2xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800">
+            <div class="p-4 bg-indigo-600 dark:bg-indigo-950 text-white flex justify-between items-center">
+                <div>
+                    <h3 class="font-bold text-sm">Previsualizar restauración</h3>
+                    <p class="text-[11px] text-indigo-200">Revisa qué datos se van a sustituir antes de continuar.</p>
+                </div>
+                <button type="button" id="btnCloseImportPreview" aria-label="Cerrar" class="text-white hover:bg-indigo-700 rounded-lg p-1.5">✕</button>
+            </div>
+            <div id="importPreviewContent" class="p-4 overflow-y-auto space-y-3 text-xs"></div>
+            <div class="p-4 border-t border-gray-200 dark:border-gray-800 flex gap-2">
+                <button type="button" id="btnCancelImportPreview" class="flex-1 border border-gray-300 dark:border-gray-700 py-2.5 rounded-lg font-bold text-xs">Cancelar</button>
+                <button type="button" id="btnConfirmImportPreview" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-lg font-bold text-xs">Restaurar datos</button>
+            </div>
+        </div>
     </div>
 
     <!-- MODAL CAMBIAR PLATO -->
@@ -1248,7 +1293,9 @@
         let currentMenu = null;
         let previousWeekMenu = null;
         let historyMenus = [];
+        let recipeChangeHistory = [];
         let githubLastLoadIssue = "";
+        let pendingImportData = null;
 
         let activeFilterLevel1 = 'all';
         let activeFilterLevel2 = 'all';
@@ -1258,15 +1305,149 @@
         let bulkSelectedDishIds = new Set();
 
         // --- 2. INICIALIZACIÓN ---
+        function safeLoadJSON(key, fallback) {
+            try {
+                const raw = localStorage.getItem(key);
+                if (!raw) return fallback;
+                const parsed = JSON.parse(raw);
+                return parsed ?? fallback;
+            } catch (error) {
+                console.warn(`No se pudo leer ${key}; se utilizará el valor predeterminado.`, error);
+                try { localStorage.removeItem(key); } catch {}
+                return fallback;
+            }
+        }
+
+        function canonicalRecipesSnapshot(list = dishes) {
+            return JSON.stringify((list || []).map(normalizeDishData).sort((a,b) => String(a.id).localeCompare(String(b.id))));
+        }
+
+        function createAutoBackup(reason = "guardado automático") {
+            try {
+                const backup = {
+                    app: "GastroOS",
+                    type: "automatic-backup",
+                    reason,
+                    createdAt: new Date().toISOString(),
+                    dishes, settings: { ...settings }, rawStock, preparedStock, currentMenu, previousWeekMenu, historyMenus, recipeChangeHistory
+                };
+                localStorage.setItem('chefTrack_autoBackup', JSON.stringify(backup));
+                localStorage.setItem('chefTrack_autoBackupAt', backup.createdAt);
+                return backup;
+            } catch (error) {
+                console.warn("No se pudo crear la copia automática local.", error);
+                return null;
+            }
+        }
+
+        function updateAutoBackupStatus() {
+            const el = document.getElementById('autoBackupStatus');
+            if (!el) return;
+            const stamp = localStorage.getItem('chefTrack_autoBackupAt');
+            el.textContent = stamp ? `Última copia automática local: ${new Date(stamp).toLocaleString('es-ES')}. Se crea antes de restauraciones o borrados.` : 'Todavía no hay una copia automática local.';
+        }
+
+        function downloadAutoBackup() {
+            const backup = safeLoadJSON('chefTrack_autoBackup', null);
+            if (!backup) { alert('Todavía no existe una copia automática local.'); return; }
+            downloadJsonFile(backup, `gastroos_auto_backup_${new Date(backup.createdAt || Date.now()).toISOString().slice(0,10)}.json`);
+        }
+
+        function downloadJsonFile(data, filename) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = filename; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
+
+        function logRecipeChange(action, dish, details = "") {
+            const entry = {
+                id: `${Date.now()}-${Math.random().toString(36).slice(2,8)}`,
+                at: new Date().toISOString(),
+                action,
+                recipeId: dish?.id ?? "",
+                name: dish?.nombre || "Recetario",
+                details
+            };
+            recipeChangeHistory.unshift(entry);
+            recipeChangeHistory = recipeChangeHistory.slice(0, 100);
+            try { localStorage.setItem('chefTrack_recipeChangeHistory', JSON.stringify(recipeChangeHistory)); } catch {}
+        }
+
+        function renderRecipeChangeHistory() {
+            const container = document.getElementById('recipeChangeHistory');
+            if (!container) return;
+            if (!recipeChangeHistory.length) {
+                container.innerHTML = '<p class="text-center text-gray-400 dark:text-gray-500 py-2">Todavía no hay cambios registrados.</p>';
+                return;
+            }
+            const labels = { create:'Creada', update:'Editada', delete:'Eliminada', bulk:'Edición múltiple', import:'Importación', migration:'Etiquetado', restore:'Restauración' };
+            container.innerHTML = recipeChangeHistory.slice(0, 40).map(entry => `
+                <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 p-2.5">
+                    <div class="flex justify-between gap-2">
+                        <span class="font-bold text-gray-700 dark:text-gray-200">${escapeHtml(labels[entry.action] || entry.action)} · ${escapeHtml(entry.name)}</span>
+                        <span class="text-[9px] text-gray-400 whitespace-nowrap">${new Date(entry.at).toLocaleString('es-ES')}</span>
+                    </div>
+                    ${entry.details ? `<div class="text-[10px] text-gray-500 dark:text-gray-400 mt-1">${escapeHtml(entry.details)}</div>` : ''}
+                </div>`).join('');
+        }
+
+        function updateGitHubPendingState(github = getGitHubSettings()) {
+            const status = document.getElementById('githubSyncStatus');
+            if (!status) return;
+            const configured = !!(github?.token && github?.owner && github?.repo && github?.path);
+            if (!configured) return;
+            const synced = localStorage.getItem('chefTrack_githubLastSyncedRecipes');
+            if (!synced) return;
+            const pending = synced !== canonicalRecipesSnapshot();
+            const suffix = pending ? ' · Hay cambios locales pendientes de sincronizar.' : ' · Todo sincronizado.';
+            if (!status.textContent.includes('Error') && !status.textContent.includes('No se pudo')) {
+                status.textContent = `${status.textContent.replace(/ · (Hay cambios locales pendientes de sincronizar\.|Todo sincronizado\.)$/, '')}${suffix}`;
+            }
+        }
+
+        function markRecipesSnapshotSynced() {
+            try { localStorage.setItem('chefTrack_githubLastSyncedRecipes', canonicalRecipesSnapshot()); } catch {}
+            updateGitHubPendingState();
+        }
+
+        function renderRecipeDiagnostics() {
+            const cards = document.getElementById('recipeDiagnostics');
+            const details = document.getElementById('recipeDiagnosticsDetails');
+            if (!cards || !details) return;
+            const ids = new Set(); let duplicateIds = 0; let incomplete = 0; let blankQuantities = 0; let ingredients = 0;
+            const incompleteNames = [];
+            dishes.forEach(raw => {
+                const d = normalizeDishData(raw); const id = String(d.id ?? '');
+                if (ids.has(id)) duplicateIds++; else ids.add(id);
+                if (!hasCompleteTechnicalTags(d)) { incomplete++; if (incompleteNames.length < 6) incompleteNames.push(d.nombre || `ID ${id}`); }
+                (d.ingredientes || []).forEach(i => { ingredients++; if (i.cantidad === '' || i.cantidad === null || i.cantidad === undefined || i.cantidad === '') blankQuantities++; });
+            });
+            const firsts = dishes.filter(d => d.categoria === 'Primero').length;
+            const seconds = dishes.filter(d => d.categoria === 'Segundo').length;
+            const metric = (label, value, tone='') => `<div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 p-2.5"><div class="text-[9px] uppercase font-bold text-gray-400">${label}</div><div class="text-lg font-black ${tone}">${value}</div></div>`;
+            cards.innerHTML = metric('Recetas', dishes.length) + metric('Etiquetas pendientes', incomplete, incomplete ? 'text-amber-600' : 'text-emerald-600') + metric('IDs duplicados', duplicateIds, duplicateIds ? 'text-red-600' : 'text-emerald-600') + metric('Cantidades en blanco', blankQuantities, blankQuantities ? 'text-amber-600' : 'text-emerald-600');
+            details.innerHTML = `<div class="space-y-1"><div>${firsts} primeros · ${seconds} segundos · ${ingredients} ingredientes registrados.</div>${incompleteNames.length ? `<div>Ejemplos pendientes: ${incompleteNames.map(escapeHtml).join(', ')}${incomplete > incompleteNames.length ? '…' : ''}</div>` : '<div class="text-emerald-600 dark:text-emerald-400 font-semibold">No se detectan etiquetas técnicas incompletas.</div>'}</div>`;
+        }
+
         async function init() {
             registerServiceWorker();
-            const storedDishes = localStorage.getItem('chefTrack_dishes');
-            dishes = storedDishes ? JSON.parse(storedDishes) : [];
-            dishes = dishes.map(normalizeDishData);
-
-            const storedSettings = localStorage.getItem('chefTrack_settings');
-            settings = storedSettings ? JSON.parse(storedSettings) : { ...defaultSettings };
+            const storedDishesSafe = safeLoadJSON('chefTrack_dishes', []);
+            dishes = (Array.isArray(storedDishesSafe) ? storedDishesSafe : []).map(normalizeDishData);
+            const storedSettingsSafe = safeLoadJSON('chefTrack_settings', {});
+            settings = { ...defaultSettings, ...(storedSettingsSafe && typeof storedSettingsSafe === 'object' && !Array.isArray(storedSettingsSafe) ? storedSettingsSafe : {}) };
             if (settings.darkMode === undefined) settings.darkMode = false;
+            const storedRawSafe = safeLoadJSON('chefTrack_rawStock', []);
+            rawStock = Array.isArray(storedRawSafe) ? storedRawSafe : [];
+            const storedPrepSafe = safeLoadJSON('chefTrack_preparedStock', []);
+            preparedStock = Array.isArray(storedPrepSafe) ? storedPrepSafe : [];
+            currentMenu = safeLoadJSON('chefTrack_currentMenu', null);
+            previousWeekMenu = safeLoadJSON('previousWeekMenu', safeLoadJSON('chefTrack_previousWeekMenu', null));
+            const storedHistorySafe = safeLoadJSON('chefTrack_historyMenus', []);
+            historyMenus = Array.isArray(storedHistorySafe) ? storedHistorySafe : [];
+            const storedRecipeHistorySafe = safeLoadJSON('chefTrack_recipeChangeHistory', []);
+            recipeChangeHistory = Array.isArray(storedRecipeHistorySafe) ? storedRecipeHistorySafe : [];
 
             loadGitHubSettings();
             applyDarkMode();
@@ -1275,57 +1456,49 @@
             // Si falla la lectura remota, conservamos la copia local del navegador.
             await loadDishesFromGitHub();
 
-            const storedRaw = localStorage.getItem('chefTrack_rawStock');
-            rawStock = storedRaw ? JSON.parse(storedRaw) : [];
-            const storedPrep = localStorage.getItem('chefTrack_preparedStock');
-            preparedStock = storedPrep ? JSON.parse(storedPrep) : [];
-            const storedMenu = localStorage.getItem('chefTrack_currentMenu');
-            currentMenu = storedMenu ? JSON.parse(storedMenu) : null;
-            const storedPreviousWeek = localStorage.getItem('previousWeekMenu') || localStorage.getItem('chefTrack_previousWeekMenu');
-            previousWeekMenu = storedPreviousWeek ? JSON.parse(storedPreviousWeek) : null;
-            const storedHistory = localStorage.getItem('chefTrack_historyMenus');
-            historyMenus = storedHistory ? JSON.parse(storedHistory) : [];
-
             saveAll();
             setupEventListeners();
-            updateFormVisibility(); 
+            updateFormVisibility();
             renderDishes();
             renderStockView();
             renderGeneratorView();
             renderHistorySection();
             renderMigrationUI();
+            renderRecipeDiagnostics();
+            renderRecipeChangeHistory();
+            updateAutoBackupStatus();
         }
 
         function registerServiceWorker() {
-            if ('serviceWorker' in navigator) {
-                const swCode = `
-                    const CACHE = 'cheftrack-v12';
-                    self.addEventListener('install', e => { self.skipWaiting(); });
-                    self.addEventListener('activate', e => { self.clients.claim(); });
-                    self.addEventListener('fetch', e => {
-                        e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
-                    });
-                `;
-                const blob = new Blob([swCode], { type: 'application/javascript' });
-                navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
-            }
+            if (!('serviceWorker' in navigator)) return;
+            navigator.serviceWorker.register('./sw.js', { scope: './' })
+                .then(registration => registration.update().catch(() => {}))
+                .catch(error => console.warn('No se pudo registrar el Service Worker:', error));
         }
 
         function saveAll() {
-            localStorage.setItem('chefTrack_dishes', JSON.stringify(dishes));
-            localStorage.setItem('chefTrack_settings', JSON.stringify(settings));
-            localStorage.setItem('chefTrack_rawStock', JSON.stringify(rawStock));
-            localStorage.setItem('chefTrack_preparedStock', JSON.stringify(preparedStock));
-            localStorage.setItem('chefTrack_historyMenus', JSON.stringify(historyMenus));
-            if (currentMenu) localStorage.setItem('chefTrack_currentMenu', JSON.stringify(currentMenu));
-            else localStorage.removeItem('chefTrack_currentMenu');
-            if (previousWeekMenu) {
-                localStorage.setItem('previousWeekMenu', JSON.stringify(previousWeekMenu));
-                localStorage.setItem('chefTrack_previousWeekMenu', JSON.stringify(previousWeekMenu));
-            } else {
-                localStorage.removeItem('previousWeekMenu');
-                localStorage.removeItem('chefTrack_previousWeekMenu');
+            try {
+                localStorage.setItem('chefTrack_dishes', JSON.stringify(dishes));
+                localStorage.setItem('chefTrack_settings', JSON.stringify(settings));
+                localStorage.setItem('chefTrack_rawStock', JSON.stringify(rawStock));
+                localStorage.setItem('chefTrack_preparedStock', JSON.stringify(preparedStock));
+                localStorage.setItem('chefTrack_historyMenus', JSON.stringify(historyMenus));
+                localStorage.setItem('chefTrack_recipeChangeHistory', JSON.stringify(recipeChangeHistory));
+                if (currentMenu) localStorage.setItem('chefTrack_currentMenu', JSON.stringify(currentMenu));
+                else localStorage.removeItem('chefTrack_currentMenu');
+                if (previousWeekMenu) {
+                    localStorage.setItem('previousWeekMenu', JSON.stringify(previousWeekMenu));
+                    localStorage.setItem('chefTrack_previousWeekMenu', JSON.stringify(previousWeekMenu));
+                } else {
+                    localStorage.removeItem('previousWeekMenu');
+                    localStorage.removeItem('chefTrack_previousWeekMenu');
+                }
+            } catch (error) {
+                console.error('No se pudieron guardar los datos locales:', error);
+                alert('No se han podido guardar los datos en este navegador. Comprueba el espacio disponible.');
             }
+            updateGitHubPendingState();
+            updateAutoBackupStatus();
         }
 
         function toggleDarkMode() {
@@ -1449,6 +1622,15 @@
             document.getElementById('btnSaveGithubSettings').addEventListener('click', saveGitHubSettings);
             document.getElementById('btnRefreshGitHub').addEventListener('click', refreshDishesFromGitHub);
             document.getElementById('btnExportRecipes').addEventListener('click', exportRecipesOnly);
+            document.getElementById('btnDownloadAutoBackup').addEventListener('click', downloadAutoBackup);
+            document.getElementById('btnRunDiagnostics').addEventListener('click', renderRecipeDiagnostics);
+            document.getElementById('btnClearRecipeHistory').addEventListener('click', () => {
+                if (!recipeChangeHistory.length || !confirm('¿Vaciar el historial local de cambios del recetario?')) return;
+                recipeChangeHistory = []; saveAll(); renderRecipeChangeHistory();
+            });
+            document.getElementById('btnCloseImportPreview').addEventListener('click', closeImportPreview);
+            document.getElementById('btnCancelImportPreview').addEventListener('click', closeImportPreview);
+            document.getElementById('btnConfirmImportPreview').addEventListener('click', confirmPendingImport);
         }
 
         function updateFormVisibility() {
@@ -1570,8 +1752,8 @@
                         </div>
                     </div>
                     <div class="absolute top-3 right-3 flex flex-col gap-2">
-                        <button onclick="editDish('${d.id}')" class="text-blue-500 bg-blue-50 dark:bg-blue-950 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
-                        <button onclick="deleteDish('${d.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                        <button onclick="editDish('${escapeHtml(d.id)}')" class="text-blue-500 bg-blue-50 dark:bg-blue-950 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
+                        <button onclick="deleteDish('${escapeHtml(d.id)}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                     </div>`;
                 list.appendChild(card);
             });
@@ -1710,10 +1892,12 @@
             const valueLabel = document.querySelector('#bulkValue option:checked')?.textContent || value;
             if (!confirm(`Vas a cambiar ${fieldLabel} → ${valueLabel} en ${selected.length} recetas. Los demás datos permanecerán sin cambios.\n\n¿Continuar?`)) return;
             const updated = selected.map(d => applyBulkFieldToDish(d, field, value));
+            createAutoBackup(`antes de editar ${updated.length} recetas mediante edición múltiple`);
             const synced = await syncBulkDishesToGitHub(updated);
             if (!synced) return;
             const updates = new Map(updated.map(d => [String(d.id), d]));
             dishes = dishes.map(d => updates.get(String(d.id)) || d);
+            logRecipeChange('bulk', null, `${updated.length} recetas actualizadas mediante edición múltiple`);
             saveAll();
             bulkSelectedDishIds.clear();
             document.getElementById('bulkField').value = '';
@@ -1746,7 +1930,7 @@
             row.dataset.unidadTouched = 'false';
             row.dataset.categoriaTouched = 'false';
             row.innerHTML = `
-                <input type="text" placeholder="Ingrediente..." value="${nombre}" required class="flex-[3] min-w-0 w-full p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                <input type="text" placeholder="Ingrediente..." value="${escapeHtml(nombre)}" required class="flex-[3] min-w-0 w-full p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                 <input type="text" inputmode="decimal" placeholder="Cant." value="${cantidad !== '' && cantidad !== undefined ? cantidad : ''}" class="w-16 min-w-[4rem] flex-[0_0_4rem] p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                 <select class="w-14 min-w-[3.5rem] flex-[0_0_3.5rem] p-2 border border-gray-300 dark:border-gray-700 rounded text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
                     ${legacyUnit ? `<option value="${legacyUnit}" selected>${legacyUnit}</option>` : ''}
@@ -1867,6 +2051,7 @@
                 githubLastLoadIssue = "success";
                 localStorage.removeItem('chefTrack_githubFileMissing');
                 localStorage.setItem('chefTrack_githubLastSync', new Date().toISOString());
+                markRecipesSnapshotSynced();
                 setGitHubSyncStatus(`Recetario cargado desde GitHub · ${dishes.length} recetas.`, 'success');
                 return true;
             } catch (error) {
@@ -1922,6 +2107,7 @@
         function markGitHubSyncSuccess(message = "Sincronización completada.") {
             const now = new Date().toISOString();
             localStorage.setItem('chefTrack_githubLastSync', now);
+            markRecipesSnapshotSynced();
             setGitHubSyncStatus(`${message} ${new Date(now).toLocaleString('es-ES')} · ${dishes.length} recetas.`, 'success');
         }
 
@@ -2358,6 +2544,7 @@
             });
 
             const normalizedDish = normalizeDishData(newDish);
+            createAutoBackup(`${isNewDish ? 'antes de crear' : 'antes de editar'} ${normalizedDish.nombre}`);
 
             // Las recetas nuevas y las editadas se sincronizan primero con GitHub.
             // Solo después de un commit correcto se modifica el recetario local, evitando
@@ -2368,6 +2555,7 @@
             const idx = dishes.findIndex(d => d.id === id);
             if (idx >= 0) dishes[idx] = normalizedDish;
             else dishes.unshift(normalizedDish);
+            logRecipeChange(isNewDish ? 'create' : 'update', normalizedDish, isNewDish ? 'Nueva receta' : 'Receta modificada');
 
             saveAll();
             resetForm();
@@ -2499,11 +2687,14 @@
 
         async function deleteDish(id) {
             if (!confirm("¿Seguro que quieres borrar este plato?\n\nLa eliminación también se sincronizará con GitHub.")) return;
+            const deletedDish = dishes.find(d => String(d.id) === String(id));
+            createAutoBackup(`antes de eliminar ${deletedDish?.nombre || id}`);
 
             const synced = await syncDeleteDishToGitHub(id);
             if (!synced) return;
 
             dishes = dishes.filter(d => d.id !== id);
+            logRecipeChange('delete', deletedDish, 'Receta eliminada');
             saveAll();
             renderDishes();
             renderMigrationUI();
@@ -2603,6 +2794,7 @@
             const index = dishes.findIndex(x => String(x.id) === String(id));
             if (index < 0) return;
 
+            createAutoBackup(`antes de etiquetar ${nd.nombre}`);
             const github = getGitHubSettings();
             const githubConfigured = !!(github.token && github.owner && github.repo && github.path);
             if (githubConfigured) {
@@ -2615,6 +2807,7 @@
             }
 
             dishes[index] = normalizeDishData(nd);
+            logRecipeChange('migration', nd, 'Etiquetas técnicas completadas');
             saveAll();
             renderDishes();
             renderMigrationUI();
@@ -2682,17 +2875,17 @@
                 card.innerHTML = `
                     <div class="pr-2">
                         <div class="flex items-center gap-1.5 mb-1">
-                            <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs">${item.nombre}</h4>
+                            <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs">${escapeHtml(item.nombre)}</h4>
                             <span class="text-[9px] px-1.5 py-0.5 rounded font-bold border ${badgeColor}">${isFresh ? 'Fresco' : 'Congelado'}</span>
                         </div>
                         <div class="text-[11px] text-gray-500 dark:text-gray-400">
-                            <span class="font-bold text-indigo-700 dark:text-indigo-400">${item.cantidad} ${item.unidad}</span> • ${item.categoria_proveedor}
+                            <span class="font-bold text-indigo-700 dark:text-indigo-400">${item.cantidad} ${item.unidad}</span> • ${escapeHtml(item.categoria_proveedor)}
                         </div>
                     </div>
                     <div class="flex items-center gap-1">
-                        <button onclick="changeRawQty('${item.id}', -1)" class="w-7 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">-</button>
-                        <button onclick="changeRawQty('${item.id}', 1)" class="w-7 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">+</button>
-                        <button onclick="deleteRaw('${item.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                        <button onclick="changeRawQty('${escapeHtml(item.id)}', -1)" class="w-7 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">-</button>
+                        <button onclick="changeRawQty('${escapeHtml(item.id)}', 1)" class="w-7 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">+</button>
+                        <button onclick="deleteRaw('${escapeHtml(item.id)}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                     </div>
                 `;
                 container.appendChild(card);
@@ -2788,17 +2981,17 @@
                 card.className = "bg-white/80 p-3.5 rounded-2xl flex justify-between items-center transition-all";
                 card.innerHTML = `
                     <div class="pr-2">
-                        <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs mb-1">${item.nombre}</h4>
+                        <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs mb-1">${escapeHtml(item.nombre)}</h4>
                         <div class="flex items-center gap-1.5 flex-wrap">
-                            <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded">${quantityLabel}</span>
-                            ${servingsLabel ? `<span class="text-[10px] text-gray-500 dark:text-gray-400">${servingsLabel}</span>` : ''}
-                            <span class="text-[9px] px-1.5 py-0.5 rounded font-semibold border ${badgeColor}">${item.asignacion || "Sin asignar"}</span>
+                            <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded">${escapeHtml(quantityLabel)}</span>
+                            ${servingsLabel ? `<span class="text-[10px] text-gray-500 dark:text-gray-400">${escapeHtml(servingsLabel)}</span>` : ''}
+                            <span class="text-[9px] px-1.5 py-0.5 rounded font-semibold border ${badgeColor}">${escapeHtml(item.asignacion || "Sin asignar")}</span>
                         </div>
                     </div>
                     <div class="flex items-center gap-1">
-                        <button onclick="changePrepQty('${item.id}', -1)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">-</button>
-                        <button onclick="changePrepQty('${item.id}', 1)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">+</button>
-                        <button onclick="deletePrep('${item.id}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                        <button onclick="changePrepQty('${escapeHtml(item.id)}', -1)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">-</button>
+                        <button onclick="changePrepQty('${escapeHtml(item.id)}', 1)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">+</button>
+                        <button onclick="deletePrep('${escapeHtml(item.id)}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                     </div>
                 `;
                 container.appendChild(card);
@@ -4004,7 +4197,7 @@
                 hasItems = true;
                 const section = document.createElement('div');
                 section.className = "bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-2";
-                section.innerHTML = `<h4 class="font-bold text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-800 pb-1">${cat}</h4><ul class="space-y-1.5">${items.map(i => `<li class="flex justify-between text-xs text-gray-800 dark:text-gray-200"><span>${i.nombre}</span><span class="font-bold">${i.cantidad}${i.unidad}</span></li>`).join('')}</ul>`;
+                section.innerHTML = `<h4 class="font-bold text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-800 pb-1">${cat}</h4><ul class="space-y-1.5">${items.map(i => `<li class="flex justify-between text-xs text-gray-800 dark:text-gray-200"><span>${escapeHtml(i.nombre)}</span><span class="font-bold">${escapeHtml(`${i.cantidad}${i.unidad}`)}</span></li>`).join('')}</ul>`;
                 container.appendChild(section);
             });
             if (!hasItems) container.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">No hay ingredientes necesarios en el menú actual.</p>';
@@ -4080,13 +4273,13 @@
                 card.className = "bg-white/80 p-3.5 rounded-2xl border border-slate-200/60 flex justify-between items-center cursor-pointer hover:bg-slate-50 transition-all";
                 card.innerHTML = `
                     <div>
-                        <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs mb-1">${d.nombre}</h4>
+                        <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs mb-1">${escapeHtml(d.nombre)}</h4>
                         <div class="flex gap-1.5">
                             <span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">${d.categoria}</span>
                             ${d.precocinado ? '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300">Precocinado</span>' : ''}
                         </div>
                     </div>
-                    <button onclick="confirmSwap('${d.id}')" class="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Seleccionar</button>
+                    <button onclick="confirmSwap('${escapeHtml(d.id)}')" class="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Seleccionar</button>
                 `;
                 container.appendChild(card);
             });
@@ -4120,6 +4313,9 @@
                 alert("No hay menú activo para guardar.");
                 return;
             }
+            const signature = JSON.stringify(currentMenu.days);
+            const duplicate = historyMenus.find(item => JSON.stringify(item?.menu?.days || {}) === signature);
+            if (duplicate && !confirm(`Este menú ya está guardado en el histórico (${duplicate.date || 'fecha anterior'}). ¿Quieres guardarlo de nuevo?`)) return;
             const record = {
                 id: Date.now().toString(),
                 date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }),
@@ -4152,8 +4348,8 @@
                         <span class="text-[10px] text-gray-500">Planificación semanal completa</span>
                     </div>
                     <div class="flex gap-1.5">
-                        <button onclick="loadHistoryMenu('${item.id}')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-xs font-bold">Cargar</button>
-                        <button onclick="deleteHistoryMenu('${item.id}')" class="bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 px-2.5 py-1 rounded-lg text-xs font-bold">×</button>
+                        <button onclick="loadHistoryMenu('${escapeHtml(item.id)}')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-xs font-bold">Cargar</button>
+                        <button onclick="deleteHistoryMenu('${escapeHtml(item.id)}')" class="bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 px-2.5 py-1 rounded-lg text-xs font-bold">×</button>
                     </div>
                 `;
                 container.appendChild(row);
@@ -4178,16 +4374,8 @@
         }
 
         function exportData() {
-            const data = { dishes, settings, rawStock, preparedStock, currentMenu, previousWeekMenu, historyMenus };
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `cheftrack_backup_${new Date().toISOString().slice(0,10)}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            const data = { app: 'GastroOS', type: 'full-backup', exportedAt: new Date().toISOString(), dishes, settings, rawStock, preparedStock, currentMenu, previousWeekMenu, historyMenus, recipeChangeHistory };
+            downloadJsonFile(data, `gastroos_backup_${new Date().toISOString().slice(0,10)}.json`);
         }
 
         function exportRecipesOnly() {
@@ -4208,59 +4396,98 @@
             setTimeout(() => URL.revokeObjectURL(url), 1000);
         }
 
-        async function importData(e) {
+        function closeImportPreview() {
+            pendingImportData = null;
+            document.getElementById('modalImportPreview')?.classList.add('hidden');
+        }
+
+        function summarizeImport(data) {
+            const importedDishes = Array.isArray(data) ? data : (Array.isArray(data?.dishes) ? data.dishes : (Array.isArray(data?.recipes) ? data.recipes : null));
+            const full = !Array.isArray(data) && data && typeof data === 'object';
+            return {
+                importedDishes,
+                full,
+                recipeCount: importedDishes?.length || 0,
+                hasSettings: !!(full && data.settings && typeof data.settings === 'object'),
+                hasStock: !!(full && (Array.isArray(data.rawStock) || Array.isArray(data.preparedStock))),
+                hasMenu: !!(full && Object.prototype.hasOwnProperty.call(data, 'currentMenu')),
+                hasHistory: !!(full && Array.isArray(data.historyMenus))
+            };
+        }
+
+        function openImportPreview(data, fileName = '') {
+            const summary = summarizeImport(data);
+            if (!summary.importedDishes && !summary.full) throw new Error('El archivo no contiene datos reconocibles de GastroOS.');
+            pendingImportData = { data, fileName, summary };
+            const el = document.getElementById('importPreviewContent');
+            el.innerHTML = `
+                <div class="rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900 p-3">
+                    <div class="font-bold text-indigo-800 dark:text-indigo-200">${escapeHtml(fileName || 'archivo JSON')}</div>
+                    <div class="text-[10px] text-indigo-700 dark:text-indigo-300 mt-1">Se creará una copia automática antes de aplicar los cambios.</div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-800"><b>${summary.recipeCount}</b><div class="text-gray-500 mt-1">recetas</div></div>
+                    <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-800"><b>${summary.full ? 'Sí' : 'No'}</b><div class="text-gray-500 mt-1">copia integral</div></div>
+                </div>
+                <ul class="space-y-1 text-gray-600 dark:text-gray-300">
+                    <li>• Configuración: ${summary.hasSettings ? 'se restaurará' : 'no se modifica'}</li>
+                    <li>• Stock: ${summary.hasStock ? 'se restaurará' : 'no se modifica'}</li>
+                    <li>• Menú actual: ${summary.hasMenu ? 'se restaurará' : 'no se modifica'}</li>
+                    <li>• Histórico: ${summary.hasHistory ? 'se restaurará' : 'no se modifica'}</li>
+                </ul>
+                <p class="text-[10px] text-amber-700 dark:text-amber-300">La restauración sustituirá los datos equivalentes de este navegador. Si el archivo contiene solo recetas, únicamente se sustituirá el recetario.</p>`;
+            document.getElementById('modalImportPreview').classList.remove('hidden');
+        }
+
+        async function confirmPendingImport() {
+            if (!pendingImportData) return;
+            const { data, summary } = pendingImportData;
+            createAutoBackup(`antes de restaurar ${pendingImportData.fileName || 'una copia JSON'}`);
+            const importedDishes = summary.importedDishes;
+            if (importedDishes) {
+                dishes = importedDishes.map(normalizeDishData);
+                logRecipeChange('import', null, `${dishes.length} recetas importadas`);
+            }
+            if (summary.full && data.settings && typeof data.settings === 'object') settings = { ...defaultSettings, ...data.settings };
+            if (summary.full && Array.isArray(data.rawStock)) rawStock = data.rawStock;
+            if (summary.full && Array.isArray(data.preparedStock)) preparedStock = data.preparedStock;
+            if (summary.full && Object.prototype.hasOwnProperty.call(data, 'currentMenu')) currentMenu = data.currentMenu;
+            if (summary.full && Object.prototype.hasOwnProperty.call(data, 'previousWeekMenu')) previousWeekMenu = data.previousWeekMenu;
+            if (summary.full && Array.isArray(data.historyMenus)) historyMenus = data.historyMenus;
+            if (summary.full && Array.isArray(data.recipeChangeHistory)) recipeChangeHistory = data.recipeChangeHistory;
+
+            saveAll();
+            applyDarkMode();
+            updateFormVisibility();
+            renderDishes(); renderStockView(); renderGeneratorView(); renderHistorySection(); renderMigrationUI(); renderRecipeDiagnostics(); renderRecipeChangeHistory();
+            closeImportPreview();
+
+            if (importedDishes) {
+                const syncResult = await syncImportedDishesToGitHub(dishes);
+                if (syncResult.success) alert('Datos restaurados correctamente y recetas sincronizadas con GitHub.');
+                else if (syncResult.skipped) {
+                    setGitHubSyncStatus('Restauración guardada localmente. GitHub no está configurado en este navegador.', 'warning');
+                    alert('Datos restaurados correctamente. GitHub no está configurado, así que las recetas quedan solo en este navegador.');
+                } else {
+                    setGitHubSyncStatus('La restauración está guardada localmente, pero no se pudo sincronizar con GitHub.', 'error');
+                    alert(`Datos restaurados localmente, pero no se pudieron sincronizar con GitHub.\n\nMotivo: ${syncResult.message}`);
+                }
+            } else {
+                alert('Datos restaurados correctamente.');
+            }
+        }
+
+        function importData(e) {
             const file = e.target.files[0];
             if (!file) return;
-
             const reader = new FileReader();
-            reader.onload = async function(evt) {
+            reader.onload = function(evt) {
                 try {
                     const data = JSON.parse(evt.target.result);
-                    const importedDishes = Array.isArray(data)
-                        ? data
-                        : (Array.isArray(data.dishes) ? data.dishes : (Array.isArray(data.recipes) ? data.recipes : null));
-
-                    if (importedDishes) {
-                        dishes = importedDishes.map(normalizeDishData);
-                    }
-                    if (!Array.isArray(data) && data.settings && typeof data.settings === 'object') {
-                        settings = { ...defaultSettings, ...data.settings };
-                    }
-                    if (!Array.isArray(data) && Array.isArray(data.rawStock)) rawStock = data.rawStock;
-                    if (!Array.isArray(data) && Array.isArray(data.preparedStock)) preparedStock = data.preparedStock;
-                    if (!Array.isArray(data) && Object.prototype.hasOwnProperty.call(data, 'currentMenu')) currentMenu = data.currentMenu;
-                    if (!Array.isArray(data) && Object.prototype.hasOwnProperty.call(data, 'previousWeekMenu')) previousWeekMenu = data.previousWeekMenu;
-                    if (!Array.isArray(data) && Array.isArray(data.historyMenus)) historyMenus = data.historyMenus;
-
-                    saveAll();
-                    applyDarkMode();
-                    updateFormVisibility();
-                    renderDishes();
-                    renderStockView();
-                    renderGeneratorView();
-                    renderHistorySection();
-                    renderMigrationUI();
-
-                    // Se aceptan tanto copias integrales como el recetario exportado por separado
-                    // (array de recetas o objeto {dishes}/{recipes}). Si hay GitHub configurado,
-                    // el listado importado se sincroniza en un único commit.
-                    if (importedDishes) {
-                        const syncResult = await syncImportedDishesToGitHub(dishes);
-                        if (syncResult.success) {
-                            alert("Datos importados correctamente y recetas sincronizadas con GitHub.");
-                        } else if (syncResult.skipped) {
-                            setGitHubSyncStatus("Importación guardada localmente. GitHub no está configurado en este navegador.", 'warning');
-                            alert("Datos importados correctamente. La conexión con GitHub no está configurada, así que no se han sincronizado las recetas.");
-                        } else {
-                            setGitHubSyncStatus("La importación está guardada localmente, pero no se pudo sincronizar con GitHub.", 'error');
-                            alert(`Datos importados correctamente en GastroOS, pero no se pudieron sincronizar con GitHub.\n\nMotivo: ${syncResult.message}`);
-                        }
-                    } else {
-                        alert("Datos importados correctamente.");
-                    }
+                    openImportPreview(data, file.name);
                 } catch(err) {
-                    console.error("Error al importar el archivo JSON:", err);
-                    alert("Error al importar el archivo JSON. Comprueba que el archivo contiene un JSON válido de GastroOS o un listado de recetas.");
+                    console.error('Error al leer el archivo JSON:', err);
+                    alert('No se pudo leer el JSON. Comprueba que el archivo sea válido.');
                 } finally {
                     e.target.value = '';
                 }
@@ -4270,8 +4497,13 @@
 
         function wipeData() {
             if (confirm("¿Estás completamente seguro de borrar los datos locales y restaurar valores iniciales? La conexión con GitHub se conservará para poder volver a cargar el recetario.")) {
+                createAutoBackup('antes de borrar todos los datos locales');
                 const githubSettings = localStorage.getItem('chefTrack_githubSettings');
+                const autoBackup = localStorage.getItem('chefTrack_autoBackup');
+                const autoBackupAt = localStorage.getItem('chefTrack_autoBackupAt');
                 localStorage.clear();
+                if (autoBackup) localStorage.setItem('chefTrack_autoBackup', autoBackup);
+                if (autoBackupAt) localStorage.setItem('chefTrack_autoBackupAt', autoBackupAt);
                 if (githubSettings) localStorage.setItem('chefTrack_githubSettings', githubSettings);
                 location.reload();
             }
