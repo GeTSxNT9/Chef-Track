@@ -6,9 +6,9 @@
 ---
 
 <p align="left">
-  <a href="#"><img src="https://img.shields.io/badge/Architecture-Single--File%20SPA-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Architecture"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Storage-localStorage%20%2B%20GitHub%20API-24292e?style=for-the-badge&logo=github&logoColor=white" alt="Storage"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Design-Apple%20Minimalist-000000?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Design"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Architecture-Single--File%20SPA-000000?style=flat-square&logo=apple&logoColor=white" alt="Architecture"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Storage-localStorage%20%2B%20GitHub%20API-24292e?style=flat-square&logo=github&logoColor=white" alt="Storage"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Design-Apple%20Minimalist-000000?style=flat-square&logo=tailwindcss&logoColor=white" alt="Design"></a>
 </p>
 
 ---
