@@ -4434,5 +4434,23 @@
     "demanda": "Media",
     "alergenos": [],
     "ingredientes": []
+  },
+  {
+    "id": "1791023102460",
+    "nombre": "Ragout de cerdo al curry",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "carne_cerdo",
+    "especie_pescado": "",
+    "especie_animal": "carne_cerdo",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "elaborado": true,
+    "demanda": "Media",
+    "alergenos": [],
+    "ingredientes": []
   }
 ]
