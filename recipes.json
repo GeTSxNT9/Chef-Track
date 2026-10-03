@@ -2276,58 +2276,6 @@
     ]
   },
   {
-    "id": "1790939060311",
-    "nombre": "Albóndigas de carne en salsa de almendras",
-    "categoria": "Segundo",
-    "subcategoria_primero": "",
-    "subtipo_primero": "",
-    "proteina_segundo": "Carne",
-    "animal_carne": "carne_ternera",
-    "especie_pescado": "",
-    "especie_animal": "carne_ternera",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
-    "precocinado": false,
-    "demanda": "Alta",
-    "alergenos": [
-      "gluten",
-      "frutos_cascara",
-      "sulfitos"
-    ],
-    "ingredientes": [
-      {
-        "nombre": "Albóndigas de carne",
-        "cantidad": 200,
-        "unidad": "g",
-        "categoria_proveedor": "Congelados"
-      },
-      {
-        "nombre": "Almendras",
-        "cantidad": 15,
-        "unidad": "g",
-        "categoria_proveedor": "Secos"
-      },
-      {
-        "nombre": "Cebolla picada",
-        "cantidad": "",
-        "unidad": "g",
-        "categoria_proveedor": "Congelados"
-      },
-      {
-        "nombre": "Ajo",
-        "cantidad": "",
-        "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
-      },
-      {
-        "nombre": "Vino blanco",
-        "cantidad": "",
-        "unidad": "ml",
-        "categoria_proveedor": "Secos"
-      }
-    ]
-  },
-  {
     "id": "1790940000001",
     "nombre": "Fideuá de marisco",
     "categoria": "Primero",
