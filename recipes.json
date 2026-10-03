@@ -3731,7 +3731,7 @@
       },
       {
         "nombre": "Ajo",
-        "cantidad": 0,
+        "cantidad": "",
         "unidad": "",
         "categoria_proveedor": "Verduras y frutas"
       }
