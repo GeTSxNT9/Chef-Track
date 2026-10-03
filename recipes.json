@@ -1850,8 +1850,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "",
+    "tecnica": "",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1872,7 +1872,7 @@
         "categoria_proveedor": "Lácteos"
       },
       {
-        "nombre": "Queso",
+        "nombre": "Quesos variados",
         "cantidad": 40,
         "unidad": "g",
         "categoria_proveedor": "Lácteos"
