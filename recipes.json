@@ -1993,14 +1993,14 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "",
+    "tecnica": "",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
       "crustaceos",
-      "moluscos",
-      "pescado"
+      "pescado",
+      "moluscos"
     ],
     "ingredientes": [
       {
@@ -2016,21 +2016,15 @@
         "categoria_proveedor": "Pescado"
       },
       {
-        "nombre": "Gambas",
-        "cantidad": 40,
-        "unidad": "g",
-        "categoria_proveedor": "Pescado"
-      },
-      {
         "nombre": "Mejillones",
         "cantidad": 40,
         "unidad": "g",
-        "categoria_proveedor": "Pescado"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Tomate frito",
         "cantidad": 30,
-        "unidad": "g",
+        "unidad": "ml",
         "categoria_proveedor": "Secos"
       },
       {
