@@ -2739,27 +2739,27 @@
     ],
     "ingredientes": [
       {
-        "nombre": "Cinta de lomo de cerdo",
+        "nombre": "Cinta de lomo fileteada",
         "cantidad": 200,
         "unidad": "g",
         "categoria_proveedor": "Carne"
       },
       {
-        "nombre": "Pimiento rojo",
-        "cantidad": 50,
+        "nombre": "Pimiento rojo picado",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
-        "nombre": "Cebolla",
-        "cantidad": 40,
+        "nombre": "Cebolla picada",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Tomate frito",
         "cantidad": 60,
-        "unidad": "g",
+        "unidad": "ml",
         "categoria_proveedor": "Secos"
       },
       {
