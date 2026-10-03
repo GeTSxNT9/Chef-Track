@@ -2947,20 +2947,20 @@
       {
         "nombre": "Tomate frito",
         "cantidad": 100,
-        "unidad": "g",
+        "unidad": "ml",
         "categoria_proveedor": "Secos"
       },
       {
-        "nombre": "Cebolla",
-        "cantidad": 40,
+        "nombre": "Cebolla picada",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
-        "nombre": "Pimiento verde",
-        "cantidad": 30,
+        "nombre": "Pimiento verde picado",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Pimienta negra",
