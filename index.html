@@ -684,6 +684,11 @@
                     <input type="checkbox" id="dishPrecooked" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500">
                 </div>
 
+                <div class="flex items-center justify-between bg-emerald-50 dark:bg-emerald-950/50 p-3 rounded-lg border border-emerald-100 dark:border-emerald-900 mt-2">
+                    <label for="dishElaborated" class="text-sm font-bold text-emerald-900 dark:text-emerald-300">¿Plato elaborado?</label>
+                    <input type="checkbox" id="dishElaborated" class="w-5 h-5 text-emerald-600 rounded focus:ring-emerald-500">
+                </div>
+
                 <div class="border-t border-gray-200 dark:border-gray-800 pt-4 mt-4">
                     <div class="flex justify-between items-center mb-2">
                         <label class="block text-sm font-semibold text-gray-800 dark:text-gray-200">Alérgenos</label>
@@ -795,7 +800,9 @@
                 </div>
                 <form id="rawStockForm" class="bg-gray-50 dark:bg-gray-800/60 p-3 rounded-lg border border-gray-200 dark:border-gray-700 space-y-3 mb-4">
                     <div>
-                        <input type="text" id="rawName" placeholder="Nombre" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+                        <select id="rawName" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+                            <option value="">Seleccionar ingrediente...</option>
+                        </select>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <input type="text" inputmode="decimal" id="rawQty" placeholder="Cantidad" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
@@ -832,7 +839,9 @@
                 </div>
                 <form id="prepStockForm" class="bg-gray-50 dark:bg-gray-800/60 p-3 rounded-lg border border-gray-200 dark:border-gray-700 space-y-3 mb-4">
                     <div>
-                        <input type="text" id="prepName" placeholder="Nombre" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+                        <select id="prepName" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+                            <option value="">Seleccionar plato elaborado...</option>
+                        </select>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <input type="text" inputmode="decimal" id="prepCantidad" placeholder="Cantidad" required class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
@@ -1201,6 +1210,7 @@
             const dish = { ...d };
             dish.demanda = dish.demanda || "Media";
             dish.precocinado = !!dish.precocinado;
+            dish.elaborado = !!dish.elaborado;
             dish.subcategoria_primero = dish.subcategoria_primero || "";
             dish.subtipo_primero = dish.subtipo_primero || "";
             dish.proteina_segundo = dish.proteina_segundo || "";
@@ -1479,6 +1489,8 @@
             updateFormVisibility();
             renderDishes();
             renderStockView();
+            renderRawStockIngredientOptions();
+            renderPreparedDishOptions();
             renderGeneratorView();
             renderHistorySection();
             renderMigrationUI();
@@ -1611,6 +1623,7 @@
             document.getElementById('checkMargen').addEventListener('change', updateCalculatedRaciones);
             document.getElementById('rawStockForm').addEventListener('submit', handleAddRawStock);
             document.getElementById('prepStockForm').addEventListener('submit', handleAddPrepStock);
+            document.getElementById('prepName').addEventListener('change', renderPreparedAssignmentOptions);
 
             document.getElementById('btnSubTabMenu').addEventListener('click', () => switchGeneratorSubTab('menu'));
             document.getElementById('btnSubTabShopping').addEventListener('click', () => switchGeneratorSubTab('shopping'));
@@ -2560,6 +2573,7 @@
                 tecnica_cocina: (isCarne || isPescado) ? document.getElementById('dishTechnique').value : "",
                 tecnica: (isCarne || isPescado) ? document.getElementById('dishTechnique').value : "",
                 precocinado: document.getElementById('dishPrecooked').checked,
+                elaborado: document.getElementById('dishElaborated').checked,
                 demanda: document.getElementById('dishDemand').value,
                 alergenos: Array.from(document.querySelectorAll('input[name="dishAllergen"]:checked')).map(input => input.value),
                 ingredientes: []
@@ -2633,6 +2647,7 @@
             }
 
             document.getElementById('dishPrecooked').checked = !!d.precocinado;
+            document.getElementById('dishElaborated').checked = !!d.elaborado;
             document.getElementById('dishDemand').value = d.demanda || "Media";
             document.querySelectorAll('input[name="dishAllergen"]').forEach(input => {
                 input.checked = d.alergenos.includes(input.value);
@@ -2750,6 +2765,7 @@
             document.getElementById('btnCancel').classList.add('hidden');
             document.getElementById('ingredientsContainer').innerHTML = '';
             document.getElementById('dishPrecooked').checked = false;
+            document.getElementById('dishElaborated').checked = false;
             document.querySelectorAll('input[name="dishAllergen"]').forEach(input => { input.checked = false; });
             updateFormVisibility();
         }
@@ -2883,6 +2899,162 @@
             document.getElementById('totalRacionesSubtext').innerText = infoText;
         }
 
+        function getRawStockIngredientOptions() {
+            const seen = new Set();
+            const options = [];
+            dishes.map(normalizeDishData).forEach(dish => {
+                if (dish.categoria !== "Segundo") return;
+                (dish.ingredientes || []).forEach(ing => {
+                    const category = String(ing?.categoria_proveedor || "").trim();
+                    const name = String(ing?.nombre || "").trim();
+                    if (!name || !["Carne", "Pescado"].includes(category)) return;
+                    const key = name.toLocaleLowerCase();
+                    if (seen.has(key)) return;
+                    seen.add(key);
+                    options.push(name);
+                });
+            });
+            return options.sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }));
+        }
+
+        function renderRawStockIngredientOptions() {
+            const select = document.getElementById('rawName');
+            if (!select) return;
+            const current = select.value;
+            select.innerHTML = '<option value="">Seleccionar ingrediente...</option>';
+            getRawStockIngredientOptions().forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                select.appendChild(option);
+            });
+            if (current && Array.from(select.options).some(option => option.value === current)) select.value = current;
+        }
+
+        function getPreparedDishOptions() {
+            return dishes
+                .map(normalizeDishData)
+                .filter(d => d.elaborado)
+                .sort((a, b) => String(a.nombre || '').localeCompare(String(b.nombre || ''), 'es', { sensitivity: 'base' }));
+        }
+
+        function getPreparedAssignmentSpecsForDish(dish) {
+            if (!dish) return [];
+            const specs = [];
+            daysList.forEach((dayName, dayIndex) => {
+                if (dish.categoria === "Segundo") {
+                    const spec = { slotLabel: "Segundo", cat: "Segundo", protein: dish.proteina_segundo };
+                    const candidate = normalizeDishData(dish);
+                    if (!isStructuralMatch(candidate, spec)) return;
+                    if (violatesPreparedSecondAssignment(candidate, dayName, dayIndex)) return;
+                    specs.push(`${dayName} - Segundo`);
+                } else if (dish.categoria === "Primero") {
+                    const firstSpecs = [
+                        { slotLabel: FIRST_SLOT_LABELS.vegetable, cat: "Primero", allowedParents: ["Verdura"] },
+                        { slotLabel: FIRST_SLOT_LABELS.spoon, cat: "Primero", allowedParents: ["Cuchara"] },
+                        { slotLabel: FIRST_SLOT_LABELS.starch, cat: "Primero", allowedParents: ["Tenedor"] }
+                    ];
+                    const menuDays = getPreparedFirstMenuDays();
+                    const chosenFirsts = (menuDays[dayName] || []).map(item => item.dish).filter(Boolean);
+                    const usedVegetableKeys = new Set();
+                    daysList.forEach(name => {
+                        (menuDays[name] || []).forEach(item => {
+                            const key = getPrimaryVegetableKey(item.dish);
+                            if (key) usedVegetableKeys.add(key);
+                        });
+                    });
+                    const compatibleFirst = firstSpecs.some(spec =>
+                        isStructuralMatch(dish, spec) &&
+                        !violatesDayFirstRule(dish, spec, menuDays, dayIndex, chosenFirsts, usedVegetableKeys, previousWeekMenu, firstSpecs.indexOf(spec))
+                    );
+                    if (compatibleFirst) specs.push(`${dayName} - Primero`);
+                }
+            });
+            return specs;
+        }
+
+        function getPreparedFirstMenuDays(exceptPreparedId = null) {
+            const menuDays = {};
+            daysList.forEach(day => menuDays[day] = []);
+            preparedStock.forEach(item => {
+                if (exceptPreparedId && String(item.id) === String(exceptPreparedId)) return;
+                const assignment = String(item.asignacion || "");
+                const match = assignment.match(/^(Lunes|Martes|Miércoles|Jueves|Viernes) - Primero$/);
+                if (!match) return;
+                const found = dishes.find(d => String(d?.nombre || '').toLowerCase() === String(item.nombre || '').toLowerCase());
+                if (!found) return;
+                const normalized = normalizeDishData(found);
+                if (!normalized.elaborado || normalized.categoria !== "Primero") return;
+                menuDays[match[1]].push({ cat: "Primero", dish: normalized, slotLabel: "Primero" });
+            });
+            return menuDays;
+        }
+
+        function getPreparedSecondMenuDays(exceptPreparedId = null) {
+            const menuDays = {};
+            daysList.forEach(day => menuDays[day] = []);
+            preparedStock.forEach(item => {
+                if (exceptPreparedId && String(item.id) === String(exceptPreparedId)) return;
+                const assignment = String(item.asignacion || "");
+                const match = assignment.match(/^(Lunes|Martes|Miércoles|Jueves|Viernes) - Segundo$/);
+                if (!match) return;
+                const found = dishes.find(d => String(d?.nombre || '').toLowerCase() === String(item.nombre || '').toLowerCase());
+                if (!found) return;
+                const normalized = normalizeDishData(found);
+                if (!normalized.elaborado || normalized.categoria !== "Segundo") return;
+                menuDays[match[1]].push({ cat: "Segundo", dish: normalized, slotLabel: "Segundo" });
+            });
+            return menuDays;
+        }
+
+        function violatesPreparedSecondAssignment(dish, dayName, dayIndex, exceptPreparedId = null) {
+            if (!dish || dish.categoria !== "Segundo") return true;
+            const spec = { slotLabel: "Segundo", cat: "Segundo", protein: dish.proteina_segundo };
+            if (!isStructuralMatch(dish, spec)) return true;
+
+            const menuDays = getPreparedSecondMenuDays(exceptPreparedId);
+            const currentSeconds = menuDays[dayName] || [];
+            const chosenAnimals = currentSeconds.map(item => item.dish?.animal_carne).filter(Boolean);
+            const chosenTechniques = currentSeconds.map(item => item.dish?.tecnica_cocina).filter(Boolean);
+            const chosenSecondFamilies = currentSeconds.map(item => getSecondPreparationFamily(item.dish)).filter(Boolean);
+
+            if (violatesDaySecondRule(dish, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, chosenSecondFamilies)) return true;
+            if (violatesFutureGuisoProtection(dish, dayIndex, menuDays, new Set(currentSeconds.map(item => String(item.dish?.id || ''))))) return true;
+            return false;
+        }
+
+        function renderPreparedDishOptions() {
+            const select = document.getElementById('prepName');
+            if (!select) return;
+            const current = select.value;
+            select.innerHTML = '<option value="">Seleccionar plato elaborado...</option>';
+            getPreparedDishOptions().forEach(dish => {
+                const option = document.createElement('option');
+                option.value = dish.nombre;
+                option.textContent = dish.nombre;
+                select.appendChild(option);
+            });
+            if (current && Array.from(select.options).some(option => option.value === current)) select.value = current;
+            renderPreparedAssignmentOptions();
+        }
+
+        function renderPreparedAssignmentOptions() {
+            const select = document.getElementById('prepAsignacion');
+            const nameSelect = document.getElementById('prepName');
+            if (!select || !nameSelect) return;
+            const dish = getPreparedDishOptions().find(d => String(d.nombre) === String(nameSelect.value));
+            const current = select.value;
+            select.innerHTML = '<option value="Sin asignar">Sin asignar</option>';
+            getPreparedAssignmentSpecsForDish(dish).forEach(assignment => {
+                const option = document.createElement('option');
+                option.value = assignment;
+                option.textContent = assignment;
+                select.appendChild(option);
+            });
+            if (current && Array.from(select.options).some(option => option.value === current)) select.value = current;
+            else select.value = 'Sin asignar';
+        }
+
         function handleAddRawStock(e) {
             e.preventDefault();
             const cantStr = document.getElementById('rawQty').value.toString().replace(',', '.');
@@ -2990,13 +3162,24 @@
 
         function handleAddPrepStock(e) {
             e.preventDefault();
+            const selectedName = document.getElementById('prepName').value;
+            const selectedDish = getPreparedDishOptions().find(d => String(d.nombre) === String(selectedName));
+            const assignment = document.getElementById('prepAsignacion').value;
+            if (!selectedDish) {
+                alert("Selecciona un plato elaborado.");
+                return;
+            }
+            if (assignment !== "Sin asignar" && !getPreparedAssignmentSpecsForDish(selectedDish).includes(assignment)) {
+                renderPreparedAssignmentOptions();
+                return;
+            }
             const cantStr = document.getElementById('prepCantidad').value.toString().replace(',', '.');
             const item = {
                 id: Date.now().toString(),
-                nombre: document.getElementById('prepName').value,
+                nombre: selectedDish.nombre,
                 cantidadTotal: parseFloat(cantStr) || 0,
                 unidad: document.getElementById('prepUnidad').value,
-                asignacion: document.getElementById('prepAsignacion').value
+                asignacion: assignment
             };
             preparedStock.unshift(item);
             saveAll();
@@ -3496,6 +3679,7 @@
             // solo por compatibilidad con el formato existente de los slots y para evitar bucles infinitos.
             {
                 let candidates = getUniqueNormalizedDishes()
+                    .filter(d => !d.elaborado)
                     .filter(d => isStructuralMatch(d, spec))
                     .filter(d => !usedDishIdsThisWeek.has(String(d.id)))
                     .filter(d => !violatesDayFirstRule(d, spec, menuDays, dayIndex, chosenFirsts, usedVegetableKeys, previousMenu, slotIndex))
@@ -3589,7 +3773,10 @@
         function getPreparedCandidate(prep, spec, dayName, slotIndex) {
             const name = String(prep?.nombre || "").trim();
             const found = dishes.find(d => String(d?.nombre || "").toLowerCase() === name.toLowerCase());
-            if (found) return normalizeDishData(found);
+            if (found) {
+                const normalized = normalizeDishData(found);
+                return normalized.elaborado ? normalized : null;
+            }
 
             const safeName = normalizeFoodKey(name).replace(/\s+/g, "-") || `slot-${slotIndex}`;
             return normalizeDishData({
@@ -3637,6 +3824,7 @@
                     const prep = assignedList.shift();
                     const candidate = getPreparedCandidate(prep, spec, dayName, index);
                     if (
+                        candidate &&
                         isStructuralMatch(candidate, spec) &&
                         !usedDishIdsThisWeek.has(String(candidate.id)) &&
                         !violatesDayFirstRule(candidate, spec, menuDays, dayIndex, chosenFirsts, usedVegetableKeys, previousMenu, index) &&
@@ -4093,7 +4281,7 @@
             const base = new Date();
             base.setHours(0, 0, 0, 0);
             const day = base.getDay() || 7;
-            base.setDate(base.getDate() - day + 1);
+            base.setDate(base.getDate() - day + 8);
             return daysList.map((_, index) => {
                 const d = new Date(base);
                 d.setDate(base.getDate() + index);
@@ -4505,7 +4693,7 @@
             saveAll();
             applyDarkMode();
             updateFormVisibility();
-            renderDishes(); renderStockView(); renderGeneratorView(); renderHistorySection(); renderMigrationUI(); renderRecipeDiagnostics(); renderRecipeChangeHistory();
+            renderDishes(); renderStockView(); renderRawStockIngredientOptions(); renderPreparedDishOptions(); renderGeneratorView(); renderHistorySection(); renderMigrationUI(); renderRecipeDiagnostics(); renderRecipeChangeHistory();
             closeImportPreview();
 
             if (importedDishes) {
