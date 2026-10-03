@@ -1,7 +1,7 @@
 # 📖 GastroOS
 
-> **Web Operating System for Recipe Management, Menu Planning, and Stock Control.**  
-> *Unified PWA single-file architecture application with remote synchronization via GitHub API.*
+**Web Operating System for Recipe Management, Menu Planning, and Stock Control.**
+*Unified PWA single-file architecture with local persistence and optional GitHub synchronization.*
 
 ---
 
@@ -13,80 +13,216 @@
 
 ## 📸 Overview
 
-**GastroOS** is a web application (*Single Page Application*) natively developed in **HTML5, CSS, and JavaScript**, packaged in a single-file architecture. It is designed for catering, institutional, and restaurant environments requiring agile weekly menu planning, stock control, and nutritional balance without the complexity or dependency of heavy external servers.
+**GastroOS** is a web application (**Single Page Application**) developed with **HTML5, CSS, and JavaScript**, designed to centralize recipe management, weekly menu planning, ingredient control, stock management, and shopping list generation in a single interface.
+
+The application follows a **single-file architecture**, keeping the main interface and application logic inside `index.html`, while recipe data is maintained separately in `recipes.json`.
+
+The system is designed to operate primarily on the client side, without requiring a dedicated backend server for its core functionality.
 
 ---
 
 ## 🛠️ Technical Architecture & Modules
 
-### 1. 📗 Master Recipe Book
-Recipes are managed as JSON object data structures with complete classification metadata:
-* **Internal Identifiers (`id`):** Independent of the visual layer to prevent reference errors.
-* **Structural Classification:** Dish definition (First / Second Course), category, technical subcategory, and tags.
-* **Operational Properties:** Demand level, weighted ingredients, and associated quantities.
-* **Allergen Profile:** Integrated registration of official allergen declarations configured via interactive checkboxes during recipe creation and editing.
-* **Individual Editing:** Complete editing of individual recipes while preserving their internal identifiers and associated data.
-* **Bulk Editing:** Multiple recipes can be selected and updated simultaneously, modifying a specific property while preserving all other recipe data.
-* **Bulk Selection:** Recipes can be selected individually or through the visible filtered recipe list.
-* **GitHub Synchronization:** Bulk recipe changes are synchronized with the configured GitHub repository.
+### 1. 🟩 Master Recipe Book
 
-### 2. 🔄 Remote Synchronization (GitHub API REST)
-GastroOS uses GitHub as its centralized, persistent database:
-* **Hybrid Structure:** 
-  * `GitHub Repository` ➔ **Master Data Source** (`recipes.json`).
-  * `localStorage` ➔ **High-Performance Browser Cache & Local Storage**.
-* **CRUD Operations:** Two-way synchronization via HTTP `GET` (read/download) and `PUT` (write/commit) requests with header authentication.
-* **Multi-Device Access:** Allows working with the same recipe book in a centralized manner across different devices or browsers.
-* **Bulk Operations:** Multiple recipe changes can be consolidated into a single GitHub commit.
+The recipe book is managed through structured JSON data and provides the foundation for the rest of the application.
 
-### 3. 🎲 Intelligent Planning Engine
-The analytical generator evaluates the active recipe book, storage inventory, and demand forecasts to generate balanced weekly menu proposals:
-* **Daily Balance:** Distribution of 3 first courses (1 Vegetable, 1 Spoon dish, 1 Fork dish) and 3 second courses (1 Fish, 2 Meats).
-* **Nutritional Variety Control:** Algorithm ensuring zero repetition of fish species or vegetable families within the same week, strict limits on fried foods, and rotation of animal protein types.
-* **Utilization & Rotation:** Priority integration of raw materials in stock and pre-cooked inventory items.
-* **Replacement Matrix:** Allows dynamic manual substitutions per dish.
-
-### 4. 📦 Stock & Forecast Management
-* **Categorized Inventory:** Classification and organization of raw materials and prepared dishes.
-* **Proportion Calculation:** Safety margin applied over diner forecasts for automatic production portion adjustments.
-* **Order Generator:** Consolidation of required ingredients grouped into 6 logistical categories: *Meat, Fish, Dairy, Fruits & Vegetables, Dry Goods, and Frozen*.
-
-### 5. 💾 Data Persistence & Portability
-* **Environment Isolation:** GitHub connection credentials are stored independently of local database data to allow local storage clearing without losing the configured connection.
-* **Backup & JSON Exchange:** Import and export module for `.json` files to create manual backups or execute quick migrations between environments.
-
-### 6. 📱 Interface and UX (SPA)
-* **Single-File Architecture:** The entire application (structure, styles, and reactivity) is contained within a single executable file in any modern browser without prior compilation.
-* **Responsive Design:** Smooth adaptation for mobile devices, tablets, and desktop displays.
-* **Adaptive Dark Mode:** Integrated aesthetic contrast switcher.
-* **Recipe Management UX:** Individual and bulk recipe editing workflows are integrated directly into the Recipe Book interface.
+* **Recipe Management:** Creation, editing, deletion, and organization of recipes.
+* **Classification:** Recipes contain the information required by the planning engine.
+* **Ingredients:** Ingredients, quantities, units, and related data are stored with each recipe.
+* **Allergens:** Recipes can include allergen information.
+* **Individual Editing:** Recipes can be modified while preserving their internal identifiers.
+* **Bulk Editing:** Multiple recipes can be updated simultaneously.
+* **Filtering & Selection:** Recipes can be filtered and selected directly from the interface.
+* **GitHub Synchronization:** Recipe data can be synchronized with the configured GitHub repository.
 
 ---
 
-## 🔐 Security & Permissions
+### 2. 📅 Menu Planning Engine
 
-To enable remote sync:
-1. Uses a **Fine-grained Personal Access Token (PAT)** from GitHub.
-2. Required permissions are strictly limited to the scope of the repository where the recipe book resides (`Contents: Read & Write`).
-3. The token is stored locally and non-transferably in the user's browser `localStorage`.
+The planning engine automatically generates weekly menus from the available recipe collection.
+
+It uses a constraint-based generation and validation system to ensure that generated menus comply with the application's planning logic.
+
+Main capabilities include:
+
+* Automatic weekly menu generation.
+* Full-menu validation before accepting a generated plan.
+* Individual day regeneration.
+* Manual dish replacement.
+* Protection against incompatible combinations.
+* Variety management using previously saved menus.
+* Retry-based generation when a candidate menu is invalid.
+
+Generated menus are only committed once the complete weekly plan has passed validation.
 
 ---
 
-## 📋 Data Flow Summary
+### 3. 🛒 Shopping & Ingredient Management
+
+The shopping system connects the weekly menu with the ingredients required by its recipes.
+
+It provides:
+
+* Automatic shopping list generation.
+* Ingredient grouping.
+* Quantity aggregation when applicable.
+* Ingredient categorization.
+* Support for manually specified quantities.
+* Integration with available stock.
+
+Ingredients without a defined quantity remain visible in the shopping list but are treated as non-calculable quantities.
+
+---
+
+### 4. 📦 Stock Control
+
+GastroOS includes stock management to keep track of products already available.
+
+Stock can be managed independently from the recipe collection and is taken into account when preparing shopping requirements.
+
+The system supports both **raw/unprepared products** and **prepared products**.
+
+---
+
+### 5. 🔄 History & Menu Rotation
+
+Saved weekly menus are stored locally and used as historical references for future planning.
+
+This allows the planning engine to avoid simply reproducing previous menu patterns.
+
+Only explicitly saved menus are considered part of the planning history. A generated menu that has not been saved does not become a historical reference.
+
+---
+
+### 6. 💾 Data Persistence
+
+GastroOS uses **browser LocalStorage** for local application persistence.
+
+This allows the application to retain relevant information between sessions without requiring a dedicated database or backend service for its core operation.
+
+The architecture is therefore suitable for static hosting environments such as GitHub Pages.
+
+---
+
+### 7. ☁️ GitHub Integration
+
+GitHub integration provides remote synchronization for recipe data.
+
+The application can work with a configured GitHub repository to synchronize recipe changes while maintaining the main application as a client-side web application.
+
+Authentication credentials and tokens must be handled securely and should never be committed directly to the repository.
+
+---
+
+## 🧩 Application Structure
 
 ```text
-  ┌─────────────────────────────────────────────────────────┐
-  │                       GastroOS                          │
-  │                     (Browser / SPA)                     │
-  └────────────┬───────────────────────────────▲────────────┘
-               │                               │
-    [PUT] Save Recipe                 [GET] Load Recipe Book
-               │                               │
-               ▼                               │
-  ┌────────────────────────────────────────────┴────────────┐
-  │                    GitHub REST API                      │
-  │                 (Repository / master)                   │
-  └────────────────────────────┬────────────────────────────┘
-                               │
-                               ▼
-                       [ recipes.json ]
+GastroOS/
+├── index.html
+├── recipes.json
+└── README.md
+```
+
+### `index.html`
+
+Contains the main application:
+
+* User interface.
+* Styling.
+* Application logic.
+* Menu planning engine.
+* Recipe management.
+* Shopping and stock functionality.
+* Local persistence.
+* GitHub integration.
+
+### `recipes.json`
+
+Contains the application's recipe collection and associated recipe data.
+
+Keeping recipe data separate from the main application makes it easier to maintain and expand the recipe database.
+
+---
+
+## ⚙️ Planning Workflow
+
+The menu planning process follows a generate → validate → accept workflow:
+
+```text
+Recipe Collection
+       ↓
+Candidate Generation
+       ↓
+Constraint Processing
+       ↓
+Full Menu Validation
+       ↓
+Valid Menu
+```
+
+Invalid candidates are discarded and alternative combinations are generated.
+
+The same validation approach is used when regenerating individual days or manually replacing dishes, ensuring that changes are compatible with the complete weekly menu.
+
+Current planning engine:
+
+`menu-rules-v10-constraint-retry`
+
+---
+
+## 🎨 Design Philosophy
+
+GastroOS follows an **Apple-inspired minimalist interface**, prioritizing:
+
+* Clear visual hierarchy.
+* Simple navigation.
+* Compact information density.
+* Consistent controls.
+* Responsive layouts.
+* Minimal visual clutter.
+
+The interface is designed to keep recipe management, planning, stock, and shopping workflows within the same application rather than separating them into independent tools.
+
+---
+
+## 🚀 Deployment
+
+GastroOS can be deployed as a static web application through **GitHub Pages**.
+
+The deployment workflow is:
+
+```text
+Source Files
+     ↓
+Git Repository
+     ↓
+GitHub Pages
+     ↓
+Published Web Application
+```
+
+No dedicated backend server is required for the application's core functionality.
+
+---
+
+## 🔐 Security
+
+GitHub tokens and other credentials must be treated as sensitive information.
+
+They should not be:
+
+* Committed to the repository.
+* Embedded in public source code.
+* Published in the README.
+* Shared through screenshots or documentation.
+
+The appropriate GitHub authentication and permission mechanisms should be used for repository synchronization.
+
+---
+
+## 📌 Project Summary
+
+GastroOS combines **recipe management, automated menu planning, ingredient control, stock management, shopping lists, history, and GitHub synchronization** in a single client-side application.
+
+Its main objective is to automate the repetitive parts of weekly meal planning while keeping the entire process accessible and manually controllable from one interface.
