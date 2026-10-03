@@ -1184,8 +1184,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "",
+    "tecnica": "",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
@@ -1206,7 +1206,7 @@
         "nombre": "Judías verdes",
         "cantidad": 50,
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Patata",
