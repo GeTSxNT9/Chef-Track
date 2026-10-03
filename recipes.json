@@ -1691,8 +1691,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "",
+    "tecnica": "",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1707,33 +1707,33 @@
         "categoria_proveedor": "Secos"
       },
       {
-        "nombre": "Pimiento rojo",
-        "cantidad": 30,
+        "nombre": "Pimiento rojo picado",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
-        "nombre": "Pimiento verde",
-        "cantidad": 30,
+        "nombre": "Pimiento verde picado",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
-        "nombre": "Zanahoria",
-        "cantidad": 30,
+        "nombre": "Zanahoria picada",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
-        "nombre": "Cebolla",
-        "cantidad": 30,
+        "nombre": "Cebolla picada",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Salsa de soja",
         "cantidad": 20,
-        "unidad": "g",
+        "unidad": "ml",
         "categoria_proveedor": "Secos"
       }
     ]
