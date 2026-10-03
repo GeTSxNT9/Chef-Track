@@ -1,12 +1,12 @@
 # 📖 GastroOS
 
 **Web Operating System for Recipe Management, Menu Planning, and Stock Control.**
-*Unified PWA single-file architecture with local persistence and optional GitHub synchronization.*
+*Progressive Web App architecture with local persistence and optional GitHub synchronization.*
 
 ---
 
 <p align="center">
-  <a href="#"><img src="https://img.shields.io/badge/Architecture-Single--File%20SPA-000000?style=flat-square&logo=apple&logoColor=white" alt="Architecture"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Architecture-PWA-000000?style=flat-square&logo=apple&logoColor=white" alt="Architecture"></a>
   <a href="#"><img src="https://img.shields.io/badge/Storage-localStorage%20%2B%20GitHub%20API-24292e?style=flat-square&logo=github&logoColor=white" alt="Storage"></a>
   <a href="#"><img src="https://img.shields.io/badge/Design-Apple%20Minimalist-000000?style=flat-square&logo=tailwindcss&logoColor=white" alt="Design"></a>
 </p>
@@ -17,7 +17,7 @@
 
 **GastroOS** is a web application (**Single Page Application**) developed with **HTML5, CSS, and JavaScript**, designed to centralize recipe management, weekly menu planning, ingredient control, stock management, and shopping list generation in a single interface.
 
-The application follows a **single-file architecture**, keeping the main interface and application logic inside `index.html`, while recipe data is maintained separately in `recipes.json`.
+The application uses a lightweight web architecture where the main interface and application logic are contained in `index.html`, while recipe data, PWA configuration, and application icons are maintained as separate files.
 
 The system is designed to operate primarily on the client side, without requiring a dedicated backend server for its core functionality.
 
@@ -123,108 +123,9 @@ Authentication credentials and tokens must be handled securely and should never 
 GastroOS/
 ├── index.html
 ├── recipes.json
+├── manifest.json
+├── favicon-32.png
+├── apple-touch-icon.png
+├── icon-192.png
+├── icon-512.png
 └── README.md
-```
-
-### `index.html`
-
-Contains the main application:
-
-* User interface.
-* Styling.
-* Application logic.
-* Menu planning engine.
-* Recipe management.
-* Shopping and stock functionality.
-* Local persistence.
-* GitHub integration.
-
-### `recipes.json`
-
-Contains the application's recipe collection and associated recipe data.
-
-Keeping recipe data separate from the main application makes it easier to maintain and expand the recipe database.
-
----
-
-## ⚙️ Planning Workflow
-
-The menu planning process follows a generate → validate → accept workflow:
-
-```text
-Recipe Collection
-       ↓
-Candidate Generation
-       ↓
-Constraint Processing
-       ↓
-Full Menu Validation
-       ↓
-Valid Menu
-```
-
-Invalid candidates are discarded and alternative combinations are generated.
-
-The same validation approach is used when regenerating individual days or manually replacing dishes, ensuring that changes are compatible with the complete weekly menu.
-
-Current planning engine:
-
-`menu-rules-v10-constraint-retry`
-
----
-
-## 🎨 Design Philosophy
-
-GastroOS follows an **Apple-inspired minimalist interface**, prioritizing:
-
-* Clear visual hierarchy.
-* Simple navigation.
-* Compact information density.
-* Consistent controls.
-* Responsive layouts.
-* Minimal visual clutter.
-
-The interface is designed to keep recipe management, planning, stock, and shopping workflows within the same application rather than separating them into independent tools.
-
----
-
-## 🚀 Deployment
-
-GastroOS can be deployed as a static web application through **GitHub Pages**.
-
-The deployment workflow is:
-
-```text
-Source Files
-     ↓
-Git Repository
-     ↓
-GitHub Pages
-     ↓
-Published Web Application
-```
-
-No dedicated backend server is required for the application's core functionality.
-
----
-
-## 🔐 Security
-
-GitHub tokens and other credentials must be treated as sensitive information.
-
-They should not be:
-
-* Committed to the repository.
-* Embedded in public source code.
-* Published in the README.
-* Shared through screenshots or documentation.
-
-The appropriate GitHub authentication and permission mechanisms should be used for repository synchronization.
-
----
-
-## 📌 Project Summary
-
-GastroOS combines **recipe management, automated menu planning, ingredient control, stock management, shopping lists, history, and GitHub synchronization** in a single client-side application.
-
-Its main objective is to automate the repetitive parts of weekly meal planning while keeping the entire process accessible and manually controllable from one interface.
