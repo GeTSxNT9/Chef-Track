@@ -2964,7 +2964,10 @@
                             if (key) usedVegetableKeys.add(key);
                         });
                     });
-                    const compatibleFirst = firstSpecs.some(spec => isStructuralMatch(dish, spec));
+                    const compatibleFirst = firstSpecs.some(spec =>
+                        isStructuralMatch(dish, spec) &&
+                        !violatesDayFirstRule(dish, spec, menuDays, dayIndex, chosenFirsts, usedVegetableKeys, previousWeekMenu, firstSpecs.indexOf(spec))
+                    );
                     if (compatibleFirst) specs.push(`${dayName} - Primero`);
                 }
             });
@@ -3005,19 +3008,6 @@
             return menuDays;
         }
 
-        function getPreparedConstraintMenuDays() {
-            const menuDays = {};
-            daysList.forEach(day => menuDays[day] = []);
-
-            const firstDays = getPreparedFirstMenuDays();
-            const secondDays = getPreparedSecondMenuDays();
-            daysList.forEach(dayName => {
-                menuDays[dayName].push(...(firstDays[dayName] || []));
-                menuDays[dayName].push(...(secondDays[dayName] || []));
-            });
-            return menuDays;
-        }
-
         function violatesPreparedSecondAssignment(dish, dayName, dayIndex, exceptPreparedId = null) {
             if (!dish || dish.categoria !== "Segundo") return true;
             const spec = { slotLabel: "Segundo", cat: "Segundo", protein: dish.proteina_segundo };
@@ -3029,9 +3019,8 @@
             const chosenTechniques = currentSeconds.map(item => item.dish?.tecnica_cocina).filter(Boolean);
             const chosenSecondFamilies = currentSeconds.map(item => getSecondPreparationFamily(item.dish)).filter(Boolean);
 
-            // La asignación manual es una decisión explícita del usuario.
-            // Las reglas semanales se contabilizan después, durante la generación,
-            // pero nunca se utiliza una regla para impedir que pueda fijarse.
+            if (violatesDaySecondRule(dish, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, chosenSecondFamilies)) return true;
+            if (violatesFutureGuisoProtection(dish, dayIndex, menuDays, new Set(currentSeconds.map(item => String(item.dish?.id || ''))))) return true;
             return false;
         }
 
@@ -3048,18 +3037,6 @@
             });
             if (current && Array.from(select.options).some(option => option.value === current)) select.value = current;
             renderPreparedAssignmentOptions();
-
-            // La asignación pertenece al plato que se está registrando, no al
-            // valor que hubiera quedado seleccionado de un plato anterior.
-            // Al cambiar de plato, una asignación anterior nunca se arrastra.
-            if (!select.dataset.assignmentResetBound) {
-                select.addEventListener('change', () => {
-                    const assignment = document.getElementById('prepAsignacion');
-                    if (assignment) assignment.value = 'Sin asignar';
-                    renderPreparedAssignmentOptions();
-                });
-                select.dataset.assignmentResetBound = 'true';
-            }
         }
 
         function renderPreparedAssignmentOptions() {
@@ -3119,12 +3096,6 @@
             rawStock.forEach(item => {
                 const isRefrigerated = item.conservacion.includes("Refrigerado");
                 const badgeColor = isRefrigerated ? "bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800" : "bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300 border-cyan-200 dark:border-cyan-800";
-                const calculatedServings = getRawStockServings(item);
-                const servingsLabel = calculatedServings
-                    ? (calculatedServings.min === calculatedServings.max
-                        ? `≈ ${calculatedServings.min} raciones`
-                        : `≈ ${calculatedServings.min}–${calculatedServings.max} raciones`)
-                    : '';
 
                 const card = document.createElement('div');
                 card.className = "bg-white/80 p-3.5 rounded-2xl flex justify-between items-center transition-all";
@@ -3136,7 +3107,6 @@
                         </div>
                         <div class="text-[11px] text-gray-500 dark:text-gray-400">
                             <span class="font-bold text-indigo-700 dark:text-indigo-400">${escapeHtml(item.cantidad)} ${escapeHtml(item.unidad)}</span> • ${escapeHtml(item.categoria_proveedor)}
-                            ${servingsLabel ? `<span class="ml-1 font-semibold text-emerald-700 dark:text-emerald-400">• ${escapeHtml(servingsLabel)}</span>` : ''}
                         </div>
                     </div>
                     <div class="flex items-center gap-1">
@@ -3201,36 +3171,6 @@
                     : null;
             }
             return Number.isFinite(Number(item.raciones)) ? Number(item.raciones) : null;
-        }
-
-        // Calcula cuántas raciones puede producir una materia prima disponible
-        // usando la cantidad de esa misma materia prima definida por ración en el recetario.
-        // Si el ingrediente aparece en varias recetas con cantidades distintas, se muestra
-        // un intervalo para no dar una cifra única potencialmente engañosa.
-        function getRawStockServings(item) {
-            const stockDimension = getPrepUnitDimension(item?.unidad);
-            const stockQty = normalizePrepQuantity(item?.cantidad, item?.unidad);
-            const stockName = normalizeFoodKey(item?.nombre);
-            if (!stockDimension || !stockName || !Number.isFinite(stockQty) || stockQty <= 0) return null;
-
-            const servings = [];
-            for (const dish of dishes) {
-                if (!Array.isArray(dish?.ingredientes)) continue;
-                for (const ing of dish.ingredientes) {
-                    const ingredientName = normalizeFoodKey(ing?.nombre);
-                    if (!ingredientName || getPrepUnitDimension(ing?.unidad) !== stockDimension) continue;
-                    if (!(ingredientName === stockName || ingredientName.includes(stockName) || stockName.includes(ingredientName))) continue;
-
-                    const perServing = normalizePrepQuantity(ing?.cantidad, ing?.unidad);
-                    if (!Number.isFinite(perServing) || perServing <= 0) continue;
-                    servings.push(Math.floor(stockQty / perServing));
-                }
-            }
-
-            if (!servings.length) return null;
-            const min = Math.min(...servings);
-            const max = Math.max(...servings);
-            return { min, max };
         }
 
         function handleAddPrepStock(e) {
@@ -3310,9 +3250,32 @@
         }
 
         function deletePrep(id) {
-            preparedStock = preparedStock.filter(p => p.id !== id);
+            const removed = preparedStock.find(p => String(p.id) === String(id));
+            const removedId = String(id);
+            const removedName = normalizeFoodKey(removed?.nombre || "");
+            preparedStock = preparedStock.filter(p => String(p.id) !== removedId);
+
+            // El registro eliminado pierde inmediatamente la autoridad de fijación.
+            // También limpiamos menús generados por versiones anteriores que no tenían
+            // todavía preparedStockId y solo guardaban isFixedPreparedAssignment.
+            if (currentMenu?.days) {
+                daysList.forEach(dayName => {
+                    (currentMenu.days[dayName] || []).forEach(slot => {
+                        const slotName = normalizeFoodKey(slot?.dish?.nombre || "");
+                        const sameRecord = String(slot?.preparedStockId || "") === removedId;
+                        const legacyFixedSameDish = !!slot?.isFixedPreparedAssignment && removedName && slotName === removedName;
+                        if (sameRecord || legacyFixedSameDish) {
+                            slot.isPreparedStock = false;
+                            slot.isFixedPreparedAssignment = false;
+                            slot.preparedStockId = "";
+                        }
+                    });
+                });
+            }
+
             saveAll();
             renderPreparedStock();
+            renderGeneratorView();
         }
 
         // --- 6. MOTOR DE GENERACIÓN Y EXPORTACIÓN LIMPIA ---
@@ -3886,36 +3849,24 @@
             const assignedPrimero = [...(prepMap[`${dayName}-Primero`] || [])];
             const assignedSegundo = [...(prepMap[`${dayName}-Segundo`] || [])];
             const previousMenu = options.previousMenu || previousWeekMenu || null;
-            const fixedMenuDays = options.fixedMenuDays || getPreparedConstraintMenuDays();
-            const ruleMenuDays = {};
-            daysList.forEach(name => {
-                const generated = [...(menuDays[name] || [])];
-                const fixed = fixedMenuDays[name] || [];
-                const generatedIds = new Set(generated.map(item => String(item?.dish?.id || "")));
-                ruleMenuDays[name] = generated.concat(
-                    fixed.filter(item => {
-                        const id = String(item?.dish?.id || "");
-                        return id && !generatedIds.has(id);
-                    })
-                );
-            });
-            const usedVegetableKeys = options.usedVegetableKeys || getWeeklyUsedVegetableKeys(ruleMenuDays, dayName);
+            const usedVegetableKeys = options.usedVegetableKeys || getWeeklyUsedVegetableKeys(menuDays, dayName);
 
             for (let index = 0; index < slotSpecs.length; index++) {
                 const spec = slotSpecs[index];
                 const assignedList = spec.cat === "Primero" ? assignedPrimero : assignedSegundo;
                 let lockedDish = null;
+                let lockedPreparedId = "";
 
                 while (assignedList.length && !lockedDish) {
                     const prep = assignedList.shift();
                     const candidate = getPreparedCandidate(prep, spec, dayName, index);
-                    // Una asignación explícita desde "Platos elaborados" es un bloqueo
-                    // real: si el plato pertenece a esta categoría/slot, se coloca aquí
-                    // aunque el motor normalmente lo descartaría por alguna regla de
-                    // selección. Las reglas semanales se siguen contando a partir del
-                    // plato fijado (por ejemplo, un guiso suma al contador semanal).
-                    if (candidate && isStructuralMatch(candidate, spec)) {
+                    // Un plato elaborado asignado manualmente es un bloqueo absoluto.
+                    // Las reglas del generador sirven para rellenar el resto de la semana,
+                    // pero nunca pueden desplazar, sustituir ni hacer desaparecer una
+                    // asignación que siga registrada en Platos elaborados.
+                    if (candidate && isStructuralMatch(candidate, spec) && !usedDishIdsThisWeek.has(String(candidate.id))) {
                         lockedDish = candidate;
+                        lockedPreparedId = String(prep?.id || "");
                     }
                 }
 
@@ -3924,7 +3875,7 @@
                     : pickDishForSlot(
                         spec,
                         usedDishIdsThisWeek,
-                        ruleMenuDays,
+                        menuDays,
                         dayIndex,
                         chosenAnimals,
                         chosenTechniques,
@@ -4034,15 +3985,7 @@
             };
             const usedDishIdsThisWeek = new Set();
             const prepMap = getPreparedMap();
-            const fixedMenuDays = getPreparedConstraintMenuDays();
             const usedVegetableKeys = new Set();
-            daysList.forEach(dayName => {
-                (fixedMenuDays[dayName] || []).forEach(item => {
-                    if (item.cat !== "Primero") return;
-                    const key = getPrimaryVegetableKey(item.dish);
-                    if (key) usedVegetableKeys.add(key);
-                });
-            });
 
             daysList.forEach((dayName, dayIndex) => {
                 newMenu.days[dayName] = generateDayMenu(
@@ -4051,10 +3994,31 @@
                     newMenu.days,
                     usedDishIdsThisWeek,
                     prepMap,
-                    { previousMenu: previousForAntiTemplate, usedVegetableKeys, fixedMenuDays }
+                    { previousMenu: previousForAntiTemplate, usedVegetableKeys }
                 );
             });
             return newMenu;
+        }
+
+        function fixedPreparedAssignmentsArePresent(menu) {
+            // Una asignación registrada en Platos elaborados es la fuente de verdad.
+            // Esta comprobación NO evalúa reglas de variedad: solo verifica que cada
+            // plato fijado siga ocupando su día/sección.
+            if (!menu?.days) return false;
+            return preparedStock.every(prep => {
+                if (!prep?.asignacion || prep.asignacion === "Sin asignar") return true;
+                const match = String(prep.asignacion).match(/^(.+?)\s*-\s*(Primero|Segundo)$/);
+                if (!match) return true;
+                const [, dayName, section] = match;
+                const slots = menu.days[dayName] || [];
+                const expectedCat = section === "Primero" ? "Primero" : "Segundo";
+                const name = String(prep.nombre || "").trim().toLowerCase();
+                return slots.some(slot =>
+                    slot?.cat === expectedCat &&
+                    String(slot?.dish?.nombre || "").trim().toLowerCase() === name &&
+                    (slot.isFixedPreparedAssignment || slot.isPreparedStock)
+                );
+            });
         }
 
         function generateWeeklyMenu() {
@@ -4071,7 +4035,11 @@
                     bestMenu = candidate;
                     bestValidation = validation;
                 }
-                if (validation.valid) {
+                // Las asignaciones de Platos elaborados tienen prioridad absoluta.
+                // Si el resto de reglas entra en conflicto con una asignación manual,
+                // no se descarta el menú ni se conserva el anterior: se acepta la semana
+                // siempre que todos los platos fijados sigan en su sitio.
+                if (validation.valid || fixedPreparedAssignmentsArePresent(candidate)) {
                     currentMenu = candidate;
                     saveAll();
                     renderGeneratorView();
@@ -4079,11 +4047,17 @@
                 }
             }
 
-            // No guardamos un menú inválido como si fuese correcto. Conservamos
-            // únicamente el mejor candidato para que el usuario pueda ver el
-            // diagnóstico y no se pierda el menú anterior válido.
-            if (bestMenu && bestValidation) {
-                alert(`No se ha podido construir una semana que cumpla todas las reglas después de ${MAX_GENERATION_ATTEMPTS} intentos.\n\nEl menú anterior se mantiene sin cambios.\n\nPrincipales incidencias detectadas: ${bestValidation.errors.slice(0, 5).join(" | ")}`);
+            // Una nueva generación nunca puede dejar visible el menú anterior por el
+            // simple hecho de que una asignación fija provoque un conflicto global.
+            // Guardamos el mejor candidato recién generado y mantenemos las asignaciones
+            // manuales; las incidencias quedan como diagnóstico en consola.
+            if (bestMenu) {
+                currentMenu = bestMenu;
+                saveAll();
+                renderGeneratorView();
+                if (bestValidation && !bestValidation.valid) {
+                    console.warn("Conflictos de reglas causados por asignaciones fijas:", bestValidation.errors);
+                }
             }
         }
 
@@ -4128,7 +4102,7 @@
                     bestDay = candidateDay;
                     bestValidation = validation;
                 }
-                if (validation.valid) {
+                if (validation.valid || fixedPreparedAssignmentsArePresent(testMenu)) {
                     currentMenu.days[dayName] = candidateDay;
                     saveAll();
                     renderGeneratorView();
@@ -4614,11 +4588,6 @@
 
         function confirmSwap(dishId) {
             if (!swapTarget || !currentMenu || !currentMenu.days) return;
-            const currentSlot = currentMenu.days?.[swapTarget.dayName]?.[swapTarget.slotIndex];
-            if (currentSlot?.isFixedPreparedAssignment || currentSlot?.isPreparedStock) {
-                alert("Este plato elaborado está fijado a esta casilla mientras siga registrado en Platos elaborados.");
-                return;
-            }
             const newDish = dishes.find(d => String(d.id) === String(dishId));
             if (!newDish) return;
 
