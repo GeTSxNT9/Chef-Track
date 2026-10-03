@@ -3961,7 +3961,7 @@
     "proteina_segundo": "Pescado",
     "animal_carne": "",
     "especie_pescado": "trucha",
-    "especie_animal": "",
+    "especie_animal": "Pescado",
     "tecnica_cocina": "tecnica_seco_asado",
     "tecnica": "tecnica_seco_asado",
     "precocinado": false,
@@ -3972,15 +3972,9 @@
     "ingredientes": [
       {
         "nombre": "Trucha",
-        "cantidad": 250,
+        "cantidad": 300,
         "unidad": "g",
         "categoria_proveedor": "Pescado"
-      },
-      {
-        "nombre": "Perejil",
-        "cantidad": "",
-        "unidad": "",
-        "categoria_proveedor": "Secos"
       }
     ]
   },
