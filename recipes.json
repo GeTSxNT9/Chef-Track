@@ -865,12 +865,11 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "",
+    "tecnica": "",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
-      "apio",
       "gluten"
     ],
     "ingredientes": [
@@ -881,10 +880,10 @@
         "categoria_proveedor": "Secos"
       },
       {
-        "nombre": "Zanahoria",
-        "cantidad": 30,
+        "nombre": "Zanahoria picada",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Puerro",
@@ -893,16 +892,10 @@
         "categoria_proveedor": "Verduras y frutas"
       },
       {
-        "nombre": "Apio",
-        "cantidad": 20,
-        "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
-      },
-      {
-        "nombre": "Caldo de pollo",
+        "nombre": "Cebolla picada",
         "cantidad": "",
-        "unidad": "",
-        "categoria_proveedor": "Secos"
+        "unidad": "g",
+        "categoria_proveedor": "Congelados"
       }
     ]
   },
