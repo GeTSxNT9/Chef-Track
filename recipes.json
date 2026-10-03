@@ -1502,8 +1502,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "",
+    "tecnica": "",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1519,7 +1519,7 @@
       {
         "nombre": "Tomate frito",
         "cantidad": 80,
-        "unidad": "g",
+        "unidad": "ml",
         "categoria_proveedor": "Secos"
       },
       {
