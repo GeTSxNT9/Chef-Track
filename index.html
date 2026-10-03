@@ -3096,6 +3096,12 @@
             rawStock.forEach(item => {
                 const isRefrigerated = item.conservacion.includes("Refrigerado");
                 const badgeColor = isRefrigerated ? "bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800" : "bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300 border-cyan-200 dark:border-cyan-800";
+                const calculatedServings = getRawStockServings(item);
+                const servingsLabel = calculatedServings
+                    ? (calculatedServings.min === calculatedServings.max
+                        ? `≈ ${calculatedServings.min} raciones`
+                        : `≈ ${calculatedServings.min}–${calculatedServings.max} raciones`)
+                    : '';
 
                 const card = document.createElement('div');
                 card.className = "bg-white/80 p-3.5 rounded-2xl flex justify-between items-center transition-all";
@@ -3107,6 +3113,7 @@
                         </div>
                         <div class="text-[11px] text-gray-500 dark:text-gray-400">
                             <span class="font-bold text-indigo-700 dark:text-indigo-400">${escapeHtml(item.cantidad)} ${escapeHtml(item.unidad)}</span> • ${escapeHtml(item.categoria_proveedor)}
+                            ${servingsLabel ? `<span class="ml-1 font-semibold text-emerald-700 dark:text-emerald-400">• ${escapeHtml(servingsLabel)}</span>` : ''}
                         </div>
                     </div>
                     <div class="flex items-center gap-1">
@@ -3171,6 +3178,36 @@
                     : null;
             }
             return Number.isFinite(Number(item.raciones)) ? Number(item.raciones) : null;
+        }
+
+        // Calcula cuántas raciones puede producir una materia prima disponible
+        // usando la cantidad de esa misma materia prima definida por ración en el recetario.
+        // Si el ingrediente aparece en varias recetas con cantidades distintas, se muestra
+        // un intervalo para no dar una cifra única potencialmente engañosa.
+        function getRawStockServings(item) {
+            const stockDimension = getPrepUnitDimension(item?.unidad);
+            const stockQty = normalizePrepQuantity(item?.cantidad, item?.unidad);
+            const stockName = normalizeFoodKey(item?.nombre);
+            if (!stockDimension || !stockName || !Number.isFinite(stockQty) || stockQty <= 0) return null;
+
+            const servings = [];
+            for (const dish of dishes) {
+                if (!Array.isArray(dish?.ingredientes)) continue;
+                for (const ing of dish.ingredientes) {
+                    const ingredientName = normalizeFoodKey(ing?.nombre);
+                    if (!ingredientName || getPrepUnitDimension(ing?.unidad) !== stockDimension) continue;
+                    if (!(ingredientName === stockName || ingredientName.includes(stockName) || stockName.includes(ingredientName))) continue;
+
+                    const perServing = normalizePrepQuantity(ing?.cantidad, ing?.unidad);
+                    if (!Number.isFinite(perServing) || perServing <= 0) continue;
+                    servings.push(Math.floor(stockQty / perServing));
+                }
+            }
+
+            if (!servings.length) return null;
+            const min = Math.min(...servings);
+            const max = Math.max(...servings);
+            return { min, max };
         }
 
         function handleAddPrepStock(e) {
