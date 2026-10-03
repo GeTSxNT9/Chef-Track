@@ -1952,13 +1952,13 @@
         "categoria_proveedor": "Secos"
       },
       {
-        "nombre": "Pollo",
+        "nombre": "Pollo fileteado",
         "cantidad": 50,
         "unidad": "g",
         "categoria_proveedor": "Carne"
       },
       {
-        "nombre": "Costilla de cerdo",
+        "nombre": "Conejo en trozos",
         "cantidad": 50,
         "unidad": "g",
         "categoria_proveedor": "Carne"
