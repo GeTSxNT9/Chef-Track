@@ -3152,16 +3152,10 @@
         "categoria_proveedor": "Carne"
       },
       {
-        "nombre": "Cebolla",
-        "cantidad": 40,
+        "nombre": "Cebolla picada",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
-      },
-      {
-        "nombre": "Cerveza",
-        "cantidad": 100,
-        "unidad": "ml",
-        "categoria_proveedor": "Secos"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Ajo",
