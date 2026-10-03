@@ -1445,10 +1445,17 @@
                 let id = String(prep.id || '').trim();
                 if (!id || seen.has(id)) id = createStableId('prepared');
                 seen.add(id);
+                const snapshot = prep.dishSnapshot && typeof prep.dishSnapshot === 'object'
+                    ? normalizeDishData(prep.dishSnapshot)
+                    : null;
+                const dishId = String(prep.dishId ?? snapshot?.id ?? '').trim();
+                const nombre = String(prep.nombre || snapshot?.nombre || '').trim();
                 return {
                     ...prep,
                     id,
-                    nombre: String(prep.nombre || '').trim(),
+                    dishId,
+                    nombre,
+                    dishSnapshot: snapshot ? { ...snapshot, id: String(snapshot.id ?? dishId), nombre } : undefined,
                     cantidadTotal: prep.cantidadTotal !== undefined ? Number(prep.cantidadTotal) || 0 : undefined,
                     unidad: prep.unidad || 'kg',
                     asignacion: prep.asignacion || 'Sin asignar'
@@ -2985,10 +2992,8 @@
                 const assignment = String(item.asignacion || "");
                 const match = assignment.match(/^(Lunes|Martes|Miércoles|Jueves|Viernes) - Primero$/);
                 if (!match) return;
-                const found = dishes.find(d => String(d?.nombre || '').toLowerCase() === String(item.nombre || '').toLowerCase());
-                if (!found) return;
-                const normalized = normalizeDishData(found);
-                if (!normalized.elaborado || normalized.categoria !== "Primero") return;
+                const normalized = getPreparedCandidate(item, { cat: "Primero", allowedParents: ["Verdura"] }, match[1], 0);
+                if (!normalized || normalized.categoria !== "Primero") return;
                 menuDays[match[1]].push({ cat: "Primero", dish: normalized, slotLabel: "Primero" });
             });
             return menuDays;
@@ -3002,10 +3007,8 @@
                 const assignment = String(item.asignacion || "");
                 const match = assignment.match(/^(Lunes|Martes|Miércoles|Jueves|Viernes) - Segundo$/);
                 if (!match) return;
-                const found = dishes.find(d => String(d?.nombre || '').toLowerCase() === String(item.nombre || '').toLowerCase());
-                if (!found) return;
-                const normalized = normalizeDishData(found);
-                if (!normalized.elaborado || normalized.categoria !== "Segundo") return;
+                const normalized = getPreparedCandidate(item, { cat: "Segundo", protein: "Carne" }, match[1], 3);
+                if (!normalized || normalized.categoria !== "Segundo") return;
                 menuDays[match[1]].push({ cat: "Segundo", dish: normalized, slotLabel: "Segundo" });
             });
             return menuDays;
@@ -3230,7 +3233,9 @@
             const cantStr = document.getElementById('prepCantidad').value.toString().replace(',', '.');
             const item = {
                 id: createStableId('prepared'),
+                dishId: String(selectedDish.id ?? ''),
                 nombre: selectedDish.nombre,
+                dishSnapshot: normalizeDishData(selectedDish),
                 cantidadTotal: parseFloat(cantStr) || 0,
                 unidad: document.getElementById('prepUnidad').value,
                 asignacion: assignment
@@ -3857,30 +3862,39 @@
         }
 
         function getPreparedCandidate(prep, spec, dayName, slotIndex) {
-            const name = String(prep?.nombre || "").trim();
-            const found = dishes.find(d => String(d?.nombre || "").toLowerCase() === name.toLowerCase());
-            if (found) {
-                // preparedStock es la autoridad. Una receta encontrada no necesita
-                // conservar elaborado=true para que su stock ya preparado siga fijado.
-                return normalizeDishData({ ...found, id: found.id });
+            const name = String(prep?.nombre || prep?.dishSnapshot?.nombre || '').trim();
+            const preparedIdentity = `prepared-dish-${String(prep?.id || `${dayName}-${slotIndex}`)}`;
+            let source = null;
+
+            // El snapshot guardado en preparedStock es la fuente primaria. El recetario
+            // solo aporta datos si el registro antiguo no tenía snapshot.
+            if (prep?.dishSnapshot && typeof prep.dishSnapshot === 'object') {
+                source = { ...prep.dishSnapshot };
+            } else if (prep?.dishId) {
+                source = dishes.find(d => String(d?.id) === String(prep.dishId)) || null;
+            }
+            if (!source && name) {
+                source = dishes.find(d => String(d?.nombre || '').trim().toLowerCase() === name.toLowerCase()) || null;
             }
 
-            // Si la receta ya no existe, el registro de stock sigue siendo suficiente
-            // para representar la asignación manual. No dejamos que la ausencia de la
-            // receta convierta el slot en un hueco generable.
-            const safeName = normalizeFoodKey(name).replace(/\s+/g, "-") || `slot-${slotIndex}`;
-            return normalizeDishData({
-                id: `prepared-dish-${String(prep?.id || `${dayName}-${slotIndex}`)}`,
+            const fallback = {
+                id: preparedIdentity,
                 nombre: name,
                 categoria: spec.cat,
-                subcategoria_primero: spec.allowedParents?.[0] || "",
-                subtipo_primero: "",
-                proteina_segundo: spec.protein || "",
-                animal_carne: "",
-                especie_pescado: "",
-                tecnica_cocina: "",
-                ingredientes: []
-            });
+                subcategoria_primero: spec.allowedParents?.[0] || '',
+                subtipo_primero: '',
+                proteina_segundo: spec.protein || '',
+                animal_carne: '', especie_pescado: '', tecnica_cocina: '', ingredientes: []
+            };
+            const candidate = normalizeDishData({ ...(source || fallback), nombre: name || source?.nombre || fallback.nombre });
+
+            // Un preparado es una unidad física distinta de la receta de catálogo. Su
+            // identidad para el menú debe ser el registro preparedStock, no el id de
+            // recipes.json; así el mismo plato elaborado puede existir en días distintos
+            // sin que la regla de unicidad del generador lo desplace.
+            candidate.id = preparedIdentity;
+            candidate.recipeId = String(prep?.dishId || source?.id || '');
+            return candidate;
         }
 
         function getPreparedRecordForSlot(dayName, slot) {
@@ -3931,12 +3945,19 @@
                 const slots = menu.days[parts.dayName] || [];
                 const indices = parts.section === 'Primero' ? [0, 1, 2] : [3, 4, 5];
 
-                // Una sola asignación por día/sección ya está validada al registrar.
-                // Si existiera una colisión heredada, la primera posición sigue siendo
-                // determinista; generateWeeklyMenu la detecta y no la oculta.
+                // La asignación manual fija la sección, y la naturaleza del propio plato
+                // determina el hueco físico cuando hay varias opciones dentro de ella.
+                // No usamos reglas de generación para decidirlo.
                 let targetIndex = indices.find(i => String(slots[i]?.preparedStockId || '') === String(prep.id));
                 if (targetIndex === undefined) {
-                    targetIndex = indices[0];
+                    const snapshot = prep?.dishSnapshot || dishes.find(d => String(d?.id) === String(prep?.dishId));
+                    const normalized = snapshot ? normalizeDishData(snapshot) : null;
+                    if (parts.section === 'Primero') {
+                        const parent = normalized?.subcategoria_primero;
+                        targetIndex = parent === 'Cuchara' ? 1 : (parent === 'Tenedor' ? 2 : 0);
+                    } else {
+                        targetIndex = normalized?.proteina_segundo === 'Pescado' ? 5 : 3;
+                    }
                 }
 
                 const spec = targetIndex < 3
@@ -4932,8 +4953,9 @@
             }
             if (summary.full && data.settings && typeof data.settings === 'object') settings = { ...defaultSettings, ...data.settings };
             if (summary.full && Array.isArray(data.rawStock)) rawStock = normalizeRawStock(data.rawStock);
-            if (summary.full && Array.isArray(data.preparedStock)) preparedStock = data.preparedStock;
+            if (summary.full && Array.isArray(data.preparedStock)) preparedStock = normalizePreparedStock(data.preparedStock);
             if (summary.full && Object.prototype.hasOwnProperty.call(data, 'currentMenu')) currentMenu = data.currentMenu;
+            if (currentMenu?.days) reconcilePreparedAssignments(currentMenu);
             if (summary.full && Object.prototype.hasOwnProperty.call(data, 'previousWeekMenu')) previousWeekMenu = data.previousWeekMenu;
             if (summary.full && Array.isArray(data.historyMenus)) historyMenus = data.historyMenus;
             if (summary.full && Array.isArray(data.recipeChangeHistory)) recipeChangeHistory = data.recipeChangeHistory;
