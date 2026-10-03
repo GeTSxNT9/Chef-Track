@@ -701,14 +701,14 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "",
+    "tecnica": "",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
     "ingredientes": [
       {
-        "nombre": "Patata",
+        "nombre": "Patata corte brava",
         "cantidad": 250,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
@@ -720,16 +720,16 @@
         "categoria_proveedor": "Carne"
       },
       {
-        "nombre": "Pimiento rojo",
-        "cantidad": 30,
+        "nombre": "Pimiento rojo picado",
+        "cantidad": "",
         "unidad": "g",
         "categoria_proveedor": "Congelados"
       },
       {
-        "nombre": "Cebolla",
-        "cantidad": 30,
+        "nombre": "Cebolla picada",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Pimentón dulce",
