@@ -4044,14 +4044,14 @@
     "proteina_segundo": "Pescado",
     "animal_carne": "",
     "especie_pescado": "calamares",
-    "especie_animal": "",
+    "especie_animal": "Pescado",
     "tecnica_cocina": "tecnica_frito_rebozado",
     "tecnica": "tecnica_frito_rebozado",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
-      "moluscos",
-      "gluten"
+      "gluten",
+      "moluscos"
     ],
     "ingredientes": [
       {
@@ -4059,12 +4059,6 @@
         "cantidad": 200,
         "unidad": "g",
         "categoria_proveedor": "Pescado"
-      },
-      {
-        "nombre": "Harina",
-        "cantidad": 50,
-        "unidad": "g",
-        "categoria_proveedor": "Secos"
       }
     ]
   },
