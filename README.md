@@ -1,7 +1,7 @@
 # 📖 GastroOS
 
 **Web Operating System for Recipe Management, Menu Planning, and Stock Control.**
-*Progressive Web App architecture with local persistence and optional GitHub synchronization.*
+*Progressive Web App architecture with local persistence, offline caching, and optional GitHub synchronization.*
 
 ---
 
@@ -17,7 +17,7 @@
 
 **GastroOS** is a web application (**Progressive Web App**) developed with **HTML5, CSS, and JavaScript**, designed to centralize recipe management, weekly menu planning, ingredient control, stock management, and shopping list generation in a single interface.
 
-The application uses a lightweight web architecture where the main interface and application logic are contained in `index.html`, while recipe data, PWA configuration, and application icons are maintained as separate files.
+The application uses a lightweight web architecture where the main interface and application logic are contained in `index.html`, while recipe data, PWA configuration, application icons, and service worker functionality are maintained as separate files.
 
 The system is designed to operate primarily on the client side, without requiring a dedicated backend server for its core functionality.
 
@@ -117,6 +117,24 @@ Authentication credentials and tokens must be handled securely and should never 
 
 ---
 
+### 8. 📡 Progressive Web App & Offline Support
+
+GastroOS uses a **Service Worker** to cache the application's main resources.
+
+The Service Worker allows the application to load cached resources when the network is unavailable, improving resilience and supporting offline use of the core application.
+
+The main cached resources include:
+
+* `index.html`
+* `recipes.json`
+* `manifest.json`
+* Application icons
+* Other resources handled by the Service Worker
+
+The PWA configuration is provided through `manifest.json`, while `sw.js` manages application caching and offline behavior.
+
+---
+
 ## 🧩 Application Structure
 
 ```text
@@ -124,6 +142,7 @@ GastroOS/
 ├── index.html
 ├── recipes.json
 ├── manifest.json
+├── sw.js
 ├── favicon-32.png
 ├── apple-touch-icon.png
 ├── icon-192.png
