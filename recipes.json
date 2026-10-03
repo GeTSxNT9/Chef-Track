@@ -3848,7 +3848,7 @@
       },
       {
         "nombre": "Limón",
-        "cantidad": 30,
+        "cantidad": "",
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
       },
