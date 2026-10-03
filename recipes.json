@@ -1242,7 +1242,7 @@
       {
         "nombre": "Nata",
         "cantidad": 40,
-        "unidad": "g",
+        "unidad": "ml",
         "categoria_proveedor": "Lácteos"
       }
     ]
