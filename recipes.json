@@ -3718,28 +3718,16 @@
         "categoria_proveedor": "Congelados"
       },
       {
-        "nombre": "Pan rallado",
-        "cantidad": 30,
-        "unidad": "g",
-        "categoria_proveedor": "Secos"
-      },
-      {
-        "nombre": "Huevo",
-        "cantidad": 50,
-        "unidad": "g",
-        "categoria_proveedor": "Lácteos"
-      },
-      {
         "nombre": "Tomate frito",
         "cantidad": 80,
         "unidad": "g",
         "categoria_proveedor": "Secos"
       },
       {
-        "nombre": "Cebolla",
-        "cantidad": 30,
+        "nombre": "Cebolla picada",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Ajo",
