@@ -1895,8 +1895,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "",
+    "tecnica": "",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1916,16 +1916,16 @@
         "categoria_proveedor": "Carne"
       },
       {
-        "nombre": "Huevo",
+        "nombre": "Huevina",
         "cantidad": 30,
-        "unidad": "g",
+        "unidad": "ml",
         "categoria_proveedor": "Lácteos"
       },
       {
         "nombre": "Guisantes",
         "cantidad": 30,
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       }
     ]
   },
