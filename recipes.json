@@ -2308,20 +2308,20 @@
         "categoria_proveedor": "Secos"
       },
       {
-        "nombre": "Cebolla",
-        "cantidad": 30,
+        "nombre": "Cebolla picada",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Ajo",
-        "cantidad": 0,
+        "cantidad": "",
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
       },
       {
         "nombre": "Vino blanco",
-        "cantidad": 0,
+        "cantidad": "",
         "unidad": "ml",
         "categoria_proveedor": "Secos"
       }
