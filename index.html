@@ -524,7 +524,7 @@
             </div>
 
             <div class="flex items-center gap-2 mb-3">
-                <button type="button" id="btnBulkEdit" class="flex-1 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/40 px-3 py-2 rounded-lg text-xs font-bold">Edición multiple ✓</button>
+                <button type="button" id="btnBulkEdit" class="flex-1 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/40 px-3 py-2 rounded-lg text-xs font-bold">Edición múltiple ✓</button>
                 <span id="bulkSelectedCount" class="hidden text-[11px] font-semibold text-gray-500 dark:text-gray-400 whitespace-nowrap">0 seleccionadas</span>
             </div>
             <div id="bulkToolbar" class="hidden mb-4 p-3 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50/70 dark:bg-indigo-950/30">
@@ -1782,7 +1782,7 @@
             document.getElementById('bulkToolbar')?.classList.toggle('hidden', !enabled);
             document.getElementById('bulkSelectedCount')?.classList.toggle('hidden', !enabled);
             const btn = document.getElementById('btnBulkEdit');
-            if (btn) btn.textContent = enabled ? 'Edición multiple activa ✓' : 'Edición multiple ✓';
+            if (btn) btn.textContent = enabled ? 'Edición múltiple activa ✓' : 'Edición múltiple ✓';
             renderDishes();
             updateBulkSelectedCount();
         }
