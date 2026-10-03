@@ -3788,14 +3788,14 @@
     "proteina_segundo": "Pescado",
     "animal_carne": "",
     "especie_pescado": "trucha",
-    "especie_animal": "",
+    "especie_animal": "Pescado",
     "tecnica_cocina": "tecnica_guiso",
     "tecnica": "tecnica_guiso",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
-      "pescado",
-      "gluten"
+      "gluten",
+      "pescado"
     ],
     "ingredientes": [
       {
@@ -3814,18 +3814,6 @@
         "nombre": "Perejil",
         "cantidad": "",
         "unidad": "",
-        "categoria_proveedor": "Secos"
-      },
-      {
-        "nombre": "Caldo de pescado",
-        "cantidad": "",
-        "unidad": "",
-        "categoria_proveedor": "Secos"
-      },
-      {
-        "nombre": "Harina",
-        "cantidad": 10,
-        "unidad": "g",
         "categoria_proveedor": "Secos"
       }
     ]
