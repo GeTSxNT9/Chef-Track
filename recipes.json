@@ -3491,6 +3491,7 @@
     "tecnica_cocina": "tecnica_frito_rebozado",
     "tecnica": "tecnica_frito_rebozado",
     "precocinado": true,
+    "elaborado": false,
     "demanda": "Alta",
     "alergenos": [
       "gluten",
@@ -3500,12 +3501,11 @@
     "ingredientes": [
       {
         "nombre": "Merluza rebozada",
-        "cantidad": 250,
+        "cantidad": 200,
         "unidad": "g",
         "categoria_proveedor": "Congelados"
       }
-    ],
-    "elaborado": false
+    ]
   },
   {
     "id": "1790940000028",
