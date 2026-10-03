@@ -2964,10 +2964,7 @@
                             if (key) usedVegetableKeys.add(key);
                         });
                     });
-                    const compatibleFirst = firstSpecs.some(spec =>
-                        isStructuralMatch(dish, spec) &&
-                        !violatesDayFirstRule(dish, spec, menuDays, dayIndex, chosenFirsts, usedVegetableKeys, previousWeekMenu, firstSpecs.indexOf(spec))
-                    );
+                    const compatibleFirst = firstSpecs.some(spec => isStructuralMatch(dish, spec));
                     if (compatibleFirst) specs.push(`${dayName} - Primero`);
                 }
             });
@@ -3008,6 +3005,19 @@
             return menuDays;
         }
 
+        function getPreparedConstraintMenuDays() {
+            const menuDays = {};
+            daysList.forEach(day => menuDays[day] = []);
+
+            const firstDays = getPreparedFirstMenuDays();
+            const secondDays = getPreparedSecondMenuDays();
+            daysList.forEach(dayName => {
+                menuDays[dayName].push(...(firstDays[dayName] || []));
+                menuDays[dayName].push(...(secondDays[dayName] || []));
+            });
+            return menuDays;
+        }
+
         function violatesPreparedSecondAssignment(dish, dayName, dayIndex, exceptPreparedId = null) {
             if (!dish || dish.categoria !== "Segundo") return true;
             const spec = { slotLabel: "Segundo", cat: "Segundo", protein: dish.proteina_segundo };
@@ -3019,8 +3029,9 @@
             const chosenTechniques = currentSeconds.map(item => item.dish?.tecnica_cocina).filter(Boolean);
             const chosenSecondFamilies = currentSeconds.map(item => getSecondPreparationFamily(item.dish)).filter(Boolean);
 
-            if (violatesDaySecondRule(dish, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, chosenSecondFamilies)) return true;
-            if (violatesFutureGuisoProtection(dish, dayIndex, menuDays, new Set(currentSeconds.map(item => String(item.dish?.id || ''))))) return true;
+            // La asignación manual es una decisión explícita del usuario.
+            // Las reglas semanales se contabilizan después, durante la generación,
+            // pero nunca se utiliza una regla para impedir que pueda fijarse.
             return false;
         }
 
@@ -3863,7 +3874,20 @@
             const assignedPrimero = [...(prepMap[`${dayName}-Primero`] || [])];
             const assignedSegundo = [...(prepMap[`${dayName}-Segundo`] || [])];
             const previousMenu = options.previousMenu || previousWeekMenu || null;
-            const usedVegetableKeys = options.usedVegetableKeys || getWeeklyUsedVegetableKeys(menuDays, dayName);
+            const fixedMenuDays = options.fixedMenuDays || getPreparedConstraintMenuDays();
+            const ruleMenuDays = {};
+            daysList.forEach(name => {
+                const generated = [...(menuDays[name] || [])];
+                const fixed = fixedMenuDays[name] || [];
+                const generatedIds = new Set(generated.map(item => String(item?.dish?.id || "")));
+                ruleMenuDays[name] = generated.concat(
+                    fixed.filter(item => {
+                        const id = String(item?.dish?.id || "");
+                        return id && !generatedIds.has(id);
+                    })
+                );
+            });
+            const usedVegetableKeys = options.usedVegetableKeys || getWeeklyUsedVegetableKeys(ruleMenuDays, dayName);
 
             for (let index = 0; index < slotSpecs.length; index++) {
                 const spec = slotSpecs[index];
@@ -3873,14 +3897,12 @@
                 while (assignedList.length && !lockedDish) {
                     const prep = assignedList.shift();
                     const candidate = getPreparedCandidate(prep, spec, dayName, index);
-                    if (
-                        candidate &&
-                        isStructuralMatch(candidate, spec) &&
-                        !usedDishIdsThisWeek.has(String(candidate.id)) &&
-                        !violatesDayFirstRule(candidate, spec, menuDays, dayIndex, chosenFirsts, usedVegetableKeys, previousMenu, index) &&
-                        !violatesDaySecondRule(candidate, spec, menuDays, dayIndex, chosenAnimals, chosenTechniques, chosenSecondFamilies) &&
-                        !violatesFutureGuisoProtection(candidate, dayIndex, menuDays, usedDishIdsThisWeek)
-                    ) {
+                    // Una asignación explícita desde "Platos elaborados" es un bloqueo
+                    // real: si el plato pertenece a esta categoría/slot, se coloca aquí
+                    // aunque el motor normalmente lo descartaría por alguna regla de
+                    // selección. Las reglas semanales se siguen contando a partir del
+                    // plato fijado (por ejemplo, un guiso suma al contador semanal).
+                    if (candidate && isStructuralMatch(candidate, spec)) {
                         lockedDish = candidate;
                     }
                 }
@@ -3890,7 +3912,7 @@
                     : pickDishForSlot(
                         spec,
                         usedDishIdsThisWeek,
-                        menuDays,
+                        ruleMenuDays,
                         dayIndex,
                         chosenAnimals,
                         chosenTechniques,
@@ -3929,7 +3951,8 @@
                     relaxed: result.relaxed,
                     relaxationLevel: result.relaxationLevel,
                     warning: result.warning,
-                    isPreparedStock: !!lockedDish
+                    isPreparedStock: !!lockedDish,
+                    isFixedPreparedAssignment: !!lockedDish
                 });
             }
 
@@ -3999,7 +4022,15 @@
             };
             const usedDishIdsThisWeek = new Set();
             const prepMap = getPreparedMap();
+            const fixedMenuDays = getPreparedConstraintMenuDays();
             const usedVegetableKeys = new Set();
+            daysList.forEach(dayName => {
+                (fixedMenuDays[dayName] || []).forEach(item => {
+                    if (item.cat !== "Primero") return;
+                    const key = getPrimaryVegetableKey(item.dish);
+                    if (key) usedVegetableKeys.add(key);
+                });
+            });
 
             daysList.forEach((dayName, dayIndex) => {
                 newMenu.days[dayName] = generateDayMenu(
@@ -4008,7 +4039,7 @@
                     newMenu.days,
                     usedDishIdsThisWeek,
                     prepMap,
-                    { previousMenu: previousForAntiTemplate, usedVegetableKeys }
+                    { previousMenu: previousForAntiTemplate, usedVegetableKeys, fixedMenuDays }
                 );
             });
             return newMenu;
@@ -4571,6 +4602,11 @@
 
         function confirmSwap(dishId) {
             if (!swapTarget || !currentMenu || !currentMenu.days) return;
+            const currentSlot = currentMenu.days?.[swapTarget.dayName]?.[swapTarget.slotIndex];
+            if (currentSlot?.isFixedPreparedAssignment || currentSlot?.isPreparedStock) {
+                alert("Este plato elaborado está fijado a esta casilla mientras siga registrado en Platos elaborados.");
+                return;
+            }
             const newDish = dishes.find(d => String(d.id) === String(dishId));
             if (!newDish) return;
 
