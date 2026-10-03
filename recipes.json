@@ -3362,22 +3362,10 @@
     "alergenos": [],
     "ingredientes": [
       {
-        "nombre": "Chuletas de pavo",
+        "nombre": "Chuletas de pavo al ajillo",
         "cantidad": 200,
         "unidad": "g",
         "categoria_proveedor": "Carne"
-      },
-      {
-        "nombre": "Ajo",
-        "cantidad": "",
-        "unidad": "",
-        "categoria_proveedor": "Verduras y frutas"
-      },
-      {
-        "nombre": "Perejil",
-        "cantidad": "",
-        "unidad": "",
-        "categoria_proveedor": "Secos"
       }
     ]
   },
