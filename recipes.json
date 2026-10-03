@@ -3790,6 +3790,7 @@
     "tecnica_cocina": "tecnica_guiso",
     "tecnica": "tecnica_guiso",
     "precocinado": false,
+    "elaborado": false,
     "demanda": "Media",
     "alergenos": [
       "gluten",
@@ -3799,7 +3800,7 @@
     "ingredientes": [
       {
         "nombre": "Albóndigas de merluza",
-        "cantidad": 150,
+        "cantidad": 200,
         "unidad": "g",
         "categoria_proveedor": "Congelados"
       },
@@ -3821,8 +3822,7 @@
         "unidad": "",
         "categoria_proveedor": "Verduras y frutas"
       }
-    ],
-    "elaborado": false
+    ]
   },
   {
     "id": "1790940000035",
