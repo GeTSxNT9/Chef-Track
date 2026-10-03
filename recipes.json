@@ -2162,7 +2162,7 @@
     "alergenos": [],
     "ingredientes": [
       {
-        "nombre": "Hamburguesa",
+        "nombre": "Hamburguesas",
         "cantidad": 200,
         "unidad": "g",
         "categoria_proveedor": "Carne"
