@@ -3182,7 +3182,22 @@
         }
 
         function getPreparedAssignmentKey(assignment) {
-            return String(assignment || '').replace(/\s+/g, '').trim();
+            // Clave canónica: tolera espacios, mayúsculas y distintos tipos de guion
+            // que pueden venir de datos antiguos/importados. La asignación manual
+            // sigue siendo exactamente la misma posición lógica.
+            return String(assignment || '')
+                .normalize('NFKC')
+                .replace(/[–—‑−]/g, '-')
+                .replace(/\s+/g, '')
+                .toLowerCase()
+                .trim();
+        }
+
+        function getPreparedAssignmentParts(assignment) {
+            const key = getPreparedAssignmentKey(assignment);
+            const match = key.match(/^(lunes|martes|miércoles|jueves|viernes)-(primero|segundo)$/);
+            if (!match) return null;
+            return { dayName: match[1].charAt(0).toUpperCase() + match[1].slice(1), section: match[2] === 'primero' ? 'Primero' : 'Segundo' };
         }
 
         function getPreparedAssignmentConflict(assignment, exceptId = null) {
@@ -3890,65 +3905,69 @@
 
         function reconcilePreparedAssignments(menu) {
             if (!menu?.days) return menu;
-            const prepMap = getPreparedMap();
+
+            // preparedStock es la única fuente de verdad de las asignaciones manuales.
+            // Primero eliminamos cualquier vínculo antiguo/huérfano.
             daysList.forEach(dayName => {
-                const slots = menu.days[dayName] || [];
-                const assignedFirst = prepMap[`${dayName}-Primero`] || [];
-                const assignedSecond = prepMap[`${dayName}-Segundo`] || [];
-                const usedPreparedIds = new Set();
-
-                [
-                    { cat: 'Primero', items: assignedFirst, indices: [0,1,2] },
-                    { cat: 'Segundo', items: assignedSecond, indices: [3,4,5] }
-                ].forEach(group => {
-                    group.items.forEach(prep => {
-                        let targetIndex = group.indices.find(i => {
-                            const slot = slots[i];
-                            return String(slot?.preparedStockId || '') === String(prep?.id);
-                        });
-                        if (targetIndex === undefined) {
-                            targetIndex = group.indices.find(i => {
-                                const slot = slots[i];
-                                return !slot || !isPreparedSlot(dayName, slot);
-                            });
-                        }
-                        if (targetIndex === undefined) return;
-                        const spec = targetIndex < 3
-                            ? [{slotLabel:FIRST_SLOT_LABELS.vegetable,cat:'Primero',allowedParents:['Verdura']},{slotLabel:FIRST_SLOT_LABELS.spoon,cat:'Primero',allowedParents:['Cuchara']},{slotLabel:FIRST_SLOT_LABELS.starch,cat:'Primero',allowedParents:['Tenedor']}][targetIndex]
-                            : [{slotLabel:'2º Carne (Opción 1)',cat:'Segundo',protein:'Carne'},{slotLabel:'2º Carne (Opción 2)',cat:'Segundo',protein:'Carne'},{slotLabel:'2º Pescado',cat:'Segundo',protein:'Pescado'}][targetIndex-3];
-                        const dish = getPreparedCandidate(prep, spec, dayName, targetIndex);
-                        slots[targetIndex] = {
-                            ...(slots[targetIndex] || {}),
-                            slotLabel: spec.slotLabel,
-                            cat: spec.cat,
-                            dish,
-                            relaxed: false,
-                            relaxationLevel: 0,
-                            warning: '',
-                            isPreparedStock: true,
-                            isFixedPreparedAssignment: true,
-                            preparedStockId: String(prep.id)
-                        };
-                        usedPreparedIds.add(String(prep.id));
-                    });
-                });
-
-                slots.forEach(slot => {
-                    if (!slot || !slot.preparedStockId) return;
-                    const prep = preparedStock.find(p => String(p.id) === String(slot.preparedStockId));
-                    const assignmentKey = getPreparedAssignmentKey(prep?.asignacion);
-                    const expectedKey = getPreparedAssignmentKey(`${dayName} - ${slot.cat || ''}`);
-                    if (!prep || assignmentKey !== expectedKey) {
+                (menu.days[dayName] || []).forEach(slot => {
+                    if (!slot) return;
+                    const prep = preparedStock.find(p => String(p?.id) === String(slot?.preparedStockId || ''));
+                    const expected = getPreparedAssignmentKey(`${dayName} - ${slot?.cat || ''}`);
+                    if (!prep || getPreparedAssignmentKey(prep?.asignacion) !== expected) {
                         slot.isPreparedStock = false;
                         slot.isFixedPreparedAssignment = false;
                         slot.preparedStockId = '';
                     }
                 });
             });
+
+            // Después aplicamos TODOS los registros vigentes, sin consultar reglas
+            // de variedad, historial, aleatoriedad ni el plato que hubiera quedado
+            // previamente en ese hueco.
+            preparedStock.forEach(prep => {
+                const parts = getPreparedAssignmentParts(prep?.asignacion);
+                if (!parts) return;
+
+                const slots = menu.days[parts.dayName] || [];
+                const indices = parts.section === 'Primero' ? [0, 1, 2] : [3, 4, 5];
+
+                // Una sola asignación por día/sección ya está validada al registrar.
+                // Si existiera una colisión heredada, la primera posición sigue siendo
+                // determinista; generateWeeklyMenu la detecta y no la oculta.
+                let targetIndex = indices.find(i => String(slots[i]?.preparedStockId || '') === String(prep.id));
+                if (targetIndex === undefined) {
+                    targetIndex = indices[0];
+                }
+
+                const spec = targetIndex < 3
+                    ? [
+                        {slotLabel:FIRST_SLOT_LABELS.vegetable,cat:'Primero',allowedParents:['Verdura']},
+                        {slotLabel:FIRST_SLOT_LABELS.spoon,cat:'Primero',allowedParents:['Cuchara']},
+                        {slotLabel:FIRST_SLOT_LABELS.starch,cat:'Primero',allowedParents:['Tenedor']}
+                    ][targetIndex]
+                    : [
+                        {slotLabel:'2º Carne (Opción 1)',cat:'Segundo',protein:'Carne'},
+                        {slotLabel:'2º Carne (Opción 2)',cat:'Segundo',protein:'Carne'},
+                        {slotLabel:'2º Pescado',cat:'Segundo',protein:'Pescado'}
+                    ][targetIndex - 3];
+
+                const dish = getPreparedCandidate(prep, spec, parts.dayName, targetIndex);
+                slots[targetIndex] = {
+                    ...(slots[targetIndex] || {}),
+                    slotLabel: spec.slotLabel,
+                    cat: spec.cat,
+                    dish,
+                    relaxed: false,
+                    relaxationLevel: 0,
+                    warning: '',
+                    isPreparedStock: true,
+                    isFixedPreparedAssignment: true,
+                    preparedStockId: String(prep.id)
+                };
+            });
+
             return menu;
         }
-
-
 
         function generateDayMenu(dayName, dayIndex, menuDays, usedDishIdsThisWeek, prepMap, options = {}) {
             const slotSpecs = [
@@ -3965,8 +3984,8 @@
             const chosenTechniques = [];
             const chosenSecondFamilies = [];
             const chosenFirsts = [];
-            const assignedPrimero = [...(prepMap[`${dayName}-Primero`] || [])];
-            const assignedSegundo = [...(prepMap[`${dayName}-Segundo`] || [])];
+            const assignedPrimero = [...(prepMap[getPreparedAssignmentKey(`${dayName}-Primero`)] || [])];
+            const assignedSegundo = [...(prepMap[getPreparedAssignmentKey(`${dayName}-Segundo`)] || [])];
             const previousMenu = options.previousMenu || previousWeekMenu || null;
             const usedVegetableKeys = options.usedVegetableKeys || getWeeklyUsedVegetableKeys(menuDays, dayName);
 
@@ -4120,6 +4139,10 @@
                     { previousMenu: previousForAntiTemplate, usedVegetableKeys }
                 );
             });
+
+            // Última barrera: ningún resultado del generador puede sustituir una
+            // asignación manual existente en preparedStock.
+            reconcilePreparedAssignments(newMenu);
             return newMenu;
         }
 
