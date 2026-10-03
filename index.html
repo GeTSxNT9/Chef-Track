@@ -3048,6 +3048,18 @@
             });
             if (current && Array.from(select.options).some(option => option.value === current)) select.value = current;
             renderPreparedAssignmentOptions();
+
+            // La asignación pertenece al plato que se está registrando, no al
+            // valor que hubiera quedado seleccionado de un plato anterior.
+            // Al cambiar de plato, una asignación anterior nunca se arrastra.
+            if (!select.dataset.assignmentResetBound) {
+                select.addEventListener('change', () => {
+                    const assignment = document.getElementById('prepAsignacion');
+                    if (assignment) assignment.value = 'Sin asignar';
+                    renderPreparedAssignmentOptions();
+                });
+                select.dataset.assignmentResetBound = 'true';
+            }
         }
 
         function renderPreparedAssignmentOptions() {
