@@ -1422,7 +1422,7 @@
                 const d = normalizeDishData(raw); const id = String(d.id ?? '');
                 if (ids.has(id)) duplicateIds++; else ids.add(id);
                 if (!hasCompleteTechnicalTags(d)) { incomplete++; if (incompleteNames.length < 6) incompleteNames.push(d.nombre || `ID ${id}`); }
-                (d.ingredientes || []).forEach(i => { ingredients++; if (i.cantidad === '' || i.cantidad === null || i.cantidad === undefined || i.cantidad === '') blankQuantities++; });
+                (d.ingredientes || []).forEach(i => { ingredients++; if (i.cantidad === '' || i.cantidad === null || i.cantidad === undefined) blankQuantities++; });
             });
             const firsts = dishes.filter(d => d.categoria === 'Primero').length;
             const seconds = dishes.filter(d => d.categoria === 'Segundo').length;
@@ -1452,9 +1452,27 @@
             loadGitHubSettings();
             applyDarkMode();
 
-            // GitHub es la fuente compartida de recetas cuando está configurado.
-            // Si falla la lectura remota, conservamos la copia local del navegador.
-            await loadDishesFromGitHub();
+            // Prioridad de carga: GitHub configurado > copia local existente > recipes.json.
+            // Nunca sustituimos una copia local no vacía por el seed estático si GitHub falla.
+            const hadLocalRecipes = dishes.length > 0;
+            const githubConfigured = (() => {
+                const gh = getGitHubSettings();
+                return !!(gh?.token && gh?.owner && gh?.repo && gh?.path);
+            })();
+            const githubLoaded = githubConfigured ? await loadDishesFromGitHub() : false;
+
+            if (!githubLoaded && !hadLocalRecipes && dishes.length === 0) {
+                const seeded = await loadDishesFromLocalSeed();
+                if (seeded) {
+                    if (githubConfigured) {
+                        setGitHubSyncStatus(`Recetario local cargado desde recipes.json · ${dishes.length} recetas. La copia de GitHub no está disponible ahora.`, 'warning');
+                    } else {
+                        setGitHubSyncStatus(`Recetario inicial cargado desde recipes.json · ${dishes.length} recetas.`, 'success');
+                    }
+                } else if (!dishes.length) {
+                    console.warn('No hay recetas locales ni se pudo cargar recipes.json.');
+                }
+            }
 
             saveAll();
             setupEventListeners();
@@ -1472,7 +1490,6 @@
         function registerServiceWorker() {
             if (!('serviceWorker' in navigator)) return;
             navigator.serviceWorker.register('./sw.js', { scope: './' })
-                .then(registration => registration.update().catch(() => {}))
                 .catch(error => console.warn('No se pudo registrar el Service Worker:', error));
         }
 
@@ -1745,15 +1762,15 @@
                     <div class="${bulkEditMode ? 'pl-7' : ''} pr-12">
                         <h3 class="font-bold text-gray-800 dark:text-gray-100 text-sm leading-tight mb-1.5">${escapeHtml(d.nombre)}</h3>
                         <div class="flex flex-wrap gap-1.5 mt-2 items-center">
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">${d.categoria}</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">${escapeHtml(d.categoria)}</span>
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-300">${escapeHtml(tagType)}</span>
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${demObj.class}">${demObj.text}</span>
                             ${missingBadge}${precookedBadge}
                         </div>
                     </div>
                     <div class="absolute top-3 right-3 flex flex-col gap-2">
-                        <button onclick="editDish('${escapeHtml(d.id)}')" class="text-blue-500 bg-blue-50 dark:bg-blue-950 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
-                        <button onclick="deleteDish('${escapeHtml(d.id)}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                        <button onclick="editDish(decodeURIComponent('${escapeJsArg(d.id)}'))" class="text-blue-500 bg-blue-50 dark:bg-blue-950 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
+                        <button onclick="deleteDish(decodeURIComponent('${escapeJsArg(d.id)}'))" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                     </div>`;
                 list.appendChild(card);
             });
@@ -1919,6 +1936,12 @@
             return String(value ?? "").replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
         }
 
+        // Codifica valores controlados por datos/importaciones antes de incrustarlos en
+        // handlers inline. Se decodifican en el propio handler y no contienen comillas.
+        function escapeJsArg(value) {
+            return encodeURIComponent(String(value ?? '')).replace(/'/g, '%27');
+        }
+
 
         function addIngredientRow(nombre = '', cantidad = '', unidad = 'g', categoria = 'Secos') {
             const container = document.getElementById('ingredientsContainer');
@@ -1973,6 +1996,25 @@
                 return stored ? JSON.parse(stored) : {};
             } catch (error) {
                 return {};
+            }
+        }
+
+        async function loadDishesFromLocalSeed() {
+            try {
+                const response = await fetch('./recipes.json', { cache: 'no-store' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const content = await response.text();
+                const parsedFile = parseGitHubRecipeFile(content, 'recipes.json');
+                if (!Array.isArray(parsedFile.recipes) || !parsedFile.recipes.length) {
+                    throw new Error('recipes.json no contiene recetas.');
+                }
+                dishes = parsedFile.recipes.map(normalizeDishData);
+                localStorage.setItem('chefTrack_dishes', JSON.stringify(dishes));
+                githubLastLoadIssue = 'local-seed';
+                return true;
+            } catch (error) {
+                console.warn('No se pudo cargar recipes.json como recetario inicial:', error);
+                return false;
             }
         }
 
@@ -2761,7 +2803,7 @@
                                 <option value="">Seleccionar…</option>
                                 ${FISH_SPECIES.map(a => `<option value="${a}" ${d.especie_pescado===a?'selected':''}>${FISH_LABELS[a]}</option>`).join("")}
                             </select>` : ''}
-                        <button onclick="saveMigrationTag('${escapeHtml(d.id)}')" class="w-full bg-indigo-600 text-white py-2 rounded-lg text-xs font-bold">Guardar etiqueta</button>
+                        <button onclick="saveMigrationTag(decodeURIComponent('${escapeJsArg(d.id)}'))" class="w-full bg-indigo-600 text-white py-2 rounded-lg text-xs font-bold">Guardar etiqueta</button>
                     </div>`;
             }).join("");
         }
@@ -2879,13 +2921,13 @@
                             <span class="text-[9px] px-1.5 py-0.5 rounded font-bold border ${badgeColor}">${isFresh ? 'Fresco' : 'Congelado'}</span>
                         </div>
                         <div class="text-[11px] text-gray-500 dark:text-gray-400">
-                            <span class="font-bold text-indigo-700 dark:text-indigo-400">${item.cantidad} ${item.unidad}</span> • ${escapeHtml(item.categoria_proveedor)}
+                            <span class="font-bold text-indigo-700 dark:text-indigo-400">${escapeHtml(item.cantidad)} ${escapeHtml(item.unidad)}</span> • ${escapeHtml(item.categoria_proveedor)}
                         </div>
                     </div>
                     <div class="flex items-center gap-1">
-                        <button onclick="changeRawQty('${escapeHtml(item.id)}', -1)" class="w-7 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">-</button>
-                        <button onclick="changeRawQty('${escapeHtml(item.id)}', 1)" class="w-7 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">+</button>
-                        <button onclick="deleteRaw('${escapeHtml(item.id)}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                        <button onclick="changeRawQty(decodeURIComponent('${escapeJsArg(item.id)}'), -1)" class="w-7 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">-</button>
+                        <button onclick="changeRawQty(decodeURIComponent('${escapeJsArg(item.id)}'), 1)" class="w-7 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">+</button>
+                        <button onclick="deleteRaw(decodeURIComponent('${escapeJsArg(item.id)}'))" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                     </div>
                 `;
                 container.appendChild(card);
@@ -2989,9 +3031,9 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-1">
-                        <button onclick="changePrepQty('${escapeHtml(item.id)}', -1)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">-</button>
-                        <button onclick="changePrepQty('${escapeHtml(item.id)}', 1)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">+</button>
-                        <button onclick="deletePrep('${escapeHtml(item.id)}')" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                        <button onclick="changePrepQty(decodeURIComponent('${escapeJsArg(item.id)}'), -1)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">-</button>
+                        <button onclick="changePrepQty(decodeURIComponent('${escapeJsArg(item.id)}'), 1)" class="px-2 h-7 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-700">+</button>
+                        <button onclick="deletePrep(decodeURIComponent('${escapeJsArg(item.id)}'))" class="text-red-500 bg-red-50 dark:bg-red-950 p-1.5 rounded-lg ml-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                     </div>
                 `;
                 container.appendChild(card);
@@ -4016,7 +4058,7 @@
         function renderSlotCard(dayName, index, slot) {
             const isPrimero = slot.cat === 'Primero';
             let dishName = slot.dish ? slot.dish.nombre : "Sin asignar";
-            const warningBadge = slot.warning ? `<span class="text-[10px] bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-300 px-1.5 py-0.5 rounded font-bold ml-2">${slot.warning}</span>` : '';
+            const warningBadge = slot.warning ? `<span class="text-[10px] bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-300 px-1.5 py-0.5 rounded font-bold ml-2">${escapeHtml(slot.warning)}</span>` : '';
             const stockBadge = slot.isPreparedStock ? `<span class="text-[10px] bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded font-bold ml-2">Stock Elaborado</span>` : '';
             const precookedBadge = (slot.dish && slot.dish.precocinado) ? `<span class="text-[10px] bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300 px-1.5 py-0.5 rounded font-bold ml-2">Precocinado</span>` : '';
             const allergenNames = slot.dish && Array.isArray(slot.dish.alergenos)
@@ -4026,16 +4068,20 @@
                 ? `<div class="text-[9px] text-gray-500 dark:text-gray-400 mt-1 leading-tight">Alérgenos: ${allergenNames.map(escapeHtml).join(' · ')}</div>`
                 : '';
 
+            const safeDay = escapeJsArg(dayName);
+            const safeCat = escapeJsArg(slot.cat);
+            const safeFirstSubtype = escapeJsArg(isPrimero ? (slot.dish?.subcategoria_primero || '') : '');
+            const safeProtein = escapeJsArg(!isPrimero ? (slot.dish?.proteina_segundo || '') : '');
             return `
                 <div class="gastro-slot flex items-center justify-between p-3">
                     <div class="flex items-center gap-2 flex-1">
                         <div>
-                            <div class="text-[10px] font-bold text-gray-500 uppercase">${slot.slotLabel}</div>
-                            <div class="text-sm font-semibold text-gray-800 dark:text-gray-100 leading-tight">${dishName} ${warningBadge} ${stockBadge} ${precookedBadge}</div>
+                            <div class="text-[10px] font-bold text-gray-500 uppercase">${escapeHtml(slot.slotLabel)}</div>
+                            <div class="text-sm font-semibold text-gray-800 dark:text-gray-100 leading-tight">${escapeHtml(dishName)} ${warningBadge} ${stockBadge} ${precookedBadge}</div>
                             ${allergenLine}
                         </div>
                     </div>
-                    <button onclick="openSwapModal('${dayName}', ${index}, '${slot.cat}', '${isPrimero ? (slot.dish?.subcategoria_primero || '') : ''}', '${!isPrimero ? (slot.dish?.proteina_segundo || '') : ''}')" class="gastro-slot-action flex items-center justify-center">
+                    <button onclick="openSwapModal(decodeURIComponent('${safeDay}'), ${index}, decodeURIComponent('${safeCat}'), decodeURIComponent('${safeFirstSubtype}'), decodeURIComponent('${safeProtein}'))" class="gastro-slot-action flex items-center justify-center">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                     </button>
                 </div>
@@ -4197,7 +4243,7 @@
                 hasItems = true;
                 const section = document.createElement('div');
                 section.className = "bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 space-y-2";
-                section.innerHTML = `<h4 class="font-bold text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-800 pb-1">${cat}</h4><ul class="space-y-1.5">${items.map(i => `<li class="flex justify-between text-xs text-gray-800 dark:text-gray-200"><span>${escapeHtml(i.nombre)}</span><span class="font-bold">${escapeHtml(`${i.cantidad}${i.unidad}`)}</span></li>`).join('')}</ul>`;
+                section.innerHTML = `<h4 class="font-bold text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-800 pb-1">${escapeHtml(cat)}</h4><ul class="space-y-1.5">${items.map(i => `<li class="flex justify-between text-xs text-gray-800 dark:text-gray-200"><span>${escapeHtml(i.nombre)}</span><span class="font-bold">${escapeHtml(`${i.cantidad}${i.unidad}`)}</span></li>`).join('')}</ul>`;
                 container.appendChild(section);
             });
             if (!hasItems) container.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">No hay ingredientes necesarios en el menú actual.</p>';
@@ -4275,11 +4321,11 @@
                     <div>
                         <h4 class="font-bold text-gray-800 dark:text-gray-100 text-xs mb-1">${escapeHtml(d.nombre)}</h4>
                         <div class="flex gap-1.5">
-                            <span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">${d.categoria}</span>
+                            <span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">${escapeHtml(d.categoria)}</span>
                             ${d.precocinado ? '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300">Precocinado</span>' : ''}
                         </div>
                     </div>
-                    <button onclick="confirmSwap('${escapeHtml(d.id)}')" class="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Seleccionar</button>
+                    <button onclick="confirmSwap(decodeURIComponent('${escapeJsArg(d.id)}'))" class="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Seleccionar</button>
                 `;
                 container.appendChild(card);
             });
@@ -4348,8 +4394,8 @@
                         <span class="text-[10px] text-gray-500">Planificación semanal completa</span>
                     </div>
                     <div class="flex gap-1.5">
-                        <button onclick="loadHistoryMenu('${escapeHtml(item.id)}')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-xs font-bold">Cargar</button>
-                        <button onclick="deleteHistoryMenu('${escapeHtml(item.id)}')" class="bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 px-2.5 py-1 rounded-lg text-xs font-bold">×</button>
+                        <button onclick="loadHistoryMenu(decodeURIComponent('${escapeJsArg(item.id)}'))" class="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-xs font-bold">Cargar</button>
+                        <button onclick="deleteHistoryMenu(decodeURIComponent('${escapeJsArg(item.id)}'))" class="bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 px-2.5 py-1 rounded-lg text-xs font-bold">×</button>
                     </div>
                 `;
                 container.appendChild(row);

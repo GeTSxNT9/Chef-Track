@@ -1,6 +1,6 @@
 # 📖 GastroOS
 
-**Web Operating System for Recipe Management, Menu Planning, and Stock Control.**
+**Web Operating System for Recipe Management, Menu Planning, and Stock Control.**  
 *Progressive Web App architecture with local persistence, offline caching, and optional GitHub synchronization.*
 
 ---
@@ -17,9 +17,9 @@
 
 **GastroOS** is a web application (**Progressive Web App**) developed with **HTML5, CSS, and JavaScript**, designed to centralize recipe management, weekly menu planning, ingredient control, stock management, and shopping list generation in a single interface.
 
-The application uses a lightweight web architecture where the main interface and application logic are contained in `index.html`, while recipe data, PWA configuration, application icons, and service worker functionality are maintained as separate files.
+The application uses a lightweight web architecture where the main interface and application logic are contained in `index.html`, while recipe data, PWA configuration, service-worker caching, and application icons are maintained as separate files.
 
-The system is designed to operate primarily on the client side, without requiring a dedicated backend server for its core functionality.
+The system is designed to operate primarily on the client side, without requiring a dedicated backend server for its core functionality. When no local recipe collection is available, `recipes.json` is used as the initial recipe seed; a configured GitHub repository takes precedence as the shared remote source.
 
 ---
 
@@ -36,6 +36,8 @@ The recipe book is managed through structured JSON data and provides the foundat
 * **Individual Editing:** Recipes can be modified while preserving their internal identifiers.
 * **Bulk Editing:** Multiple recipes can be updated simultaneously.
 * **Filtering & Selection:** Recipes can be filtered and selected directly from the interface.
+* **Recipe Health:** A diagnostic view reports incomplete technical tags, duplicate IDs, and blank ingredient quantities.
+* **Change History:** A local audit log records recipe creation, edits, deletions, imports, and tagging operations.
 * **GitHub Synchronization:** Recipe data can be synchronized with the configured GitHub repository.
 
 ---
@@ -55,6 +57,7 @@ Main capabilities include:
 * Protection against incompatible combinations.
 * Variety management using previously saved menus.
 * Retry-based generation when a candidate menu is invalid.
+* Duplicate historical-menu warning before saving the same menu again.
 
 Generated menus are only committed once the complete weekly plan has passed validation.
 
@@ -97,9 +100,18 @@ Only explicitly saved menus are considered part of the planning history. A gener
 
 ---
 
-### 6. 💾 Data Persistence
+### 6. 💾 Data Persistence & Backup
 
 GastroOS uses **browser LocalStorage** for local application persistence.
+
+The application includes:
+
+* Full JSON export.
+* Recipe-only export.
+* Automatic local backup snapshots before destructive/restorative operations.
+* Download of the latest automatic backup.
+* Import/restore with a preview before applying changes.
+* Safe JSON loading so malformed local storage entries do not crash initialization.
 
 This allows the application to retain relevant information between sessions without requiring a dedicated database or backend service for its core operation.
 
@@ -113,25 +125,21 @@ GitHub integration provides remote synchronization for recipe data.
 
 The application can work with a configured GitHub repository to synchronize recipe changes while maintaining the main application as a client-side web application.
 
+The settings view also shows whether local recipe changes are pending synchronization or whether the current recipe collection matches the last confirmed GitHub snapshot.
+
 Authentication credentials and tokens must be handled securely and should never be committed directly to the repository.
 
 ---
 
-### 8. 📡 Progressive Web App & Offline Support
+### 8. 📡 PWA & Offline Cache
 
-GastroOS uses a **Service Worker** to cache the application's main resources.
+GastroOS uses a real external Service Worker in `sw.js`.
 
-The Service Worker allows the application to load cached resources when the network is unavailable, improving resilience and supporting offline use of the core application.
+The Service Worker caches the application shell, recipe data, manifest, and icon assets and uses a network-first strategy with cached fallback for same-origin resources. External services such as the GitHub API and CDN resources are not cached by the Service Worker.
 
-The main cached resources include:
+This provides an offline fallback for the core static application shell when the browser has previously loaded the application. The application still depends on its external Tailwind CDN resource for styling, so this should not be interpreted as a guarantee of fully self-contained offline rendering.
 
-* `index.html`
-* `recipes.json`
-* `manifest.json`
-* Application icons
-* Other resources handled by the Service Worker
-
-The PWA configuration is provided through `manifest.json`, while `sw.js` manages application caching and offline behavior.
+The application remains installable through `manifest.json`.
 
 ---
 
@@ -148,3 +156,132 @@ GastroOS/
 ├── icon-192.png
 ├── icon-512.png
 └── README.md
+```
+
+### `index.html`
+
+Contains the main application:
+
+* User interface.
+* Styling.
+* Application logic.
+* Menu planning engine.
+* Recipe management.
+* Shopping and stock functionality.
+* Local persistence.
+* Backup and restore workflow.
+* Diagnostics and recipe change history.
+* GitHub integration.
+
+### `recipes.json`
+
+Contains the application's recipe collection and associated recipe data. It also acts as the initial local recipe seed when the browser has no stored recipes and GitHub is not available.
+
+Keeping recipe data separate from the main application makes it easier to maintain and expand the recipe database.
+
+### `manifest.json`
+
+Contains the Progressive Web App configuration, including application metadata and references to the external application icons.
+
+### `sw.js`
+
+Contains the Service Worker responsible for application-shell caching and offline fallback.
+
+### Application Icons
+
+The application uses external image files for browser, mobile, and PWA icons:
+
+* `favicon-32.png`
+* `apple-touch-icon.png`
+* `icon-192.png`
+* `icon-512.png`
+
+Keeping the icons as separate assets avoids embedding image data directly into `index.html`.
+
+---
+
+## ⚙️ Planning Workflow
+
+The menu planning process follows a generate → validate → accept workflow:
+
+```text
+Recipe Collection
+       ↓
+Candidate Generation
+       ↓
+Constraint Processing
+       ↓
+Full Menu Validation
+       ↓
+Valid Menu
+```
+
+Invalid candidates are discarded and alternative combinations are generated.
+
+The same validation approach is used when regenerating individual days or manually replacing dishes, ensuring that changes are compatible with the complete weekly menu.
+
+Current planning engine:
+
+`menu-rules-v10-constraint-retry`
+
+---
+
+## 🎨 Design Philosophy
+
+GastroOS follows an **Apple-inspired minimalist interface**, prioritizing:
+
+* Clear visual hierarchy.
+* Simple navigation.
+* Compact information density.
+* Consistent controls.
+* Responsive layouts.
+* Minimal visual clutter.
+
+The interface is designed to keep recipe management, planning, stock, and shopping workflows within the same application rather than separating them into independent tools.
+
+---
+
+## 🚀 Deployment
+
+GastroOS can be deployed as a static web application through **GitHub Pages**.
+
+The deployment workflow is:
+
+```text
+Source Files
+     ↓
+Git Repository
+     ↓
+GitHub Pages
+     ↓
+Published Web Application
+```
+
+No dedicated backend server is required for the application's core functionality.
+
+For the Service Worker to operate, the application must be served over **HTTPS** (GitHub Pages satisfies this requirement) or from a local development environment that supports Service Workers.
+
+---
+
+## 🔐 Security
+
+GitHub tokens and other credentials must be treated as sensitive information.
+
+They should not be:
+
+* Committed to the repository.
+* Embedded in public source code.
+* Published in the README.
+* Shared through screenshots or documentation.
+
+The appropriate GitHub authentication and permission mechanisms should be used for repository synchronization.
+
+Because the application is client-side, a GitHub token stored in browser LocalStorage remains accessible to JavaScript running in that origin. Use a least-privilege fine-grained token and avoid installing untrusted scripts/extensions on the same origin.
+
+---
+
+## 📌 Project Summary
+
+GastroOS combines **recipe management, automated menu planning, ingredient control, stock management, shopping lists, history, diagnostics, backup/restore, and GitHub synchronization** in a client-side Progressive Web App.
+
+Its main objective is to automate the repetitive parts of weekly meal planning while keeping the entire process accessible and manually controllable from one interface.
