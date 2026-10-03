@@ -4291,27 +4291,33 @@
     "alergenos": [],
     "ingredientes": [
       {
-        "nombre": "Zanahoria",
-        "cantidad": 50,
+        "nombre": "Ternera en tacos",
+        "cantidad": 200,
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Carne"
       },
       {
-        "nombre": "Pimiento rojo",
-        "cantidad": 40,
+        "nombre": "Zanahoria picada",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
-        "nombre": "Cebolla",
-        "cantidad": 40,
+        "nombre": "Pimiento rojo picado",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
+      },
+      {
+        "nombre": "Cebolla picada",
+        "cantidad": "",
+        "unidad": "g",
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Guisantes",
         "cantidad": 40,
-        "unidad": "g",
+        "unidad": "",
         "categoria_proveedor": "Congelados"
       },
       {
@@ -4323,7 +4329,7 @@
       {
         "nombre": "Laurel",
         "cantidad": "",
-        "unidad": "",
+        "unidad": "g",
         "categoria_proveedor": "Secos"
       }
     ]
