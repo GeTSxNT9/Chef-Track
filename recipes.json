@@ -2142,6 +2142,24 @@
         "cantidad": 450,
         "unidad": "g",
         "categoria_proveedor": "Congelados"
+      },
+      {
+        "nombre": "Limón",
+        "cantidad": "",
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Perejil",
+        "cantidad": "",
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
       }
     ]
   },
