@@ -1466,7 +1466,7 @@
     "ingredientes": [
       {
         "nombre": "Guisantes",
-        "cantidad": 150,
+        "cantidad": 200,
         "unidad": "g",
         "categoria_proveedor": "Congelados"
       },
