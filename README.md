@@ -58,6 +58,8 @@ Main capabilities include:
 * Variety management using previously saved menus.
 * Retry-based generation when a candidate menu is invalid.
 * Duplicate historical-menu warning before saving the same menu again.
+* **Prepared Dish Handling:** Recipes marked as **Plato elaborado** are excluded from automatic menu generation but can be manually assigned to compatible menu slots.
+* **Planning Rules:** Manually assigned prepared dishes continue to count towards the same menu constraints as automatically generated dishes.
 
 Generated menus are only committed once the complete weekly plan has passed validation.
 
@@ -86,7 +88,12 @@ GastroOS includes stock management to keep track of products already available.
 
 Stock can be managed independently from the recipe collection and is taken into account when preparing shopping requirements.
 
-The system supports both **raw/unprepared products** and **prepared products**.
+The system supports both **raw/unprepared products** and **prepared dishes**.
+
+* **Raw Stock:** Raw stock products are selected from main ingredients of **Segundo** recipes whose supplier category is `Carne` or `Pescado`.
+* **Prepared Stock:** Prepared dishes are selected directly from recipes marked as **Plato elaborado**.
+* **Compatibility Filtering:** Only recipes compatible with the selected menu context and current planning constraints are available for assignment.
+* **Planning Rules:** Assigned prepared dishes continue to affect menu validation and planning constraints.
 
 ---
 
@@ -207,18 +214,42 @@ The menu planning process follows a generate → validate → accept workflow:
 ```text
 Recipe Collection
        ↓
-Candidate Generation
+Recipe Classification
        ↓
-Constraint Processing
-       ↓
-Full Menu Validation
-       ↓
-Valid Menu
+Automatic Candidates
+       │
+       ├── Plato elaborado → excluded
+       │
+       └── Eligible recipes
+                 ↓
+        Constraint Processing
+                 ↓
+        Full Menu Validation
+                 ↓
+             Valid Menu
 ```
+
+For manually assigned prepared dishes:
+
+```text
+Plato elaborado
+       ↓
+Context & Rule Filtering
+       ↓
+Compatible Menu Slots
+       ↓
+Manual Assignment
+       ↓
+Full Menu Rules
+```
+
+Recipes marked as **Plato elaborado** are excluded from automatic candidate generation; **Precocinado** remains eligible unless the recipe is also marked as **Plato elaborado**.
 
 Invalid candidates are discarded and alternative combinations are generated.
 
 The same validation approach is used when regenerating individual days or manually replacing dishes, ensuring that changes are compatible with the complete weekly menu.
+
+Weekly menu export uses the **following Monday–Friday period** relative to the generation or export date.
 
 Current planning engine:
 
@@ -243,7 +274,7 @@ The interface is designed to keep recipe management, planning, stock, and shoppi
 
 ## 🚀 Deployment
 
-GastroOS can be deployed as a static web application through **GitHub Pages**.
+GastroOS can be deployed as a static web application through **GitHub Pages**. GitHub Pages hosts static HTML, CSS, and JavaScript files directly from a repository. citeturn0search1
 
 The deployment workflow is:
 
@@ -282,6 +313,8 @@ Because the application is client-side, a GitHub token stored in browser LocalSt
 
 ## 📌 Project Summary
 
-GastroOS combines **recipe management, automated menu planning, ingredient control, stock management, shopping lists, history, diagnostics, backup/restore, and GitHub synchronization** in a client-side Progressive Web App.
+GastroOS combines **recipe management, automated menu planning, prepared-dish assignment, ingredient control, stock management, shopping lists, history, diagnostics, backup/restore, and GitHub synchronization** in a client-side Progressive Web App.
+
+Recipes can be independently classified as **Precocinado** and/or **Plato elaborado**, allowing the planning engine to distinguish between recipes eligible for automatic generation and fully prepared dishes that are manually assigned while still participating in menu constraints.
 
 Its main objective is to automate the repetitive parts of weekly meal planning while keeping the entire process accessible and manually controllable from one interface.
