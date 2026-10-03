@@ -51,7 +51,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100002",
@@ -105,7 +106,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100003",
@@ -153,7 +155,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100004",
@@ -209,7 +212,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100005",
@@ -257,7 +261,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100006",
@@ -305,7 +310,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100007",
@@ -353,7 +359,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100008",
@@ -401,7 +408,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100009",
@@ -449,7 +457,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100010",
@@ -497,7 +506,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100011",
@@ -545,7 +555,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100012",
@@ -593,7 +604,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100013",
@@ -641,7 +653,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100014",
@@ -689,7 +702,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100015",
@@ -743,7 +757,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100016",
@@ -797,7 +812,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100017",
@@ -853,7 +869,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100018",
@@ -897,7 +914,8 @@
         "unidad": "g",
         "categoria_proveedor": "Congelados"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100019",
@@ -930,7 +948,8 @@
         "unidad": "g",
         "categoria_proveedor": "Lácteos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100020",
@@ -976,7 +995,8 @@
         "unidad": "g",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100021",
@@ -1027,7 +1047,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100022",
@@ -1071,7 +1092,8 @@
         "unidad": "ml",
         "categoria_proveedor": "Lácteos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100023",
@@ -1115,7 +1137,8 @@
         "unidad": "ml",
         "categoria_proveedor": "Lácteos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100024",
@@ -1153,7 +1176,8 @@
         "unidad": "ml",
         "categoria_proveedor": "Lácteos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100025",
@@ -1201,7 +1225,8 @@
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100026",
@@ -1245,7 +1270,8 @@
         "unidad": "ml",
         "categoria_proveedor": "Lácteos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100027",
@@ -1283,7 +1309,8 @@
         "unidad": "g",
         "categoria_proveedor": "Lácteos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100028",
@@ -1307,7 +1334,8 @@
         "unidad": "g",
         "categoria_proveedor": "Congelados"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100029",
@@ -1337,7 +1365,8 @@
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100030",
@@ -1367,7 +1396,8 @@
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100031",
@@ -1397,7 +1427,8 @@
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100032",
@@ -1427,7 +1458,8 @@
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100033",
@@ -1463,7 +1495,8 @@
         "unidad": "g",
         "categoria_proveedor": "Carne"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100034",
@@ -1490,7 +1523,8 @@
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100035",
@@ -1534,7 +1568,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100036",
@@ -1590,7 +1625,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100037",
@@ -1635,7 +1671,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100038",
@@ -1679,7 +1716,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100039",
@@ -1736,7 +1774,8 @@
         "unidad": "ml",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100040",
@@ -1787,7 +1826,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100041",
@@ -1838,7 +1878,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100042",
@@ -1883,7 +1924,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100043",
@@ -1927,7 +1969,8 @@
         "unidad": "g",
         "categoria_proveedor": "Congelados"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100044",
@@ -1981,7 +2024,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100045",
@@ -2039,7 +2083,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "100046",
@@ -2095,7 +2140,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790909079125",
@@ -2119,7 +2165,8 @@
         "unidad": "g",
         "categoria_proveedor": "Congelados"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790909204912",
@@ -2161,7 +2208,8 @@
         "unidad": "g",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790909304768",
@@ -2185,7 +2233,8 @@
         "unidad": "g",
         "categoria_proveedor": "Carne"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790921245068",
@@ -2217,7 +2266,8 @@
         "unidad": "",
         "categoria_proveedor": "Verduras y frutas"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790921314185",
@@ -2241,7 +2291,8 @@
         "unidad": "g",
         "categoria_proveedor": "Carne"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790938832994",
@@ -2273,7 +2324,8 @@
         "unidad": "",
         "categoria_proveedor": "Verduras y frutas"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790939060311",
@@ -2325,7 +2377,8 @@
         "unidad": "ml",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000001",
@@ -2383,7 +2436,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000002",
@@ -2423,7 +2477,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000003",
@@ -2462,7 +2517,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000004",
@@ -2512,7 +2568,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000005",
@@ -2540,7 +2597,8 @@
         "unidad": "g",
         "categoria_proveedor": "Congelados"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000006",
@@ -2608,7 +2666,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000007",
@@ -2632,7 +2691,8 @@
         "unidad": "g",
         "categoria_proveedor": "Carne"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000008",
@@ -2688,7 +2748,8 @@
         "unidad": "g",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000009",
@@ -2718,7 +2779,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000010",
@@ -2774,7 +2836,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000011",
@@ -2818,7 +2881,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000012",
@@ -2848,7 +2912,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000013",
@@ -2884,7 +2949,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000014",
@@ -2914,7 +2980,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000015",
@@ -2962,7 +3029,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000016",
@@ -2990,7 +3058,8 @@
         "unidad": "g",
         "categoria_proveedor": "Congelados"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000017",
@@ -3020,7 +3089,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000018",
@@ -3064,7 +3134,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000019",
@@ -3092,7 +3163,8 @@
         "unidad": "g",
         "categoria_proveedor": "Congelados"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000020",
@@ -3119,7 +3191,8 @@
         "unidad": "g",
         "categoria_proveedor": "Congelados"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000021",
@@ -3163,7 +3236,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000022",
@@ -3213,7 +3287,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000023",
@@ -3275,7 +3350,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000024",
@@ -3337,7 +3413,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000025",
@@ -3361,7 +3438,8 @@
         "unidad": "g",
         "categoria_proveedor": "Carne"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000026",
@@ -3397,7 +3475,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000027",
@@ -3425,7 +3504,8 @@
         "unidad": "g",
         "categoria_proveedor": "Congelados"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000028",
@@ -3465,7 +3545,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000029",
@@ -3522,7 +3603,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000030",
@@ -3561,7 +3643,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000031",
@@ -3611,7 +3694,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000032",
@@ -3649,7 +3733,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000033",
@@ -3689,7 +3774,8 @@
         "unidad": "g",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000034",
@@ -3735,7 +3821,8 @@
         "unidad": "",
         "categoria_proveedor": "Verduras y frutas"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000035",
@@ -3774,7 +3861,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000036",
@@ -3818,7 +3906,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000037",
@@ -3858,7 +3947,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000038",
@@ -3908,7 +3998,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000039",
@@ -3934,7 +4025,8 @@
         "unidad": "g",
         "categoria_proveedor": "Pescado"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000040",
@@ -3991,7 +4083,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000041",
@@ -4018,7 +4111,8 @@
         "unidad": "g",
         "categoria_proveedor": "Pescado"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000042",
@@ -4045,7 +4139,8 @@
         "unidad": "g",
         "categoria_proveedor": "Congelados"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000043",
@@ -4083,7 +4178,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000044",
@@ -4121,7 +4217,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000045",
@@ -4171,7 +4268,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000046",
@@ -4209,7 +4307,8 @@
         "unidad": "",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790940000047",
@@ -4236,7 +4335,8 @@
         "unidad": "g",
         "categoria_proveedor": "Pescado"
       }
-    ]
+    ],
+    "elaborado": false
   },
   {
     "id": "1790957918433",
@@ -4296,6 +4396,7 @@
         "unidad": "g",
         "categoria_proveedor": "Secos"
       }
-    ]
+    ],
+    "elaborado": false
   }
 ]
