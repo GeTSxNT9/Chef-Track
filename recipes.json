@@ -2659,32 +2659,32 @@
         "categoria_proveedor": "Carne"
       },
       {
-        "nombre": "Pimiento rojo",
-        "cantidad": 50,
+        "nombre": "Pimiento rojo picado",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
-        "nombre": "Cebolla",
-        "cantidad": 40,
+        "nombre": "Cebolla picado",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Tomate frito",
         "cantidad": 60,
-        "unidad": "g",
+        "unidad": "ml",
         "categoria_proveedor": "Secos"
       },
       {
         "nombre": "Vino tinto",
-        "cantidad": 0,
+        "cantidad": "",
         "unidad": "ml",
         "categoria_proveedor": "Secos"
       },
       {
         "nombre": "Pimentón dulce",
-        "cantidad": 0,
+        "cantidad": "",
         "unidad": "g",
         "categoria_proveedor": "Secos"
       }
