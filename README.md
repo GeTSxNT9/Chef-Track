@@ -15,7 +15,7 @@
 
 ## 📸 Overview
 
-**GastroOS** is a web application (**Single Page Application**) developed with **HTML5, CSS, and JavaScript**, designed to centralize recipe management, weekly menu planning, ingredient control, stock management, and shopping list generation in a single interface.
+**GastroOS** is a web application (**Progressive Web App**) developed with **HTML5, CSS, and JavaScript**, designed to centralize recipe management, weekly menu planning, ingredient control, stock management, and shopping list generation in a single interface.
 
 The application uses a lightweight web architecture where the main interface and application logic are contained in `index.html`, while recipe data, PWA configuration, and application icons are maintained as separate files.
 
