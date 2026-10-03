@@ -1146,8 +1146,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "",
+    "tecnica": "",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -1156,19 +1156,19 @@
     "ingredientes": [
       {
         "nombre": "Puerro",
-        "cantidad": 150,
+        "cantidad": 200,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
       },
       {
         "nombre": "Patata",
-        "cantidad": 100,
+        "cantidad": 150,
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
       },
       {
         "nombre": "Nata",
-        "cantidad": 40,
+        "cantidad": 50,
         "unidad": "g",
         "categoria_proveedor": "Lácteos"
       }
