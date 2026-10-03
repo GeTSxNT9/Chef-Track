@@ -1437,6 +1437,25 @@
             details.innerHTML = `<div class="space-y-1"><div>${firsts} primeros · ${seconds} segundos · ${ingredients} ingredientes registrados.</div>${incompleteNames.length ? `<div>Ejemplos pendientes: ${incompleteNames.map(escapeHtml).join(', ')}${incomplete > incompleteNames.length ? '…' : ''}</div>` : '<div class="text-emerald-600 dark:text-emerald-400 font-semibold">No se detectan etiquetas técnicas incompletas.</div>'}</div>`;
         }
 
+        function normalizePreparedStock(items) {
+            if (!Array.isArray(items)) return [];
+            const seen = new Set();
+            return items.map((item, index) => {
+                const prep = item && typeof item === 'object' ? { ...item } : {};
+                let id = String(prep.id || '').trim();
+                if (!id || seen.has(id)) id = createStableId('prepared');
+                seen.add(id);
+                return {
+                    ...prep,
+                    id,
+                    nombre: String(prep.nombre || '').trim(),
+                    cantidadTotal: prep.cantidadTotal !== undefined ? Number(prep.cantidadTotal) || 0 : undefined,
+                    unidad: prep.unidad || 'kg',
+                    asignacion: prep.asignacion || 'Sin asignar'
+                };
+            });
+        }
+
         async function init() {
             registerServiceWorker();
             const storedDishesSafe = safeLoadJSON('chefTrack_dishes', []);
@@ -1447,9 +1466,12 @@
             const storedRawSafe = safeLoadJSON('chefTrack_rawStock', []);
             rawStock = normalizeRawStock(storedRawSafe);
             const storedPrepSafe = safeLoadJSON('chefTrack_preparedStock', []);
-            preparedStock = Array.isArray(storedPrepSafe) ? storedPrepSafe : [];
+            preparedStock = normalizePreparedStock(storedPrepSafe);
             currentMenu = safeLoadJSON('chefTrack_currentMenu', null);
             previousWeekMenu = safeLoadJSON('previousWeekMenu', safeLoadJSON('chefTrack_previousWeekMenu', null));
+            // Al cargar, reconciliamos el menú persistido contra preparedStock actual.
+            // Así un flag antiguo nunca puede reactivar un preparado eliminado/cambiado.
+            if (currentMenu?.days) reconcilePreparedAssignments(currentMenu);
             const storedHistorySafe = safeLoadJSON('chefTrack_historyMenus', []);
             historyMenus = Array.isArray(storedHistorySafe) ? storedHistorySafe : [];
             const storedRecipeHistorySafe = safeLoadJSON('chefTrack_recipeChangeHistory', []);
@@ -1619,7 +1641,13 @@
             document.getElementById('checkMargen').addEventListener('change', updateCalculatedRaciones);
             document.getElementById('rawStockForm').addEventListener('submit', handleAddRawStock);
             document.getElementById('prepStockForm').addEventListener('submit', handleAddPrepStock);
-            document.getElementById('prepName').addEventListener('change', renderPreparedAssignmentOptions);
+            document.getElementById('prepName').addEventListener('change', () => {
+                // Cambiar de plato inicia una nueva selección de asignación.
+                // Nunca arrastramos silenciosamente el slot del plato anterior.
+                const assignment = document.getElementById('prepAsignacion');
+                if (assignment) assignment.value = 'Sin asignar';
+                renderPreparedAssignmentOptions();
+            });
 
             document.getElementById('btnSubTabMenu').addEventListener('click', () => switchGeneratorSubTab('menu'));
             document.getElementById('btnSubTabShopping').addEventListener('click', () => switchGeneratorSubTab('shopping'));
@@ -2939,39 +2967,14 @@
                 .sort((a, b) => String(a.nombre || '').localeCompare(String(b.nombre || ''), 'es', { sensitivity: 'base' }));
         }
 
+        // Las asignaciones de preparados son decisiones manuales, no resultados del
+        // motor de reglas. Por eso el selector solo limita por categoría del plato y
+        // nunca por variedad, historial, guisos, familias de preparación, etc.
         function getPreparedAssignmentSpecsForDish(dish) {
             if (!dish) return [];
-            const specs = [];
-            daysList.forEach((dayName, dayIndex) => {
-                if (dish.categoria === "Segundo") {
-                    const spec = { slotLabel: "Segundo", cat: "Segundo", protein: dish.proteina_segundo };
-                    const candidate = normalizeDishData(dish);
-                    if (!isStructuralMatch(candidate, spec)) return;
-                    if (violatesPreparedSecondAssignment(candidate, dayName, dayIndex)) return;
-                    specs.push(`${dayName} - Segundo`);
-                } else if (dish.categoria === "Primero") {
-                    const firstSpecs = [
-                        { slotLabel: FIRST_SLOT_LABELS.vegetable, cat: "Primero", allowedParents: ["Verdura"] },
-                        { slotLabel: FIRST_SLOT_LABELS.spoon, cat: "Primero", allowedParents: ["Cuchara"] },
-                        { slotLabel: FIRST_SLOT_LABELS.starch, cat: "Primero", allowedParents: ["Tenedor"] }
-                    ];
-                    const menuDays = getPreparedFirstMenuDays();
-                    const chosenFirsts = (menuDays[dayName] || []).map(item => item.dish).filter(Boolean);
-                    const usedVegetableKeys = new Set();
-                    daysList.forEach(name => {
-                        (menuDays[name] || []).forEach(item => {
-                            const key = getPrimaryVegetableKey(item.dish);
-                            if (key) usedVegetableKeys.add(key);
-                        });
-                    });
-                    const compatibleFirst = firstSpecs.some(spec =>
-                        isStructuralMatch(dish, spec) &&
-                        !violatesDayFirstRule(dish, spec, menuDays, dayIndex, chosenFirsts, usedVegetableKeys, previousWeekMenu, firstSpecs.indexOf(spec))
-                    );
-                    if (compatibleFirst) specs.push(`${dayName} - Primero`);
-                }
-            });
-            return specs;
+            const suffix = dish.categoria === "Primero" ? "Primero" : (dish.categoria === "Segundo" ? "Segundo" : "");
+            if (!suffix) return [];
+            return daysList.map(dayName => `${dayName} - ${suffix}`);
         }
 
         function getPreparedFirstMenuDays(exceptPreparedId = null) {
@@ -3173,6 +3176,24 @@
             return Number.isFinite(Number(item.raciones)) ? Number(item.raciones) : null;
         }
 
+        function createStableId(prefix = "id") {
+            if (globalThis.crypto?.randomUUID) return `${prefix}-${globalThis.crypto.randomUUID()}`;
+            return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+        }
+
+        function getPreparedAssignmentKey(assignment) {
+            return String(assignment || '').replace(/\s+/g, '').trim();
+        }
+
+        function getPreparedAssignmentConflict(assignment, exceptId = null) {
+            const key = getPreparedAssignmentKey(assignment);
+            if (!key || key === 'Sinasignar') return null;
+            return preparedStock.find(item =>
+                String(item?.id) !== String(exceptId ?? '') &&
+                getPreparedAssignmentKey(item?.asignacion) === key
+            ) || null;
+        }
+
         function handleAddPrepStock(e) {
             e.preventDefault();
             const selectedName = document.getElementById('prepName').value;
@@ -3186,9 +3207,14 @@
                 renderPreparedAssignmentOptions();
                 return;
             }
+            const conflict = getPreparedAssignmentConflict(assignment);
+            if (conflict) {
+                alert(`La posición ${assignment} ya está asignada a "${conflict.nombre}".\n\nNo se puede ocupar el mismo slot con dos registros de Platos elaborados.`);
+                return;
+            }
             const cantStr = document.getElementById('prepCantidad').value.toString().replace(',', '.');
             const item = {
-                id: Date.now().toString(),
+                id: createStableId('prepared'),
                 nombre: selectedDish.nombre,
                 cantidadTotal: parseFloat(cantStr) || 0,
                 unidad: document.getElementById('prepUnidad').value,
@@ -3250,32 +3276,29 @@
         }
 
         function deletePrep(id) {
-            const removed = preparedStock.find(p => String(p.id) === String(id));
             const removedId = String(id);
-            const removedName = normalizeFoodKey(removed?.nombre || "");
+            const removed = preparedStock.find(p => String(p.id) === removedId);
             preparedStock = preparedStock.filter(p => String(p.id) !== removedId);
 
-            // El registro eliminado pierde inmediatamente la autoridad de fijación.
-            // También limpiamos menús generados por versiones anteriores que no tenían
-            // todavía preparedStockId y solo guardaban isFixedPreparedAssignment.
+            // El registro eliminado deja de ser fuente de verdad inmediatamente.
+            // Limpiamos cualquier vínculo derivado y luego reconciliamos los registros
+            // que sí siguen existiendo en preparedStock.
             if (currentMenu?.days) {
                 daysList.forEach(dayName => {
                     (currentMenu.days[dayName] || []).forEach(slot => {
-                        const slotName = normalizeFoodKey(slot?.dish?.nombre || "");
-                        const sameRecord = String(slot?.preparedStockId || "") === removedId;
-                        const legacyFixedSameDish = !!slot?.isFixedPreparedAssignment && removedName && slotName === removedName;
-                        if (sameRecord || legacyFixedSameDish) {
-                            slot.isPreparedStock = false;
-                            slot.isFixedPreparedAssignment = false;
-                            slot.preparedStockId = "";
-                        }
+                        if (String(slot?.preparedStockId || '') !== removedId) return;
+                        slot.isPreparedStock = false;
+                        slot.isFixedPreparedAssignment = false;
+                        slot.preparedStockId = '';
                     });
                 });
+                reconcilePreparedAssignments(currentMenu);
             }
 
             saveAll();
             renderPreparedStock();
             renderGeneratorView();
+            if (removed) console.info(`Eliminado preparado ${removed.nombre} (${removedId})`);
         }
 
         // --- 6. MOTOR DE GENERACIÓN Y EXPORTACIÓN LIMPIA ---
@@ -3797,26 +3820,42 @@
         function getPreparedMap() {
             const prepMap = {};
             preparedStock.forEach(prep => {
-                if (prep.asignacion && prep.asignacion !== "Sin asignar") {
-                    const key = prep.asignacion.replace(/\s+/g, "");
-                    if (!prepMap[key]) prepMap[key] = [];
-                    prepMap[key].push(prep);
-                }
+                const key = getPreparedAssignmentKey(prep?.asignacion);
+                if (!key || key === "Sinasignar") return;
+                if (!prepMap[key]) prepMap[key] = [];
+                prepMap[key].push(prep);
             });
             return prepMap;
+        }
+
+        function getPreparedAssignmentConflicts() {
+            const bySlot = new Map();
+            preparedStock.forEach(prep => {
+                const key = getPreparedAssignmentKey(prep?.asignacion);
+                if (!key || key === "Sinasignar") return;
+                if (!bySlot.has(key)) bySlot.set(key, []);
+                bySlot.get(key).push(prep);
+            });
+            return [...bySlot.entries()]
+                .filter(([, items]) => items.length > 1)
+                .map(([key, items]) => ({ key, items }));
         }
 
         function getPreparedCandidate(prep, spec, dayName, slotIndex) {
             const name = String(prep?.nombre || "").trim();
             const found = dishes.find(d => String(d?.nombre || "").toLowerCase() === name.toLowerCase());
             if (found) {
-                const normalized = normalizeDishData(found);
-                return normalized.elaborado ? normalized : null;
+                // preparedStock es la autoridad. Una receta encontrada no necesita
+                // conservar elaborado=true para que su stock ya preparado siga fijado.
+                return normalizeDishData({ ...found, id: found.id });
             }
 
+            // Si la receta ya no existe, el registro de stock sigue siendo suficiente
+            // para representar la asignación manual. No dejamos que la ausencia de la
+            // receta convierta el slot en un hueco generable.
             const safeName = normalizeFoodKey(name).replace(/\s+/g, "-") || `slot-${slotIndex}`;
             return normalizeDishData({
-                id: prep?.id || `prepared-${dayName}-${slotIndex}-${safeName}`,
+                id: `prepared-dish-${String(prep?.id || `${dayName}-${slotIndex}`)}`,
                 nombre: name,
                 categoria: spec.cat,
                 subcategoria_primero: spec.allowedParents?.[0] || "",
@@ -3827,6 +3866,86 @@
                 tecnica_cocina: "",
                 ingredientes: []
             });
+        }
+
+        function getPreparedRecordForSlot(dayName, slot) {
+            const assignment = `${dayName} - ${slot?.cat || ''}`;
+            const key = getPreparedAssignmentKey(assignment);
+            if (!key) return null;
+            const byId = preparedStock.find(prep =>
+                slot?.preparedStockId && String(prep?.id) === String(slot.preparedStockId) &&
+                getPreparedAssignmentKey(prep?.asignacion) === key
+            );
+            if (byId) return byId;
+            const dishName = normalizeFoodKey(slot?.dish?.nombre || '');
+            return preparedStock.find(prep =>
+                getPreparedAssignmentKey(prep?.asignacion) === key &&
+                normalizeFoodKey(prep?.nombre || '') === dishName
+            ) || null;
+        }
+
+        function isPreparedSlot(dayName, slot) {
+            return !!getPreparedRecordForSlot(dayName, slot);
+        }
+
+        function reconcilePreparedAssignments(menu) {
+            if (!menu?.days) return menu;
+            const prepMap = getPreparedMap();
+            daysList.forEach(dayName => {
+                const slots = menu.days[dayName] || [];
+                const assignedFirst = prepMap[`${dayName}-Primero`] || [];
+                const assignedSecond = prepMap[`${dayName}-Segundo`] || [];
+                const usedPreparedIds = new Set();
+
+                [
+                    { cat: 'Primero', items: assignedFirst, indices: [0,1,2] },
+                    { cat: 'Segundo', items: assignedSecond, indices: [3,4,5] }
+                ].forEach(group => {
+                    group.items.forEach(prep => {
+                        let targetIndex = group.indices.find(i => {
+                            const slot = slots[i];
+                            return String(slot?.preparedStockId || '') === String(prep?.id);
+                        });
+                        if (targetIndex === undefined) {
+                            targetIndex = group.indices.find(i => {
+                                const slot = slots[i];
+                                return !slot || !isPreparedSlot(dayName, slot);
+                            });
+                        }
+                        if (targetIndex === undefined) return;
+                        const spec = targetIndex < 3
+                            ? [{slotLabel:FIRST_SLOT_LABELS.vegetable,cat:'Primero',allowedParents:['Verdura']},{slotLabel:FIRST_SLOT_LABELS.spoon,cat:'Primero',allowedParents:['Cuchara']},{slotLabel:FIRST_SLOT_LABELS.starch,cat:'Primero',allowedParents:['Tenedor']}][targetIndex]
+                            : [{slotLabel:'2º Carne (Opción 1)',cat:'Segundo',protein:'Carne'},{slotLabel:'2º Carne (Opción 2)',cat:'Segundo',protein:'Carne'},{slotLabel:'2º Pescado',cat:'Segundo',protein:'Pescado'}][targetIndex-3];
+                        const dish = getPreparedCandidate(prep, spec, dayName, targetIndex);
+                        slots[targetIndex] = {
+                            ...(slots[targetIndex] || {}),
+                            slotLabel: spec.slotLabel,
+                            cat: spec.cat,
+                            dish,
+                            relaxed: false,
+                            relaxationLevel: 0,
+                            warning: '',
+                            isPreparedStock: true,
+                            isFixedPreparedAssignment: true,
+                            preparedStockId: String(prep.id)
+                        };
+                        usedPreparedIds.add(String(prep.id));
+                    });
+                });
+
+                slots.forEach(slot => {
+                    if (!slot || !slot.preparedStockId) return;
+                    const prep = preparedStock.find(p => String(p.id) === String(slot.preparedStockId));
+                    const assignmentKey = getPreparedAssignmentKey(prep?.asignacion);
+                    const expectedKey = getPreparedAssignmentKey(`${dayName} - ${slot.cat || ''}`);
+                    if (!prep || assignmentKey !== expectedKey) {
+                        slot.isPreparedStock = false;
+                        slot.isFixedPreparedAssignment = false;
+                        slot.preparedStockId = '';
+                    }
+                });
+            });
+            return menu;
         }
 
 
@@ -3864,7 +3983,10 @@
                     // Las reglas del generador sirven para rellenar el resto de la semana,
                     // pero nunca pueden desplazar, sustituir ni hacer desaparecer una
                     // asignación que siga registrada en Platos elaborados.
-                    if (candidate && isStructuralMatch(candidate, spec) && !usedDishIdsThisWeek.has(String(candidate.id))) {
+                    if (candidate) {
+                        // Una asignación manual confirmada no compite con las reglas del
+                        // generador ni con la unicidad por dish.id. El registro concreto
+                        // de preparedStock es la identidad de la fijación.
                         lockedDish = candidate;
                         lockedPreparedId = String(prep?.id || "");
                     }
@@ -3915,7 +4037,8 @@
                     relaxationLevel: result.relaxationLevel,
                     warning: result.warning,
                     isPreparedStock: !!lockedDish,
-                    isFixedPreparedAssignment: !!lockedDish
+                    isFixedPreparedAssignment: !!lockedDish,
+                    preparedStockId: lockedDish ? lockedPreparedId : ""
                 });
             }
 
@@ -4001,27 +4124,32 @@
         }
 
         function fixedPreparedAssignmentsArePresent(menu) {
-            // Una asignación registrada en Platos elaborados es la fuente de verdad.
-            // Esta comprobación NO evalúa reglas de variedad: solo verifica que cada
-            // plato fijado siga ocupando su día/sección.
             if (!menu?.days) return false;
             return preparedStock.every(prep => {
-                if (!prep?.asignacion || prep.asignacion === "Sin asignar") return true;
-                const match = String(prep.asignacion).match(/^(.+?)\s*-\s*(Primero|Segundo)$/);
+                const key = getPreparedAssignmentKey(prep?.asignacion);
+                if (!key || key === 'Sinasignar') return true;
+                const match = String(prep.asignacion).match(/^(Lunes|Martes|Miércoles|Jueves|Viernes)\s*-\s*(Primero|Segundo)$/);
                 if (!match) return true;
                 const [, dayName, section] = match;
                 const slots = menu.days[dayName] || [];
-                const expectedCat = section === "Primero" ? "Primero" : "Segundo";
-                const name = String(prep.nombre || "").trim().toLowerCase();
                 return slots.some(slot =>
-                    slot?.cat === expectedCat &&
-                    String(slot?.dish?.nombre || "").trim().toLowerCase() === name &&
-                    (slot.isFixedPreparedAssignment || slot.isPreparedStock)
+                    String(slot?.preparedStockId || '') === String(prep.id) &&
+                    slot?.cat === section &&
+                    slot?.isFixedPreparedAssignment === true
                 );
             });
         }
 
         function generateWeeklyMenu() {
+            const conflicts = getPreparedAssignmentConflicts();
+            if (conflicts.length) {
+                const details = conflicts.map(c => {
+                    const label = c.key.replace(/^(Lunes|Martes|Miércoles|Jueves|Viernes)(Primero|Segundo)$/, '$1 - $2');
+                    return `${label}: ${c.items.map(item => item.nombre).join(' / ')}`;
+                }).join('\n');
+                alert(`Hay asignaciones conflictivas en Platos elaborados.\n\n${details}\n\nCorrige o elimina uno de los registros antes de generar el menú.`);
+                return;
+            }
             const previousCandidate = getPreviousWeekCandidateMenu();
             const previousForAntiTemplate = previousCandidate?.days ? previousCandidate : null;
             const MAX_GENERATION_ATTEMPTS = 80;
@@ -4030,6 +4158,7 @@
 
             for (let attempt = 1; attempt <= MAX_GENERATION_ATTEMPTS; attempt++) {
                 const candidate = buildWeeklyMenuCandidate(previousForAntiTemplate);
+                reconcilePreparedAssignments(candidate);
                 const validation = validateWeeklyMenu(candidate);
                 if (!bestValidation || validation.errors.length < bestValidation.errors.length) {
                     bestMenu = candidate;
@@ -4063,7 +4192,12 @@
 
         function regenerateSingleDay(dayName) {
             if (!currentMenu?.days || !daysList.includes(dayName)) return;
-
+            const conflicts = getPreparedAssignmentConflicts();
+            if (conflicts.length) {
+                alert(`No se puede reorganizar ${dayName} porque existen asignaciones duplicadas en Platos elaborados. Corrige primero el conflicto.`);
+                return;
+            }
+            reconcilePreparedAssignments(currentMenu);
             const originalMenu = JSON.parse(JSON.stringify(currentMenu));
             const usedDishIdsInOtherDays = new Set();
             daysList.forEach(d => {
@@ -4097,6 +4231,7 @@
                 );
                 const testMenu = JSON.parse(JSON.stringify(originalMenu));
                 testMenu.days[dayName] = candidateDay;
+                reconcilePreparedAssignments(testMenu);
                 const validation = validateWeeklyMenu(testMenu);
                 if (!bestValidation || validation.errors.length < bestValidation.errors.length) {
                     bestDay = candidateDay;
@@ -4110,7 +4245,20 @@
                 }
             }
 
-            alert(`No se ha podido regenerar ${dayName} manteniendo todas las reglas.\n\nEl día anterior se conserva sin cambios.\n\nPrincipales incidencias: ${bestValidation?.errors?.slice(0, 5).join(" | ") || "sin diagnóstico"}`);
+            // Incluso cuando las reglas globales no pueden satisfacerse, no restauramos
+            // silenciosamente el día anterior: el candidato recién generado sigue siendo
+            // la representación del estado actual y conserva los preparados fijados.
+            if (bestDay) {
+                currentMenu.days[dayName] = bestDay;
+                reconcilePreparedAssignments(currentMenu);
+                saveAll();
+                renderGeneratorView();
+                if (bestValidation && !bestValidation.valid) {
+                    console.warn(`Conflictos al regenerar ${dayName}:`, bestValidation.errors);
+                }
+                return;
+            }
+            alert(`No se ha podido regenerar ${dayName}: no se obtuvo ningún candidato.`);
         }
 
         function validateWeeklyMenu(menu) {
@@ -4588,6 +4736,13 @@
 
         function confirmSwap(dishId) {
             if (!swapTarget || !currentMenu || !currentMenu.days) return;
+            reconcilePreparedAssignments(currentMenu);
+            const targetSlot = currentMenu.days?.[swapTarget.dayName]?.[swapTarget.slotIndex];
+            if (isPreparedSlot(swapTarget.dayName, targetSlot)) {
+                alert("Ese hueco está fijado por un registro de Platos elaborados. Elimina o cambia primero ese registro para poder sustituirlo.");
+                closeSwapModal();
+                return;
+            }
             const newDish = dishes.find(d => String(d.id) === String(dishId));
             if (!newDish) return;
 
@@ -4602,6 +4757,8 @@
             currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].dish = normalizeDishData(newDish);
             currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].warning = "Intercambio manual ☓";
             currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].isPreparedStock = false;
+            currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].isFixedPreparedAssignment = false;
+            currentMenu.days[swapTarget.dayName][swapTarget.slotIndex].preparedStockId = "";
 
             saveAll();
             renderGeneratorView();
@@ -4661,6 +4818,7 @@
             const item = historyMenus.find(h => h.id === id);
             if (item) {
                 currentMenu = JSON.parse(JSON.stringify(item.menu));
+                reconcilePreparedAssignments(currentMenu);
                 saveAll();
                 renderGeneratorView();
                 document.querySelector('.nav-btn[data-target="view-generator"]').click();
