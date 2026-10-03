@@ -1150,7 +1150,7 @@
       {
         "nombre": "Nata",
         "cantidad": 50,
-        "unidad": "g",
+        "unidad": "ml",
         "categoria_proveedor": "Lácteos"
       }
     ]
