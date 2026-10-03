@@ -3512,9 +3512,9 @@
       },
       {
         "nombre": "Cebolla picada",
-        "cantidad": 40,
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Tomate frito",
