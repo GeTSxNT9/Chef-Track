@@ -4245,5 +4245,57 @@
         "categoria_proveedor": "Secos"
       }
     ]
+  },
+  {
+    "id": "1791047313444",
+    "nombre": "Albóndigas de carne en salsa de almendras",
+    "categoria": "Segundo",
+    "subcategoria_primero": "",
+    "subtipo_primero": "",
+    "proteina_segundo": "Carne",
+    "animal_carne": "carne_ternera",
+    "especie_pescado": "",
+    "especie_animal": "carne_ternera",
+    "tecnica_cocina": "tecnica_guiso",
+    "tecnica": "tecnica_guiso",
+    "precocinado": false,
+    "demanda": "Alta",
+    "alergenos": [
+      "gluten",
+      "frutos_cascara",
+      "sulfitos"
+    ],
+    "ingredientes": [
+      {
+        "nombre": "Albóndigas de carne",
+        "cantidad": 200,
+        "unidad": "g",
+        "categoria_proveedor": "Congelados"
+      },
+      {
+        "nombre": "Almendra granillo",
+        "cantidad": "",
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      },
+      {
+        "nombre": "Cebolla picada",
+        "cantidad": "",
+        "unidad": "g",
+        "categoria_proveedor": "Congelados"
+      },
+      {
+        "nombre": "Ajo",
+        "cantidad": "",
+        "unidad": "g",
+        "categoria_proveedor": "Verduras y frutas"
+      },
+      {
+        "nombre": "Vino blanco",
+        "cantidad": "",
+        "unidad": "g",
+        "categoria_proveedor": "Secos"
+      }
+    ]
   }
 ]
