@@ -3093,10 +3093,10 @@
     ],
     "ingredientes": [
       {
-        "nombre": "Pechuga de pollo",
+        "nombre": "Pechuga de pollo villaroy",
         "cantidad": 250,
         "unidad": "g",
-        "categoria_proveedor": "Carne"
+        "categoria_proveedor": "Congelados"
       }
     ]
   },
