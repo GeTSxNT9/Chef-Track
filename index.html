@@ -2227,6 +2227,8 @@
             }
             saveAll();
             renderDishes();
+            renderRawStockIngredientOptions();
+            renderPreparedDishOptions();
             renderMigrationUI();
             renderStockView();
             renderGeneratorView();
@@ -2617,6 +2619,8 @@
             resetForm();
             document.querySelector('.nav-btn[data-target="view-banco"]').click();
             renderDishes();
+            renderRawStockIngredientOptions();
+            renderPreparedDishOptions();
             renderMigrationUI();
             if (!isNewDish) restoreRecipeListScroll();
             alert(isNewDish ? "Receta guardada con éxito en GitHub" : "Receta actualizada con éxito en GitHub");
@@ -2908,7 +2912,7 @@
                     const category = String(ing?.categoria_proveedor || "").trim();
                     const name = String(ing?.nombre || "").trim();
                     if (!name || !["Carne", "Pescado"].includes(category)) return;
-                    const key = name.toLocaleLowerCase();
+                    const key = name;
                     if (seen.has(key)) return;
                     seen.add(key);
                     options.push(name);
