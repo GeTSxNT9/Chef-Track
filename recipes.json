@@ -2801,13 +2801,13 @@
     ],
     "ingredientes": [
       {
-        "nombre": "Cinta de lomo de cerdo",
+        "nombre": "Cinta de lomo fileteada",
         "cantidad": 200,
         "unidad": "g",
         "categoria_proveedor": "Carne"
       },
       {
-        "nombre": "Queso roquefort",
+        "nombre": "Queso azul",
         "cantidad": 40,
         "unidad": "g",
         "categoria_proveedor": "Lácteos"
@@ -2815,7 +2815,7 @@
       {
         "nombre": "Nata",
         "cantidad": 50,
-        "unidad": "g",
+        "unidad": "ml",
         "categoria_proveedor": "Lácteos"
       },
       {
