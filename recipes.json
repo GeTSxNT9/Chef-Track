@@ -2244,30 +2244,6 @@
     ]
   },
   {
-    "id": "1790921372675",
-    "nombre": "Filetes de pollo",
-    "categoria": "Segundo",
-    "subcategoria_primero": "",
-    "subtipo_primero": "",
-    "proteina_segundo": "Carne",
-    "animal_carne": "carne_pollo",
-    "especie_pescado": "",
-    "especie_animal": "carne_pollo",
-    "tecnica_cocina": "tecnica_seco_asado",
-    "tecnica": "tecnica_seco_asado",
-    "precocinado": false,
-    "demanda": "Media",
-    "alergenos": [],
-    "ingredientes": [
-      {
-        "nombre": "Pollo fileteado",
-        "cantidad": 200,
-        "unidad": "g",
-        "categoria_proveedor": "Carne"
-      }
-    ]
-  },
-  {
     "id": "1790938832994",
     "nombre": "Calamares al ajillo",
     "categoria": "Segundo",
