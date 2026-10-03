@@ -2498,8 +2498,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "",
+    "tecnica": "",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -2507,7 +2507,7 @@
     ],
     "ingredientes": [
       {
-        "nombre": "Pan",
+        "nombre": "Pan para migas",
         "cantidad": 120,
         "unidad": "g",
         "categoria_proveedor": "Secos"
@@ -2526,7 +2526,7 @@
       },
       {
         "nombre": "Ajo",
-        "cantidad": 10,
+        "cantidad": "",
         "unidad": "g",
         "categoria_proveedor": "Verduras y frutas"
       },
