@@ -1011,6 +1011,11 @@
                 <div>
                     <h3 class="font-bold text-gray-700 dark:text-gray-300 text-sm mb-2">Copia de Seguridad Integral</h3>
                     <div class="flex flex-col gap-3">
+                        <label class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2 cursor-pointer text-center">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                            Importar Datos (JSON)
+                            <input type="file" id="fileImport" accept=".json" class="hidden">
+                        </label>
                         <button id="btnExport" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                             Exportar Todo (JSON)
@@ -1021,11 +1026,6 @@
                         <button id="btnDownloadAutoBackup" type="button" class="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 py-2.5 rounded-lg font-bold text-xs">
                             Descargar última copia automática
                         </button>
-                        <label class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-bold text-sm shadow-md flex justify-center items-center gap-2 cursor-pointer text-center">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                            Importar Datos (JSON)
-                            <input type="file" id="fileImport" accept=".json" class="hidden">
-                        </label>
                     </div>
                 </div>
                 <div id="autoBackupStatus" class="text-[10px] text-gray-500 dark:text-gray-400"></div>
