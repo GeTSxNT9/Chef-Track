@@ -916,8 +916,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "",
+    "tecnica": "",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -932,22 +932,10 @@
         "categoria_proveedor": "Verduras y frutas"
       },
       {
-        "nombre": "Pan",
-        "cantidad": 30,
-        "unidad": "g",
-        "categoria_proveedor": "Secos"
-      },
-      {
-        "nombre": "Queso",
+        "nombre": "Queso rallado",
         "cantidad": 20,
         "unidad": "g",
         "categoria_proveedor": "Lácteos"
-      },
-      {
-        "nombre": "Caldo de carne",
-        "cantidad": "",
-        "unidad": "",
-        "categoria_proveedor": "Secos"
       }
     ]
   },
