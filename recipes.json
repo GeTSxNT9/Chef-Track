@@ -4196,16 +4196,16 @@
         "categoria_proveedor": "Verduras y frutas"
       },
       {
-        "nombre": "Zanahoria",
-        "cantidad": 40,
+        "nombre": "Zanahoria picada",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
-        "nombre": "Pimiento rojo",
-        "cantidad": 40,
+        "nombre": "Pimiento rojo picado",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Pimienta negra",
