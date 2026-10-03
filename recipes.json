@@ -2459,8 +2459,8 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "",
+    "tecnica": "",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [
@@ -2469,34 +2469,10 @@
     ],
     "ingredientes": [
       {
-        "nombre": "Canelones",
-        "cantidad": 80,
+        "nombre": "Canelones de carne",
+        "cantidad": 200,
         "unidad": "g",
-        "categoria_proveedor": "Secos"
-      },
-      {
-        "nombre": "Carne picada",
-        "cantidad": 80,
-        "unidad": "g",
-        "categoria_proveedor": "Carne"
-      },
-      {
-        "nombre": "Tomate frito",
-        "cantidad": 50,
-        "unidad": "g",
-        "categoria_proveedor": "Secos"
-      },
-      {
-        "nombre": "Cebolla",
-        "cantidad": 30,
-        "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
-      },
-      {
-        "nombre": "Bechamel",
-        "cantidad": 80,
-        "unidad": "g",
-        "categoria_proveedor": "Lácteos"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Queso rallado",
