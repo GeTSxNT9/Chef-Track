@@ -117,14 +117,14 @@
     "animal_carne": "",
     "especie_pescado": "",
     "especie_animal": "",
-    "tecnica_cocina": "tecnica_guiso",
-    "tecnica": "tecnica_guiso",
+    "tecnica_cocina": "",
+    "tecnica": "",
     "precocinado": false,
     "demanda": "Media",
     "alergenos": [],
     "ingredientes": [
       {
-        "nombre": "Garbanzos",
+        "nombre": "Garbanzos cocidos",
         "cantidad": 200,
         "unidad": "g",
         "categoria_proveedor": "Secos"
@@ -136,10 +136,10 @@
         "categoria_proveedor": "Congelados"
       },
       {
-        "nombre": "Cebolla",
-        "cantidad": 30,
+        "nombre": "Cebolla picada",
+        "cantidad": "",
         "unidad": "g",
-        "categoria_proveedor": "Verduras y frutas"
+        "categoria_proveedor": "Congelados"
       },
       {
         "nombre": "Pimentón dulce",
